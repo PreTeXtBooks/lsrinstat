@@ -38,8 +38,28 @@
     <part xml:id="part-ii-an-introduction-to-r">
       <title>An Introduction to R</title>
 
-      <!-- Additional R concepts -->
+      <!-- Chapter 3: Getting started with R -->
+      <xi:include href="./ch3-intro-r.ptx" />
+
+      <!-- Chapter 4: Additional R concepts -->
       <xi:include href="./ch4-additional-r-concepts.ptx" />
+    </part>
+
+    <!-- Part III: Working with data -->
+    <part xml:id="part-iii-working-with-data">
+      <title>Working with data</title>
+
+      <!-- Chapter 5: Descriptive statistics -->
+      <xi:include href="./ch5-descriptive-statistics.ptx" />
+
+      <!-- Chapter 6: Graphics (Drawing graphs) -->
+      <xi:include href="./ch6-graphics.ptx" />
+
+      <!-- Chapter 7: Data handling (Pragmatic matters) -->
+      <xi:include href="./ch7-data-handling.ptx" />
+
+      <!-- Chapter 8: Scripting (Basic programming) -->
+      <xi:include href="./ch8-scripting.ptx" />
     </part>
 
     <!-- Part IV: Statistical theory -->
@@ -56,17 +76,23 @@
       <xi:include href="./ch-hypothesistesting.ptx" />
     </part>
 
-    <!-- Part V: Statistical Tools -->
+    <!-- Part V: Statistical tools -->
     <part xml:id="part-v-statistical-tools">
-      <title>Statistical Tools</title>
+      <title>Statistical tools</title>
 
-      <!-- Comparing several means (one-way ANOVA) -->
+      <!-- Chapter 12: Chi-square tests -->
+      <xi:include href="./ch12-chisquare.ptx" />
+
+      <!-- Chapter 13: T-tests -->
+      <xi:include href="./ch13-ttest.ptx" />
+
+      <!-- Chapter 14: Comparing several means (one-way ANOVA) -->
       <xi:include href="./ch-anova.ptx" />
 
-      <!-- Linear Regression -->
+      <!-- Chapter 15: Linear Regression -->
       <xi:include href="./ch-regression.ptx" />
 
-      <!-- Factorial ANOVA -->
+      <!-- Chapter 16: Factorial ANOVA -->
       <xi:include href="./ch5-factorial-anova.ptx" />
     </part>
 

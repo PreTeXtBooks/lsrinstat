@@ -1,0 +1,1151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<chapter xml:id="ch13-ttest">
+  <title>Comparing two means</title>
+  <program language="r">
+    <input>
+      library(lsr)
+    </input>
+  </program>
+  <p>
+    In the previous chapter we covered the situation when your outcome variable is nominal scale and your predictor variable<fn>We won't cover multiple predictors until Chapter \@ref(regression)</fn> is also nominal scale. Lots of real world situations have that character, and so you'll find that chi-square tests in particular are quite widely used. However, you're much more likely to find yourself in a situation where your outcome variable is interval scale or higher, and what you're interested in is whether the average value of the outcome variable is higher in one group or another. For instance, a psychologist might want to know if anxiety levels are higher among parents than non-parents, or if working memory capacity is reduced by listening to music (relative to not listening to music). In a medical context, we might want to know if a new drug increases or decreases blood pressure. An agricultural scientist might want to know whether adding phosphorus to Australian native plants will kill them.<fn>Informal experimentation in my garden suggests that yes, it does. Australian natives are adapted to low phosphorus levels relative to everywhere else on Earth, apparently, so if you've bought a house with a bunch of exotics and you want to plant natives, don't follow my example: keep them separate. Nutrients to European plants are poison to Australian ones. There's probably a joke in that, but I can't figure out what it is.</fn> In all these situations, our outcome variable is a fairly continuous, interval or ratio scale variable; and our predictor is a binary "grouping" variable. In other words, we want to compare the means of the two groups.
+  </p>
+  <p>
+    The standard answer to the problem of comparing means is to use a <m>t</m>-test, of which there are several varieties depending on exactly what question you want to solve. As a consequence, the majority of this chapter focuses on different types of <m>t</m>-test: one sample <m>t</m>-tests are discussed in <xref ref="onesamplettest" />, independent samples <m>t</m>-tests are discussed in Sections <xref ref="studentttest" /> and <xref ref="welchttest" />, and paired samples <m>t</m>-tests are discussed in <xref ref="pairedsamplesttest" />. After that, we'll talk a bit about Cohen's <m>d</m>, which is the standard measure of effect size for a <m>t</m>-test (<xref ref="cohensd" />). The later sections of the chapter focus on the assumptions of the <m>t</m>-tests, and possible remedies if they are violated. However, before discussing any of these useful things, we'll start with a discussion of the <m>z</m>-test.
+  </p>
+  <section>
+    <title>The one-sample <m>z</m>-test</title>
+    <p>
+      In this section I'll describe one of the most useless tests in all of statistics: the <em>_<m>z</m>-test_</em>. Seriously <mdash /> this test is almost never used in real life. Its only real purpose is that, when teaching statistics, it's a very convenient stepping stone along the way towards the <m>t</m>-test, which is probably the most (over)used tool in all statistics.
+    </p>
+    <subsection>
+      <title>The inference problem that the test addresses</title>
+      <p>
+        To introduce the idea behind the <m>z</m>-test, let's use a simple example. A friend of mine, Dr Zeppo, grades his introductory statistics class on a curve. Let's suppose that the average grade in his class is 67.5, and the standard deviation is 9.5. Of his many hundreds of students, it turns out that 20 of them also take psychology classes. Out of curiosity, I find myself wondering: do the psychology students tend to get the same grades as everyone else (i.e., mean 67.5) or do they tend to score higher or lower? He emails me the <c>zeppo.Rdata</c> file, which I use to pull up the <c>grades</c> of those students,
+      </p>
+      <program language="r">
+        <input>
+          load( file.path(projecthome, "data/zeppo.Rdata" ))
+          print( grades )
+        </input>
+      </program>
+      <p>
+        and calculate the mean:
+      </p>
+      <program language="r">
+        <input>
+          mean( grades )
+        </input>
+      </program>
+      <p>
+        Hm. It <em>might</em> be that the psychology students are scoring a bit higher than normal: that sample mean of <m>\bar{X} = 72.3</m> is a fair bit higher than the hypothesised population mean of <m>\mu = 67.5</m>, but on the other hand, a sample size of <m>N = 20</m> isn't all that big. Maybe it's pure chance.
+      </p>
+      <p>
+        To answer the question, it helps to be able to write down what it is that I think I know. Firstly, I know that the sample mean is <m>\bar{X} = 72.3</m>. If I'm willing to assume that the psychology students have the same standard deviation as the rest of the class then I can say that the population standard deviation is <m>\sigma = 9.5</m>. I'll also assume that since Dr Zeppo is grading to a curve, the psychology student grades are normally distributed.
+      </p>
+      <p>
+        Next, it helps to be clear about what I want to learn from the data. In this case, my research hypothesis relates to the <em>population</em> mean <m>\mu</m> for the psychology student grades, which is unknown. Specifically, I want to know if <m>\mu = 67.5</m> or not. Given that this is what I know, can we devise a hypothesis test to solve our problem? The data, along with the hypothesised distribution from which they are thought to arise, are shown in <xref ref="fig-zeppo" />. Not entirely obvious what the right answer is, is it? For this, we are going to need some statistics.
+      </p>
+      <figure>
+        <caption>The theoretical distribution (solid line) from which the psychology student grades (grey bars) are supposed to have been generated.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+    </subsection>
+    <subsection>
+      <title>Constructing the hypothesis test</title>
+      <p>
+        The first step in constructing a hypothesis test is to be clear about what the null and alternative hypotheses are. This isn't too hard to do. Our null hypothesis, <m>H_0</m>, is that the true population mean <m>\mu</m> for psychology student grades is 67.5\%; and our alternative hypothesis is that the population mean <em>isn't</em> 67.5\%. If we write this in mathematical notation, these hypotheses become, <me> \begin{array}{ll} H_0: &amp; \mu = 67.5 \\ H_1: &amp; \mu \neq 67.5 \end{array} </me> though to be honest this notation doesn't add much to our understanding of the problem, it's just a compact way of writing down what we're trying to learn from the data. The null hypotheses <m>H_0</m> and the alternative hypothesis <m>H_1</m> for our test are both illustrated in <xref ref="fig-ztesthyp" />. In addition to providing us with these hypotheses, the scenario outlined above provides us with a fair amount of background knowledge that might be useful. Specifically, there are two special pieces of information that we can add:
+      </p>
+      <p>
+        1 The psychology grades are normally distributed. 1 The true standard deviation of these scores <m>\sigma</m> is known to be 9.5.
+      </p>
+      <p>
+        For the moment, we'll act as if these are absolutely trustworthy facts. In real life, this kind of absolutely trustworthy background knowledge doesn't exist, and so if we want to rely on these facts we'll just have make the <em>assumption</em> that these things are true. However, since these assumptions may or may not be warranted, we might need to check them. For now though, we'll keep things simple.
+      </p>
+      <figure>
+        <caption>Graphical illustration of the null and alternative hypotheses assumed by the one sample <m>z</m>-test (the two sided version, that is). The null and alternative hypotheses both assume that the population distribution is normal, and additionally assumes that the population standard deviation is known (fixed at some value <m>\\sigma_0</m>). The null hypothesis (left) is that the population mean <m>\\mu</m> is equal to some specified value <m>\\mu_0</m>. The alternative hypothesis is that the population mean differs from this value, <m>\\mu \\neq \\mu_0</m>.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        The next step is to figure out what we would be a good choice for a diagnostic test statistic; something that would help us discriminate between <m>H_0</m> and <m>H_1</m>. Given that the hypotheses all refer to the population mean <m>\mu</m>, you'd feel pretty confident that the sample mean <m>\bar{X}</m> would be a pretty useful place to start. What we could do, is look at the difference between the sample mean <m>\bar{X}</m> and the value that the null hypothesis predicts for the population mean. In our example, that would mean we calculate <m>\bar{X} - 67.5</m>. More generally, if we let <m>\mu_0</m> refer to the value that the null hypothesis claims is our population mean, then we'd want to calculate <me> \bar{X} - \mu_0 </me> If this quantity equals or is very close to 0, things are looking good for the null hypothesis. If this quantity is a long way away from 0, then it's looking less likely that the null hypothesis is worth retaining. But how far away from zero should it be for us to reject <m>H_0</m>?
+      </p>
+      <p>
+        To figure that out, we need to be a bit more sneaky, and we'll need to rely on those two pieces of background knowledge that I wrote down previously, namely that the raw data are normally distributed, and we know the value of the population standard deviation <m>\sigma</m>. If the null hypothesis is actually true, and the true mean is <m>\mu_0</m>, then these facts together mean that we know the complete population distribution of the data: a normal distribution with mean <m>\mu_0</m> and standard deviation <m>\sigma</m>. Adopting the notation from <xref ref="normal" />, a statistician might write this as: <me> X \sim \mbox{Normal}(\mu_0,\sigma^2) </me>
+      </p>
+      <p>
+        Okay, if that's true, then what can we say about the distribution of <m>\bar{X}</m>? Well, as we discussed earlier (see <xref ref="clt" />), the sampling distribution of the mean <m>\bar{X}</m> is also normal, and has mean <m>\mu</m>. But the standard deviation of this sampling distribution <m>\mbox{SE}({\bar{X}})</m>, which is called the *standard error of the mean*, is <me> \mbox{SE}({\bar{X}}) = \frac{\sigma}{\sqrt{N}} </me> In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows: <me> \bar{X} \sim \mbox{Normal}(\mu_0,\mbox{SE}({\bar{X}})) </me> Now comes the trick. What we can do is convert the sample mean <m>\bar{X}</m> into a standard score (<xref ref="zscore" />). This is conventionally written as <m>z</m>, but for now I'm going to refer to it as <m>z_{\bar{X}}</m>. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, <em>not</em> a standardised version of a single observation, which is what a <m>z</m>-score usually refers to). When we do so, the <m>z</m>-score for our sample mean is <me> z_{\bar{X}} = \frac{\bar{X} - \mu_0}{\mbox{SE}({\bar{X}})} </me> or, equivalently <me> z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}} </me> This <m>z</m>-score is our test statistic. The nice thing about using this as our test statistic is that like all <m>z</m>-scores, it has a standard normal distribution: <me> z_{\bar{X}} \sim \mbox{Normal}(0,1) </me> (again, see <xref ref="zscore" /> if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the <m>z</m>-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean <m>\bar{X}</m> from the population mean <m>\mu_0</m> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for <m>z</m>-test are always the same, as illustrated in Figures <xref ref="fig-ztest1" /> and <xref ref="fig-ztest2" />. And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:
+      </p>
+      <figure>
+        <caption>Critical <m>z</m> values</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        which in turn meant that researchers could calculate their <m>z</m>-statistic by hand, and then look up the critical value in a text book.  That was an incredibly handy thing to be able to do back then, but it's kind of unnecessary these days, since it's trivially easy to do it with software like R.
+      </p>
+      <figure>
+        <caption>Rejection regions for the two-sided <m>z</m>-test</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <figure>
+        <caption>Rejection regions for the one-sided <m>z</m>-test</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+    </subsection>
+    <subsection>
+      <title>A worked example using R</title>
+      <p>
+        Now, as I mentioned earlier, the <m>z</m>-test is almost never used in practice. It's so rarely used in real life that the basic installation of R doesn't have a built in function for it. However, the test is so incredibly simple that it's really easy to do one manually. Let's go back to the data from Dr Zeppo's class. Having loaded the <c>grades</c> data, the first thing I need to do is calculate the sample mean:
+      </p>
+      <program language="r">
+        <input>
+          sample.mean &lt;- mean( grades )
+          print( sample.mean )
+        </input>
+      </program>
+      <p>
+        Then, I create variables corresponding to known population standard deviation (<m>\sigma = 9.5</m>), and the value of the population mean that the null hypothesis specifies (<m>\mu_0 = 67.5</m>):
+      </p>
+      <program language="r">
+        <input>
+          mu.null &lt;- 67.5
+          sd.true &lt;- 9.5
+        </input>
+      </program>
+      <p>
+        Let's also create a variable for the sample size. We could count up the number of observations ourselves, and type <c>N &lt;- 20</c> at the command prompt, but counting is tedious and repetitive. Let's get R to do the tedious repetitive bit by using the <c>length()</c> function, which tells us how many elements there are in a vector:
+      </p>
+      <program language="r">
+        <input>
+          N &lt;- length( grades )
+          print( N )
+        </input>
+      </program>
+      <p>
+        Next, let's calculate the (true) standard error of the mean:
+      </p>
+      <program language="r">
+        <input>
+          sem.true &lt;- sd.true / sqrt(N)
+          print(sem.true)
+        </input>
+      </program>
+      <p>
+        And finally, we calculate our <m>z</m>-score:
+      </p>
+      <program language="r">
+        <input>
+          z.score &lt;- (sample.mean - mu.null) / sem.true
+          print( z.score )
+        </input>
+      </program>
+      <p>
+        At this point, we would traditionally look up the value 2.26 in our table of critical values. Our original hypothesis was two-sided (we didn't really have any theory about whether psych students would be better or worse at statistics than other students) so our hypothesis test is two-sided (or two-tailed) also. Looking at the little table that I showed earlier, we can see that 2.26 is bigger than the critical value of 1.96 that would be required to be significant at <m>\alpha = .05</m>, but smaller than the value of 2.58 that would be required to be significant at a level of <m>\alpha = .01</m>. Therefore, we can conclude that we have a significant effect, which we might write up by saying something like this:
+      </p>
+      <blockquote>
+        <p>With a mean grade of 73.2 in the sample of psychology students, and assuming a true population standard deviation of 9.5, we can conclude that the psychology students have significantly different statistics scores to the class average (<m>z = 2.26</m>, <m>N=20</m>, <m>p&lt;.05</m>).</p>
+      </blockquote>
+      <p>
+        However, what if want an exact <m>p</m>-value? Well, back in the day, the tables of critical values were huge, and so you could look up your actual <m>z</m>-value, and find the smallest value of <m>\alpha</m> for which your data would be significant (which, as discussed earlier, is the very definition of a <m>p</m>-value). However, looking things up in books is tedious, and typing things into computers is awesome. So let's do it using R instead. Now, notice that the <m>\alpha</m> level of a <m>z</m>-test (or any other test, for that matter) defines the total area "under the curve" for the critical region, right? That is, if we set <m>\alpha = .05</m> for a two-sided test, then the critical region is set up such that the area under the curve for the critical region is <m>.05</m>. And, for the <m>z</m>-test, the critical value of 1.96 is chosen that way because the area in the lower tail (i.e., below <m>-1.96</m>) is exactly <m>.025</m> and the area under the upper tail (i.e., above <m>1.96</m>) is exactly <m>.025</m>. So, since our observed <m>z</m>-statistic is <m>2.26</m>, why not calculate the area under the curve below <m>-2.26</m> or above <m>2.26</m>? In R we can calculate this using the <c>pnorm()</c> function. For the upper tail:
+      </p>
+      <program language="r">
+        <input>
+          upper.area &lt;- pnorm( q = z.score, lower.tail = FALSE )
+          print( upper.area )
+        </input>
+      </program>
+      <p>
+        The <c>lower.tail = FALSE</c>  is me telling R to calculate the area under the curve from 2.26 *and upwards*. If I'd told it that <c>lower.tail = TRUE</c>, then R would calculate the area from 2.26 *and below*, and it would give me an answer 0.9880771. Alternatively, to calculate the area from <m>-2.26</m> and below, we get
+      </p>
+      <program language="r">
+        <input>
+          lower.area &lt;- pnorm( q = -z.score, lower.tail = TRUE )
+          print( lower.area )
+        </input>
+      </program>
+      <p>
+        Thus we get our <m>p</m>-value:
+      </p>
+      <program language="r">
+        <input>
+          p.value &lt;- lower.area + upper.area
+          print( p.value )
+        </input>
+      </program>
+    </subsection>
+    <subsection xml:id="zassumptions">
+      <title>Assumptions of the <m>z</m>-test</title>
+      <p>
+        As I've said before, all statistical tests make assumptions. Some tests make reasonable assumptions, while other tests do not. The test I've just described <mdash /> the one sample <m>z</m>-test <mdash /> makes three basic assumptions.  These are:
+      </p>
+      <ul>
+        <li>
+          <p>*Normality*. As usually described, the <m>z</m>-test assumes that the true population distribution is normal.<fn>Actually this is too strong. Strictly speaking the <m>z</m> test only requires that the sampling distribution of the mean be normally distributed; if the population is normal then it necessarily follows that the sampling distribution of the mean is also normal. However, as we saw when talking about the central limit theorem, it's quite possible (even commonplace) for the sampling distribution to be normal even if the population distribution itself is non-normal. However, in light of the sheer ridiculousness of the assumption that the true standard deviation is known, there really isn't much point in going into details on this front!</fn> is often pretty reasonable, and not only that, it's an assumption that we can check if we feel worried about it (see <xref ref="shapiro" />).</p>
+        </li>
+        <li>
+          <p>*Independence*. The second assumption of the test is that the observations in your data set are not correlated with each other, or related to each other in some funny way. This isn't as easy to check statistically: it relies a bit on good experimetal design. An obvious (and stupid) example of something that violates this assumption is a data set where you "copy" the same observation over and over again in your data file: so you end up with a massive "sample size", consisting of only one genuine observation. More realistically, you have to ask yourself if it's really plausible to imagine that each observation is a completely random sample from the population that you're interested in. In practice, this assumption is never met; but we try our best to design studies that minimise the problems of correlated data.</p>
+        </li>
+        <li>
+          <p>*Known standard deviation*. The third assumption of the <m>z</m>-test is that the true standard deviation of the population is known to the researcher. This is just stupid. In no real world data analysis problem do you know the standard deviation <m>\sigma</m> of some population, but are completely ignorant about the mean <m>\mu</m>. In other words, this assumption is <em>always</em> wrong.</p>
+        </li>
+      </ul>
+      <p>
+        In view of the stupidity of assuming that <m>\sigma</m> is known, let's see if we can live without it. This takes us out of the dreary domain of the <m>z</m>-test, and into the magical kingdom of the <m>t</m>-test, with unicorns and fairies and leprechauns, and um...
+      </p>
+    </subsection>
+  </section>
+  <section xml:id="onesamplettest">
+    <title>The one-sample <m>t</m>-test</title>
+    <p>
+      After some thought, I decided that it might not be safe to assume that the psychology student grades necessarily have the same standard deviation as the other students in Dr Zeppo's class. After all, if I'm entertaining the hypothesis that they don't have the same mean, then why should I believe that they absolutely have the same standard deviation? In view of this, I should really stop assuming that I know the true value of <m>\sigma</m>. This violates the assumptions of my <m>z</m>-test, so in one sense I'm back to square one. However, it's not like I'm completely bereft of options. After all, I've still got my raw data, and those raw data give me an <em>estimate</em> of the population standard deviation:
+    </p>
+    <program language="r">
+      <input>
+        sd( grades )
+      </input>
+    </program>
+    <p>
+      In other words, while I can't say that I know that <m>\sigma = 9.5</m>, I <em>can</em> say that <m>\hat\sigma = 9.52</m>.
+    </p>
+    <p>
+      Okay, cool. The obvious thing that you might think to do is run a <m>z</m>-test, but using the estimated standard deviation of 9.52 instead of relying on my assumption that the true standard deviation is 9.5. So, we could just type this new number into R and out would come the answer. And you probably wouldn't be surprised to hear that this would still give us a significant result. This approach is close, but it's not <em>quite</em> correct. Because we are now relying on an <em>estimate</em> of the population standard deviation, we need to make some adjustment for the fact that we have some uncertainty about what the true population standard deviation actually is. Maybe our data are just a fluke ... maybe the true population standard deviation is 11, for instance. But if that were actually true, and we ran the <m>z</m>-test assuming <m>\sigma=11</m>, then the result would end up being *non-significant*. That's a problem, and it's one we're going to have to address.
+    </p>
+    <figure>
+      <caption>Graphical illustration of the null and alternative hypotheses assumed by the (two sided) one sample <m>t</m>-test. Note the similarity to the <m>z</m>-test. The null hypothesis is that the population mean <m>\\mu</m> is equal to some specified value <m>\\mu_0</m>, and the alternative hypothesis is that it is not. Like the <m>z</m>-test, we assume that the data are normally distributed; but we do not assume that the population standard deviation <m>\\sigma</m> is known in advance.</caption>
+      <image source="generated/plot.png"/>
+    </figure>
+    <subsection>
+      <title>Introducing the <m>t</m>-test</title>
+      <p>
+        This ambiguity is annoying, and it was resolved in 1908 by a guy called William Sealy Gosset [@Student1908], who was working as a chemist for the Guinness brewery at the time [see @Box1987]. Because Guinness took a dim view of its employees publishing statistical analysis (apparently they felt it was a trade secret), he published the work under the pseudonym "A Student", and to this day, the full name of the <m>t</m>-test is actually <em>_Student's <m>t</m>-test_</em>. The key thing that Gosset figured out is how we should accommodate the fact that we aren't completely sure what the true standard deviation is.<fn>Well, sort of. As I understand the history, Gosset only provided a partial solution: the general solution to the problem was provided by Sir Ronald Fisher.</fn> The answer is that it subtly changes the sampling distribution. In the <m>t</m>-test, our test statistic (now called a <m>t</m>-statistic) is calculated in exactly the same way I mentioned above. If our null hypothesis is that the true mean is <m>\mu</m>, but our sample has mean <m>\bar{X}</m> and our estimate of the population standard deviation is <m>\hat{\sigma}</m>, then our <m>t</m> statistic is: <me> t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} } </me> The only thing that has changed in the equation is that instead of using the known true value <m>\sigma</m>, we use the estimate <m>\hat{\sigma}</m>. And if this estimate has been constructed from <m>N</m> observations, then the sampling distribution turns into a <m>t</m>-distribution with <m>N-1</m> <term>degrees of freedom</term> (df). The <m>t</m> distribution is very similar to the normal distribution, but has "heavier" tails, as discussed earlier in <xref ref="otherdists" /> and illustrated in <xref ref="fig-ttestdist" />. Notice, though, that as df gets larger, the <m>t</m>-distribution starts to look identical to the standard normal distribution. This is as it should be: if you have a sample size of <m>N = 70,000,000</m> then your "estimate" of the standard deviation would be pretty much perfect, right? So, you should expect that for large <m>N</m>, the <m>t</m>-test would behave exactly the same way as a <m>z</m>-test. And that's exactly what happens!
+      </p>
+      <figure>
+        <caption>The <m>t</m> distribution with 2 degrees of freedom (left) and 10 degrees of freedom (right), with a standard normal distribution (i.e., mean 0 and std dev 1) plotted as dotted lines for comparison purposes. Notice that the <m>t</m> distribution has heavier tails (higher kurtosis) than the normal distribution; this effect is quite exaggerated when the degrees of freedom are very small, but negligible for larger values. In other words, for large <m>df</m> the <m>t</m> distribution is essentially identical to a normal distribution.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+    </subsection>
+    <subsection>
+      <title>Doing the test in R</title>
+      <p>
+        As you might expect, the mechanics of the <m>t</m>-test are almost identical to the mechanics of the <m>z</m>-test. So there's not much point in going through the tedious exercise of showing you how to do the calculations using low level commands: it's pretty much identical to the calculations that we did earlier, except that we use the estimated standard deviation (i.e., something like <c>se.est &lt;- sd(grades)</c>), and then we test our hypothesis using the <m>t</m> distribution rather than the normal distribution  (i.e. we use <c>pt()</c> rather than <c>pnorm()</c>. And so instead of going through the calculations in tedious detail for a second time, I'll jump straight to showing you how <m>t</m>-tests are actually done in practice.
+      </p>
+      <p>
+        The situation with <m>t</m>-tests is very similar to the one we encountered with chi-squared tests in <xref ref="chisquare" />. R comes with one function called <c>t.test()</c> that is very flexible (it can run lots of different kinds of <m>t</m>-tests) and is somewhat terse (the output is quite compressed). Later on in the chapter I'll show you how to use the <c>t.test()</c> function (<xref ref="ttestfunction" />), but to start out with I'm going to rely on some simpler functions in the <c>lsr</c> package. Just like last time, what I've done is written a few simpler functions, each of which does only one thing. So, if you want to run a one-sample <m>t</m>-test, use the <c>oneSampleTTest()</c> function! It's pretty straightforward to use: all you need to do is specify <c>x</c>, the variable containing the data, and <c>mu</c>, the true population mean according to the null hypothesis. All you need to type is this:
+      </p>
+      <program language="r">
+        <input>
+          library(lsr)
+          
+          oneSampleTTest( x=grades, mu=67.5 )
+        </input>
+      </program>
+      <p>
+        Easy enough. Now lets go through the output. Just like we saw in the last chapter, I've written the functions so that the output is pretty verbose. It tries to describe in a lot of detail what its actually done:
+      </p>
+      <program language="r">
+        <input>
+             One sample t-test
+          
+          Data variable:   grades
+          
+          Descriptive statistics:
+                      grades
+             mean     72.300
+             std dev.  9.521
+          
+          Hypotheses:
+             null:        population mean equals 67.5
+             alternative: population mean not equal to 67.5
+          
+          Test results:
+             t-statistic:  2.255
+             degrees of freedom:  19
+             p-value:  0.036
+          
+          Other information:
+             two-sided 95% confidence interval:  [67.844, 76.756]
+             estimated effect size (Cohen's d):  0.504
+        </input>
+      </program>
+      <p>
+        Reading this output from top to bottom, you can see it's trying to lead you through the data analysis process. The first two lines tell you what kind of test was run and what data were used. It then gives you some basic information about the sample: specifically, the sample mean and standard deviation of the data. It then moves towards the inferential statistics part. It starts by telling you what the null and alternative hypotheses were, and then it reports the results of the test: the <m>t</m>-statistic, the degrees of freedom, and the <m>p</m>-value. Finally, it reports two other things you might care about: the confidence interval for the mean, and a measure of effect size (we'll talk more about effect sizes later).
+      </p>
+      <p>
+        So that seems straightforward enough. Now what do we <em>do</em> with this output? Well, since we're pretending that we actually care about my toy example, we're overjoyed to discover that the result is statistically significant (i.e. <m>p</m> value below .05). We could report the result by saying something like this:
+      </p>
+      <blockquote>
+        <p>With a mean grade of 72.3, the psychology students scored slightly higher than the average grade of 67.5 (<m>t(19) = 2.25</m>, <m>p&lt;.05</m>); the 95\% confidence interval is [67.8, 76.8].</p>
+      </blockquote>
+      <p>
+        where <m>t(19)</m> is shorthand notation for a <m>t</m>-statistic that has 19 degrees of freedom. That said, it's often the case that people don't report the confidence interval, or do so using a much more compressed form than I've done here. For instance, it's not uncommon to see the confidence interval included as part of the stat block, like this:
+      </p>
+      <blockquote>
+        <p><m>t(19) = 2.25</m>, <m>p&lt;.05</m>, CI<m>_{95} = [67.8, 76.8]</m></p>
+      </blockquote>
+      <p>
+        With that much jargon crammed into half a line, you know it must be really smart.<fn>More seriously, I tend to think the reverse is true: I get very suspicious of technical reports that fill their results sections with nothing except the numbers. It might just be that I'm an arrogant jerk, but I often feel like an author that makes no attempt to explain and interpret their analysis to the reader either doesn't understand it themselves, or is being a bit lazy. Your readers are smart, but not infinitely patient. Don't annoy them if you can help it.</fn>
+      </p>
+    </subsection>
+    <subsection xml:id="ttestoneassumptions">
+      <title>Assumptions of the one sample <m>t</m>-test</title>
+      <p>
+        Okay, so what assumptions does the one-sample <m>t</m>-test make? Well, since the <m>t</m>-test is basically a <m>z</m>-test with the assumption of known standard deviation removed, you shouldn't be surprised to see that it makes the same assumptions as the <m>z</m>-test, minus the one about the known standard deviation. That is
+      </p>
+      <ul>
+        <li>
+          <p>*Normality*. We're still assuming that the the population distribution is normal^[A technical comment... in the same way that we can weaken the assumptions of the <m>z</m>-test so that we're only talking about the sampling distribution, we <em>can</em> weaken the <m>t</m> test assumptions so that we don't have to assume normality of the population. However, for the <m>t</m>-test, it's trickier to do this. As before, we can replace the assumption of population normality with an assumption that the sampling distribution of <m>\bar{X}</m> is normal. However, remember that we're also relying on a sample estimate of the standard deviation; and so we also require the sampling distribution of <m>\hat{\sigma}</m> to be chi-square. That makes things nastier, and this version is rarely used in practice: fortunately, if the population is normal, then both of these two assumptions are met., and as noted earlier, there are standard tools that you can use to check to see if this assumption is met (<xref ref="shapiro" />), and other tests you can do in it's place if this assumption is violated (<xref ref="wilcox" />).</p>
+        </li>
+        <li>
+          <p>*Independence*. Once again, we have to assume that the observations in our sample are generated independently of one another. See the earlier discussion about the <m>z</m>-test for specifics (<xref ref="zassumptions" />).</p>
+        </li>
+      </ul>
+      <p>
+        Overall, these two assumptions aren't terribly unreasonable, and as a consequence the one-sample <m>t</m>-test is pretty widely used in practice as a way of comparing a sample mean against a hypothesised population mean.
+      </p>
+    </subsection>
+  </section>
+  <section xml:id="studentttest">
+    <title>The independent samples <m>t</m>-test (Student test)</title>
+    <p>
+      Although the one sample <m>t</m>-test has its uses, it's not the most typical example of a <m>t</m>-test<fn>Although it is the simplest, which is why I started with it.</fn>. A much more common situation arises when you've got two different groups of observations. In psychology, this tends to correspond to two different groups of participants, where each group corresponds to a different condition in your study. For each person in the study, you measure some outcome variable of interest, and the research question that you're asking is whether or not the two groups have the same population mean. This is the situation that the independent samples <m>t</m>-test is designed for.
+    </p>
+    <subsection>
+      <title>The data</title>
+      <p>
+        Suppose we have 33 students taking Dr Harpo's statistics lectures, and Dr Harpo doesn't grade to a curve. Actually, Dr Harpo's grading is a bit of a mystery, so we don't really know anything about what the average grade is for the class as a whole. There are two tutors for the class, Anastasia and Bernadette. There are <m>N_1 = 15</m> students in Anastasia's tutorials, and <m>N_2 = 18</m> in Bernadette's tutorials. The research question I'm interested in is whether Anastasia or Bernadette is a better tutor, or if it doesn't make much of a difference. Dr Harpo emails me the course grades, in the <c>harpo.Rdata</c> file. As usual, I'll load the file and have a look at what variables it contains:
+      </p>
+      <program language="r">
+        <input>
+          load (file.path(projecthome, "data/harpo.Rdata" ))
+          str(harpo)
+        </input>
+      </program>
+      <p>
+        As we can see, there's a single data frame with two variables, <c>grade</c> and <c>tutor</c>. The <c>grade</c> variable is a numeric vector, containing the grades for all <m>N = 33</m> students taking Dr Harpo's class; the <c>tutor</c> variable is a factor that indicates who each student's tutor was. The first six observations in this data set are shown below:
+      </p>
+      <program language="r">
+        <input>
+          head( harpo )
+        </input>
+      </program>
+      <p>
+        We can calculate means and standard deviations, using the <c>mean()</c> and <c>sd()</c> functions. Rather than show the R output, here's a nice little summary table:
+      </p>
+      <program language="r">
+        <input>
+          knitr::kable(tibble::tribble(
+                                  ~V1,       ~V2,         ~V3,    ~V4,
+             "Anastasia's students", "74.53",    "9.00", "15",
+             "Bernadette's students", "69.06",    "5.77",  "18"
+            ), col.names = c("",  "mean", "std dev",  "N"), align="lccc")
+        </input>
+      </program>
+      <p>
+        To give you a more detailed sense of what's going on here, I've plotted histograms showing the distribution of grades for both tutors (<xref ref="fig-harpohistanastasia" /> and <xref ref="fig-harpohistbernadette" />). Inspection of these histograms suggests that the students in Anastasia's class may be getting slightly better grades on average, though they also seem a little more variable.
+      </p>
+      <figure>
+        <caption>Histogram showing the overall distribution of grades for students in Anastasia's class</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <figure>
+        <caption>Histogram showing the overall distribution of grades for students in Bernadette's class</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        Here is a simpler plot showing the means and corresponding confidence intervals for both groups of students (<xref ref="fig-ttestci" />).
+      </p>
+      <figure>
+        <caption>Plots showing the mean grade for the students in Anastasia's and Bernadette's tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there's a real difference between the groups, though it's hard to say for sure.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+    </subsection>
+    <subsection>
+      <title>Introducing the test</title>
+      <p>
+        The <em>_independent samples <m>t</m>-test_</em> comes in two different forms, Student's and Welch's. The original Student <m>t</m>-test <mdash /> which is the one I'll describe in this section <mdash /> is the simpler of the two, but relies on much more restrictive assumptions than the Welch <m>t</m>-test. Assuming for the moment that you want to run a two-sided test, the goal is to determine whether two "independent samples" of data are drawn from populations with the same mean (the null hypothesis) or different means (the alternative hypothesis). When we say "independent" samples, what we really mean here is that there's no special relationship between observations in the two samples. This probably doesn't make a lot of sense right now, but it will be clearer when we come to talk about the paired samples <m>t</m>-test later on. For now, let's just point out that if we have an experimental design where participants are randomly allocated to one of two groups, and we want to compare the two groups' mean performance on some outcome measure, then an independent samples <m>t</m>-test (rather than a paired samples <m>t</m>-test) is what we're after.
+      </p>
+      <p>
+        Okay, so let's let <m>\mu_1</m> denote the true population mean for group 1 (e.g., Anastasia's students), and <m>\mu_2</m> will be the true population mean for group 2 (e.g., Bernadette's students),<fn>A funny question almost always pops up at this point: what the heck <em>is</em> the population being referred to in this case? Is it the set of students actually taking Dr Harpo's class (all 33 of them)? The set of people who might take the class (an unknown number) of them? Or something else? Does it matter which of these we pick? It's traditional in an introductory behavioural stats class to mumble a lot at this point, but since I get asked this question every year by my students, I'll give a brief answer. Technically yes, it does matter: if you change your definition of what the "real world" population actually is, then the sampling distribution of your observed mean <m>\bar{X}</m> changes too. The <m>t</m>-test relies on an assumption that the observations are sampled at random from an infinitely large population; and to the extent that real life isn't like that, then the <m>t</m>-test can be wrong. In practice, however, this isn't usually a big deal: even though the assumption is almost always wrong, it doesn't lead to a lot of pathological behaviour from the test, so we tend to just ignore it.</fn> and as usual we'll let <m>\bar{X}_1</m> and <m>\bar{X}_2</m> denote the observed sample means for both of these groups. Our null hypothesis states that the two population means are identical (<m>\mu_1 = \mu_2</m>) and the alternative to this is that they are not (<m>\mu_1 \neq \mu_2</m>). Written in mathematical-ese, this is... <me> \begin{array}{ll} H_0: &amp; \mu_1 = \mu_2  \\ H_1: &amp; \mu_1 \neq \mu_2 \end{array} </me>
+      </p>
+      <figure>
+        <caption>Graphical illustration of the null and alternative hypotheses assumed by the Student <m>t</m>-test. The null hypothesis assumes that both groups have the same mean <m>\\mu</m>, whereas the alternative assumes that they have different means <m>\\mu_1</m> and <m>\\mu_2</m>. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        To construct a hypothesis test that handles this scenario, we start by noting that if the null hypothesis is true, then the difference between the population means is <em>exactly</em> zero, <m>\mu_1 - \mu_2 = 0</m> As a consequence, a diagnostic test statistic will be based on the difference between the two sample means. Because if the null hypothesis is true, then we'd expect <me> \bar{X}_1 - \bar{X}_2 </me> to be <em>pretty close</em> to zero. However, just like we saw with our one-sample tests (i.e., the one-sample <m>z</m>-test and the one-sample <m>t</m>-test) we have to be precise about exactly <em>how close</em> to zero this difference should be. And the solution to the problem is more or less the same one: we calculate a standard error estimate (SE), just like last time, and then divide the difference between means by this estimate. So our <em>_<m>t</m>-statistic_</em> will be of the form <me> t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}} </me> We just need to figure out what this standard error estimate actually is. This is a bit trickier than was the case for either of the two tests we've looked at so far, so we need to go through it a lot more carefully to understand how it works.
+      </p>
+    </subsection>
+    <subsection>
+      <title>A "pooled estimate" of the standard deviation</title>
+      <p>
+        In the original "Student <m>t</m>-test", we make the assumption that the two groups have the same population standard deviation: that is, regardless of whether the population means are the same, we assume that the population standard deviations are identical, <m>\sigma_1 = \sigma_2</m>. Since we're assuming that the two standard deviations are the same, we drop the subscripts and refer to both of them as <m>\sigma</m>. How should we estimate this? How should we construct a single estimate of a standard deviation when we have two samples? The answer is, basically, we average them. Well, sort of. Actually, what we do is take a <em>weighed</em> average of the <em>variance</em> estimates, which we use as our <term>pooled estimate of the variance</term>. The weight assigned to each sample is equal to the number of observations in that sample, minus 1. Mathematically, we can write this as <me> \begin{array}{rcl} w_1 &amp;=&amp; N_1 - 1\\ w_2 &amp;=&amp; N_2 - 1 \end{array} </me> Now that we've assigned weights to each sample, we calculate the pooled estimate of the variance by taking the weighted average of the two variance estimates, <m>{\hat\sigma_1}^2</m> and <m>{\hat\sigma_2}^2</m> <me> \hat\sigma^2_p = \frac{w_1 {\hat\sigma_1}^2 + w_2 {\hat\sigma_2}^2}{w_1 + w_2} </me> Finally, we convert the pooled variance estimate to a pooled standard deviation estimate, by taking the square root. This gives us the following formula for <m>\hat\sigma_p</m>, <me> \hat\sigma_p = \sqrt{\frac{w_1 {\hat\sigma_1}^2 + w_2 {\hat\sigma_2}^2}{w_1 + w_2}} </me> And if you mentally substitute <m>w_1 = N_1 -1</m> and <m>w_2 = N_2 -1</m> into this equation you get a very ugly looking formula; a very ugly formula that actually seems to be the "standard" way of describing the pooled standard deviation estimate. It's not my favourite way of thinking about pooled standard deviations, however.<fn>Yes, I  have a "favourite" way of thinking about pooled standard deviation estimates. So what?</fn>
+      </p>
+    </subsection>
+    <subsection>
+      <title>The same pooled estimate, described differently</title>
+      <p>
+        I prefer to think about it like this. Our data set actually corresponds to a set of <m>N</m> observations, which are sorted into two groups. So let's use the notation <m>X_{ik}</m> to refer to the grade received by the <m>i</m>-th student in the <m>k</m>-th tutorial group: that is, <m>X_{11}</m> is the grade received by the first student in Anastasia's class, <m>X_{21}</m> is her second student, and so on. And we have two separate group means <m>\bar{X}_1</m> and <m>\bar{X}_2</m>, which we could "generically" refer to using the notation <m>\bar{X}_k</m>, i.e., the mean grade for the <m>k</m>-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, and so we can describe their deviation from the group mean as the difference <me> X_{ik} - \bar{X}_k </me> So why not just use these deviations (i.e., the extent to which each student's grade differs from the mean grade in their tutorial?) Remember, a variance is just the average of a bunch of squared deviations, so let's do that. Mathematically, we could write it like this: <me> \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N} </me> where the notation "<m>\sum_{ik}</m>" is a lazy way of saying "calculate a sum by looking at all students in all tutorials", since each "<m>ik</m>" corresponds to one student.<fn>A more correct notation will be introduced in Chapter \@ref(anova).</fn> But, as we saw in <xref ref="estimation" />, calculating the variance by dividing by <m>N</m> produces a biased estimate of the population variance. And previously, we needed to divide by <m>N-1</m> to fix this. However, as I mentioned at the time, the reason why this bias exists is because the variance estimate relies on the sample mean; and to the extent that the sample mean isn't equal to the population mean, it can systematically bias our estimate of the variance. But this time we're relying on <em>two</em> sample means! Does this mean that we've got more bias? Yes, yes it does. And does this mean we now need to divide by <m>N-2</m> instead of <m>N-1</m>, in order to calculate our pooled variance estimate? Why, yes... <me> \hat\sigma^2_p = \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N -2} </me> Oh, and if you take the square root of this then you get <m>\hat{\sigma}_p</m>, the pooled standard deviation estimate. In other words, the pooled standard deviation calculation is nothing special: it's not terribly different to the regular standard deviation calculation.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Completing the test</title>
+      <p>
+        Regardless of which way you want to think about it, we now have our pooled estimate of the standard deviation. From now on, I'll drop the silly <m>p</m> subscript, and just refer to this estimate as <m>\hat\sigma</m>. Great. Let's now go back to thinking about the bloody hypothesis test, shall we? Our whole reason for calculating this pooled estimate was that we knew it would be helpful when calculating our <em>standard error</em> estimate. But, standard error of *what*? In the one-sample <m>t</m>-test, it was the standard error of the sample mean, <m>\mbox{SE}({\bar{X}})</m>, and since <m>\mbox{SE}({\bar{X}}) = \sigma / \sqrt{N}</m> that's what the denominator of our <m>t</m>-statistic looked like. This time around, however, we have <em>two</em> sample means. And what we're interested in, specifically, is the the difference between the two <m>\bar{X}_1 - \bar{X}_2</m>. As a consequence, the standard error that we need to divide by is in fact the <term>standard error of the difference</term> between means. As long as the two variables really do have the same standard deviation, then our estimate for the standard error is <me> \mbox{SE}({\bar{X}_1 - \bar{X}_2}) = \hat\sigma \sqrt{\frac{1}{N_1} + \frac{1}{N_2}} </me> and our <m>t</m>-statistic is therefore <me> t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})} </me> Just as we saw with our one-sample test, the sampling distribution of this <m>t</m>-statistic is a <m>t</m>-distribution (shocking, isn't it?) as long as the null hypothesis is true, and all of the assumptions of the test are met. The degrees of freedom, however, is slightly different. As usual, we can think of the degrees of freedom to be equal to the number of data points minus the number of constraints. In this case, we have <m>N</m> observations (<m>N_1</m> in sample 1, and <m>N_2</m> in sample 2), and 2 constraints (the sample means). So the total degrees of freedom for this test are <m>N-2</m>.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Doing the test in R</title>
+      <p>
+        Not surprisingly, you can run an independent samples <m>t</m>-test using the <c>t.test()</c> function (<xref ref="ttestfunction" />), but once again I'm going to start with a somewhat simpler function in the <c>lsr</c> package. That function is unimaginatively called <c>independentSamplesTTest()</c>. First, recall that our data look like this:
+      </p>
+      <program language="r">
+        <input>
+          head( harpo )
+        </input>
+      </program>
+      <p>
+        The outcome variable for our test is the student <c>grade</c>, and the groups are defined in terms of the <c>tutor</c> for each class. So you probably won't be too surprised to see that we're going to describe the test that we want in terms of an R formula that reads like this <c>grade ~ tutor</c>. The specific command that we need is:
+      </p>
+      <program language="r">
+        <input>
+          independentSamplesTTest(
+                formula = grade ~ tutor,  # formula specifying outcome and group variables
+                data = harpo,             # data frame that contains the variables
+                var.equal = TRUE          # assume that the two groups have the same variance
+            )
+        </input>
+      </program>
+      <p>
+        The first two arguments should be familiar to you. The first one is the formula that tells R what variables to use and the second one tells R the name of the data frame that stores those variables. The third argument is not so obvious. By saying <c>var.equal = TRUE</c>, what we're really doing is telling R to use the <em>Student</em> independent samples <m>t</m>-test. More on this later. For now, lets ignore that bit and look at the output:
+      </p>
+      <p>
+        The output has a very familiar form. First, it tells you what test was run, and it tells you the names of the variables that you used. The second part of the output reports the sample means and standard deviations for both groups (i.e., both tutorial groups). The third section of the output states the null hypothesis and the alternative hypothesis in a fairly explicit form. It then reports the test results: just like last time, the test results consist of a <m>t</m>-statistic, the degrees of freedom, and the <m>p</m>-value. The final section reports two things: it gives you a confidence interval, and an effect size. I'll talk about effect sizes later. The confidence interval, however, I should talk about now.
+      </p>
+      <p>
+        It's pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the <em>difference</em> between the group means. In our example, Anastasia's students had an average grade of 74.5, and Bernadette's students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the <c>independentSamplesTTest()</c> function tells you that there's a 95\% chance that the true difference between means lies between 0.2 and 10.8.
+      </p>
+      <p>
+        In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:
+      </p>
+      <blockquote>
+        <p>The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples <m>t</m>-test showed that this 5.4\% difference was significant (<m>t(31) = 2.1</m>, <m>p&lt;.05</m>, <m>CI_{95} = [0.2, 10.8]</m>, <m>d = .74</m>), suggesting that a genuine difference in learning outcomes has occurred.</p>
+      </blockquote>
+      <p>
+        Notice that I've included the confidence interval and the effect size in the stat block. People don't always do this. At a bare minimum, you'd expect to see the <m>t</m>-statistic, the degrees of freedom and the <m>p</m> value. So you should include something like this at a minimum: <m>t(31) = 2.1</m>, <m>p&lt;.05</m>. If statisticians had their way, everyone would also report the confidence interval and probably the effect size measure too, because they are useful things to know. But real life doesn't always work the way statisticians want it to: you should make a judgment based on whether you think it will help your readers, and (if you're writing a scientific paper) the editorial standard for the journal in question. Some journals expect you to report effect sizes, others don't. Within some scientific communities it is standard practice to report confidence intervals, in other it is not. You'll need to figure out what your audience expects. But, just for the sake of clarity, if you're taking my class: my default position is that it's usually worth includng the effect size, but don't worry about the confidence interval unless the assignment asks you to or implies that you should.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Positive and negative <m>t</m> values</title>
+      <p>
+        Before moving on to talk about the assumptions of the <m>t</m>-test, there's one additional point I want to make about the use of <m>t</m>-tests in practice. The first one relates to the sign of the <m>t</m>-statistic (that is, whether it is a positive number or a negative one).  One very common worry that students have when they start running their first <m>t</m>-test is that they often end up with negative values for the <m>t</m>-statistic, and don't know how to interpret it. In fact, it's not at all uncommon for two  people working independently to end up with R outputs that are almost identical, except that one person has a negative <m>t</m> values and the other one has a positive <m>t</m> value. Assuming that  you're running a two-sided test, then the <m>p</m>-values will be identical. On closer inspection, the students will notice that the confidence intervals also have the opposite signs. This is perfectly okay: whenever this happens, what you'll find is that the two versions of the R output arise from slightly different ways of running the <m>t</m>-test. What's happening here is very simple. The <m>t</m>-statistic that R is calculating here is always of the form <me> t = \frac{\mbox{(mean 1)} -\mbox{(mean 2)}}{ \mbox{(SE)}} </me> If "mean 1" is larger than "mean 2" the <m>t</m> statistic will be positive, whereas if "mean 2" is larger then the <m>t</m> statistic will be negative. Similarly, the confidence interval that R reports is the confidence interval for the difference "(mean 1) minus (mean 2)", which will be the reverse of what you'd get if you were calculating the confidence interval for the difference "(mean 2) minus (mean 1)".
+      </p>
+      <p>
+        Okay, that's pretty straightforward when you think about it, but now consider our <m>t</m>-test comparing Anastasia's class to Bernadette's class. Which one should we call "mean 1" and which one should we call "mean 2". It's arbitrary. However, you really do need to designate one of them as "mean 1" and the other one as "mean 2". Not surprisingly, the way that R handles this is also pretty arbitrary. In earlier versions of the book I used to try to explain it, but after a while I gave up, because it's not really all that important, and to be honest I can never remember myself. Whenever I get a significant <m>t</m>-test result, and I want to figure out which mean is the larger one, I don't try to figure it out by looking at the <m>t</m>-statistic. Why would I bother doing that? It's foolish. It's easier just look at the actual group means, since the R output actually shows them!
+      </p>
+      <p>
+        Here's the important thing. Because it really doesn't matter what R printed out, I usually try to <em>report</em> the <m>t</m>-statistic in such a way that the numbers match up with the text. Here's what I mean... suppose that what I want to write in my report is "Anastasia's class had higher  grades than Bernadette's class". The phrasing here implies that Anastasia's group comes first, so it makes sense to report the <m>t</m>-statistic as if Anastasia's class corresponded to group 1. If so, I would write
+      </p>
+      <blockquote>
+        <p>Anastasia's class had <em>higher</em> grades than Bernadette's class (<m>t(31)= 2.1, p=.04</m>).</p>
+      </blockquote>
+      <p>
+        (I wouldn't actually emphasise the word "higher" in real life, I'm just doing it to emphasise the point that "higher" corresponds to positive <m>t</m> values). On the other hand, suppose the phrasing I wanted to use has Bernadette's class listed first. If so, it makes more sense to treat her class as group 1, and if so, the write up looks like this:
+      </p>
+      <blockquote>
+        <p>Bernadette's class had <em>lower</em> grades than Anastasia's class (<m>t(31)= -2.1, p=.04</m>).</p>
+      </blockquote>
+      <p>
+        Because I'm talking about one group having "lower" scores this time around, it is more sensible to use the negative form of the <m>t</m>-statistic. It just makes it read more cleanly.
+      </p>
+      <p>
+        One last thing: please note that you <em>can't</em> do this for other types of test statistics. It works for <m>t</m>-tests, but it wouldn't be meaningful for  chi-square testsm <m>F</m>-tests or indeed for most of the tests I talk about in this book. So don't overgeneralise this advice! I'm really just talking about <m>t</m>-tests here and nothing else!
+      </p>
+    </subsection>
+    <subsection xml:id="studentassumptions">
+      <title>Assumptions of the test</title>
+      <p>
+        As always, our hypothesis test relies on some assumptions. So what are they? For the Student t-test there are three assumptions, some of which we saw previously in the context of the one sample <m>t</m>-test (see <xref ref="ttestoneassumptions" />):
+      </p>
+      <ul>
+        <li>
+          <p>*Normality*. Like the one-sample <m>t</m>-test, it is assumed that the data are normally distributed. Specifically, we assume that both groups are normally distributed. In <xref ref="shapiro" /> we'll discuss how to test for normality, and in <xref ref="wilcox" /> we'll discuss possible solutions.</p>
+        </li>
+        <li>
+          <p>*Independence*. Once again, it is assumed that the observations are independently sampled. In the context of the Student test this has two aspects to it. Firstly, we assume that the observations within each sample are independent of one another (exactly the same as for the one-sample test). However, we also assume that there are no cross-sample dependencies. If, for instance, it turns out that you included some participants in both experimental conditions of your study (e.g., by accidentally allowing the same person to sign up to different conditions), then there are some cross sample dependencies that you'd need to take into account.</p>
+        </li>
+        <li>
+          <p><em>Homogeneity of variance</em> (also called "homoscedasticity"). The third assumption is that the population standard deviation is the same in both groups. You can test this assumption using the Levene test, which I'll talk about later on in the book (<xref ref="levene" />). However, there's a very simple remedy for this assumption, which I'll talk about in the next section.</p>
+        </li>
+      </ul>
+    </subsection>
+  </section>
+  <section xml:id="welchttest">
+    <title>The independent samples <m>t</m>-test (Welch test)</title>
+    <p>
+      The biggest problem with using the Student test in practice is the third assumption listed in the previous section: it assumes that both groups have the same standard deviation. This is rarely true in real life: if two samples don't have the same means, why should we expect them to have the same standard deviation? There's really no reason to expect this assumption to be true. We'll talk a little bit about how you can check this assumption later on because it does crop up in a few different places, not just the <m>t</m>-test. But right now I'll talk about a different form of the <m>t</m>-test [@Welch1947] that does not rely on this assumption. A graphical illustration of what the <em>_Welch <m>t</m> test_</em> assumes about the data is shown in <xref ref="fig-ttesthyp2" />, to provide a contrast with the Student test version in <xref ref="fig-ttesthyp" />. I'll admit it's a bit odd to talk about the cure before talking about the diagnosis, but as it happens the Welch test is the default <m>t</m>-test in R, so this is probably the best place to discuss it.
+    </p>
+    <p>
+      The Welch test is very similar to the Student test. For example, the <m>t</m>-statistic that we use in the Welch test is calculated in much the same way as it is for the Student test. That is, we take the difference between the sample means, and then divide it by some estimate of the standard error of that difference: <me> t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})} </me> The main difference is that the standard error calculations are different. If the two populations have different standard deviations, then it's a complete nonsense to try to calculate a pooled standard deviation estimate, because you're averaging apples and oranges.<fn>Well, I guess you can average apples and oranges, and what you end up with is a delicious fruit smoothie. But no one really thinks that a fruit smoothie is a very good way to describe the original fruits, do they?</fn> But you can still estimate the standard error of the difference between sample means; it just ends up looking different: <me> \mbox{SE}({\bar{X}_1 - \bar{X}_2}) = \sqrt{ \frac{{\hat{\sigma}_1}^2}{N_1} + \frac{{\hat{\sigma}_2}^2}{N_2} } </me> The reason why it's calculated this way is beyond the scope of this book. What matters for our purposes is that the <m>t</m>-statistic that comes out of the Welch test is actually somewhat different to the one that comes from the Student test.
+    </p>
+    <p>
+      The second difference between Welch and Student is that the degrees of freedom are calculated in a very different way. In the Welch test, the "degrees of freedom " doesn't have to be a whole number any more, and it doesn't correspond all that closely to the "number of data points minus the number of constraints" heuristic that I've been using up to this point. The degrees of freedom are, in fact... <me> \mbox{df} = \frac{ ({\hat{\sigma}_1}^2 / N_1 + {\hat{\sigma}_2}^2 / N_2)^2 }{  ({\hat{\sigma}_1}^2 / N_1)^2 / (N_1 -1 )  + ({\hat{\sigma}_2}^2 / N_2)^2 / (N_2 -1 ) } </me> ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for out purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number.
+    </p>
+    <figure>
+      <caption>Graphical illustration of the null and alternative hypotheses assumed by the Welch <m>t</m>-test. Like the Student test we assume that both samples are drawn from a normal population; but the alternative hypothesis no longer requires the two populations to have equal variance.</caption>
+      <image source="generated/plot.png"/>
+    </figure>
+    <subsection>
+      <title>Doing the test in R</title>
+      <p>
+        To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student's <m>t</m>-test and drop the <c>var.equal = TRUE</c> bit. So the command for a Welch test becomes:
+      </p>
+      <program language="r">
+        <input>
+          independentSamplesTTest(
+                formula = grade ~ tutor,  # formula specifying outcome and group variables
+                data = harpo              # data frame that contains the variables
+            )
+        </input>
+      </program>
+      <p>
+        Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too:
+      </p>
+      <p>
+        The very first line is different, because it's telling you that its run a Welch test rather than a Student test, and of course all the numbers are a bit different. But I hope that the interpretation of this output should be fairly obvious. You read the output in the same way that you would for the Student test. You've got your descriptive statistics, the hypotheses, the test results and some other information. So that's all pretty easy.
+      </p>
+      <p>
+        Except, except... our result isn't significant anymore. When we ran the Student test, we did get a significant effect; but the Welch test on the same data set is not (<m>t(23.03) = 2.03</m>, <m>p = .054</m>). What does this mean? Should we panic? Is the sky burning? Probably not. The fact that one test is significant and the other isn't doesn't itself mean very much, especially since I kind of rigged the data so that this would happen. As a general rule, it's not a good idea to go out of your way to try to interpret or explain the difference between a <m>p</m>-value of .049 and a <m>p</m>-value of .051. If this sort of thing happens in real life, the <em>difference</em> in these <m>p</m>-values is almost certainly due to chance. What does matter is that you take a little bit of care in thinking about what test you use. The Student test and the Welch test have different strengths and weaknesses. If the two populations really do have equal variances, then the Student test is slightly more powerful (lower Type II error rate) than the Welch test. However, if they <em>don't</em> have the same variances, then the assumptions of the Student test are violated and you may not be able to trust it: you might end up with a higher Type I error rate. So it's a trade off. However, in real life, I tend to prefer the Welch test; because almost no-one <em>actually</em> believes that the population variances are identical.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Assumptions of the test</title>
+      <p>
+        The assumptions of the Welch test are very similar to those made by the Student <m>t</m>-test (see <xref ref="studentassumptions" />), except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test.
+      </p>
+    </subsection>
+  </section>
+  <section xml:id="pairedsamplesttest">
+    <title>The paired-samples <m>t</m>-test</title>
+    <p>
+      Regardless of whether we're talking about the Student test or the Welch test, an independent samples <m>t</m>-test is intended to be used in a situation where you have two samples that are, well, independent of one another. This situation arises naturally when participants are assigned randomly to one of two experimental conditions, but it provides a very poor approximation to other sorts of research designs. In particular, a repeated measures design <mdash /> in which each participant is measured (with respect to the same outcome variable) in both experimental conditions <mdash /> is not suited for analysis using independent samples <m>t</m>-tests. For example, we might be interested in whether listening to music reduces people's working memory capacity. To that end, we could measure each person's working memory capacity in two conditions: with music, and without music. In an experimental design such as this one,<fn>This design is very similar to the one in Section \@ref(mcnemar) that motivated the McNemar test. This should be no surprise. Both are standard repeated measures designs involving two measurements. The only difference is that this time our outcome variable is interval scale (working memory capacity) rather than a binary, nominal scale variable (a yes-or-no question).</fn> each participant appears in <em>both</em> groups. This requires us to approach the problem in a different way; by using the <em>_paired samples <m>t</m>-test_</em>.
+    </p>
+    <subsection>
+      <title>The data</title>
+      <p>
+        The data set that we'll use this time comes from Dr Chico's class.<fn>At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.</fn> In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the <c>chico.Rdata</c> file:
+      </p>
+      <program language="r">
+        <input>
+          load( file.path(projecthome, "data/chico.Rdata" ))
+          str(chico)
+        </input>
+      </program>
+      <p>
+        The data frame <c>chico</c> contains three variables: an <c>id</c> variable that identifies each student in the class, the <c>grade_test1</c> variable that records the student grade for the first test, and the <c>grade_test2</c> variable that has the grades for the second test. Here's the first six students:
+      </p>
+      <program language="r">
+        <input>
+          head( chico )
+        </input>
+      </program>
+      <p>
+        At a glance, it does seem like the class is a hard one (most grades are between 50\% and 60\%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
+      </p>
+      <program language="r">
+        <input>
+          library( psych )
+          describe( chico )
+        </input>
+      </program>
+      <p>
+        we see that this impression seems to be supported. Across all 20 students<fn>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I've</em> never taught an intro stats class with less than 350 students.</fn> the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <xref ref="fig-pairedta" />. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the <c>describe()</c> function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
+      </p>
+      <figure>
+        <caption>Mean grade for test 1 and test 2, with associated 95% confidence intervals</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in <xref ref="fig-pairedtb" />.
+      </p>
+      <figure>
+        <caption>Scatterplot showing the individual grades for test 1 and test 2</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 (<m>x</m> co-ordinate) equals their grade for test 2 (<m>y</m> co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students <em>do</em> seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the <em>improvement</em> made by each student from one test to the next, and treating that as our raw data. To do this, we'll need to create a new variable for the <c>improvement</c> that each student makes, and add it to the <c>chico</c> data frame. The easiest way to do this is as follows:
+      </p>
+      <program language="r">
+        <input>
+          chico$improvement &lt;- chico$grade_test2 - chico$grade_test1
+        </input>
+      </program>
+      <p>
+        Notice that I assigned the output to a variable called <c>chico$improvement</c>. That has the effect of creating a new variable called <c>improvement</c> inside the <c>chico</c> data frame. So now when I look at the <c>chico</c> data frame, I get an output that looks like this:
+      </p>
+      <program language="r">
+        <input>
+          head( chico )
+        </input>
+      </program>
+      <p>
+        Now that we've created and stored this <c>improvement</c> variable, we can draw a histogram showing the distribution of these improvement scores (using the <c>hist()</c> function), shown in <xref ref="fig-pairedtc" />.
+      </p>
+      <figure>
+        <caption>Histogram showing the improvement made by each student in Dr Chico's class. Notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        When we look at histogram, it's very clear that there <em>is</em> a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use <c>ciMean()</c> to compute a confidence interval for the population mean of this new variable,
+      </p>
+      <program language="r">
+        <input>
+          ciMean( x = chico$improvement )
+        </input>
+      </program>
+      <p>
+        we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so).
+      </p>
+    </subsection>
+    <subsection>
+      <title>What is the paired samples <m>t</m>-test?</title>
+      <p>
+        In light of the previous exploration, let's think about how to construct an appropriate <m>t</m> test. One possibility would be to try to run an independent samples <m>t</m>-test using <c>grade_test1</c> and <c>grade_test2</c> as the variables of interest. However, this is clearly the wrong thing to do: the independent samples <m>t</m>-test assumes that there is no particular relationship between the two samples. Yet clearly that's not true in this case, because of the repeated measures structure to the data. To use the language that I introduced in the last section, if we were to try to do an independent samples <m>t</m>-test, we would be conflating the <term>within subject</term> differences (which is what we're interested in testing) with the <term>between subject</term> variability (which we are not).
+      </p>
+      <p>
+        The solution to the problem is obvious, I hope, since we already did all the hard work in the previous section. Instead of running an independent samples <m>t</m>-test on <c>grade_test1</c> and <c>grade_test2</c>, we run a <em>one-sample</em> <m>t</m>-test on the within-subject difference variable, <c>improvement</c>. To formalise this slightly, if <m>X_{i1}</m> is the score that the <m>i</m>-th participant obtained on the first variable, and <m>X_{i2}</m> is the score that the same person obtained on the second one, then the difference score is: <me> D_{i} = X_{i1} - X_{i2} </me> Notice that the difference scores is <em>variable 1 minus variable 2</em> and not the other way around, so if we want improvement to correspond to a positive valued difference, we actually want "test 2" to be our "variable 1". Equally, we would say that <m>\mu_D = \mu_1 - \mu_2</m> is the population mean for this difference variable. So, to convert this to a hypothesis test, our null hypothesis is that this mean difference is zero; the alternative hypothesis is that it is not: <me> \begin{array}{ll} H_0: &amp; \mu_D = 0  \\ H_1: &amp; \mu_D \neq 0 \end{array} </me> (this is assuming we're talking about a two-sided test here). This is more or less identical to the way we described the hypotheses for the one-sample <m>t</m>-test: the only difference is that the specific value that the null hypothesis predicts is 0. And so our <m>t</m>-statistic is defined in more or less the same way too. If we let <m>\bar{D}</m> denote the mean of the difference scores, then <me> t = \frac{\bar{D}}{\mbox{SE}({\bar{D}})} </me> which is <me> t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}} </me> where <m>\hat\sigma_D</m> is the standard deviation of the difference scores. Since this is just an ordinary, one-sample <m>t</m>-test, with nothing special about it, the degrees of freedom are still <m>N-1</m>. And that's it: the paired samples <m>t</m>-test really isn't a new test at all: it's a one-sample <m>t</m>-test, but applied to the difference between two variables. It's actually very simple; the only reason it merits a discussion as long as the one we've just gone through is that you need to be able to recognise <em>when</em> a paired samples test is appropriate, and to understand <em>why</em> it's better than an independent samples <m>t</m> test.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Doing the test in R, part 1</title>
+      <p>
+        How do you do a paired samples <m>t</m>-test in R. One possibility is to follow the process I outlined above: create a "difference" variable and then run a one sample <m>t</m>-test on that. Since we've already created a variable called <c>chico$improvement</c>, let's do that:
+      </p>
+      <program language="r">
+        <input>
+          oneSampleTTest( chico$improvement, mu=0 )
+        </input>
+      </program>
+      <p>
+        The output here is (obviously) formatted exactly the same was as it was the last time we used the <c>oneSampleTTest()</c> function (<xref ref="onesamplettest" />), and it confirms our intuition. There's an average improvement of 1.4\% from test 1 to test 2, and this is significantly different from 0 (<m>t(19)=6.48, p&lt;.001</m>).
+      </p>
+      <p>
+        However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. If so, you can use the <c>pairedSamplesTTest()</c> function, also in the <c>lsr</c> package. Let's assume that your data organised like they are in the <c>chico</c> data frame, where there are two separate variables, one for each measurement. The way to run the test is to input a <em>one-sided</em> formula, just like you did when running a test of association using the <c>associationTest()</c> function in <xref ref="chisquare" />. For the <c>chico</c> data frame, the formula that you need would be <c>~ grade_time2 + grade_time1</c>. As usual, you'll also need to input the name of the data frame too. So the command just looks like this:
+      </p>
+      <program language="r">
+        <input>
+          pairedSamplesTTest(
+               formula = ~ grade_test2 + grade_test1, # one-sided formula listing the two variables
+               data = chico                           # data frame containing the two variables
+            )
+        </input>
+      </program>
+      <p>
+        The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples <m>t</m>-test is just a one sample test under the hood. However, the output is a bit more detailed:
+      </p>
+      <p>
+        This time around the descriptive statistics block shows you the means and standard deviations for the original variables, as well as for the difference variable (notice that it always defines the difference as the first listed variable mines the second listed one). The null hypothesis and the alternative hypothesis are now framed in terms of the original variables rather than the difference score, but you should keep in mind that in a paired samples test it's still the difference score being tested. The statistical information at the bottom about the test result is of course the same as before.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Doing the test in R, part 2</title>
+      <p>
+        The paired samples <m>t</m>-test is a little different from the other <m>t</m>-tests, because it is used in repeated measures designs. For the <c>chico</c> data, every student is "measured" twice, once for the first test, and again for the second test. Back in <xref ref="reshape" /> I talked about the fact that repeated measures data can be expressed in two standard ways, known as <em>wide form</em> and *long form*. The <c>chico</c> data frame is in wide form: every row corresponds to a unique *person*. I've shown you the data in that form first because that's the form that you're most used to seeing, and it's also the format that you're most likely to receive data in. However, the majority of tools in R for dealing with repeated measures data expect to receive data in long form. The paired samples <m>t</m>-test is a bit of an exception that way.
+      </p>
+      <p>
+        As you make the transition from a novice user to an advanced one, you're going to have to get comfortable with long form data, and switching between the two forms. To that end, I want to show you how to apply the <c>pairedSamplesTTest()</c> function to long form data. First, let's use the <c>wideToLong()</c> function to create a long form version of the <c>chico</c> data frame. If you've forgotten how the  <c>wideToLong()</c> function works, it might be worth your while quickly re-reading <xref ref="reshape" />. Assuming that you've done so, or that you're already comfortable with data reshaping, I'll use it to create a new data frame called <c>chico2</c>:
+      </p>
+      <program language="r">
+        <input>
+          chico2 &lt;- wideToLong( chico, within="time" )
+          head( chico2 )
+        </input>
+      </program>
+      <p>
+        As you can see, this has created a new data frame containing three variables: an <c>id</c> variable indicating which person provided the data, a <c>time</c> variable indicating which test the data refers to (i.e., test 1 or test 2), and a <c>grade</c> variable that records what score the person got on that test. Notice that this data frame is in long form: every row corresponds to a unique *measurement*. Because every person provides two observations (test 1 and test 2), there are two rows for every person. To see this a little more clearly, I'll use the <c>sortFrame()</c> function to sort the rows of <c>chico2</c> by <c>id</c> variable (see <xref ref="sortframe" />).
+      </p>
+      <program language="r">
+        <input>
+          chico2 &lt;- sortFrame( chico2, id )
+          head( chico2 )
+        </input>
+      </program>
+      <p>
+        As you can see, there are two rows for "student1": one showing their grade on the first test, the other showing their grade on the second test.<fn>The <c>sortFrame()</c> function sorts factor variables like <c>id</c> in alphabetical order, which is why it jumps from "student1" to "student10"</fn>
+      </p>
+      <p>
+        Okay, suppose that we were given the <c>chico2</c> data frame to analyse. How would we run our paired samples <m>t</m>-test now? One possibility would be to use the <c>longToWide()</c> function (<xref ref="reshape" />) to force the data back into wide form, and do the same thing that we did previously. But that's sort of defeating the point, and besides, there's an easier way. Let's think about what how the <c>chico2</c> data frame is structured: there are three variables here, and they all matter. The outcome measure is stored as the <c>grade</c>, and we effectively have two "groups" of measurements (test 1 and test 2) that are defined by the <c>time</c> points at which a test is given. Finally, because we want to keep track of which measurements should be paired together, we need to know which student obtained each grade, which is what the <c>id</c> variable gives us. So, when your data are presented to you in long form, we would want specify a <em>two-sided</em> formula and a data frame, in the same way that we do for an independent samples <m>t</m>-test: the formula specifies the outcome variable and the groups, so in this case it would be <c>grade ~ time</c>, and the data frame is <c>chico2</c>. However, we also need to tell it the id variable, which in this case is boringly called <c>id</c>. So our command is:
+      </p>
+      <program language="r">
+        <input>
+          pairedSamplesTTest(
+               formula = grade ~ time,  # two sided formula: outcome ~ group
+               data = chico2,           # data frame
+               id = "id"                # name of the id variable
+            )
+        </input>
+      </program>
+      <p>
+        Note that the name of the id variable is <c>"id"</c> and not <c>id</c>. Note that the <c>id</c> variable must be a factor. As of the current writing, you do need to include the quote marks, because the <c>pairedSamplesTTest()</c> function is expecting a <em>character string</em> that specifies the name of a variable. If I ever find the time I'll try to relax this constraint.
+      </p>
+      <p>
+        As you can see, it's a bit more detailed than the output from <c>oneSampleTTest()</c>. It gives you the descriptive statistics for the original variables, states the null hypothesis in a fashion that is a bit more appropriate for a repeated measures design, and then reports all the nuts and bolts from the hypothesis test itself. Not surprisingly the numbers the same as the ones that we saw last time.
+      </p>
+      <p>
+        One final comment about the <c>pairedSamplesTTest()</c> function. One of the reasons I designed it to be able handle long form and wide form data is that I want you to be get comfortable thinking about repeated measures data in both formats, and also to become familiar with the different ways in which R functions tend to specify models and tests for repeated measures data. With that last point in mind, I want to highlight a slightly different way of thinking about what the paired samples <m>t</m>-test is doing. There's a sense in which what you're really trying to do is look at how the outcome variable (<c>grade</c>) is related to the grouping variable (<c>time</c>), after taking account of the fact that there are individual differences between people (<c>id</c>). So there's a sense in which <c>id</c> is actually a <em>second</em> predictor: you're trying to predict the <c>grade</c> on the basis of the <c>time</c> and the <c>id</c>. With that in mind, the <c>pairedSamplesTTest()</c> function lets you specify a formula like this one
+      </p>
+      <program language="r">
+        <input>
+          grade ~ time + (id)
+        </input>
+      </program>
+      <p>
+        This formula tells R everything it needs to know: the variable on the left (<c>grade</c>) is the outcome variable, the bracketed term on the right (<c>id</c>) is the id variable, and the other term on the right is the grouping variable (<c>time</c>). If you specify your formula that way, then you only need to specify the <c>formula</c> and the <c>data</c> frame, and so you can get away with using a command as simple as this one:
+      </p>
+      <program language="r">
+        <input>
+          pairedSamplesTTest(
+               formula = grade ~ time + (id),
+               data = chico2
+            )
+        </input>
+      </program>
+      <p>
+        or you can drop the argument names and just do this:
+      </p>
+      <program language="r">
+        <input>
+          &gt; pairedSamplesTTest( grade ~ time + (id), chico2 )
+        </input>
+      </program>
+      <p>
+        These commands will produce the same output as the last one, I personally find this format a lot more elegant. That being said, the main reason for allowing you to write your formulas that way is that they're quite similar to the way that mixed models (fancy pants repeated measures analyses) are specified in the <c>lme4</c> package. This book doesn't talk about mixed models (yet!), but if you go on to learn more statistics you'll find them pretty hard to avoid, so I've tried to lay a little bit of the groundwork here.
+      </p>
+    </subsection>
+  </section>
+  <section>
+    <title>One sided tests</title>
+    <p>
+      When introducing the theory of null hypothesis tests, I mentioned that there are some situations when it's appropriate to specify a <em>one-sided</em> test (see <xref ref="onesidedtests" />). So far, all of the <m>t</m>-tests have been two-sided tests. For instance, when we specified a one sample <m>t</m>-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The <c>oneSampleTTest()</c> function lets you do this, by specifying the <c>one.sided</c> argument. If you set <c>one.sided="greater"</c>, it means that you're testing to see if the true mean is larger than <c>mu</c>. If you set <c>one.sided="less"</c>, then you're testing to see if the true mean is smaller than <c>mu</c>. Here's how it would work for Dr Zeppo's class:
+    </p>
+    <program language="r">
+      <input>
+        oneSampleTTest( x=grades, mu=67.5, one.sided="greater" )
+      </input>
+    </program>
+    <p>
+      Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the <m>t</m>-statistic and degrees of freedom have not changed, the <m>p</m>-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you've forgotten why this is and what it means, you may find it helpful to read back over <xref ref="hypothesistesting" />, and <xref ref="onesidedtests" /> in particular. The third thing to note is that the confidence interval is different too: it now reports a "one-sided" confidence interval rather than a two-sided one. In a two-sided confidence interval, we're trying to find numbers <m>a</m> and <m>b</m> such that we're 95\% confident that the true mean lies <em>between</em> <m>a</m> and <m>b</m>. In a one-sided confidence interval, we're trying to find a single number <m>a</m> such that we're 95\% confident that the true mean is <em>greater than</em> <m>a</m> (or less than <m>a</m> if you set <c>one.sided="less"</c>).
+    </p>
+    <p>
+      So that's how to do a one-sided one sample <m>t</m>-test. However, all versions of the <m>t</m>-test can be one-sided. For an independent samples <m>t</m> test, you could have a one-sided test if you're only interestd in testing to see if group A has <em>higher</em> scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The <c>independentSamplesTTest()</c> function lets you do this, again by specifying the <c>one.sided</c> argument. However, this time around you need to specify the name of the group that you're expecting to have the higher score. In our case, we'd write <c>one.sided = "Anastasia"</c>. So the command would be:
+    </p>
+    <program language="r">
+      <input>
+        independentSamplesTTest(
+            formula = grade ~ tutor,
+            data = harpo,
+            one.sided = "Anastasia"
+          )
+      </input>
+    </program>
+    <p>
+      Again, the output changes in a predictable way. The definition of the null and alternative hypotheses has changed, the <m>p</m>-value has changed, and it now reports a one-sided confidence interval rather than a two-sided one.
+    </p>
+    <p>
+      What about the paired samples <m>t</m>-test? Suppose we wanted to test the hypothesis that grades go <em>up</em> from test 1 to test 2 in Dr Zeppo's class, and are not prepared to consider the idea that the grades go down. Again, we can use the <c>one.sided</c> argument to specify the one-sided test, and it works the same way it does for the independent samples <m>t</m>-test. You need to specify the name of the group whose scores are expected to be larger under the alternative hypothesis. If your data are in wide form, as they are in the <c>chico</c> data frame, you'd use this command:
+    </p>
+    <program language="r">
+      <input>
+        pairedSamplesTTest(
+             formula = ~ grade_test2 + grade_test1,
+             data = chico,
+             one.sided = "grade_test2"
+          )
+      </input>
+    </program>
+    <p>
+      Yet again, the output changes in a predictable way. The hypotheses have changed, the <m>p</m>-value has changed, and the confidence interval is now one-sided. If your data are in long form, as they are in the <c>chico2</c> data frame, it still works the same way. Either of the following commands would work,
+    </p>
+    <program language="r">
+      <input>
+        &gt; pairedSamplesTTest(
+            formula = grade ~ time,
+            data = chico2,
+            id = "id",
+            one.sided = "test2"
+          )
+        
+        &gt; pairedSamplesTTest(
+            formula = grade ~ time + (id),
+            data = chico2,
+            one.sided = "test2"
+          )
+      </input>
+    </program>
+    <p>
+      and would produce the same answer as the output shown above.
+    </p>
+  </section>
+  <section xml:id="ttestfunction">
+    <title>Using the t.test() function</title>
+    <p>
+      In this chapter, we've talked about three different kinds of <m>t</m>-test: the one sample test, the independent samples test (Student's and Welch's), and the paired samples test. In order to run these different tests, I've shown you three different functions: <c>oneSampleTTest()</c>, <c>independentSamplesTTest()</c> and <c>pairedSamplesTTest()</c>. I wrote these as three different functions for two reasons. Firstly, I thought it made sense to have separate functions for each test, in order to help make it clear to beginners that there <em>are</em> different tests. Secondly, I wanted to show you some functions that produced "verbose" output, to help you see what hypotheses are being tested and so on.
+    </p>
+    <p>
+      However, once you've started to become familiar with <m>t</m>-tests and with using R, you might find it easier to use the <c>t.test()</c> function. It's one function, but it can run all four of the different <m>t</m>-tests that we've talked about. Here's how it works.  Firstly, suppose you want to run a one sample <m>t</m>-test. To run the test on the <c>grades</c> data from Dr Zeppo's class (<xref ref="onesamplettest" />), we'd use a command like this:
+    </p>
+    <program language="r">
+      <input>
+        t.test( x = grades, mu = 67.5 )
+      </input>
+    </program>
+    <p>
+      The input is the same as for the <c>oneSampleTTest()</c>: we specify the sample data using the argument <c>x</c>, and the value against which it is to be tested using the argument <c>mu</c>. The output is a lot more compressed.
+    </p>
+    <p>
+      As you can see, it still has all the information you need. It tells you what type of test it ran and the data it tested it on. It gives you the <m>t</m>-statistic, the degrees of freedom and the <m>p</m>-value. And so on. There's nothing wrong with this output, but in my experience it can be a little confusing when you're just starting to learn statistics, because it's a little disorganised. Once you know what you're looking at though, it's pretty easy to read off the relevant information.
+    </p>
+    <p>
+      What about independent samples <m>t</m>-tests? As it happens, the <c>t.test()</c> function can be used in much the same way as the <c>independentSamplesTTest()</c> function, by specifying a formula, a data frame, and using <c>var.equal</c> to indicate whether you want a Student test or a Welch test. If you want to run the Welch test from <xref ref="welchttest" />, then you'd use this command:
+    </p>
+    <program language="r">
+      <input>
+        t.test( formula = grade ~ tutor, data = harpo )
+      </input>
+    </program>
+    <p>
+      If you want to do the Student test, it's exactly the same except that you need to add an additional argument indicating that <c>var.equal = TRUE</c>. This is no different to how it worked in the <c>independentSamplesTTest()</c> function.
+    </p>
+    <p>
+      Finally, we come to the paired samples <m>t</m>-test. Somewhat surprisingly, given that most R functions for dealing with repeated measures data require data to be in long form, the <c>t.test()</c> function isn't really set up to handle data in long form. Instead it expects to be given two separate variables, <c>x</c> and <c>y</c>, and you need to specify <c>paired=TRUE</c>. And on top of that, you'd better make sure that the first element of <c>x</c> and the first element of <c>y</c> actually correspond to the same person! Because it doesn't ask for an "id" variable. I don't know why. So, in order to run the paired samples <m>t</m> test on the data from Dr Chico's class, we'd use this command:
+    </p>
+    <program language="r">
+      <input>
+        t.test( x = chico$grade_test2,   # variable 1 is the "test2" scores
+                 y = chico$grade_test1,   # variable 2 is the "test1" scores
+                 paired = TRUE           # paired test
+         )
+      </input>
+    </program>
+    <p>
+      Yet again, these are the same numbers that we saw in <xref ref="pairedsamplesttest" />. Feel free to check.
+    </p>
+  </section>
+  <section xml:id="cohensd">
+    <title>Effect size</title>
+    <p>
+      The most commonly used measure of effect size for a <m>t</m>-test is <em>_Cohen's <m>d</m>_</em> [@Cohen1988]. It's a very simple measure in principle, with quite a few wrinkles when you start digging into the details. Cohen himself defined it primarily in the context of an independent samples <m>t</m>-test, specifically the Student test. In that context, a natural way of defining the effect size is to divide the difference between the means by an estimate of the standard deviation. In other words, we're looking to calculate <em>something</em> along the lines of this: <me> d = \frac{\mbox{(mean 1)} - \mbox{(mean 2)}}{\mbox{std dev}} </me> and he suggested a rough guide for interpreting <m>d</m> in <xref ref="table-cohensdinterpretation" />. You'd think that this would be pretty unambiguous, but it's not; largely because Cohen wasn't too specific on what he thought should be used as the measure of the standard deviation (in his defence, he was trying to make a broader point in his book, not nitpick about tiny details). As discussed by @McGrath2006, there are several different version in common usage, and each author tends to adopt slightly different notation. For the sake of simplicity (as opposed to accuracy) I'll use <m>d</m> to refer to any statistic that you calculate from the sample, and  use <m>\delta</m> to refer to a theoretical population effect. Obviously, that does mean that there are several different things all called <m>d</m>. The <c>cohensD()</c> function in the <c>lsr</c> package uses the <c>method</c> argument to distinguish between them, so that's what I'll do in the text.
+    </p>
+    <p>
+      My suspicion is that the only time that you would want Cohen's <m>d</m> is when you're running a <m>t</m>-test, and if you're using the <c>oneSampleTTest</c>, <c>independentSamplesTTest</c> and <c>pairedSamplesTTest()</c> functions to run your <m>t</m>-tests, then you don't need to learn any new commands, because they automatically produce an estimate of Cohen's <m>d</m> as part of the output. However, if you're using <c>t.test()</c> then you'll need to use the <c>cohensD()</c> function (also in the <c>lsr</c> package) to do the calculations.
+    </p>
+    <figure>
+      <caption>A (very) rough guide to interpreting Cohen's <m>d</m>. My personal recommendation is to not use these blindly. The <m>d</m> statistic has a natural interpretation in and of itself: it redescribes the different in means as the number of standard deviations that separates those means. So it's generally a good idea to think about what that means in practical terms. In some contexts a "small" effect could be of big practical importance. In other situations a "large" effect may not be all that interesting.</caption>
+      <image source="generated/plot.png"/>
+    </figure>
+    <subsection>
+      <title>Cohen's <m>d</m> from one sample</title>
+      <p>
+        The simplest situation to consider is the one corresponding to a one-sample <m>t</m>-test. In this case, the one sample mean <m>\bar{X}</m> and one (hypothesised) population mean <m>\mu_o</m> to compare it to. Not only that, there's really only one sensible way to estimate the population standard deviation: we just use our usual estimate <m>\hat{\sigma}</m>. Therefore, we end up with the following as the only way to calculate <m>d</m>, <me> d = \frac{\bar{X} - \mu_0}{\hat{\sigma}} </me> When writing the <c>cohensD()</c> function, I've made some attempt to make it work in a similar way to <c>t.test()</c>. As a consequence, <c>cohensD()</c> can calculate your effect size regardless of which type of <m>t</m>-test you performed. If what you want is a measure of Cohen's <m>d</m> to accompany a one-sample <m>t</m>-test, there's only two arguments that you need to care about. These are:
+      </p>
+      <ul>
+        <li>
+          <p><c>x</c>. A numeric vector containing the sample data.</p>
+        </li>
+        <li>
+          <p><c>mu</c>. The mean against which the mean of <c>x</c> is compared (default value is <c>mu = 0</c>).</p>
+        </li>
+      </ul>
+      <p>
+        We don't need to specify what <c>method</c> to use, because there's only one version of <m>d</m> that makes sense in this context. So, in order to compute an effect size for the data from Dr Zeppo's class (<xref ref="onesamplettest" />), we'd type something like this:
+      </p>
+      <program language="r">
+        <input>
+          cohensD( x = grades,    # data are stored in the grades vector
+                    mu = 67.5      # compare students to a mean of 67.5
+           )
+        </input>
+      </program>
+      <p>
+        and, just so that you can see that there's nothing fancy going on, the command below shows you how to calculate it if there weren't no fancypants <c>cohensD()</c> function available:
+      </p>
+      <program language="r">
+        <input>
+          ( mean(grades) - 67.5 ) / sd(grades)
+        </input>
+      </program>
+      <p>
+        Yep, same number. Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3\%) that are about .5 standard deviations higher than the level that you'd expect (67.5\%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Cohen's <m>d</m> from a Student <m>t</m> test</title>
+      <p>
+        The majority of discussions of Cohen's <m>d</m> focus on a situation that is analogous to Student's independent samples <m>t</m> test, and it's in this context that the story becomes messier, since there are several different versions of <m>d</m> that you might want to use in this situation, and you can use the <c>method</c> argument to the <c>cohensD()</c> function to pick the one you want. To understand why there are multiple versions of <m>d</m>, it helps to take the time to write down a formula that corresponds to the true population effect size <m>\delta</m>. It's pretty straightforward, <me> \delta = \frac{\mu_1 - \mu_2}{\sigma} </me> where, as usual, <m>\mu_1</m> and <m>\mu_2</m> are the population means corresponding to group 1 and group 2 respectively, and <m>\sigma</m> is the standard deviation (the same for both populations). The obvious way to estimate <m>\delta</m> is to do exactly the same thing that we did in the <m>t</m>-test itself: use the sample means as the top line, and a pooled standard deviation estimate for the bottom line: <me> d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p} </me> where <m>\hat\sigma_p</m> is the exact same pooled standard deviation measure that appears in the <m>t</m>-test. This is the most commonly used version of Cohen's <m>d</m> when applied to the outcome of a Student <m>t</m>-test ,and is sometimes referred to as Hedges' <m>g</m> statistic [@Hedges1981]. It corresponds to <c>method = "pooled"</c> in the <c>cohensD()</c> function, and it's the default.
+      </p>
+      <p>
+        However, there are other possibilities, which I'll briefly describe. Firstly, you may have reason to want to use only one of the two groups as the basis for calculating the standard deviation. This approach (often called Glass' <m>\Delta</m>) only makes most sense when you have good reason to treat one of the two groups as a purer reflection of "natural variation" than the other. This can happen if, for instance, one of the two groups is a control group. If that's what you want, then use <c>method = "x.sd"</c> or <c>method = "y.sd"</c> when using <c>cohensD()</c>. Secondly, recall that in the usual calculation of the pooled standard deviation we divide by <m>N-2</m> to correct for the bias in the sample variance; in one version of Cohen's <m>d</m> this correction is omitted. Instead, we divide by <m>N</m>. This version (<c>method = "raw"</c>) makes sense primarily when you're trying to calculate the effect size in the sample; rather than estimating an effect size in the population. Finally, there is a version based on @Hedges1985, who point out there is a small bias in the usual (pooled) estimation for Cohen's <m>d</m>. Thus they introduce a small correction (<c>method = "corrected"</c>), by multiplying the usual value of <m>d</m> by <m>(N-3)/(N-2.25)</m>.
+      </p>
+      <p>
+        In any case, ignoring all those variations that you could make use of if you wanted, let's have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo's class (the <c>harpo</c> data frame). The command that we want to use is very similar to the relevant <c>t.test()</c> command, but also specifies a <c>method</c>
+      </p>
+      <program language="r">
+        <input>
+          cohensD( formula = grade ~ tutor,  # outcome ~ group
+                    data = harpo,             # data frame
+                    method = "pooled"         # which version to calculate?
+          )
+        </input>
+      </program>
+      <p>
+        This is the version of Cohen's <m>d</m> that gets reported by the <c>independentSamplesTTest()</c> function whenever it runs a Student <m>t</m>-test.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Cohen's <m>d</m> from a Welch test</title>
+      <p>
+        Suppose the situation you're in is more like the Welch test: you still have two independent samples, but you no longer believe that the corresponding populations have equal variances. When this happens, we have to redefine what we mean by the population effect size. I'll refer to this new measure as <m>\delta^\prime</m>, so as to keep it distinct from the measure <m>\delta</m> which we defined previously. What @Cohen1988 suggests is that we could define our new population effect size by averaging the two population variances. What this means is that we get: <me> \delta^\prime = \frac{\mu_1 - \mu_2}{\sigma^\prime} </me> where <me> \sigma^\prime = \sqrt{\displaystyle{\frac{ {\sigma_1}^2 + {\sigma_2}^2}{2}}} </me> This seems quite reasonable, but notice that none of the measures that we've discussed so far are attempting to estimate this new quantity. It might just be my own ignorance of the topic, but I'm only aware of one version of Cohen's <m>d</m> that actually estimates the unequal-variance effect size <m>\delta^\prime</m> rather than the equal-variance effect size <m>\delta</m>. All we do to calculate <m>d</m> for this version (<c>method = "unequal"</c>) is substitute the sample means <m>\bar{X}_1</m> and <m>\bar{X}_2</m> and the corrected sample standard deviations <m>\hat{\sigma}_1</m> and <m>\hat{\sigma}_2</m> into the equation for <m>\delta^\prime</m>. This gives us the following equation for <m>d</m>, <me> d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {\hat\sigma_2}^2}{2}}}} </me> as our estimate of the effect size. There's nothing particularly difficult about calculating this version in R, since all we have to do is change the <c>method</c> argument:
+      </p>
+      <program language="r">
+        <input>
+          cohensD( formula = grade ~ tutor,
+                    data = harpo,
+                    method = "unequal"
+           )
+        </input>
+      </program>
+      <p>
+        This is the version of Cohen's <m>d</m> that gets reported by the <c>independentSamplesTTest()</c> function whenever it runs a Welch <m>t</m>-test.
+      </p>
+    </subsection>
+    <subsection>
+      <title>Cohen's <m>d</m> from a paired-samples test</title>
+      <p>
+        Finally, what should we do for a paired samples <m>t</m>-test? In this case, the answer depends on what it is you're trying to do. <em>If</em> you want to measure your effect sizes relative to the distribution of difference scores, the measure of <m>d</m> that you calculate is just (<c>method = "paired"</c>) <me> d = \frac{\bar{D}}{\hat{\sigma}_D} </me> where <m>\hat{\sigma}_D</m> is the estimate of the standard deviation of the differences. The calculation here is pretty straightforward
+      </p>
+      <program language="r">
+        <input>
+          cohensD( x = chico$grade_test2,
+                    y = chico$grade_test1,
+                    method = "paired"
+           )
+        </input>
+      </program>
+      <p>
+        This is the version of Cohen's <m>d</m> that gets reported by the <c>pairedSamplesTTest()</c> function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1\% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's <m>d</m> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class,
+      </p>
+      <program language="r">
+        <input>
+          cohensD( x = chico$grade_test2,
+                    y = chico$grade_test1,
+                    method = "pooled"
+           )
+        </input>
+      </program>
+      <p>
+        what we see is that the overall effect size is quite small, when assessed on the scale of the original variables.
+      </p>
+    </subsection>
+  </section>
+  <section xml:id="shapiro">
+    <title>Checking the normality of a sample</title>
+    <p>
+      All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (<xref ref="clt" />) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is <em>actually</em> an average of lots of different things, there's a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using <m>t</m>-tests. However, life doesn't come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there's a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.<fn>This is a massive oversimplification.</fn> This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.
+    </p>
+    <subsection>
+      <title>QQ plots</title>
+      <figure>
+        <caption>Histogram of <c>normal.data</c>, a normally distributed sample with 100 observations.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <figure>
+        <caption>Normal QQ plot of <c>normal.data</c>, a normally distributed sample with 100 observations.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        The Shapiro-Wilk statistic associated with the data in Figures <xref ref="fig-qq1a" /> and <xref ref="fig-qq1b" /> is <m>W = .99</m>, indicating that no significant departures from normality were detected (<m>p = .73</m>). As you can see, these data form a pretty straight line; which is no surprise given that we sampled them from a normal distribution! In contrast, have a look at the two data sets shown in Figures <xref ref="fig-qq2a" />, <xref ref="fig-qq2b" />, <xref ref="fig-qq2c" />, <xref ref="fig-qq2d" />. Figures <xref ref="fig-qq2a" /> and <xref ref="fig-qq2b" /> show the histogram and a QQ plot for a data set that is highly skewed: the QQ plot curves upwards. Figures <xref ref="fig-qq2c" /> and <xref ref="fig-qq2d" /> show the same plots for a heavy tailed (i.e., high kurtosis) data set: in this case, the QQ plot flattens in the middle and curves sharply at either end.
+      </p>
+      <figure>
+        <caption>A histogram of the 100 observations in a <c>skewed.data</c> set</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <figure>
+        <caption>A normal QQ plot of the 100 observations in a <c>skewed.data</c> set</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        The skewness of the data in Figures <xref ref="fig-qq2a" /> and <xref ref="fig-qq2b" /> is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <m>W=.80</m>, reflecting a significant departure from normality (<m>p&lt;.001</m>).
+      </p>
+      <figure>
+        <caption>A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. </caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <figure>
+        <caption>A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. </caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        Figures <xref ref="fig-qq2c" /> and <xref ref="fig-qq2d" /> shows the same plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <m>W = .93</m>, again reflecting significant non-normality (<m>p &lt; .001</m>).
+      </p>
+      <p>
+        One way to check whether a sample violates the normality assumption is to draw a <term>"quantile-quantile" plot</term> (QQ plot). This allows you to visually check whether you're seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function <c>qqnorm()</c>. The <c>qqnorm()</c> function has a few arguments, but the only one we really need to care about here is <c>y</c>, a vector specifying the data whose normality we're interested in checking. Here's the R commands:
+      </p>
+      <program language="r">
+        <input>
+          normal.data &lt;- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
+          hist( x = normal.data )          # draw a histogram of these numbers
+          qqnorm( y = normal.data )        # draw the QQ plot
+        </input>
+      </program>
+    </subsection>
+    <subsection>
+      <title>Shapiro-Wilk tests</title>
+      <p>
+        Although QQ plots provide a nice way to informally check the normality of your data, sometimes you'll want to do something a bit more formal. And when that moment comes, the <term>Shapiro-Wilk test</term> [@Shapiro1965] is probably what you're looking for.<fn>Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I've read seem to suggest Shapiro-Wilk is the better test of normality; although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests; in R it's implemented via the <c>ks.test()</c> function.</fn> As you'd expect, the null hypothesis being tested is that a set of <m>N</m> observations is normally distributed. The test statistic that it calculates is conventionally denoted as <m>W</m>, and it's calculated as follows. First, we sort the observations in order of increasing size, and let <m>X_1</m> be the smallest value in the sample, <m>X_2</m> be the second smallest and so on. Then the value of <m>W</m> is given by <me> W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar{X})^2} </me> where <m>\bar{X}</m> is the mean of the observations, and the <m>a_i</m> values are ... mumble, mumble ... something complicated that is a bit beyond the scope of an introductory text.
+      </p>
+      <p>
+        Because it's a little hard to explain the maths behind the <m>W</m> statistic, a better idea is to give a broad brush description of how it behaves. Unlike most of the test statistics that we'll encounter in this book, it's actually <em>small</em> values of <m>W</m> that indicated departure from normality. The <m>W</m> statistic has a maximum value of 1, which arises when the data look "perfectly normal". The smaller the value of <m>W</m>, the less normal the data are. However, the sampling distribution for <m>W</m>  <mdash /> which is not one of the standard ones that I discussed in <xref ref="probability" /> and is in fact a complete pain in the arse to work with <mdash /> does depend on the sample size <m>N</m>. To give you a feel for what these sampling distributions look like, I've plotted three of them in <xref ref="fig-swdist" />. Notice that, as the sample size starts to get large, the sampling distribution becomes very tightly clumped up near <m>W=1</m>, and as a consequence, for larger samples <m>W</m> doesn't have to be very much smaller than 1 in order for the test to be significant.
+      </p>
+      <figure>
+        <caption>Sampling distribution of the Shapiro-Wilk <m>W</m> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <m>W</m> indicate departure from normality.</caption>
+        <image source="generated/plot.png"/>
+      </figure>
+      <p>
+        To run the test in R, we use the <c>shapiro.test()</c> function. It has only a single argument <c>x</c>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <c>normal.data</c>, we get the following:
+      </p>
+      <program language="r">
+        <input>
+          shapiro.test( x = normal.data )
+        </input>
+      </program>
+      <p>
+        So, not surprisingly, we have no evidence that these data depart from normality. When reporting the results for a Shapiro-Wilk test, you should (as usual) make sure to include the test statistic <m>W</m> and the <m>p</m> value, though given that the sampling distribution depends so heavily on <m>N</m> it would probably be a politeness to include <m>N</m> as well.
+      </p>
+    </subsection>
+  </section>
+  <section xml:id="wilcox">
+    <title>Testing non-normal data with Wilcoxon tests</title>
+    <p>
+      Okay, suppose your data turn out to be pretty substantially non-normal, but you still want to run something like a <m>t</m>-test? This situation occurs a lot in real life: for the AFL winning margins data, for instance, the Shapiro-Wilk test made it very clear that the normality assumption is violated. This is the situation where you want to use Wilcoxon tests.
+    </p>
+    <p>
+      Like the <m>t</m>-test, the Wilcoxon test comes in two forms, one-sample and two-sample, and they're used in more or less the exact same situations as the corresponding <m>t</m>-tests. Unlike the <m>t</m>-test, the Wilcoxon test doesn't assume normality, which is nice. In fact, they don't make any assumptions about what kind of distribution is involved: in statistical jargon, this makes them <term>nonparametric tests</term>. While avoiding the normality assumption is nice, there's a drawback: the Wilcoxon test is usually less powerful than the <m>t</m>-test (i.e., higher Type II error rate). I won't discuss the Wilcoxon tests in as much detail as the <m>t</m>-tests, but I'll give you a brief overview.
+    </p>
+    <subsection>
+      <title>Two sample Wilcoxon test</title>
+      <p>
+        I'll start by describing the <term>two sample Wilcoxon test</term> (also known as the Mann-Whitney test), since it's actually simpler than the one sample version. Suppose we're looking at the scores of 10 people on some test. Since my imagination has now failed me completely, let's pretend it's a "test of awesomeness", and there are two groups of people, "A" and "B". I'm curious to know which group is more awesome. The data are included in the file <c>awesome.Rdata</c>, and like many of the data sets I've been using, it contains only a single data frame, in this case called <c>awesome</c>. Here's the data:
+      </p>
+      <program language="r">
+        <input>
+          load(file.path(projecthome, "data/awesome.Rdata"))
+          print( awesome )
+        </input>
+      </program>
+      <p>
+        As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <m>A</m> against every observation in group <m>B</m>. Whenever the group <m>A</m> datum is larger, we place a check mark in the table:
+      </p>
+      <program language="r">
+        <input>
+          knitr::include_graphics(file.path(projecthome, "img/ttest2/wilcox1.png"))
+          
+        </input>
+      </program>
+      <p>
+        We then count up the number of checkmarks. This is our test statistic, <m>W</m>.<fn>Actually, there are two different versions of the test statistic; they differ from each other by a constant value. The version that I've described is the one that R calculates.</fn> The actual sampling distribution for <m>W</m> is somewhat complicated, and I'll skip the details. For our purposes, it's sufficient to note that the interpretation of <m>W</m> is qualitatively the same as the interpretation of <m>t</m> or <m>z</m>. That is, if we want a two-sided test, then we reject the null hypothesis when <m>W</m> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.
+      </p>
+      <p>
+        The structure of the <c>wilcox.test()</c> function should feel very familiar to you by now. When you have your data organised in terms of an outcome variable and a grouping variable, then you use the <c>formula</c> and <c>data</c> arguments, so your command looks like this:
+      </p>
+      <program language="r">
+        <input>
+          wilcox.test( formula = scores ~ group, data = awesome)
+        </input>
+      </program>
+      <p>
+        Just like we saw with the <c>t.test()</c> function, there is an <c>alternative</c> argument that you can use to switch between two-sided tests and one-sided tests, plus a few other arguments that we don't need to worry too much about at an introductory level. Similarly, the <c>wilcox.test()</c> function allows you to use the  <c>x</c> and <c>y</c> arguments when you have your data stored separately for each group. For instance, suppose we use the data from the <c>awesome2.Rdata</c> file:
+      </p>
+      <program language="r">
+        <input>
+          load( file.path(projecthome, "data/awesome2.Rdata" ))
+          score.A
+          score.B
+        </input>
+      </program>
+      <p>
+        When your data are organised like this, then you would use a command like this:
+      </p>
+      <program language="r">
+        <input>
+          wilcox.test( x = score.A, y = score.B )
+        </input>
+      </program>
+      <p>
+        The output that R produces is pretty much the same as last time.
+      </p>
+    </subsection>
+    <subsection>
+      <title>One sample Wilcoxon test</title>
+      <p>
+        What about the <term>one sample Wilcoxon test</term> (or equivalently, the paired samples Wilcoxon test)? Suppose I'm interested in finding out whether taking a statistics class has any effect on the happiness of students. Here's my data:
+      </p>
+      <program language="r">
+        <input>
+          load( file.path(projecthome, "data/happy.Rdata" ))
+          print( happiness )
+        </input>
+      </program>
+      <p>
+        What I've measured here is the happiness of each student <c>before</c> taking the class and <c>after</c> taking the class; the <c>change</c> score is the difference between the two. Just like we saw with the <m>t</m>-test, there's no fundamental difference between doing a paired-samples test using <c>before</c> and <c>after</c>, versus doing a one-sample test using the <c>change</c> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:
+      </p>
+      <program language="r">
+        <input>
+          knitr::include_graphics(file.path(projecthome, "img/ttest2/wilcox2.png"))
+          
+        </input>
+      </program>
+      <p>
+        Counting up the tick marks this time, we get a test statistic of <m>V = 7</m>. As before, if our test is two sided, then we reject the null hypothesis when <m>V</m> is very large or very small. As far of running it in R goes, it's pretty much what you'd expect. For the one-sample version, the command you would use is
+      </p>
+      <program language="r">
+        <input>
+          wilcox.test( x = happiness$change,
+                        mu = 0
+          )
+        </input>
+      </program>
+      <p>
+        As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness. Switching to a paired samples version of the test won't give us different answers, of course; but here's the command to do it:
+      </p>
+      <program language="r">
+        <input>
+          wilcox.test( x = happiness$after,
+                        y = happiness$before,
+                        paired = TRUE
+          )
+        </input>
+      </program>
+    </subsection>
+  </section>
+  <section>
+    <title>Summary</title>
+    <ul>
+      <li>
+        <p>A one sample <m>t</m>-test is used to compare a single sample mean against a hypothesised value for the population mean. (<xref ref="onesamplettest" />)</p>
+      </li>
+      <li>
+        <p>An independent samples <m>t</m>-test is used to compare the means of two groups, and tests the null hypothesis that they have the same mean. It comes in two forms: the Student test (<xref ref="studentttest" /> assumes that the groups have the same standard deviation, the Welch test (<xref ref="welchttest" />) does not.</p>
+      </li>
+      <li>
+        <p>A paired samples <m>t</m>-test is used when you have two scores from each person, and you want to test the null hypothesis that the two scores have the same mean. It is equivalent to taking the difference between the two scores for each person, and then running a one sample <m>t</m>-test on the difference scores. (<xref ref="pairedsamplesttest" />)</p>
+      </li>
+      <li>
+        <p>Effect size calculations for the difference between means can be calculated via the Cohen's <m>d</m> statistic. (<xref ref="cohensd" />).</p>
+      </li>
+      <li>
+        <p>You can check the normality of a sample using QQ plots and the Shapiro-Wilk test. (<xref ref="shapiro" />)</p>
+      </li>
+      <li>
+        <p>If your data are non-normal, you can use Wilcoxon tests instead of <m>t</m>-tests. (<xref ref="wilcox" />)</p>
+      </li>
+    </ul>
+  </section>
+</chapter>
