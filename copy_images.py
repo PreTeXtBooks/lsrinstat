@@ -13,7 +13,9 @@ def main():
     # Define paths
     script_dir = Path(__file__).parent
     bookdown_img = script_dir / "bookdown" / "img"
-    # Put generated images in assets/generated so PreTeXt can find them
+    # Put generated images in pretext/assets/generated/ directory
+    # This matches the publication.ptx configuration where "external" is ../assets
+    # and source files reference images as source="generated/*.png"
     pretext_assets = script_dir / "pretext" / "assets" / "generated"
     
     print("Preparing images for PreTeXt book...")
