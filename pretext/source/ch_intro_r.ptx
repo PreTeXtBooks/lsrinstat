@@ -171,6 +171,11 @@ plot(x, y,
 abline(lm(y ~ x), col = "red", lwd = 2)
           </input>
         </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
         <p>
           This code creates a scatter plot with a regression line. In practice, 
           this would generate an image that could be included in the document.

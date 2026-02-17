@@ -140,6 +140,11 @@
           print( itng.table )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## tabulating data...
+]]></output>
+    </console>
       <p>
         You'll notice that I've gone a bit overboard with my commenting: at the top of the script I've explained the purpose of the script, who wrote it, and when it was written. Then, throughout the script file itself I've added a lot of comments explaining what each section of the code actually does. In real life people don't tend to comment this thoroughly, but the basic idea is a very good one: you really do want your script to explain itself.  Nevertheless, as you'd expect R completely ignores all of the commented parts. When we run this script, this is what we see on screen:
       </p>
@@ -161,6 +166,11 @@
           print( itng.table )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## loading data from nightgarden.Rdata...
+]]></output>
+    </console>
       <p>
         Even here, notice that the script announces its behaviour. The first two lines of the output tell us a lot about what the script is actually doing behind the scenes (the code do to this corresponds to the two <c>cat()</c> commands on lines 8 and 12 of the script). It's usually a pretty good idea to do this, since it helps ensure that the output makes sense when the script is executed.
       </p>
@@ -801,6 +811,11 @@
         }
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] "I'm a happy little automaton"
+]]></output>
+    </console>
     <p>
       Since today happens to be a <c>r weekdays( today )</c>, when I run the script here's what happens:
     </p>
@@ -848,6 +863,14 @@
         }
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## function(x) {
+##   y <- x*4
+##   return(y)
+## }
+]]></output>
+    </console>
     <p>
       When we run this script, as follows
     </p>
@@ -880,6 +903,7 @@
     </program>
     <console>
       <output><![CDATA[
+## [1] 40
 ## function(x) {
 ##   y <- x*4
 ##   return(y)
@@ -1115,6 +1139,12 @@
         sapply( X = words, FUN = nchar )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## along   the  loom    of   the  land 
+##     5     3     4     2     3     4
+]]></output>
+    </console>
     <p>
       Notice how similar this is to the second example of a <c>for</c> loop in <xref ref="for" />. The <c>sapply()</c> function has implicitly looped over the elements of <c>words</c>, and for each such element applied the <c>nchar()</c> function to calculate the number of letters in the corresponding word.
     </p>
@@ -1128,6 +1158,12 @@
         tapply( X = age, INDEX = gender, FUN = mean )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##   female     male 
+## 10.00000 11.66667
+]]></output>
+    </console>
     <p>
       In this extract, what we're doing is using <c>gender</c> to define two different groups of people, and using their <c>ages</c> as the data. We then calculate the <c>mean()</c> of the ages, separately for the males and the females. A closely related function is <c>by()</c>. It actually does the same thing as <c>tapply()</c>, but the output is formatted  a bit differently. This time around the three arguments are called <c>data</c>, <c>INDICES</c> and <c>FUN</c>, but they're pretty much the same thing. An example of how to use the <c>by()</c> function is shown in the following extract:
     </p>

@@ -20,6 +20,11 @@
 
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 8.539539
+]]></output>
+    </console>
     <p>it's a lot easier to understand what I'm doing than if I just write this:</p>
     <program language="r">
       <input>
@@ -29,6 +34,11 @@
         print( keeper )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 8.539539
+]]></output>
+    </console>
     <p>You might have already noticed that the code extracts in Chapter <xref ref="introR"/> included the <c>#</c> character, but from now on, you'll start seeing <c>#</c> characters appearing in the extracts, with some human-readable explanatory remarks next to them. These are still perfectly legitimate commands, since R knows that it should ignore the <c>#</c> character and everything after it. But hopefully they'll help make things a little easier to understand.</p>
   </section>
   <section xml:id="packageinstall">
@@ -1304,6 +1314,11 @@
 
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1]  3.1  0.1 -1.4  1.1
+]]></output>
+    </console>
       <p>You can probably guess that the first element corresponds to the first quarter, the second element to the second quarter, and so on, but that's only because I've told you the back story and because this happens to be a very simple example. In general, it can be quite difficult. This is where it can be helpful to assign <c>names</c> to each of the elements. Here's how you do it:</p>
       <program language="r">
         <input>
@@ -1311,6 +1326,12 @@
           profit
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   Q1   Q2   Q3   Q4 
+##  3.1  0.1 -1.4  1.1
+]]></output>
+    </console>
       <p>This is a slightly odd looking command, admittedly, but it's not too difficult to follow. All we're doing is assigning a vector of labels (character strings) to <c>names(profit)</c>. You can always delete the names again by using the command <c>names(profit) &lt;- NULL</c>. It's also worth noting that you don't have to do this as a two stage process. You can get the same result with this command:</p>
       <program language="r">
         <input>
@@ -1318,6 +1339,12 @@
           profit
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   Q1   Q2   Q3   Q4 
+##  3.1  0.1 -1.4  1.1
+]]></output>
+    </console>
       <p>The important things to notice are that (a) this does make things much easier to read, but (b) the names at the top aren't the "real" data. The <em>value</em> of <c>profit[1]</c> is still <c>3.1</c>; all I've done is added a <em>name</em> to <c>profit[1]</c> as well. Nevertheless, names aren't purely cosmetic, since R allows you to pull out particular elements of the vector by referring to their names:</p>
       <program language="r">
         <input>
@@ -1342,6 +1369,11 @@
           x * y
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 20
+]]></output>
+    </console>
       <p>But if they contain character data, multiplication makes no sense whatsoever, and R will complain if you try to do it:</p>
       <program language="r">
         <input>
@@ -1350,6 +1382,11 @@
           x * y
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## Error in x * y: non-numeric argument to binary operator
+]]></output>
+    </console>
       <p>Even R is smart enough to know you can't multiply <c>"apples"</c> by <c>"oranges"</c>. It knows this because the quote marks are indicators that the variable is supposed to be treated as text, not as a number.</p>
       <p>This is quite useful, but notice that it means that R makes a big distinction between <c>5</c> and <c>"5"</c>. Without quote marks, R treats <c>5</c> as the number five, and will allow you to do calculations with it. With the quote marks, R treats <c>"5"</c> as the textual character five, and doesn't recognise it as a number any more than it recognises <c>"p"</c> or <c>"five"</c> as numbers.  As a consequence, there's a big difference between typing <c>x &lt;- 5</c> and typing <c>x &lt;- "5"</c>. In the former, we're storing the number <c>5</c>; in the latter, we're storing the character <c>"5"</c>. Thus, if we try to do multiplication with the character versions, R gets stroppy:</p>
       <program language="r">
@@ -1360,6 +1397,11 @@
 
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## Error in x * y: non-numeric argument to binary operator
+]]></output>
+    </console>
       <p>Okay, let's suppose that I've forgotten what kind of data I stored in the variable <c>x</c> (which happens depressingly often). R provides a function that will let us find out. Or, more precisely, it provides <em>three</em> functions: <c>class()</c>, <c>mode()</c> and <c>typeof()</c>. Why the heck does it provide three functions, you might be wondering? Basically, because R actually keeps track of three different kinds of information about a variable:</p>
       <ol>
         <li><p>The <em><em>class</em></em> of a variable is a "high level" classification, and it captures psychologically (or statistically) meaningful distinctions. For instance <c>"2011-09-12"</c> and <c>"my birthday"</c> are both text strings, but there's an important difference between the two: one of them is a date. So it would be nice if we could get R to recognise that <c>"2011-09-12"</c> is a date, and allow us to do things like add or subtract from it. The class of a variable is what R uses to keep track of things like that. Because the class of a variable is critical for determining what R can or can't do with it, the <c>class()</c> function is very handy.</p></li>
@@ -1380,6 +1422,11 @@
           class(x)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "character"
+]]></output>
+    </console>
       <p>Exciting, no?</p>
     </subsection>
   </section>
@@ -1433,6 +1480,12 @@
 
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 1 1 1 2 2 2 3 3 3
+## Levels: 1 2 3
+]]></output>
+    </console>
       <p>It looks more or less the same as before (though it's not immediately obvious what all that <c>Levels</c> rubbish is about), but if we ask R to tell us what the class of the <c>group</c> variable is now, it's clear that it has done what we asked: ```{R} class(group)</p>
       <p>``<c> Neat. Better yet, now that I've converted </c>group` to a factor, look what happens when I try to add 2 to it:</p>
       <program language="r">
@@ -2319,6 +2372,11 @@
         formula1
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## out ~ pred
+]]></output>
+    </console>
     <p>The <em>precise</em> meaning of this formula depends on exactly what you want to do with it, but in broad terms it means "the <c>out</c> (outcome) variable, analysed in terms of the <c>pred</c> (predictor) variable". That said, although the simplest and most common form of a formula uses the  "one variable on the left, one variable on the right" format, there are others. For instance, the following examples are all reasonably common</p>
     <program language="r">
       <input>
@@ -2338,6 +2396,11 @@
         print( my.formula )               # print it out using the generic print() function
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## blah ~ blah.blah
+]]></output>
+    </console>
     <p>So far, there's nothing very surprising here. But there's actually a lot going on behind the scenes here. When I type <c>print( my.formula )</c>, what actually happens is the <c>print()</c> function checks the class of the <c>my.formula</c> variable. When the function discovers that the variable it's been given is a formula, it goes looking for a function called <c>print.formula()</c>, and then delegates the whole business of printing out the variable to the <c>print.formula()</c> function.<fn>For readers with a programming background: what I'm describing is the very basics of how S3 methods work. However, you should be aware that R has two entirely distinct systems for doing object oriented programming, known as S3 and S4. Of the two, S3 is simpler and more informal, whereas S4 supports all the stuff that you might expect of a fully object oriented language. Most of the generics we'll run into in this book use the S3 system, which is convenient for me because I'm still trying to figure out S4. </fn> For what it's worth, the name for a "dedicated" function like <c>print.formula()</c> that exists only to be a special case of a generic function like <c>print()</c> is a <em><em>method</em></em>, and the name for the process in which the generic function passes off all the hard work onto a method is called <em><em>method dispatch</em></em>. You won't need to understand the details at all for this book, but you do need to know the gist of it; if only because a lot of the functions we'll use are actually generics. Anyway, to help expose a little more of the workings to you, let's bypass the <c>print()</c> function entirely and call the formula method directly:</p>
     <program language="r">
       <input>

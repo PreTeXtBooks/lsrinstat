@@ -76,6 +76,9 @@ def add_outputs_to_ptx(ptx_file, outputs):
             # Extract the actual R code content
             program_text = '\n'.join(program_lines)
             
+            r_code = None
+            
+            # Try to extract code from CDATA section first
             # Extract code from CDATA section or plain input tag
             code_match = re.search(r'<input><!\[CDATA\[(.*?)\]\]></input>', program_text, re.DOTALL)
             if not code_match:
@@ -84,6 +87,17 @@ def add_outputs_to_ptx(ptx_file, outputs):
             
             if code_match:
                 r_code = code_match.group(1).strip()
+            else:
+                # Try plain XML format (without CDATA)
+                code_match = re.search(r'<input>(.*?)</input>', program_text, re.DOTALL)
+                if code_match:
+                    # Unescape XML entities
+                    r_code = code_match.group(1).strip()
+                    r_code = r_code.replace('&lt;', '<')
+                    r_code = r_code.replace('&gt;', '>')
+                    r_code = r_code.replace('&amp;', '&')
+            
+            if r_code:
                 
                 # Skip if code already contains output (starts with ## or contains ##)
                 if '##' in r_code:
@@ -139,11 +153,13 @@ def main():
             ('estimation.html', 'ch-estimation.ptx'),
             ('graphics.html', 'ch6-graphics.ptx'),
             ('hypothesistesting.html', 'ch-hypothesistesting.ptx'),
+            ('introR.html', 'ch_intro_r.ptx'),
             ('introR.html', 'ch3-intro-r.ptx'),
             ('mechanics.html', 'ch4-additional-r-concepts.ptx'),
             ('probability.html', 'ch-probability.ptx'),
             ('regression.html', 'ch-regression.ptx'),
             ('scripting.html', 'ch8-scripting.ptx'),
+            ('ttest.html', 'ch-hypothesistesting.ptx'),
             ('ttest.html', 'ch13-ttest.ptx'),
         ]
         

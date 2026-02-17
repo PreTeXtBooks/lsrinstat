@@ -852,6 +852,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 15.52
+]]></output>
+    </console>
       <p>
         Each of those commands is pretty simple, but there's just too many of them. And because I find that to be too much typing, the <c>lsr</c> package has a very simple function called <c>aad()</c> that does the calculations for you. If we apply the <c>aad()</c> function to our data, we get this:
       </p>
@@ -1211,6 +1216,26 @@
           blowouts
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+##  [12]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+##  [23] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+##  [34]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [45] FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
+##  [56]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+##  [67]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+##  [78] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [89] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+## [100] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE
+## [111] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+## [122]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
+## [133] FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
+## [144]  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE
+## [155]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE
+## [166] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+]]></output>
+    </console>
       <p>
         So that's what the <c>blowouts</c> variable looks like. Now let's ask R for a <c>summary()</c>
       </p>
@@ -1260,6 +1285,12 @@
           summary( object = f2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    Length     Class      Mode 
+##       400 character character
+]]></output>
+    </console>
       <p>
         This is one of those situations I was referring to in <xref ref="factors" />, in which it is helpful to declare your nominal scale variable as a factor rather than a character vector. Because I've defined <c>afl.finalists</c> as a factor, R <em>knows</em> that it should treat it as a nominal scale variable, and so it gives you a much more detailed (and helpful) summary than it would have if I'd left it as a character vector.
       </p>
