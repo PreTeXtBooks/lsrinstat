@@ -25,6 +25,14 @@
           str(cards)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 'data.frame':    200 obs. of  3 variables:
+##  $ id      : Factor w/ 200 levels "subj1","subj10",..: 1 112 124 135 146 157 168 179 190 2 ...
+##  $ choice_1: Factor w/ 4 levels "clubs","diamonds",..: 4 2 3 4 3 1 3 2 4 2 ...
+##  $ choice_2: Factor w/ 4 levels "clubs","diamonds",..: 1 1 1 1 4 3 2 1 1 4 ...
+]]></output>
+    </console>
       <p>
         As you can see, the <c>cards</c> data frame contains three variables, an <c>id</c> variable that assigns a unique identifier to each participant, and the two variables <c>choice_1</c> and <c>choice_2</c> that indicate the card suits that people chose. Here's the first few entries in the data frame:
       </p>
@@ -33,6 +41,17 @@
           head( cards )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##      id choice_1 choice_2
+## 1 subj1   spades    clubs
+## 2 subj2 diamonds    clubs
+## 3 subj3   hearts    clubs
+## 4 subj4   spades    clubs
+## 5 subj5   hearts   spades
+## 6 subj6    clubs   hearts
+]]></output>
+    </console>
       <p>
         For the moment, let's just focus on the first choice that people made. We'll use the <c>table()</c> function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called <c>observed</c>, for reasons that will become clear very soon:
       </p>
@@ -42,6 +61,13 @@
           observed
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
       <p>
         That little frequency table is quite helpful. Looking at it, there's a bit of a hint that people <em>might</em> be more likely to select hearts than clubs, but it's not completely obvious just from looking at it whether that's really true, or if this is just due to chance. So we'll probably have to do some kind of statistical analysis to find out, which is what I'm going to talk about in the next section.
       </p>
@@ -72,6 +98,13 @@
                                      "the value"), align = 'lcccc')
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
       <p>
         Hopefully that's pretty clear. It's also worth nothing that mathematicians prefer to talk about things in general rather than specific things, so you'll also see the notation <m>O_i</m>, which refers to the number of observations that fall within the <m>i</m>-th category (where <m>i</m> could be 1, 2, 3 or 4). Finally, if we want to refer to the set of all observed frequencies, statisticians group all of observed values into a vector, which I'll refer to as <m>O</m>. <me> O = (O_1, O_2, O_3, O_4) </me> Again, there's nothing new or interesting here: it's just notation. If I say that <m>O~=~(35, 51, 64, 50)</m> all I'm doing is describing the table of observed frequencies (i.e., <c>observed</c>), but I'm referring to it using mathematical notation, rather than by referring to an R variable.
       </p>
@@ -163,6 +196,13 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
       <p>
         The same calculations can be done in R, using our <c>expected</c> and <c>observed</c> variables:
       </p>
@@ -171,6 +211,13 @@
           observed - expected
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##      -15        1       14        0
+]]></output>
+    </console>
       <p>
         Regardless of whether we do the calculations by hand or whether we do them in R, it's clear that people chose more hearts and fewer clubs than the null hypothesis predicted. However, a moment's thought suggests that these raw differences aren't quite what we're looking for. Intuitively, it feels like it's just as bad when the null hypothesis predicts too few observations (which is what happened with hearts) as it is when it predicts too many (which is what happened with clubs). So it's a bit weird that we have a negative number for clubs and a positive number for heards. One easy way to fix this is to square everything, so that we now calculate the squared differences, <m>(E_i - O_i)^2</m>. As before, we could do this by hand, but it's easier to do it in R...
       </p>
@@ -179,6 +226,13 @@
           (observed - expected)^2
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##      -15        1       14        0
+]]></output>
+    </console>
       <p>
         Now we're making progress. What we've got now is a collection of numbers that are big whenever the null hypothesis makes a bad prediction (clubs and hearts), but are small whenever it makes a good one (diamonds and spades). Next, for some technical reasons that I'll explain in a moment, let's also divide all these numbers by the expected frequency <m>E_i</m>, so we're actually calculating <m>\frac{(E_i-O_i)^2}{E_i}</m>. Since <m>E_i = 50</m> for all categories in our example, it's not a very interesting calculation, but let's do it anyway. The R command becomes:
       </p>
@@ -187,6 +241,13 @@
           (observed - expected)^2 / expected
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##      -15        1       14        0
+]]></output>
+    </console>
       <p>
         In effect, what we've got here are four different "error" scores, each one telling us how big a "mistake" the null hypothesis made when we tried to use it to predict our observed frequencies. So, in order to convert this into a useful test statistic, one thing we could do is just add these numbers up. The result is called the <term>goodness of fit</term> statistic, conventionally referred to either as <m>X^2</m> or GOF. We can calculate it using this command in R
       </p>
@@ -195,6 +256,13 @@
           sum( (observed - expected)^2 / expected )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##      -15        1       14        0
+]]></output>
+    </console>
       <p>
         The formula for this statistic looks remarkably similar to the R command. If we let <m>k</m> refer to the total number of categories (i.e., <m>k=4</m> for our cards data), then the <m>X^2</m> statistic is given by: <me> X^2 = \sum_{i=1}^k \frac{(O_i - E_i)^2}{E_i} </me> Intuitively, it's clear that if <m>X^2</m> is small, then the observed data <m>O_i</m> are very close to what the null hypothesis predicted <m>E_i</m>, so we're going to need a large <m>X^2</m> statistic in order to reject the null. As we've seen from our calculations, in our cards data set we've got a value of <m>X^2 = 8.44</m>. So now the question becomes, is this a big enough value to reject the null?
       </p>
@@ -241,6 +309,11 @@
           qchisq( p = .95, df = 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 7.814728
+]]></output>
+    </console>
       <p>
         So if our <m>X^2</m> statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., <m>X^2 = 8.44</m>) we can reject the null. If we want an exact <m>p</m>-value, we can calculate it using the <c>pchisq()</c> function:
       </p>
@@ -249,6 +322,11 @@
           pchisq( q = 8.44, df = 3, lower.tail = FALSE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.03774185
+]]></output>
+    </console>
       <p>
         This is hopefully pretty straightforward, as long as you recall that the "<c>p</c>" form of the probability distribution functions in R always calculates the probability of getting a value of <em>less</em> than the value you entered (in this case 8.44). We want the opposite: the probability of getting a value of 8.44 or *more*. That's why I told R to use the upper tail, not the lower tail. That said, it's usually easier to calculate the <m>p</m>-value this way:
       </p>
@@ -257,6 +335,11 @@
           1-pchisq( q = 8.44, df = 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.03774185
+]]></output>
+    </console>
       <p>
         So, in this case we would reject the null hypothesis, since <m>p &lt; .05</m>.  And that's it, basically. You now know "Pearson's <m>\chi^2</m> test for the goodness of fit". Lucky you.
       </p>
@@ -271,6 +354,30 @@
           goodnessOfFitTest( cards$choice_1 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##      Chi-square test against specified probabilities
+## 
+## Data variable:   cards$choice_1 
+## 
+## Hypotheses: 
+##    null:        true probabilities are as specified
+##    alternative: true probabilities differ from those specified
+## 
+## Descriptives: 
+##          observed freq. expected freq. specified prob.
+## clubs                35             50            0.25
+## diamonds             51             50            0.25
+## hearts               64             50            0.25
+## spades               50             50            0.25
+## 
+## Test results: 
+##    X-squared statistic:  8.44 
+##    degrees of freedom:  3 
+##    p-value:  0.038
+]]></output>
+    </console>
       <p>
         R then runs the test, and prints several lines of text. I'll go through the output line by line, so that you can make sure that you understand what you're looking at. The first two lines are just telling you things you already know:
       </p>
@@ -307,6 +414,13 @@
           spades               50             50            0.25
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
       <p>
         The first column shows what the observed frequencies were, the second column shows the expected frequencies according to the null hypothesis, and the third column shows you what the probabilities actually were according to the null. For novice users, I think this is helpful: you can look at this part of the output and check that it makes sense: if it doesn't you might have typed something incorrecrtly.
       </p>
@@ -344,6 +458,30 @@
           goodnessOfFitTest( x = cards$choice_1, p = nullProbs )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##      Chi-square test against specified probabilities
+## 
+## Data variable:   cards$choice_1 
+## 
+## Hypotheses: 
+##    null:        true probabilities are as specified
+##    alternative: true probabilities differ from those specified
+## 
+## Descriptives: 
+##          observed freq. expected freq. specified prob.
+## clubs                35             40             0.2
+## diamonds             51             60             0.3
+## hearts               64             60             0.3
+## spades               50             40             0.2
+## 
+## Test results: 
+##    X-squared statistic:  4.742 
+##    degrees of freedom:  3 
+##    p-value:  0.192
+]]></output>
+    </console>
       <p>
         As you can see the null hypothesis and the expected frequencies are different to what they were last time. As a consequence our <m>X^2</m> test statistic is different, and our <m>p</m>-value is different too. Annoyingly, the <m>p</m>-value is .192, so we can't reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don't provide enough evidence against it.
       </p>
@@ -422,6 +560,13 @@
         str(chapek9)
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 'data.frame':    180 obs. of  2 variables:
+##  $ species: Factor w/ 2 levels "robot","human": 1 2 2 2 1 2 2 1 2 1 ...
+##  $ choice : Factor w/ 3 levels "puppy","flower",..: 2 3 3 3 3 2 3 3 1 2 ...
+]]></output>
+    </console>
     <p>
       Okay, so we have a single data frame called <c>chapek9</c>, which contains two factors, <c>species</c> and <c>choice</c>. As always, it's nice to have a quick look at the data,
     </p>
@@ -430,6 +575,17 @@
         head(chapek9)
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##   species choice
+## 1   robot flower
+## 2   human   data
+## 3   human   data
+## 4   human   data
+## 5   robot   data
+## 6   human flower
+]]></output>
+    </console>
     <p>
       and then take a <c>summary()</c>,
     </p>
@@ -438,6 +594,14 @@
         summary(chapek9)
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##   species      choice   
+##  robot:87   puppy : 28  
+##  human:93   flower: 43  
+##             data  :109
+]]></output>
+    </console>
     <p>
       In total there are 180 entries in the data frame, one for each person (counting both robots and humans as "people") who was asked to make a choice. Specifically, there's 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don't address the question we're interested in. To do that, we need a more detailed description of the data. What we want to do is look at the <c>choices</c> broken down <em>by</em> <c>species</c>. That is, we need to cross-tabulate the data (see <xref ref="freqtables" />). There's quite a few ways to do this, as we've seen, but since our data are stored in a data frame, it's convenient to use the <c>xtabs()</c> function.
     </p>
@@ -447,6 +611,15 @@
         chapekFrequencies
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##         species
+## choice   robot human
+##   puppy     13    15
+##   flower    30    13
+##   data      44    65
+]]></output>
+    </console>
     <p>
       That's more or less what we're after. So, if we add the row and column totals (which is convenient for the purposes of explaining the statistical tests), we would have a table like this,
     </p>
@@ -515,6 +688,15 @@
           xtabs( formula = ~choice+species, data = chapek9 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##         species
+## choice   robot human
+##   puppy     13    15
+##   flower    30    13
+##   data      44    65
+]]></output>
+    </console>
       <p>
         The <c>associationTest()</c> function has exactly the same structure: it needs a <c>formula</c> that specifies which variables you're cross-tabulating, and the name of a <c>data</c> frame that contains those variables. So the command is just this:
       </p>
@@ -523,6 +705,40 @@
           associationTest( formula = ~choice+species, data = chapek9 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##      Chi-square test of categorical association
+## 
+## Variables:   choice, species 
+## 
+## Hypotheses: 
+##    null:        variables are independent of one another
+##    alternative: some contingency exists between variables
+## 
+## Observed contingency table:
+##         species
+## choice   robot human
+##   puppy     13    15
+##   flower    30    13
+##   data      44    65
+## 
+## Expected contingency table under the null hypothesis:
+##         species
+## choice   robot human
+##   puppy   13.5  14.5
+##   flower  20.8  22.2
+##   data    52.7  56.3
+## 
+## Test results: 
+##    X-squared statistic:  10.722 
+##    degrees of freedom:  2 
+##    p-value:  0.005 
+## 
+## Other information: 
+##    estimated effect size (Cramer's v):  0.244
+]]></output>
+    </console>
       <p>
         Just like we did with the goodness of fit test, I'll go through it line by line. The first two lines are, once again, just reminding you what kind of test you ran and what variables were used:
       </p>
@@ -640,6 +856,11 @@
         cramersV( chapekFrequencies )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.244058
+]]></output>
+    </console>
     <p>
       However, if you're using the <c>associationTest()</c> function to do your analysis, then you won't actually need to use this at all, because it reports the Cram\'er's  <m>V</m> statistic as part of the output.
     </p>
@@ -674,6 +895,13 @@
         observed
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
     <p>
       If you want to run the goodness of fit test against the hypothesis that all four suits are equally likely to appear, then all you need to do is input this frequenct table to the <c>chisq.test()</c> function:
     </p>
@@ -682,6 +910,13 @@
         chisq.test( x = observed )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
     <p>
       Notice that the output is very compressed in comparison to the <c>goodnessOfFitTest()</c> function. It doesn't bother to give you any descriptive statistics, it doesn't tell you what null hypothesis is being tested, and so on. And as long as you already understand the test, that's not a problem. Once you start getting familiar with R and with statistics, you'll probably find that you prefer this simple output rather than the rather lengthy output that  <c>goodnessOfFitTest()</c> produces. Anyway, if you want to change the null hypothesis, it's exactly the same as before, just specify the probabilities using the <c>p</c> argument. For instance:
     </p>
@@ -690,6 +925,13 @@
         chisq.test( x = observed, p = c(.2, .3, .3, .2) )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       35       51       64       50
+]]></output>
+    </console>
     <p>
       Again, these are the same numbers that the <c>goodnessOfFitTest()</c> function reports at the end of the output. It just hasn't included any of the other details.
     </p>
@@ -701,6 +943,15 @@
         chapekFrequencies
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##         species
+## choice   robot human
+##   puppy     13    15
+##   flower    30    13
+##   data      44    65
+]]></output>
+    </console>
     <p>
       To get the test of independence, all we have to do is feed this frequency table into the <c>chisq.test()</c> function like so:
     </p>
@@ -709,6 +960,15 @@
         chisq.test( chapekFrequencies )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##         species
+## choice   robot human
+##   puppy     13    15
+##   flower    30    13
+##   data      44    65
+]]></output>
+    </console>
     <p>
       Again, the numbers are the same as last time, it's just that the output is very terse and doesn't really explain what's going on in the rather tedious way that <c>associationTest()</c> does. As before, my intuition is that when you're just getting started it's easier to use something like <c>associationTest()</c> because it shows you more detail about what's going on, but later on you'll probably find that <c>chisq.test()</c> is more convenient.
     </p>
@@ -734,6 +994,12 @@
         chisq.test( salem.tabs )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## Warning in chisq.test(salem.tabs): Chi-squared approximation may be
+## incorrect
+]]></output>
+    </console>
     <p>
       Speaking as someone who doesn't want to be set on fire, I'd <em>really</em> like to be able to get a better answer than this. This is where <term>Fisher's exact test</term> \cite{Fisher1922} comes in very handy.
     </p>
@@ -761,6 +1027,21 @@
         fisher.test( salem.tabs )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  salem.tabs
+## p-value = 0.03571
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##  0.000000 1.202913
+## sample estimates:
+## odds ratio 
+##          0
+]]></output>
+    </console>
     <p>
       This is a bit more output than we got from some of our earlier tests. The main thing we're interested in here is the <m>p</m>-value, which in this case is small enough (<m>p=.036</m>) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire.
     </p>
@@ -823,6 +1104,14 @@
           str(agpp)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 'data.frame':    100 obs. of  3 variables:
+##  $ id             : Factor w/ 100 levels "subj.1","subj.10",..: 1 13 24 35 46 57 68 79 90 2 ...
+##  $ response_before: Factor w/ 2 levels "no","yes": 1 2 2 2 1 1 1 1 1 1 ...
+##  $ response_after : Factor w/ 2 levels "no","yes": 2 1 1 1 1 1 1 2 1 1 ...
+]]></output>
+    </console>
       <p>
         The <c>agpp</c> data frame contains three variables, an <c>id</c> variable that labels each participant in the data set (we'll see why that's useful in a moment), a <c>response_before</c> variable that records the person's answer when they were asked the question the first time, and a <c>response_after</c> variable that shows the answer that they gave when asked the same question a second time. As usual, here's the first 6 entries:
       </p>
@@ -831,6 +1120,17 @@
           head(agpp)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##       id response_before response_after
+## 1 subj.1              no            yes
+## 2 subj.2             yes             no
+## 3 subj.3             yes             no
+## 4 subj.4             yes             no
+## 5 subj.5              no             no
+## 6 subj.6              no             no
+]]></output>
+    </console>
       <p>
         and here's a summary:
       </p>
@@ -839,6 +1139,18 @@
           summary(agpp)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##         id     response_before response_after
+##  subj.1  : 1   no :70          no :90        
+##  subj.10 : 1   yes:30          yes:10        
+##  subj.100: 1                                 
+##  subj.11 : 1                                 
+##  subj.12 : 1                                 
+##  subj.13 : 1                                 
+##  (Other) :94
+]]></output>
+    </console>
       <p>
         Notice that each participant appears only once in this data frame. When we tabulate this data frame using <c>xtabs()</c>, we get the appropriate table:
       </p>
@@ -856,6 +1168,15 @@
           mcnemar.test( right.table )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##  McNemar's Chi-squared test with continuity correction
+## 
+## data:  right.table
+## McNemar's chi-squared = 12.033, df = 1, p-value = 0.0005226
+]]></output>
+    </console>
       <p>
         And we're done. We've just run a McNemar's test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant (<m>\chi^2(1) = 12.04, p &lt; .001</m>), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.
       </p>
@@ -880,6 +1201,15 @@
         chisq.test( cardChoices )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  cardChoices
+## X-squared = 29.237, df = 9, p-value = 0.0005909
+]]></output>
+    </console>
     <p>
       Alternatively, suppose I wanted to know if *on average*, the frequencies of suit choices were different the second time than the first time. In that situation, what I'm really trying to see if the row totals in <c>cardChoices</c> (i.e., the frequencies for <c>choice_1</c>) are different from the column totals (i.e., the frequencies for <c>choice_2</c>). That's when you use the McNemar test:
     </p>
@@ -888,6 +1218,15 @@
         mcnemar.test( cardChoices )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  McNemar's Chi-squared test
+## 
+## data:  cardChoices
+## McNemar's chi-squared = 16.033, df = 6, p-value = 0.01358
+]]></output>
+    </console>
     <p>
       Notice that the results are different! These aren't the same test.
     </p>

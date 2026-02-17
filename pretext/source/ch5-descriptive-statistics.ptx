@@ -12,6 +12,312 @@
       who()
     </input>
   </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --             -- Class --     -- Size --
+##    a                      numeric         1         
+##    addArrow               function                  
+##    addDistPlot            function                  
+##    afl                    data.frame      4296 x 12 
+##    afl.finalists          factor          400       
+##    afl.margins            numeric         176       
+##    afl2                   data.frame      4296 x 2  
+##    age.breaks             numeric         4         
+##    age.group              factor          11        
+##    age.group2             factor          11        
+##    age.group3             factor          11        
+##    age.labels             character       3         
+##    agpp                   data.frame      100 x 3   
+##    animals                character       4         
+##    anova.model            aov             13        
+##    anovaImg               list            0         
+##    any.sales.this.month   logical         12        
+##    awesome                data.frame      10 x 2    
+##    b                      numeric         1         
+##    bad.coef               numeric         2         
+##    balance                numeric         1         
+##    beers                  character       3         
+##    berkeley               data.frame      39 x 3    
+##    berkeley.small         data.frame      46 x 2    
+##    binomPlot              function                  
+##    bw                     numeric         1         
+##    cake.1                 numeric         5         
+##    cake.2                 numeric         5         
+##    cake.df                data.frame      5 x 2     
+##    cake.mat1              matrix          5 x 2     
+##    cake.mat2              matrix          2 x 5     
+##    cakes                  matrix          4 x 5     
+##    cakes.flipped          matrix          5 x 4     
+##    cardChoices            xtabs           4 x 4     
+##    cards                  data.frame      200 x 3   
+##    chapek9                data.frame      180 x 2   
+##    chapekFrequencies      xtabs           3 x 2     
+##    chi.sq.20              numeric         1000      
+##    chi.sq.3               numeric         1000      
+##    chico                  data.frame      20 x 3    
+##    chico2                 data.frame      40 x 4    
+##    chico3                 data.frame      20 x 4    
+##    chiSqImg               list            0         
+##    choice                 data.frame      4 x 10    
+##    choice.2               data.frame      16 x 6    
+##    clin.trial             data.frame      18 x 3    
+##    clin.trial.2           data.frame      18 x 5    
+##    coef                   numeric         2         
+##    coffee                 data.frame      18 x 3    
+##    colour                 logical         1         
+##    crit                   numeric         1         
+##    crit.hi                numeric         1         
+##    crit.lo                numeric         1         
+##    crit.val               numeric         1         
+##    crosstab               xtabs           2 x 3     
+##    d.cor                  numeric         1         
+##    Dan                    list            4         
+##    dan.awake              logical         10        
+##    data                   data.frame      12 x 4    
+##    day                    character       1         
+##    days.per.month         numeric         12        
+##    def.par                list            66        
+##    describeImg            list            0         
+##    dev.from.gp.means      array           18        
+##    dev.from.grand.mean    array           3         
+##    df                     numeric         1         
+##    doubleMax              function                  
+##    drawBasicScatterplot   function                  
+##    drug.anova             aov             13        
+##    drug.lm                lm              13        
+##    drug.means             numeric         3         
+##    drug.regression        lm              12        
+##    druganxifree           numeric         18        
+##    drugs                  data.frame      10 x 8    
+##    drugs.2                data.frame      30 x 5    
+##    eff                    eff             22        
+##    effort                 data.frame      10 x 2    
+##    emphCol                character       1         
+##    emphColLight           character       1         
+##    emphGrey               character       1         
+##    eps                    logical         1         
+##    es                     matrix          4 x 7     
+##    estImg                 list            0         
+##    eta.squared            numeric         1         
+##    eventNames             character       5         
+##    expected               numeric         4         
+##    expt                   data.frame      9 x 4     
+##    f                      table           14        
+##    F.3.20                 numeric         1000      
+##    F.stat                 numeric         1         
+##    fac                    factor          3         
+##    february.sales         numeric         1         
+##    fibonacci              numeric         6         
+##    Fibonacci              numeric         7         
+##    fileName               character       1         
+##    formula1               formula                   
+##    formula2               formula                   
+##    formula3               formula                   
+##    formula4               formula                   
+##    freq                   integer         17        
+##    full.model             lm              12        
+##    G                      factor          18        
+##    garden                 data.frame      5 x 3     
+##    generateRLineTypes     function                  
+##    generateRPointShapes   function                  
+##    good.coef              numeric         2         
+##    gp.mean                array           3         
+##    gp.means               array           3         
+##    gp.sizes               array           3         
+##    grades                 numeric         20        
+##    grand.mean             numeric         1         
+##    greeting               character       1         
+##    h                      numeric         1         
+##    happiness              data.frame      10 x 3    
+##    harpo                  data.frame      33 x 2    
+##    heavy.tailed.data      numeric         100       
+##    height                 numeric         1         
+##    hw                     character       2         
+##    i                      integer         1         
+##    interest               numeric         1         
+##    IQ                     numeric         10000     
+##    is.MP.speaking         logical         5         
+##    is.the.Party.correct   table           14        
+##    itng                   data.frame      10 x 2    
+##    itng.table             table           3 x 4     
+##    likert.centred         numeric         10        
+##    likert.ordinal         ordered         10        
+##    likert.raw             numeric         10        
+##    lower.area             numeric         1         
+##    m                      numeric         1         
+##    M                      matrix          2 x 3     
+##    M0                     lm              12        
+##    M1                     lm              12        
+##    makka.pakka            character       4         
+##    max.val                numeric         1         
+##    mod                    lm              13        
+##    mod.1                  lm              11        
+##    mod.2                  lm              13        
+##    mod.3                  lm              13        
+##    mod.4                  lm              13        
+##    mod.H                  lm              13        
+##    mod.R                  lm              13        
+##    model                  aov             13        
+##    model.1                aov             13        
+##    model.2                aov             13        
+##    model.3                aov             13        
+##    models                 BFBayesFactor             
+##    monkey                 character       1         
+##    monkey.1               list            1         
+##    month                  numeric         1         
+##    monthly.multiplier     numeric         1         
+##    months                 character       12        
+##    ms.diff                numeric         1         
+##    ms.res                 numeric         1         
+##    msg                    character       1         
+##    mu                     numeric         3         
+##    mu.null                numeric         1         
+##    my.anova               aov             13        
+##    my.anova.residuals     numeric         18        
+##    my.contrasts           list            2         
+##    my.formula             formula                   
+##    my.var                 numeric         1         
+##    n                      numeric         1         
+##    N                      integer         1         
+##    ng                     character       2         
+##    nhstImg                list            0         
+##    nodrug.regression      lm              12        
+##    normal.a               numeric         1000      
+##    normal.b               numeric         1000      
+##    normal.c               numeric         1000      
+##    normal.d               numeric         1000      
+##    normal.data            numeric         100       
+##    null.model             lm              11        
+##    nullProbs              numeric         4         
+##    numbers                numeric         3         
+##    observed               table           4         
+##    old                    list            66        
+##    old.text               character       1         
+##    old_par                list            72        
+##    oneCorPlot             function                  
+##    opinion.dir            numeric         10        
+##    opinion.strength       numeric         10        
+##    out.0                  data.frame      100 x 2   
+##    out.1                  data.frame      100 x 2   
+##    out.2                  data.frame      100 x 2   
+##    outcome                numeric         18        
+##    p.value                numeric         1         
+##    parenthood             data.frame      100 x 4   
+##    payments               numeric         1         
+##    PJ                     character       1         
+##    plotHist               function                  
+##    plotOne                function                  
+##    plotSamples            function                  
+##    plotTwo                function                  
+##    pow                    numeric         100       
+##    probabilities          numeric         5         
+##    projecthome            character       1         
+##    quadruple              function                  
+##    r                      numeric         1         
+##    R.squared              numeric         1         
+##    random.contrasts       matrix          3 x 2     
+##    regression.1           lm              12        
+##    regression.2           lm              12        
+##    regression.3           lm              12        
+##    regression.model       lm              12        
+##    regression.model.2     lm              13        
+##    regression.model.3     lm              13        
+##    regressionImg          list            0         
+##    resid                  numeric         18        
+##    revenue                numeric         1         
+##    right.table            xtabs           2 x 2     
+##    row.1                  numeric         3         
+##    row.2                  numeric         3         
+##    royalty                numeric         1         
+##    rtfm.1                 data.frame      8 x 3     
+##    rtfm.2                 data.frame      8 x 3     
+##    rtfm.3                 data.frame      8 x 3     
+##    s                      numeric         1         
+##    salem.tabs             table           2 x 2     
+##    sales                  numeric         1         
+##    sales.by.month         numeric         12        
+##    sample.mean            numeric         1         
+##    scaled.chi.sq.20       numeric         1000      
+##    scaled.chi.sq.3        numeric         1000      
+##    score.A                numeric         5         
+##    score.B                numeric         5         
+##    sd.true                numeric         1         
+##    sd1                    numeric         2         
+##    sem.true               numeric         1         
+##    setUpPlot              function                  
+##    sig                    numeric         1         
+##    sigEx                  expression                
+##    simpson                matrix          6 x 5     
+##    skewed.data            numeric         100       
+##    some.data              numeric         18        
+##    speaker                character       10        
+##    speech.by.char         list            3         
+##    squared.devs           array           3         
+##    ss.diff                numeric         1         
+##    SS.drug                numeric         1         
+##    SS.res                 numeric         1         
+##    ss.res.full            numeric         1         
+##    ss.res.null            numeric         1         
+##    SS.resid               numeric         1         
+##    SS.therapy             numeric         1         
+##    ss.tot                 numeric         1         
+##    SS.tot                 numeric         1         
+##    SSb                    numeric         1         
+##    SStot                  numeric         1         
+##    SSw                    numeric         1         
+##    stock.levels           character       12        
+##    suspicious.cases       logical         176       
+##    t.3                    numeric         1000      
+##    teams                  character       17        
+##    text                   character       2         
+##    therapy.means          numeric         2         
+##    theta                  numeric         1         
+##    today                  Date            1         
+##    tombliboo              character       2         
+##    total.paid             numeric         1         
+##    trial                  data.frame      16 x 2    
+##    ttestImg               list            0         
+##    type.I.sum             numeric         1         
+##    type.II.sum            numeric         1         
+##    upper.area             numeric         1         
+##    upsy.daisy             character       4         
+##    utterance              character       10        
+##    w                      character       1         
+##    W                      character       1         
+##    w.length               integer         1         
+##    width                  numeric         1         
+##    words                  character       6         
+##    wt.squared.devs        array           3         
+##    X                      numeric         1000      
+##    x1                     numeric         61        
+##    X1                     numeric         11        
+##    x2                     numeric         61        
+##    X2                     numeric         11        
+##    x3                     numeric         61        
+##    X3                     numeric         11        
+##    X4                     numeric         11        
+##    xlu                    numeric         1         
+##    xtab.3d                table           3 x 4 x 2 
+##    xval                   numeric         1001      
+##    Y                      numeric         100       
+##    Y.pred                 numeric         100       
+##    y1                     numeric         61        
+##    Y1                     numeric         11        
+##    y2                     numeric         61        
+##    Y2                     numeric         11        
+##    y3                     numeric         61        
+##    Y3                     numeric         11        
+##    Y4                     numeric         11        
+##    Ybar                   array           18        
+##    yhat.2                 numeric         100       
+##    yval                   numeric         1001      
+##    yval.1                 numeric         1001      
+##    yval.2                 numeric         1001      
+##    z                      logical         101       
+##    Z                      array           18        
+##    z.score                numeric         1
+]]></output>
+    </console>
   <p>
     There are two variables here, <c>afl.finalists</c> and <c>afl.margins</c>. We'll focus a bit on these two variables in this chapter, so I'd better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <fn>Note for non-Australians: the AFL is an Australian rules football competition. You don't need to know anything about Australian rules in order to follow this section.</fn> The <c>afl.margins</c> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <c>afl.finalists</c> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let's have a look at the <c>afl.margins</c> variable:
   </p>
@@ -20,6 +326,21 @@
       print(afl.margins)
     </input>
   </program>
+    <console>
+      <output><![CDATA[
+##   [1]  56  31  56   8  32  14  36  56  19   1   3 104  43  44  72   9  28
+##  [18]  25  27  55  20  16  16   7  23  40  48  64  22  55  95  15  49  52
+##  [35]  50  10  65  12  39  36   3  26  23  20  43 108  53  38   4   8   3
+##  [52]  13  66  67  50  61  36  38  29   9  81   3  26  12  36  37  70   1
+##  [69]  35  12  50  35   9  54  47   8  47   2  29  61  38  41  23  24   1
+##  [86]   9  11  10  29  47  71  38  49  65  18   0  16   9  19  36  60  24
+## [103]  25  44  55   3  57  83  84  35   4  35  26  22   2  14  19  30  19
+## [120]  68  11  75  48  32  36  39  50  11   0  63  82  26   3  82  73  19
+## [137]  33  48   8  10  53  20  71  75  76  54  44   5  22  94  29   8  98
+## [154]   9  89   1 101   7  21  52  42  21 116   3  44  29  27  16   6  44
+## [171]   3  28  38  29  10  10
+]]></output>
+    </console>
   <p>
     This output doesn't make it easy to get a sense of what the data are actually saying. Just "looking at the data" isn't a terribly effective way of understanding data. In order to get some idea about what's going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (<xref ref="graphics" />. Since the descriptive statistics are the easier of the two topics, I'll start with those, but nevertheless I'll show you a histogram of the <c>afl.margins</c> data, since it should help you get a sense of what the data we're trying to describe actually look like. But for what it's worth, this histogram <mdash /> which is shown in <xref ref="fig-histogram1" /> <mdash /> was generated using the <c>hist()</c> function. We'll talk a lot more about how to draw histograms in <xref ref="hist" />. For now, it's enough to look at the histogram and note that it provides a fairly interpretable representation of the <c>afl.margins</c> data.
   </p>
@@ -71,6 +392,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 36.6
+]]></output>
+    </console>
       <p>
         ... in which case R outputs the answer 36.6, just as if it were a calculator. However, that's not the only way to do the calculations, and when the number of observations starts to become large, it's easily the most tedious. Besides, in almost every real world scenario, you've already got the actual numbers stored in a variable of some kind, just like we have with the <c>afl.margins</c> variable. Under those circumstances, what you want is a function that will just add up all the values stored in a numeric vector. That's what the <c>sum()</c> function does. If we want to add up all 176 winning margins in the data set, we can do so using the following command:<fn>Note that, just as we saw with the combine function <c>c()</c> and the remove function <c>rm()</c>, the <c>sum()</c> function has unnamed arguments. I'll talk about unnamed arguments later in Section \@ref(dotsargument), but for now let's just ignore this detail.</fn>
       </p>
@@ -80,6 +406,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 6213
+]]></output>
+    </console>
       <p>
         If we only want the sum of the first five observations, then we can use square brackets to pull out only the first five elements of the vector. So the command would now be:
       </p>
@@ -88,6 +419,11 @@
           sum( afl.margins[1:5] )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 183
+]]></output>
+    </console>
       <p>
         To calculate the mean, we now tell R to divide the output of this summation by five, so the command that we need to type now becomes the following:
       </p>
@@ -97,6 +433,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 183
+]]></output>
+    </console>
       <p>
         Although it's pretty easy to calculate the mean using the <c>sum()</c> function, we can do it in an even easier way, since R also provides us with the <c>mean()</c> function. To calculate the mean for all 176 games, we would use the following command:
       </p>
@@ -105,6 +446,11 @@
           mean( x = afl.margins )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 35.30114
+]]></output>
+    </console>
       <p>
         However, since <c>x</c> is the first argument to the function, I could have omitted the argument name. In any case, just to show you that there's nothing funny going on, here's what we would do to calculate the mean for the first five observations:
       </p>
@@ -113,6 +459,11 @@
           mean( afl.margins[1:5] )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 36.6
+]]></output>
+    </console>
       <p>
         As you can see, this gives exactly the same answers as the previous calculations.
       </p>
@@ -127,6 +478,21 @@
           sort( x = afl.margins )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   [1]   0   0   1   1   1   1   2   2   3   3   3   3   3   3   3   3   4
+##  [18]   4   5   6   7   7   8   8   8   8   8   9   9   9   9   9   9  10
+##  [35]  10  10  10  10  11  11  11  12  12  12  13  14  14  15  16  16  16
+##  [52]  16  18  19  19  19  19  19  20  20  20  21  21  22  22  22  23  23
+##  [69]  23  24  24  25  25  26  26  26  26  27  27  28  28  29  29  29  29
+##  [86]  29  29  30  31  32  32  33  35  35  35  35  36  36  36  36  36  36
+## [103]  37  38  38  38  38  38  39  39  40  41  42  43  43  44  44  44  44
+## [120]  44  47  47  47  48  48  48  49  49  50  50  50  50  52  52  53  53
+## [137]  54  54  55  55  55  56  56  56  57  60  61  61  63  64  65  65  66
+## [154]  67  68  70  71  71  72  73  75  75  76  81  82  82  83  84  89  94
+## [171]  95  98 101 104 108 116
+]]></output>
+    </console>
       <p>
         The middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:
       </p>
@@ -135,6 +501,11 @@
           median( x = afl.margins )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 30.5
+]]></output>
+    </console>
       <p>
         which outputs the median value of 30.5.
       </p>
@@ -226,6 +597,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4.1
+]]></output>
+    </console>
       <p>
         That's a fairly substantial difference, but I'm tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <m>-15</m> one. So let's just try trimming the mean a bit. If I take a 10% trimmed mean, we'll drop the extreme values on either side, and take the mean of the rest:
       </p>
@@ -235,6 +611,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 5.5
+]]></output>
+    </console>
       <p>
         which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <c>trim = .1</c>, not <c>trim = 10</c>. In any case, let's finish up by calculating the 5% trimmed mean for the <c>afl.margins</c> data,
       </p>
@@ -244,6 +625,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 33.75
+]]></output>
+    </console>
     </subsection>
     <subsection xml:id="mode">
       <title>Mode</title>
@@ -255,6 +641,16 @@
           head(afl.finalists, 25)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] Hawthorn    Melbourne   Carlton     Melbourne   Hawthorn   
+##  [6] Carlton     Melbourne   Carlton     Hawthorn    Melbourne  
+## [11] Melbourne   Hawthorn    Melbourne   Essendon    Hawthorn   
+## [16] Geelong     Geelong     Hawthorn    Collingwood Melbourne  
+## [21] Collingwood West Coast  Collingwood Essendon    Collingwood
+## 17 Levels: Adelaide Brisbane Carlton Collingwood Essendon ... Western Bulldogs
+]]></output>
+    </console>
       <p>
         There are actually 400 entries (aren't you glad we didn't print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <term>frequency table</term>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let's use the <c>table()</c> function (discussed in more detail in <xref ref="freqtables" />) to do this task for us:
       </p>
@@ -263,6 +659,21 @@
           table( afl.finalists )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## afl.finalists
+##         Adelaide         Brisbane          Carlton      Collingwood 
+##               26               25               26               28 
+##         Essendon          Fitzroy        Fremantle          Geelong 
+##               32                0                6               39 
+##         Hawthorn        Melbourne  North Melbourne    Port Adelaide 
+##               27               28               28               17 
+##         Richmond         St Kilda           Sydney       West Coast 
+##                6               24               26               38 
+## Western Bulldogs 
+##               24
+]]></output>
+    </console>
       <p>
         Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the <c>finalists</c> data is <c>"Geelong"</c>. The core packages in R don't have a function for calculating the mode<fn>As we saw earlier, it <em>does</em> have a function called <c>mode()</c>, but it does something completely different.</fn>. However, I've included a function in the <c>lsr</c> package that does this. The function is called <c>modeOf()</c>, and here's how you use it:
       </p>
@@ -272,6 +683,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "Geelong"
+]]></output>
+    </console>
       <p>
         There's also a function called <c>maxFreq()</c> that tells you what the modal frequency is. If we apply this function to our finalists data, we obtain the following:
       </p>
@@ -281,6 +697,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 39
+]]></output>
+    </console>
       <p>
         Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.
       </p>
@@ -295,6 +716,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3
+]]></output>
+    </console>
       <p>
         So the 2010 data suggest you should bet on a 3 point margin, and since this was observed in 8 of the 176 game (4.5% of games) the odds are firmly in your favour.
       </p>
@@ -316,6 +742,11 @@
           min( afl.margins )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 116
+]]></output>
+    </console>
       <p>
         where I've omitted the output because it's not interesting. The other possibility is to use the <c>range()</c> function; which outputs both the minimum value and the maximum value in a vector, like this:
       </p>
@@ -325,6 +756,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1]   0 116
+]]></output>
+    </console>
       <p>
         Although the range is the simplest way to quantify the notion of "variability", it's one of the worst. Recall from our discussion of the mean that we want our summary measure to be robust. If the data set has one or two extremely bad values in it, we'd like our statistics not to be unduly influenced by these cases. If we look once again at our toy example of a data set containing very extreme outliers... <me> -100,2,3,4,5,6,7,8,9,10 </me> ... it is clear that the range is not robust, since this has a range of 110, but if the outlier were removed we would have a range of only 8.
       </p>
@@ -339,6 +775,12 @@
           quantile( x = afl.margins, probs = .5)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  50% 
+## 30.5
+]]></output>
+    </console>
       <p>
         And not surprisingly, this agrees with the answer that we saw earlier with the <c>median()</c> function. Now, we can actually input lots of quantiles at once, by specifying a vector for the <c>probs</c> argument. So lets do that, and get the 25th and 75th percentile:
       </p>
@@ -347,6 +789,12 @@
           quantile( x = afl.margins, probs = c(.25,.75) )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   25%   75% 
+## 12.75 50.50
+]]></output>
+    </console>
       <p>
         And, by noting that <m>50.5 - 12.75 = 37.75</m>, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so R has a built in function called <c>IQR()</c> that we can use:
       </p>
@@ -355,6 +803,11 @@
           IQR( x = afl.margins )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 37.75
+]]></output>
+    </console>
       <p>
         While it's obvious how to interpret the range, it's a little less obvious how to interpret the IQR. The simplest way to think about it is like this: the interquartile range is the range spanned by the "middle half" of the data. That is, one quarter of the data falls below the 25th percentile, one quarter of the data is above the 75th percentile, leaving the "middle half" of the data lying in between the two. And the IQR is the range covered by that middle half.
       </p>
@@ -409,6 +862,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 15.52
+]]></output>
+    </console>
       <p>
         No suprises there.
       </p>
@@ -445,6 +903,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 324.64
+]]></output>
+    </console>
       <p>
         ... we end up with a variance of 324.64. Exciting, isn't it? For the moment, let's ignore the burning question that you're all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in R, because this will reveal something very weird.
       </p>
@@ -457,6 +920,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 324.64
+]]></output>
+    </console>
       <p>
         and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, R has a built in function called <c>var()</c> which does calculate variances. So we could also do this...
       </p>
@@ -466,6 +934,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 405.8
+]]></output>
+    </console>
       <p>
         and you get the same... no, wait... you get a completely <em>different</em> answer. That's just weird. Is R broken? Is this a typo? Is Dan an idiot?
       </p>
@@ -478,6 +951,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 675.9718
+]]></output>
+    </console>
       <p>
         Now let's use the <c>var()</c> function:
       </p>
@@ -487,6 +965,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 679.8345
+]]></output>
+    </console>
       <p>
         Hm. These two numbers are very similar this time. That seems like too much of a coincidence to be a mistake. And of course it isn't a mistake. In fact, it's very simple to explain what R is doing here, but slightly trickier to explain <em>why</em> R is doing it. So let's start with the "what". What R is doing is evaluating a slightly different formula to the one I showed you above. Instead of averaging the squared deviations, which requires you to divide by the number of data points <m>N</m>, R has chosen to divide by <m>N-1</m>. In other words, the formula that R is using is this one <me> \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 </me> It's easy enough to verify that this is what's happening, as the following command illustrates:
       </p>
@@ -496,6 +979,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 405.8
+]]></output>
+    </console>
       <p>
         This is the same answer that R gave us originally when we calculated <c>var(X)</c> originally. So that's the <em>what</em>. The real question is <em>why</em> R is dividing by <m>N-1</m> and not by <m>N</m>. After all, the variance is supposed to be the <em>mean</em> squared deviation, right? So shouldn't we be dividing by <m>N</m>, the actual number of observations in the sample? Well, yes, we should. However, as we'll discuss in <xref ref="estimation" />, there's a subtle distinction between "describing a sample" and "making guesses about the population from which the sample came". Up to this point, it's been a distinction without a difference. Regardless of whether you're describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <m>N</m>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you're not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you're actually starting to move away from calculating a "sample statistic", and towards the idea of estimating a "population parameter". However, I'm getting ahead of myself. For now, let's just take it on faith that R knows what it's doing, and we'll revisit the question later on when we talk about estimation in <xref ref="estimation" />.
       </p>
@@ -514,6 +1002,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 26.07364
+]]></output>
+    </console>
       <p>
         Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn't have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it's not exact: it's actually calculated based on an <em>assumption</em> that the histogram is symmetric and "bell shaped".<fn>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we'll discuss more in Chapter \@ref(probability), and will turn up over and over again later in the book.</fn> As you can tell from looking at the AFL winning margins histogram in <xref ref="fig-histogram1" />, this isn't exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <xref ref="fig-aflsd" />.
       </p>
@@ -537,6 +1030,11 @@
           median( abs(afl.margins - median(afl.margins)) )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 21.10124
+]]></output>
+    </console>
       <p>
         This has a straightforward interpretation: every observation in the data set lies some distance away from the typical value (the median). So the MAD is an attempt to describe a <em>typical deviation from a typical value</em> in the data set. It wouldn't be unreasonable to interpret the MAD value of 19.5 for our AFL data by saying something like this:
       </p>
@@ -552,6 +1050,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 19.5
+]]></output>
+    </console>
       <p>
         Apart from the weirdness of having to type that <c>constant = 1</c> part, this is pretty straightforward.
       </p>
@@ -564,6 +1067,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 28.9107
+]]></output>
+    </console>
       <p>
         I should point out, though, that if you want to use this "corrected" MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are "supposed to be" in some sense) symmetric and basically shaped like a bell curve. That's really <em>not</em> true for our <c>afl.margins</c> data, so in this case I wouldn't try to use the MAD value this way.
       </p>
@@ -623,6 +1131,11 @@
         skew( x = afl.margins )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.7671555
+]]></output>
+    </console>
     <p>
       Not surprisingly, it turns out that the AFL winning margins data is fairly skewed.
     </p>
@@ -656,6 +1169,11 @@
         
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.02962633
+]]></output>
+    </console>
     <p>
       we discover that the AFL winning margins data are just pointy enough.
     </p>
@@ -675,6 +1193,12 @@
           summary( object = afl.margins )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   12.75   30.50   35.30   50.50  116.00
+]]></output>
+    </console>
       <p>
         For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.
       </p>
@@ -696,6 +1220,12 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    Mode   FALSE    TRUE 
+## logical     132      44
+]]></output>
+    </console>
       <p>
         In this context, the <c>summary()</c> function gives us a count of the number of <c>TRUE</c> values, the number of <c>FALSE</c> values, and the number of missing values (i.e., the <c>NA</c>s). Pretty reasonable behaviour.
       </p>
@@ -707,6 +1237,20 @@
           summary( object = afl.finalists )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##         Adelaide         Brisbane          Carlton      Collingwood 
+##               26               25               26               28 
+##         Essendon          Fitzroy        Fremantle          Geelong 
+##               32                0                6               39 
+##         Hawthorn        Melbourne  North Melbourne    Port Adelaide 
+##               27               28               28               17 
+##         Richmond         St Kilda           Sydney       West Coast 
+##                6               24               26               38 
+## Western Bulldogs 
+##               24
+]]></output>
+    </console>
       <p>
         For factors, we get a frequency table, just like we got when we used the <c>table()</c> function. Interestingly, however, if we convert this to a character vector using the <c>as.character()</c> function (see <xref ref="coercion" />, we don't get the same results:
       </p>
@@ -737,6 +1281,15 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --    -- Class --   -- Size --
+##    clin.trial    data.frame    18 x 3    
+##     $drug        factor        18        
+##     $therapy     factor        18        
+##     $mood.gain   numeric       18
+]]></output>
+    </console>
       <p>
         There's a single data frame called <c>clin.trial</c> which contains three variables, <c>drug</c>, <c>therapy</c> and <c>mood.gain</c>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the <c>summary()</c> function sheds a little more light on this situation:
       </p>
@@ -745,6 +1298,17 @@
           summary( clin.trial )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        drug         therapy    mood.gain     
+##  placebo :6   no.therapy:9   Min.   :0.1000  
+##  anxifree:6   CBT       :9   1st Qu.:0.4250  
+##  joyzepam:6                  Median :0.8500  
+##                              Mean   :0.8833  
+##                              3rd Qu.:1.3000  
+##                              Max.   :1.8000
+]]></output>
+    </console>
       <p>
         Evidently there were three drugs: a placebo, something called "anxifree" and something called "joyzepam"; and there were 6 people administered each drug. There were 9 people treated using cognitive behavioural therapy (CBT) and 9 people who received no psychological treatment. And we can see from looking at the summary of the <c>mood.gain</c> variable that most people did show a mood gain (mean <m>=.88</m>), though without knowing what the scale is here it's hard to say much more than that. Still, that's not too bad. Overall, I feel that I learned something from that.
       </p>
@@ -807,6 +1371,18 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##           vars  n mean   sd median trimmed  mad min max range skew
+## drug*        1 18 2.00 0.84   2.00    2.00 1.48 1.0 3.0   2.0 0.00
+## therapy*     2 18 1.50 0.51   1.50    1.50 0.74 1.0 2.0   1.0 0.00
+## mood.gain    3 18 0.88 0.53   0.85    0.88 0.67 0.1 1.8   1.7 0.13
+##           kurtosis   se
+## drug*        -1.66 0.20
+## therapy*     -2.11 0.12
+## mood.gain    -1.44 0.13
+]]></output>
+    </console>
       <p>
         As you can see, the output for the asterisked variables is pretty meaningless, and should be ignored. However, for the <c>mood.gain</c> variable, there's a lot of useful information.
       </p>
@@ -822,6 +1398,31 @@
         describeBy( x=clin.trial, group=clin.trial$therapy )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Descriptive statistics by group 
+## group: no.therapy
+##           vars n mean   sd median trimmed  mad min max range skew kurtosis
+## drug*        1 9 2.00 0.87    2.0    2.00 1.48 1.0 3.0   2.0 0.00    -1.81
+## therapy*     2 9 1.00 0.00    1.0    1.00 0.00 1.0 1.0   0.0  NaN      NaN
+## mood.gain    3 9 0.72 0.59    0.5    0.72 0.44 0.1 1.7   1.6 0.51    -1.59
+##             se
+## drug*     0.29
+## therapy*  0.00
+## mood.gain 0.20
+## -------------------------------------------------------- 
+## group: CBT
+##           vars n mean   sd median trimmed  mad min max range  skew
+## drug*        1 9 2.00 0.87    2.0    2.00 1.48 1.0 3.0   2.0  0.00
+## therapy*     2 9 2.00 0.00    2.0    2.00 0.00 2.0 2.0   0.0   NaN
+## mood.gain    3 9 1.04 0.45    1.1    1.04 0.44 0.3 1.8   1.5 -0.03
+##           kurtosis   se
+## drug*        -1.81 0.29
+## therapy*       NaN 0.00
+## mood.gain    -1.12 0.15
+]]></output>
+    </console>
     <p>
       As you can see, the output is essentially identical to the output that the <c>describe()</c> function produce, except that the output now gives you means, standard deviations etc separately for the <c>CBT</c> group and the <c>no.therapy</c> group. Notice that, as before, the output displays asterisks for factor variables, in order to draw your attention to the fact that the descriptive statistics that it has calculated won't be very meaningful for those variables. Nevertheless, this command has given us some really useful descriptive statistics <c>mood.gain</c> variable, broken down as a function of <c>therapy</c>.
     </p>
@@ -833,6 +1434,29 @@
         by( data=clin.trial, INDICES=clin.trial$therapy, FUN=describe )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## clin.trial$therapy: no.therapy
+##           vars n mean   sd median trimmed  mad min max range skew kurtosis
+## drug*        1 9 2.00 0.87    2.0    2.00 1.48 1.0 3.0   2.0 0.00    -1.81
+## therapy*     2 9 1.00 0.00    1.0    1.00 0.00 1.0 1.0   0.0  NaN      NaN
+## mood.gain    3 9 0.72 0.59    0.5    0.72 0.44 0.1 1.7   1.6 0.51    -1.59
+##             se
+## drug*     0.29
+## therapy*  0.00
+## mood.gain 0.20
+## -------------------------------------------------------- 
+## clin.trial$therapy: CBT
+##           vars n mean   sd median trimmed  mad min max range  skew
+## drug*        1 9 2.00 0.87    2.0    2.00 1.48 1.0 3.0   2.0  0.00
+## therapy*     2 9 2.00 0.00    2.0    2.00 0.00 2.0 2.0   0.0   NaN
+## mood.gain    3 9 1.04 0.45    1.1    1.04 0.44 0.3 1.8   1.5 -0.03
+##           kurtosis   se
+## drug*        -1.81 0.29
+## therapy*       NaN 0.00
+## mood.gain    -1.12 0.15
+]]></output>
+    </console>
     <p>
       This will produce the exact same output as the command shown earlier. However, there's nothing special about the <c>describe()</c> function. You could just as easily use the <c>by()</c> function in conjunction with the <c>summary()</c> function. For example:
     </p>
@@ -841,6 +1465,27 @@
         by( data=clin.trial, INDICES=clin.trial$therapy, FUN=summary )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## clin.trial$therapy: no.therapy
+##        drug         therapy    mood.gain     
+##  placebo :3   no.therapy:9   Min.   :0.1000  
+##  anxifree:3   CBT       :0   1st Qu.:0.3000  
+##  joyzepam:3                  Median :0.5000  
+##                              Mean   :0.7222  
+##                              3rd Qu.:1.3000  
+##                              Max.   :1.7000  
+## -------------------------------------------------------- 
+## clin.trial$therapy: CBT
+##        drug         therapy    mood.gain    
+##  placebo :3   no.therapy:0   Min.   :0.300  
+##  anxifree:3   CBT       :9   1st Qu.:0.800  
+##  joyzepam:3                  Median :1.100  
+##                              Mean   :1.044  
+##                              3rd Qu.:1.300  
+##                              Max.   :1.800
+]]></output>
+    </console>
     <p>
       Again, this output is pretty easy to interpret. It's the output of the <c>summary()</c> function, applied separately to <c>CBT</c> group and the <c>no.therapy</c> group. For the two factors (<c>drug</c> and <c>therapy</c>) it prints out a frequency table, whereas for the numeric variable (<c>mood.gain</c>) it prints out the range, interquartile range, mean and median.
     </p>
@@ -855,6 +1500,17 @@
          )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##       drug    therapy mood.gain
+## 1  placebo no.therapy  0.300000
+## 2 anxifree no.therapy  0.400000
+## 3 joyzepam no.therapy  1.466667
+## 4  placebo        CBT  0.600000
+## 5 anxifree        CBT  1.033333
+## 6 joyzepam        CBT  1.500000
+]]></output>
+    </console>
     <p>
       or, alternatively, if you want to calculate the standard deviations for each group, you would use the following command (argument names omitted this time):
     </p>
@@ -863,6 +1519,17 @@
         aggregate( mood.gain ~ drug + therapy, clin.trial, sd )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+##       drug    therapy mood.gain
+## 1  placebo no.therapy 0.2000000
+## 2 anxifree no.therapy 0.2000000
+## 3 joyzepam no.therapy 0.2081666
+## 4  placebo        CBT 0.3000000
+## 5 anxifree        CBT 0.2081666
+## 6 joyzepam        CBT 0.2645751
+]]></output>
+    </console>
   </section>
   <section xml:id="zscore">
     <title>Standard scores</title>
@@ -881,6 +1548,11 @@
         
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.9998409
+]]></output>
+    </console>
     <p>
       At this stage, this command doesn't make too much sense, but don't worry too much about it. It's not important for now. But the output is fairly straightforward: it suggests that I'm grumpier than 99.98% of people. Sounds about right.
     </p>
@@ -913,6 +1585,16 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --     -- Class --   -- Size --
+##    parenthood     data.frame    100 x 4   
+##     $dan.sleep    numeric       100       
+##     $baby.sleep   numeric       100       
+##     $dan.grump    numeric       100       
+##     $day          integer       100
+]]></output>
+    </console>
       <p>
         ... we see that the file contains a single data frame called <c>parenthood</c>, which contains four variables <c>dan.sleep</c>, <c>baby.sleep</c>, <c>dan.grump</c> and <c>day</c>. If we peek at the data using <c>head()</c> out the data, here's what we get:
       </p>
@@ -921,6 +1603,21 @@
           head(parenthood,10)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    dan.sleep baby.sleep dan.grump day
+## 1       7.59      10.18        56   1
+## 2       7.91      11.66        60   2
+## 3       5.14       7.92        82   3
+## 4       7.71       9.61        55   4
+## 5       6.68       9.75        67   5
+## 6       5.99       5.04        72   6
+## 7       8.19      10.45        53   7
+## 8       7.19       8.27        60   8
+## 9       7.40       6.06        60   9
+## 10      6.58       7.09        71  10
+]]></output>
+    </console>
       <p>
         Next, I'll calculate some basic descriptive statistics:
       </p>
@@ -929,6 +1626,20 @@
           describe( parenthood )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            vars   n  mean    sd median trimmed   mad   min    max range
+## dan.sleep     1 100  6.97  1.02   7.03    7.00  1.09  4.84   9.00  4.16
+## baby.sleep    2 100  8.05  2.07   7.95    8.05  2.33  3.25  12.07  8.82
+## dan.grump     3 100 63.71 10.05  62.00   63.16  9.64 41.00  91.00 50.00
+## day           4 100 50.50 29.01  50.50   50.50 37.06  1.00 100.00 99.00
+##             skew kurtosis   se
+## dan.sleep  -0.29    -0.72 0.10
+## baby.sleep -0.02    -0.69 0.21
+## dan.grump   0.43    -0.16 1.00
+## day         0.00    -1.24 2.90
+]]></output>
+    </console>
       <p>
         Finally, to give a graphical depiction of what each of the three interesting variables looks like, <xref ref="fig-parenthood" /> plots histograms.
       </p>
@@ -998,6 +1709,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] -0.903384
+]]></output>
+    </console>
       <p>
         However, the <c>cor()</c> function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:<fn>An alternative usage of <c>cor()</c> is to correlate one set of variables with another subset of variables. If <c>X</c> and <c>Y</c> are both data frames with the same number of rows, then <c>cor(x = X, y = Y)</c> will produce a correlation matrix that correlates all variables in <c>X</c> with all variables in <c>Y</c>.</fn>
       </p>
@@ -1008,6 +1724,15 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              dan.sleep  baby.sleep   dan.grump         day
+## dan.sleep   1.00000000  0.62794934 -0.90338404 -0.09840768
+## baby.sleep  0.62794934  1.00000000 -0.56596373 -0.01043394
+## dan.grump  -0.90338404 -0.56596373  1.00000000  0.07647926
+## day        -0.09840768 -0.01043394  0.07647926  1.00000000
+]]></output>
+    </console>
     </subsection>
     <subsection xml:id="interpretingcorrelations">
       <title>Interpreting a correlation</title>
@@ -1042,6 +1767,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.8164205
+]]></output>
+    </console>
       <p>
         and so on.
       </p>

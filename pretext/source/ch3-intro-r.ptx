@@ -116,6 +116,31 @@
           &gt;
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+## To cite R in publications use:
+## 
+##   R Core Team (2018). R: A language and environment for
+##   statistical computing. R Foundation for Statistical Computing,
+##   Vienna, Austria. URL https://www.R-project.org/.
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {R: A Language and Environment for Statistical Computing},
+##     author = {{R Core Team}},
+##     organization = {R Foundation for Statistical Computing},
+##     address = {Vienna, Austria},
+##     year = {2018},
+##     url = {https://www.R-project.org/},
+##   }
+## 
+## We have invested a lot of time and effort in creating R, please
+## cite it when using it for data analysis. See also
+## 'citation("pkgname")' for citing R packages.
+]]></output>
+    </console>
       <p>
         Most of this text is pretty uninteresting, and when doing real data analysis you'll never really pay much attention to it. The important part of it is this...
       </p>
@@ -140,6 +165,11 @@
         [1] 30
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 30
+]]></output>
+    </console>
     <p>
       Not a lot of surprises in this extract. But there's a few things worth talking about, even with such a simple example. Firstly, it's important that you understand how to read the extract. In this example, what <em>I</em> typed was the <c>10 + 20</c> part. I didn't type the <c>&gt;</c> symbol: that's just the R command prompt and isn't part of the actual command. And neither did I type the <c>[1] 30</c> part. That's what R printed out in response to my command.
     </p>
@@ -157,6 +187,11 @@
           [1] 30
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 30
+]]></output>
+    </console>
       <p>
         So instead, I'm going to provide code in a slightly different format so that it looks like this...
       </p>
@@ -165,6 +200,13 @@
           10 + 20
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## Error: <text>:1:1: unexpected '>'
+## 1: >
+##     ^
+]]></output>
+    </console>
       <p>
         There are two main differences.
       </p>
@@ -199,6 +241,11 @@
           10 = 20
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## Error in 10 = 20: invalid (do_set) left-hand side to assignment
+]]></output>
+    </console>
       <p>
         What's happened here is that R has attempted to interpret <c>10 = 20</c> as a command, and spits out an error message because the command doesn't make any sense to it. When a <em>human</em> looks at this, and then looks down at his or her keyboard and sees that <c>+</c> and <c>=</c> are on the same key, it's pretty obvious that the command was a typo. But R doesn't know this, so it gets upset. And, if you look at it from its perspective, this makes sense. All that R "knows" is that <c>10</c> is a legitimate number, <c>20</c> is a legitimate number, and <c>=</c> is a legitimate part of the language too. In other words, from its perspective this really does look like the user meant to type <c>10 = 20</c>, since all the individual parts of that statement are legitimate and it's too stupid to realise that this is probably a typo. Therefore, R takes it on faith that this is exactly what you meant... it only "discovers" that the command is nonsense when it tries to follow your instructions, typo and all. And then it whinges, and spits out an error.
       </p>
@@ -210,6 +257,11 @@
           10 - 20
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] -10
+]]></output>
+    </console>
       <p>
         In this case, R produces the right answer, but to the the wrong question.
       </p>
@@ -227,6 +279,13 @@
           10    + 20
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## Error: <text>:1:1: unexpected '>'
+## 1: >
+##     ^
+]]></output>
+    </console>
       <p>
         or this
       </p>
@@ -235,6 +294,11 @@
           10+20
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 30
+]]></output>
+    </console>
       <p>
         and I would get exactly the same answer. However, that doesn't mean that you can insert spaces in any old place. When we looked at the startup documentation in <xref ref="startingR" /> it suggested that you could type <c>citation()</c> to get some information about how to cite R. If I do so...
       </p>
@@ -243,6 +307,31 @@
           citation()
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+## To cite R in publications use:
+## 
+##   R Core Team (2018). R: A language and environment for
+##   statistical computing. R Foundation for Statistical Computing,
+##   Vienna, Austria. URL https://www.R-project.org/.
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {R: A Language and Environment for Statistical Computing},
+##     author = {{R Core Team}},
+##     organization = {R Foundation for Statistical Computing},
+##     address = {Vienna, Austria},
+##     year = {2018},
+##     url = {https://www.R-project.org/},
+##   }
+## 
+## We have invested a lot of time and effort in creating R, please
+## cite it when using it for data analysis. See also
+## 'citation("pkgname")' for citing R packages.
+]]></output>
+    </console>
       <p>
         ... it tells me to cite the R manual [@R2013]. Let's see what happens when I try changing the spacing. If I insert spaces in between the word and the parentheses, or inside the parentheses themselves, then all is well. That is, either of these two commands
       </p>
@@ -264,6 +353,13 @@
           citat ion()
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## Error: <text>:1:7: unexpected symbol
+## 1: citat ion
+##           ^
+]]></output>
+    </console>
       <p>
         Throughout this book I'll vary the way I use spacing a little bit, just to give you a feel for the different ways in which spacing can be used. I'll try not to do it too much though, since it's generally considered to be good practice to be consistent in how you format your commands.
       </p>
@@ -373,6 +469,11 @@
           57 * 61
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3477
+]]></output>
+    </console>
       <p>
         So that's handy.
       </p>
@@ -393,6 +494,11 @@
           5 * 5 * 5 * 5
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 625
+]]></output>
+    </console>
       <p>
         but it does seem a bit tedious. It would be very annoying indeed if you wanted to calculate <m>5^{15}</m>, since the command would end up being quite long. Therefore, to make our lives easier, we use the power operator instead. When we do that, our command to calculate <m>5^4</m> goes like this:
       </p>
@@ -401,6 +507,11 @@
           5 ^ 4
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 625
+]]></output>
+    </console>
       <p>
         Much easier.
       </p>
@@ -418,6 +529,11 @@
           1 + 2 * 4
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 9
+]]></output>
+    </console>
       <p>
         Clearly, this isn't a problem for R either. However, it's worth stopping for a second, and thinking about what R just did. Clearly, since it gave us an answer of <c>9</c> it must have multiplied <c>2 * 4</c> (to get an interim answer of 8) and then added 1 to that. But, suppose it had decided to just go from left to right: if R had decided instead to add <c>1+2</c> (to get an interim answer of 3) and then multiplied by 4, it would have come up with an answer of <c>12</c>.
       </p>
@@ -429,6 +545,11 @@
           (1 + 2) * 4
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 12
+]]></output>
+    </console>
       <p>
         This is a fairly useful thing to be able to do. The only other thing I should point out about order of operations is what to expect when you have two operations that have the same priority: that is, how does R resolve ties? For instance, multiplication and division are actually the same priority, but what should we expect when we give R a problem like <c>4 / 2 * 3</c> to solve? If it evaluates the multiplication first and then the division, it would calculate a value of two-thirds. But if it evaluates the division first it calculates a value of 6. The answer, in this case, is that R goes from *left to right*, so in this case the division step would come first:
       </p>
@@ -437,6 +558,11 @@
           4 / 2 * 3
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 6
+]]></output>
+    </console>
       <p>
         All of the above being said, it's helpful to remember that *brackets always come first*. So, if you're ever unsure about what order R will do things in, an easy solution is to enclose the thing <em>you</em> want it to do first in brackets.  There's nothing stopping you from typing <c>(4 / 2) * 3</c>. By enclosing the division in brackets we make it clear which thing is supposed to happen first. In this instance you wouldn't have needed to, since R would have done the division first anyway, but when you're first starting out it's better to make sure R does what you want!
       </p>
@@ -457,6 +583,11 @@
           sales &lt;- 350
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         When you hit enter, R doesn't print out any output.<fn>If you are using RStudio, and the "environment" panel (formerly known as the "workspace" panel) is visible when you typed the command, then you probably saw something happening there. That's to be expected, and is quite helpful. However, there's two things to note here (1) I haven't yet explained what that panel does, so for now just ignore it, and (2) this is one of the helpful things RStudio does, not a part of R itself.</fn> It just gives you another command prompt. However, behind the scenes R has created a variable called <c>sales</c> and given it a value of <c>350</c>. You can check that this has happened by asking R to print the variable on screen. And the simplest way to do <em>that</em> is to type the name of the variable and hit enter<fn>As we'll discuss later, by doing this we are implicitly using the <c>print()</c> function</fn>.
       </p>
@@ -465,6 +596,11 @@
           sales
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         So that's nice to know. Anytime you can't remember what R has got stored in a particular variable, you can just type the name of the variable and hit enter.
       </p>
@@ -476,6 +612,11 @@
           350 -&gt; sales
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         This has the same effect: and it <em>still</em> means that I'm only going to sell <c>350</c> copies. Sigh. Apart from this superficial difference, <c>&lt;-</c> and <c>-&gt;</c> are identical. In fact, as far as R is concerned, they're actually the same operator, just in a "left form" and a "right form".<fn>A quick reminder: when using operators like <c>&lt;-</c> and <c>-&gt;</c> that span multiple characters, you can't insert spaces in the middle. That is, if you type <c>- &gt;</c> or <c>&lt; -</c>, R will interpret your command the wrong way. And I will cry.</fn>
       </p>
@@ -491,6 +632,11 @@
           royalty &lt;- 7
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         The nice thing about variables (in fact, the whole point of having variables) is that we can do anything with a variable that we ought to be able to do with the information that it stores. That is, since R allows me to multiply <c>350</c> by <c>7</c>
       </p>
@@ -499,6 +645,11 @@
           350 * 7
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 2450
+]]></output>
+    </console>
       <p>
         it also allows me to multiply <c>sales</c> by <c>royalty</c>
       </p>
@@ -507,6 +658,11 @@
           sales * royalty
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         As far as R is concerned, the <c>sales * royalty</c> command is the same as the <c>350 * 7</c> command. Not surprisingly, I can assign the output of this calculation to a new variable, which I'll call <c>revenue</c>. And when we do this, the new variable <c>revenue</c> gets the value <c>2450</c>. So let's do that, and then get R to print out the value of <c>revenue</c> so that we can verify that it's done what we asked:
       </p>
@@ -516,6 +672,11 @@
           revenue
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         That's fairly straightforward. A slightly more subtle thing we can do is reassign the value of my variable, based on its current value. For instance, suppose that one of my students (no doubt under the influence of psychotropic drugs) loves the book so much that he or she donates me an extra $550. The simplest way to capture this is by a command like this:
       </p>
@@ -586,6 +747,11 @@
         225 ^ 0.5
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 15
+]]></output>
+    </console>
     <p>
       However, there's a second way that we can do this, since R also provides a <term>square root function</term>, <c>sqrt()</c>. To calculate the square root of 255 using this function, what I do is insert the number <c>225</c> in the parentheses. That is, the command I type is this:
     </p>
@@ -594,6 +760,11 @@
         sqrt( 225 )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 15
+]]></output>
+    </console>
     <p>
       and as you might expect from our previous discussion, the spaces in between the parentheses are purely cosmetic. I could have typed <c>sqrt(225)</c> or <c>sqrt( 225   )</c> and gotten the same result. When we use a function to do something, we generally refer to this as <term>calling</term> the function, and the values that we type into the function (there can be more than one) are referred to as the <term>arguments</term> of that function.
     </p>
@@ -605,6 +776,11 @@
         abs( 21 )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 21
+]]></output>
+    </console>
     <p>
       the absolute value function does nothing to it at all. But when you feed it a negative number, it spits out the positive version of the same number, like this:
     </p>
@@ -613,6 +789,11 @@
         abs( -13 )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 13
+]]></output>
+    </console>
     <p>
       In all honesty, there's nothing that the absolute value function does that you couldn't do just by looking at the number and erasing the minus sign if there is one. However, there's a few places later in the book where we have to use absolute values, so I thought it might be a good idea to explain the meaning of the term early on.
     </p>
@@ -624,6 +805,11 @@
         sqrt( 1 + abs(-8) )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 3
+]]></output>
+    </console>
     <p>
       When R executes this command, starts out by calculating the value of <c>abs(-8)</c>, which produces an intermediate value of <c>8</c>. Having done so, the command simplifies to <c>sqrt( 1 + 8 )</c>. To solve the square root<fn>A note for the mathematically inclined: R does support complex numbers, but unless you explicitly specify that you want them it assumes all calculations must be real valued. By default, the square root of a negative number is treated as undefined: <c>sqrt(-9)</c> will produce <c>NaN</c> (not a number) as its output. To get complex numbers, you would type <c>sqrt(-9+0i)</c>  and R would now return <c>0+3i</c>. However, since we won't have any need for complex numbers in this book, I won't refer to them again.</fn> it first needs to add <c>1 + 8</c> to get <c>9</c>, at which point it evaluates <c>sqrt(9)</c>, and so it finally outputs a value of <c>3</c>.
     </p>
@@ -637,6 +823,11 @@
           round( 3.1415 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3
+]]></output>
+    </console>
       <p>
         Pretty straightforward, really. However, suppose I only wanted to round it to two decimal places: that is, I want to get <c>3.14</c> as the output. The <c>round()</c> function supports this, by allowing you to input a second argument to the function that specifies the number of decimal places that you want to round the number to. In other words, I could do this:
       </p>
@@ -645,6 +836,11 @@
           round( 3.14165, 2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3.14
+]]></output>
+    </console>
       <p>
         What's happening here is that I've specified <em>two</em> arguments: the first argument is the number that needs to be rounded (i.e., <c>3.1415</c>), the second argument is the number of decimal places that it should be rounded to (i.e., <c>2</c>), and the two arguments are separated by a comma. In this simple example, it's quite easy to remember which one argument comes first and which one comes second, but for more complicated functions this is not easy. Fortunately, most R functions make use of <term>argument names</term>. For the <c>round()</c> function, for example the number that needs to be rounded is specified using the <c>x</c> argument, and the number of decimal points that you want it rounded to is specified using the <c>digits</c> argument. Because we have these names available to us, we can specify the arguments to the function by name. We do so like this:
       </p>
@@ -653,6 +849,11 @@
           round( x = 3.1415, digits = 2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3.14
+]]></output>
+    </console>
       <p>
         Notice that this is kind of similar in spirit to variable assignment (<xref ref="assign" />), except that I used <c>=</c> here, rather than <c>&lt;-</c>. In both cases we're specifying specific values to be associated with a label. However, there are some differences between what I was doing earlier on when creating variables, and what I'm doing here when specifying arguments, and so as a consequence it's important that you use <c>=</c> in this context.
       </p>
@@ -666,6 +867,11 @@
           round( digits = 2, x = 3.1415 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3.14
+]]></output>
+    </console>
       <p>
         but this one does not...
       </p>
@@ -674,6 +880,11 @@
           round( 2, 3.14165 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 2
+]]></output>
+    </console>
       <p>
         How do you find out what the correct order is? There's a few different ways, but the easiest one is to look at the help documentation for the function (see <xref ref="help" />. However, if you're ever unsure, it's probably best to actually type in the argument name.
       </p>
@@ -740,6 +951,11 @@
           sales.by.month
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         To use the correct terminology here, we have a single variable here called <c>sales.by.month</c>: this variable is a vector that consists of 12 <term>elements</term>.
       </p>
@@ -759,6 +975,11 @@
           sales.by.month
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Because there wasn't much room on the screen, R has printed out the results over three lines. But that's not the important thing to notice. The important point is that the first line has a <c>[1]</c> in front of it, whereas the second line starts with <c>[5]</c> and the third with <c>[9]</c>. It's pretty clear what's happening here. For the first row, R has printed out the 1st element through to the 4th element, so it starts that row with a <c>[1]</c>. For the second row, R has printed out the 5th element of the vector through to the 8th one, and so it begins that row with a <c>[5]</c> so that you can tell where it's up to at a glance. It might seem a bit odd to you that R does this, but in some ways it's a kindness, especially when dealing with larger data sets!
       </p>
@@ -778,6 +999,11 @@
           sales.by.month[2]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Yep, that's the February sales all right. But there's a subtle detail to be aware of here: notice that R outputs <c>[1] 100</c>, <em>not</em> <c>[2] 100</c>. This is because R is being extremely literal. When we typed in <c>sales.by.month[2]</c>, we asked R to find exactly <em>one</em> thing, and that one thing happens to be the second element of our <c>sales.by.month</c> vector. So, when it outputs <c>[1] 100</c> what R is saying is that the first number <em>that we just asked for</em> is <c>100</c>. This behaviour makes more sense when you realise that we can use this trick to create new variables. For example, I could create a <c>february.sales</c> variable like this:
       </p>
@@ -787,6 +1013,11 @@
           february.sales
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Obviously, the new variable <c>february.sales</c> should only have one element and so when I print it out this new variable, the R output begins with a <c>[1]</c> because <c>100</c> is the value of the first (and only) element of <c>february.sales</c>. The fact that this also happens to be the value of the second element of <c>sales.by.month</c> is irrelevant. We'll pick this topic up again shortly (<xref ref="indexing" />).
       </p>
@@ -802,6 +1033,11 @@
           sales.by.month
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Another way to edit variables is to use the <c>edit()</c> or <c>fix()</c> functions. I won't discuss them in detail right now, but you can check them out on your own.
       </p>
@@ -816,6 +1052,11 @@
           length( x = sales.by.month )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Secondly, you often want to alter all of the elements of a vector at once. For instance, suppose I wanted to figure out how much money I made in each month. Since I'm earning an exciting $7 per book (no seriously, that's actually pretty close to what authors get on the very expensive textbooks that you're expected to purchase), what I want to do is multiply each element in the <c>sales.by.month</c> vector by <c>7</c>. R makes this pretty easy, as the following example shows:
       </p>
@@ -824,6 +1065,11 @@
           sales.by.month * 7
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         In other words, when you multiply a vector by a single number, all elements in the vector get multiplied. The same is true for addition, subtraction, division and taking powers. So that's neat. On the other hand, suppose I wanted to know how much money I was making per day, rather than per month. Since not every month has the same number of days, I need to do something slightly different. Firstly, I'll create two new vectors:
       </p>
@@ -833,6 +1079,11 @@
           profit &lt;- sales.by.month * 7
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Obviously, the <c>profit</c> variable is the same one we created earlier, and the <c>days.per.month</c> variable is pretty straightforward. What I want to do is divide every element of <c>profit</c> by the <em>corresponding</em> element of <c>days.per.month</c>. Again, R makes this pretty easy:
       </p>
@@ -841,6 +1092,12 @@
           profit / days.per.month
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1]  0.000000 25.000000 45.161290 11.666667  5.645161  0.000000  0.000000
+##  [8]  0.000000  0.000000  0.000000  0.000000  0.000000
+]]></output>
+    </console>
       <p>
         I still don't like all those zeros, but that's not what matters here. Notice that the second element of the output is 25, because R has divided the second element of <c>profit</c> (i.e. 700) by the second element of <c>days.per.month</c> (i.e. 28). Similarly, the third element of the output is equal to 1400 divided by 31, and so on. We'll talk more about calculations involving vectors later on (and in particular a thing called the "recycling rule"; <xref ref="recycling" />), but that's enough detail for now.
       </p>
@@ -868,6 +1125,11 @@
         greeting[1]
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] "hello"
+]]></output>
+    </console>
     <p>
       Of course, there's no reason why I can't create a vector of character strings. For instance, if we were to continue with the example of my attempts to look at the monthly sales data for my book, one variable I might want would include the names of all 12 <c>months</c>.<fn>Though actually there's no real need to do this, since R has an inbuilt variable called <c>month.name</c> that you can use for this purpose.</fn> To do so, I could type in a command like this
     </p>
@@ -886,6 +1148,11 @@
         months[4]
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] "April"
+]]></output>
+    </console>
     <subsection xml:id="simpletext">
       <title>Working with text</title>
       <p>
@@ -899,6 +1166,11 @@
           nchar( x = greeting )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 5
+]]></output>
+    </console>
       <p>
         That makes sense, since there are in fact 5 letters in the string <c>"hello"</c>. Better yet, you can apply <c>nchar()</c> to whole vectors. So, for instance, if I want R to tell me how many letters there are in the names of each of the 12 months, I can do this:
       </p>
@@ -907,6 +1179,11 @@
           nchar( x = months )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 7 8 5 5 3 4 4 6 9 7 8 8
+]]></output>
+    </console>
       <p>
         So that's nice to know. The <c>nchar()</c> function can do a bit more than this, and there's a lot of other functions that you can do to extract more information from text or do all sorts of fancy things. However, the goal here is not to teach any of that! The goal right now is just to see an example of a function that actually does work when applied to text.
       </p>
@@ -927,6 +1204,11 @@
           2 + 2
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         Of course, so far R is just doing the calculations. I haven't asked it to explicitly assert that <m>2+2 = 4</m> is a true statement. If I want R to make an explicit judgement, I can use a command like this:
       </p>
@@ -935,6 +1217,11 @@
           2 + 2 == 4
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         What I've done here is use the <term>equality operator</term>, <c>==</c>, to force R to make a "true or false" judgement.<fn>Note that this is a very different operator to the assignment operator <c>=</c> that I talked about in Section \@ref(assign). A common typo that people make when trying to write logical commands in R (or other languages, since the "<c>=</c> versus <c>==</c>" distinction is important in most programming languages) is to accidentally type <c>=</c> when you really mean <c>==</c>. Be especially cautious with this <mdash /> I've been programming in various languages since I was a teenager, and I <em>still</em> screw this up a lot. Hm. I think I see why I wasn't cool as a teenager. And why I'm still not cool.</fn> Okay, let's see what R thinks of the Party slogan:
       </p>
@@ -943,6 +1230,11 @@
           2+2 == 5
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
       <p>
         Booyah! Freedom and ponies for all! Or something like that. Anyway, it's worth having a look at what happens if I try to <em>force</em> R to believe that two plus two is five by making an assignment statement like  <c>2 + 2 = 5</c> or <c>2 + 2 &lt;- 5</c>. When I do this, here's what happens:
       </p>
@@ -951,6 +1243,11 @@
           2 + 2 = 5
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         R doesn't like this very much. It recognises that <c>2 + 2</c> is <em>not</em> a variable (that's what the "non-language object" part is saying), and it won't let you try to "reassign" it. While R is pretty flexible, and actually does let you do some quite remarkable things to redefine parts of R itself, there are just some basic, primitive truths that it refuses to give up. It won't change the laws of addition, and it won't change the definition of the number <c>2</c>.
       </p>
@@ -969,6 +1266,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] TRUE
+]]></output>
+    </console>
       <p>
         or this
       </p>
@@ -977,6 +1279,11 @@
           sqrt( 25 ) == 5
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] TRUE
+]]></output>
+    </console>
       <p>
         Not only that, but as <xref ref="table-logicals" /> illustrates, there are several other logical operators that you can use, corresponding to some basic mathematical concepts.
       </p>
@@ -1034,6 +1341,11 @@
           2 + 2 != 5
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         We're not quite done yet. There are three more logical operations that are worth knowing about, listed in <xref ref="table-logicals2" />.
       </p>
@@ -1060,6 +1372,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
       <p>
         On the other hand, if I ask you to assess the claim that "both <m>2+2 = 4</m> <em>and</em> <m>2+2 = 5</m>" you'd say that it's false. Since this is an <em>and</em> statement we need both parts to be true. And that's what the <c>&amp;</c> operator does:
       </p>
@@ -1069,6 +1386,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
       <p>
         Finally, there's the <em>not</em> operator, which is simple but annoying to describe in English. If I ask you to assess my claim that "it is not true that <m>2+2 = 5</m>" then you would say that my claim is true; because my claim is that "<m>2+2 = 5</m> is false". And I'm right. If we write this as an R command we get this:
       </p>
@@ -1078,6 +1400,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
       <p>
         In other words, since <c>2+2 == 5</c> is a <c>FALSE</c> statement, it must be the case that <c>!(2+2 == 5)</c> is a <c>TRUE</c> one. Essentially, what we've really done is claim that "not false" is the same thing as "true". Obviously, this isn't really quite right in real life. But R lives in a much more black or white world: for R everything is either true or false. No shades of gray are allowed. We can actually see this much more explicitly, like this:
       </p>
@@ -1086,6 +1413,11 @@
           ! FALSE
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] TRUE
+]]></output>
+    </console>
       <p>
         Of course, in our <m>2+2 = 5</m> example, we didn't really need to use "not" <c>!</c> and "equals to" <c>==</c> as two separate operators. We could have just used the "not equals to" operator <c>!=</c> like this:
       </p>
@@ -1095,6 +1427,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] TRUE
+]]></output>
+    </console>
       <p>
         But there are many situations where you really do need to use the <c>!</c> operator. We'll see some later on.<fn>A note for those of you who have taken a computer science class: yes, R does have a function for exclusive-or, namely <c>xor()</c>. Also worth noting is the fact that R makes the distinction between element-wise operators <c>&amp;</c> and <c>|</c> and operators that look only at the first element of the vector, namely <c>&amp;&amp;</c> and <c>||</c>. To see the distinction, compare the behaviour of a command like <c>c(FALSE,TRUE) &amp; c(TRUE,TRUE)</c> to the behaviour of something like <c>c(FALSE,TRUE) &amp;&amp; c(TRUE,TRUE)</c>. If this doesn't mean anything to you, ignore this footnote entirely. It's not important for the content of this book.</fn>
       </p>
@@ -1111,6 +1448,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         Alternatively, you can assign the value directly, by typing <c>TRUE</c> or <c>FALSE</c> in your command. Like this:
       </p>
@@ -1159,6 +1501,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         and again, I can store this in a vector if I want, as the example below illustrates:
       </p>
@@ -1169,6 +1516,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         In other words, <c>any.sales.this.month</c> is a logical vector whose elements are <c>TRUE</c> only if the corresponding element of <c>sales.by.month</c> is greater than zero. For instance, since I sold zero books in January, the first element is <c>FALSE</c>.
       </p>
@@ -1187,6 +1539,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
       <p>
         That's pretty obvious, and it's good to know that even R can figure that out. Similarly, R does recognise that a <c>"cat"</c> is a <c>"cat"</c>:
       </p>
@@ -1195,6 +1552,11 @@
           "cat" == "cat"
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] TRUE
+]]></output>
+    </console>
       <p>
         Again, that's exactly what we'd expect. However, what you need to keep in mind is that R is not at all tolerant when it comes to grammar and spacing. If two strings differ in any way whatsoever, R will say that they're not equal to each other, as the following examples indicate:
       </p>
@@ -1208,6 +1570,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
     </subsection>
   </section>
   <section xml:id="indexing">
@@ -1225,6 +1592,11 @@
           sales.by.month[ c(2,3,4) ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         Notice that the order matters here. If I asked for the data in the reverse order (i.e., April first, then March, then February) by using the vector <c>c(4,3,2)</c>, then R outputs the data in the reverse order:
       </p>
@@ -1234,6 +1606,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         A second thing to be aware of is that R provides you with handy shortcuts for very common situations. For instance, suppose that I wanted to extract everything from the 2nd month through to the 8th month. One way to do this is to do the same thing I did above, and use the vector <c>c(2,3,4,5,6,7,8)</c> to indicate the elements that I want. That works just fine
       </p>
@@ -1242,6 +1619,11 @@
           sales.by.month[ c(2,3,4,5,6,7,8) ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         but it's kind of a lot of typing. To help make this easier, R lets you use <c>2:8</c> as shorthand for <c>c(2,3,4,5,6,7,8)</c>, which makes things a lot simpler. First, let's just check that this is true:
       </p>
@@ -1250,6 +1632,11 @@
           2:8
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 2 3 4 5 6 7 8
+]]></output>
+    </console>
       <p>
         Next, let's check that we can use the <c>2:8</c> shorthand as a way to pull out the 2nd through 8th elements of <c>sales.by.months</c>:
       </p>
@@ -1258,6 +1645,11 @@
           sales.by.month[2:8]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         So that's kind of neat.
       </p>
@@ -1272,6 +1664,11 @@
           months[ sales.by.month &gt; 0 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         To understand what's happening here, it's helpful to notice that <c>sales.by.month &gt; 0</c> is the same logical expression that we used to create the <c>any.sales.this.month</c> vector in the last section. In fact, I could have just done this:
       </p>
@@ -1280,6 +1677,11 @@
           months[ any.sales.this.month ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         and gotten exactly the same result. In order to figure out which elements of <c>months</c> to include in the output, what R does is look to see if the corresponding element in <c>any.sales.this.month</c> is <c>TRUE</c>. Thus, since element 1 of <c>any.sales.this.month</c> is <c>FALSE</c>, R does not include <c>"January"</c> as part of the output; but since element 2 of <c>any.sales.this.month</c> is <c>TRUE</c>, R does include <c>"February"</c> in the output. Note that there's no reason why I can't use the same trick to find the actual sales numbers for those months. The command to do that would just be this:
       </p>
@@ -1288,6 +1690,11 @@
           sales.by.month [ sales.by.month &gt; 0 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 350
+]]></output>
+    </console>
       <p>
         In fact, we can do the same thing with text. Here's an example. Suppose that <mdash /> to continue the saga of the textbook sales <mdash /> I later find out that the bookshop only had sufficient stocks for a few months of the year. They tell me that early in the year they had <c>"high"</c> stocks, which then dropped to <c>"low"</c> levels, and in fact for one month they were <c>"out"</c> of copies of the book for a while before they were able to replenish them. Thus I might have a variable called <c>stock.levels</c> which looks like this:
       </p>
@@ -1307,6 +1714,11 @@
           months[stock.levels == "out"]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "April" "May"
+]]></output>
+    </console>
       <p>
         Alternatively, if I want to know when the bookshop was either low on copies or out of copies, I could do this:
       </p>
@@ -1315,6 +1727,11 @@
           months[stock.levels == "out" | stock.levels == "low"]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "March" "April" "May"
+]]></output>
+    </console>
       <p>
         or this
       </p>
@@ -1323,6 +1740,11 @@
           months[stock.levels != "high" ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "March" "April" "May"
+]]></output>
+    </console>
       <p>
         Either way, I get the answer I want.
       </p>
