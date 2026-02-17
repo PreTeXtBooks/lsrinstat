@@ -79,7 +79,12 @@ def add_outputs_to_ptx(ptx_file, outputs):
             r_code = None
             
             # Try to extract code from CDATA section first
+            # Extract code from CDATA section or plain input tag
             code_match = re.search(r'<input><!\[CDATA\[(.*?)\]\]></input>', program_text, re.DOTALL)
+            if not code_match:
+                # Try without CDATA
+                code_match = re.search(r'<input>(.*?)</input>', program_text, re.DOTALL)
+            
             if code_match:
                 r_code = code_match.group(1).strip()
             else:
@@ -93,6 +98,12 @@ def add_outputs_to_ptx(ptx_file, outputs):
                     r_code = r_code.replace('&amp;', '&')
             
             if r_code:
+                
+                # Skip if code already contains output (starts with ## or contains ##)
+                if '##' in r_code:
+                    i += 1
+                    continue
+                
                 # Find matching output
                 for output_info in outputs:
                     # Normalize code for comparison (remove extra whitespace)
@@ -136,18 +147,20 @@ def main():
             ('anova.html', 'ch-anova.ptx'),
             ('anova2.html', 'ch5-factorial-anova.ptx'),
             ('bayes.html', 'ch6-bayesian-statistics.ptx'),
-            ('chisquare.html', 'ch-hypothesistesting.ptx'),
-            ('datahandling.html', 'ch_intro_r.ptx'),
+            ('chisquare.html', 'ch12-chisquare.ptx'),
+            ('datahandling.html', 'ch7-data-handling.ptx'),
             ('descriptives.html', 'ch5-descriptive-statistics.ptx'),
             ('estimation.html', 'ch-estimation.ptx'),
-            ('graphics.html', 'ch_intro_r.ptx'),
+            ('graphics.html', 'ch6-graphics.ptx'),
             ('hypothesistesting.html', 'ch-hypothesistesting.ptx'),
             ('introR.html', 'ch_intro_r.ptx'),
+            ('introR.html', 'ch3-intro-r.ptx'),
             ('mechanics.html', 'ch4-additional-r-concepts.ptx'),
             ('probability.html', 'ch-probability.ptx'),
             ('regression.html', 'ch-regression.ptx'),
             ('scripting.html', 'ch8-scripting.ptx'),
             ('ttest.html', 'ch-hypothesistesting.ptx'),
+            ('ttest.html', 'ch13-ttest.ptx'),
         ]
         
         for html_name, ptx_name in chapters:

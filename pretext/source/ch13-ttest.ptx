@@ -7,6 +7,32 @@
       library(lsr)
     </input>
   </program>
+    <console>
+      <output><![CDATA[
+## 
+##    One sample t-test 
+## 
+## Data variable:   grades 
+## 
+## Descriptive statistics: 
+##             grades
+##    mean     72.300
+##    std dev.  9.521
+## 
+## Hypotheses: 
+##    null:        population mean equals 67.5 
+##    alternative: population mean not equal to 67.5 
+## 
+## Test results: 
+##    t-statistic:  2.255 
+##    degrees of freedom:  19 
+##    p-value:  0.036 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [67.844, 76.756] 
+##    estimated effect size (Cohen's d):  0.504
+]]></output>
+    </console>
   <p>
     In the previous chapter we covered the situation when your outcome variable is nominal scale and your predictor variable<fn>We won't cover multiple predictors until Chapter \@ref(regression)</fn> is also nominal scale. Lots of real world situations have that character, and so you'll find that chi-square tests in particular are quite widely used. However, you're much more likely to find yourself in a situation where your outcome variable is interval scale or higher, and what you're interested in is whether the average value of the outcome variable is higher in one group or another. For instance, a psychologist might want to know if anxiety levels are higher among parents than non-parents, or if working memory capacity is reduced by listening to music (relative to not listening to music). In a medical context, we might want to know if a new drug increases or decreases blood pressure. An agricultural scientist might want to know whether adding phosphorus to Australian native plants will kill them.<fn>Informal experimentation in my garden suggests that yes, it does. Australian natives are adapted to low phosphorus levels relative to everywhere else on Earth, apparently, so if you've bought a house with a bunch of exotics and you want to plant natives, don't follow my example: keep them separate. Nutrients to European plants are poison to Australian ones. There's probably a joke in that, but I can't figure out what it is.</fn> In all these situations, our outcome variable is a fairly continuous, interval or ratio scale variable; and our predictor is a binary "grouping" variable. In other words, we want to compare the means of the two groups.
   </p>
@@ -29,6 +55,11 @@
           print( grades )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 50 60 60 64 66 66 67 69 70 74 76 76 77 79 79 79 81 82 82 89
+]]></output>
+    </console>
       <p>
         and calculate the mean:
       </p>
@@ -37,6 +68,11 @@
           mean( grades )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 72.3
+]]></output>
+    </console>
       <p>
         Hm. It <em>might</em> be that the psychology students are scoring a bit higher than normal: that sample mean of <m>\bar{X} = 72.3</m> is a fair bit higher than the hypothesised population mean of <m>\mu = 67.5</m>, but on the other hand, a sample size of <m>N = 20</m> isn't all that big. Maybe it's pure chance.
       </p>
@@ -102,6 +138,11 @@
           print( sample.mean )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 72.3
+]]></output>
+    </console>
       <p>
         Then, I create variables corresponding to known population standard deviation (<m>\sigma = 9.5</m>), and the value of the population mean that the null hypothesis specifies (<m>\mu_0 = 67.5</m>):
       </p>
@@ -203,6 +244,11 @@
         sd( grades )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] 9.520615
+]]></output>
+    </console>
     <p>
       In other words, while I can't say that I know that <m>\sigma = 9.5</m>, I <em>can</em> say that <m>\hat\sigma = 9.52</m>.
     </p>
@@ -238,6 +284,32 @@
           oneSampleTTest( x=grades, mu=67.5 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    One sample t-test 
+## 
+## Data variable:   grades 
+## 
+## Descriptive statistics: 
+##             grades
+##    mean     72.300
+##    std dev.  9.521
+## 
+## Hypotheses: 
+##    null:        population mean equals 67.5 
+##    alternative: population mean not equal to 67.5 
+## 
+## Test results: 
+##    t-statistic:  2.255 
+##    degrees of freedom:  19 
+##    p-value:  0.036 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [67.844, 76.756] 
+##    estimated effect size (Cohen's d):  0.504
+]]></output>
+    </console>
       <p>
         Easy enough. Now lets go through the output. Just like we saw in the last chapter, I've written the functions so that the output is pretty verbose. It tries to describe in a lot of detail what its actually done:
       </p>
@@ -319,6 +391,13 @@
           str(harpo)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 'data.frame':    33 obs. of  2 variables:
+##  $ grade: num  65 72 66 74 73 71 66 76 69 79 ...
+##  $ tutor: Factor w/ 2 levels "Anastasia","Bernadette": 1 2 2 1 1 2 2 2 2 2 ...
+]]></output>
+    </console>
       <p>
         As we can see, there's a single data frame with two variables, <c>grade</c> and <c>tutor</c>. The <c>grade</c> variable is a numeric vector, containing the grades for all <m>N = 33</m> students taking Dr Harpo's class; the <c>tutor</c> variable is a factor that indicates who each student's tutor was. The first six observations in this data set are shown below:
       </p>
@@ -327,6 +406,17 @@
           head( harpo )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   grade      tutor
+## 1    65  Anastasia
+## 2    72 Bernadette
+## 3    66 Bernadette
+## 4    74  Anastasia
+## 5    73  Anastasia
+## 6    71 Bernadette
+]]></output>
+    </console>
       <p>
         We can calculate means and standard deviations, using the <c>mean()</c> and <c>sd()</c> functions. Rather than show the R output, here's a nice little summary table:
       </p>
@@ -402,6 +492,17 @@
           head( harpo )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   grade      tutor
+## 1    65  Anastasia
+## 2    72 Bernadette
+## 3    66 Bernadette
+## 4    74  Anastasia
+## 5    73  Anastasia
+## 6    71 Bernadette
+]]></output>
+    </console>
       <p>
         The outcome variable for our test is the student <c>grade</c>, and the groups are defined in terms of the <c>tutor</c> for each class. So you probably won't be too surprised to see that we're going to describe the test that we want in terms of an R formula that reads like this <c>grade ~ tutor</c>. The specific command that we need is:
       </p>
@@ -414,6 +515,33 @@
             )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    Student's independent samples t-test 
+## 
+## Outcome variable:   grade 
+## Grouping variable:  tutor 
+## 
+## Descriptive statistics: 
+##             Anastasia Bernadette
+##    mean        74.533     69.056
+##    std dev.     8.999      5.775
+## 
+## Hypotheses: 
+##    null:        population means equal for both groups
+##    alternative: different population means in each group
+## 
+## Test results: 
+##    t-statistic:  2.115 
+##    degrees of freedom:  31 
+##    p-value:  0.043 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [0.197, 10.759] 
+##    estimated effect size (Cohen's d):  0.74
+]]></output>
+    </console>
       <p>
         The first two arguments should be familiar to you. The first one is the formula that tells R what variables to use and the second one tells R the name of the data frame that stores those variables. The third argument is not so obvious. By saying <c>var.equal = TRUE</c>, what we're really doing is telling R to use the <em>Student</em> independent samples <m>t</m>-test. More on this later. For now, lets ignore that bit and look at the output:
       </p>
@@ -506,6 +634,33 @@
             )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    Welch's independent samples t-test 
+## 
+## Outcome variable:   grade 
+## Grouping variable:  tutor 
+## 
+## Descriptive statistics: 
+##             Anastasia Bernadette
+##    mean        74.533     69.056
+##    std dev.     8.999      5.775
+## 
+## Hypotheses: 
+##    null:        population means equal for both groups
+##    alternative: different population means in each group
+## 
+## Test results: 
+##    t-statistic:  2.034 
+##    degrees of freedom:  23.025 
+##    p-value:  0.054 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [-0.092, 11.048] 
+##    estimated effect size (Cohen's d):  0.724
+]]></output>
+    </console>
       <p>
         Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too:
       </p>
@@ -539,6 +694,14 @@
           str(chico)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 'data.frame':    20 obs. of  3 variables:
+##  $ id         : Factor w/ 20 levels "student1","student10",..: 1 12 14 15 16 17 18 19 20 2 ...
+##  $ grade_test1: num  42.9 51.8 71.7 51.6 63.5 58 59.8 50.8 62.5 61.9 ...
+##  $ grade_test2: num  44.6 54 72.3 53.4 63.8 59.3 60.8 51.6 64.3 63.2 ...
+]]></output>
+    </console>
       <p>
         The data frame <c>chico</c> contains three variables: an <c>id</c> variable that identifies each student in the class, the <c>grade_test1</c> variable that records the student grade for the first test, and the <c>grade_test2</c> variable that has the grades for the second test. Here's the first six students:
       </p>
@@ -547,6 +710,17 @@
           head( chico )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##         id grade_test1 grade_test2
+## 1 student1        42.9        44.6
+## 2 student2        51.8        54.0
+## 3 student3        71.7        72.3
+## 4 student4        51.6        53.4
+## 5 student5        63.5        63.8
+## 6 student6        58.0        59.3
+]]></output>
+    </console>
       <p>
         At a glance, it does seem like the class is a hard one (most grades are between 50\% and 60\%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
       </p>
@@ -556,6 +730,18 @@
           describe( chico )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##             vars  n  mean   sd median trimmed  mad  min  max range  skew
+## id*            1 20 10.50 5.92   10.5   10.50 7.41  1.0 20.0  19.0  0.00
+## grade_test1    2 20 56.98 6.62   57.7   56.92 7.71 42.9 71.7  28.8  0.05
+## grade_test2    3 20 58.38 6.41   59.7   58.35 6.45 44.6 72.3  27.7 -0.05
+##             kurtosis   se
+## id*            -1.38 1.32
+## grade_test1    -0.35 1.48
+## grade_test2    -0.39 1.43
+]]></output>
+    </console>
       <p>
         we see that this impression seems to be supported. Across all 20 students<fn>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I've</em> never taught an intro stats class with less than 350 students.</fn> the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <xref ref="fig-pairedta" />. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the <c>describe()</c> function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
       </p>
@@ -586,6 +772,17 @@
           head( chico )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##         id grade_test1 grade_test2
+## 1 student1        42.9        44.6
+## 2 student2        51.8        54.0
+## 3 student3        71.7        72.3
+## 4 student4        51.6        53.4
+## 5 student5        63.5        63.8
+## 6 student6        58.0        59.3
+]]></output>
+    </console>
       <p>
         Now that we've created and stored this <c>improvement</c> variable, we can draw a histogram showing the distribution of these improvement scores (using the <c>hist()</c> function), shown in <xref ref="fig-pairedtc" />.
       </p>
@@ -601,6 +798,12 @@
           ciMean( x = chico$improvement )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##           2.5%    97.5%
+## [1,] 0.9508686 1.859131
+]]></output>
+    </console>
       <p>
         we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so).
       </p>
@@ -624,6 +827,32 @@
           oneSampleTTest( chico$improvement, mu=0 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    One sample t-test 
+## 
+## Data variable:   chico$improvement 
+## 
+## Descriptive statistics: 
+##             improvement
+##    mean           1.405
+##    std dev.       0.970
+## 
+## Hypotheses: 
+##    null:        population mean equals 0 
+##    alternative: population mean not equal to 0 
+## 
+## Test results: 
+##    t-statistic:  6.475 
+##    degrees of freedom:  19 
+##    p-value:  <.001 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [0.951, 1.859] 
+##    estimated effect size (Cohen's d):  1.448
+]]></output>
+    </console>
       <p>
         The output here is (obviously) formatted exactly the same was as it was the last time we used the <c>oneSampleTTest()</c> function (<xref ref="onesamplettest" />), and it confirms our intuition. There's an average improvement of 1.4\% from test 1 to test 2, and this is significantly different from 0 (<m>t(19)=6.48, p&lt;.001</m>).
       </p>
@@ -638,6 +867,32 @@
             )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    Paired samples t-test 
+## 
+## Variables:  grade_test2 , grade_test1 
+## 
+## Descriptive statistics: 
+##             grade_test2 grade_test1 difference
+##    mean          58.385      56.980      1.405
+##    std dev.       6.406       6.616      0.970
+## 
+## Hypotheses: 
+##    null:        population means equal for both measurements
+##    alternative: different population means for each measurement
+## 
+## Test results: 
+##    t-statistic:  6.475 
+##    degrees of freedom:  19 
+##    p-value:  <.001 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [0.951, 1.859] 
+##    estimated effect size (Cohen's d):  1.448
+]]></output>
+    </console>
       <p>
         The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples <m>t</m>-test is just a one sample test under the hood. However, the output is a bit more detailed:
       </p>
@@ -683,6 +938,34 @@
             )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    Paired samples t-test 
+## 
+## Outcome variable:   grade 
+## Grouping variable:  time 
+## ID variable:        id 
+## 
+## Descriptive statistics: 
+##              test1  test2 difference
+##    mean     56.980 58.385     -1.405
+##    std dev.  6.616  6.406      0.970
+## 
+## Hypotheses: 
+##    null:        population means equal for both measurements
+##    alternative: different population means for each measurement
+## 
+## Test results: 
+##    t-statistic:  -6.475 
+##    degrees of freedom:  19 
+##    p-value:  <.001 
+## 
+## Other information: 
+##    two-sided 95% confidence interval:  [-1.859, -0.951] 
+##    estimated effect size (Cohen's d):  1.448
+]]></output>
+    </console>
       <p>
         Note that the name of the id variable is <c>"id"</c> and not <c>id</c>. Note that the <c>id</c> variable must be a factor. As of the current writing, you do need to include the quote marks, because the <c>pairedSamplesTTest()</c> function is expecting a <em>character string</em> that specifies the name of a variable. If I ever find the time I'll try to relax this constraint.
       </p>
@@ -731,6 +1014,32 @@
         oneSampleTTest( x=grades, mu=67.5, one.sided="greater" )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##    One sample t-test 
+## 
+## Data variable:   grades 
+## 
+## Descriptive statistics: 
+##             grades
+##    mean     72.300
+##    std dev.  9.521
+## 
+## Hypotheses: 
+##    null:        population mean less than or equal to 67.5 
+##    alternative: population mean greater than 67.5 
+## 
+## Test results: 
+##    t-statistic:  2.255 
+##    degrees of freedom:  19 
+##    p-value:  0.018 
+## 
+## Other information: 
+##    one-sided 95% confidence interval:  [68.619, Inf] 
+##    estimated effect size (Cohen's d):  0.504
+]]></output>
+    </console>
     <p>
       Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the <m>t</m>-statistic and degrees of freedom have not changed, the <m>p</m>-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you've forgotten why this is and what it means, you may find it helpful to read back over <xref ref="hypothesistesting" />, and <xref ref="onesidedtests" /> in particular. The third thing to note is that the confidence interval is different too: it now reports a "one-sided" confidence interval rather than a two-sided one. In a two-sided confidence interval, we're trying to find numbers <m>a</m> and <m>b</m> such that we're 95\% confident that the true mean lies <em>between</em> <m>a</m> and <m>b</m>. In a one-sided confidence interval, we're trying to find a single number <m>a</m> such that we're 95\% confident that the true mean is <em>greater than</em> <m>a</m> (or less than <m>a</m> if you set <c>one.sided="less"</c>).
     </p>
@@ -746,6 +1055,33 @@
           )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##    Welch's independent samples t-test 
+## 
+## Outcome variable:   grade 
+## Grouping variable:  tutor 
+## 
+## Descriptive statistics: 
+##             Anastasia Bernadette
+##    mean        74.533     69.056
+##    std dev.     8.999      5.775
+## 
+## Hypotheses: 
+##    null:        population means are equal, or smaller for group 'Anastasia' 
+##    alternative: population mean is larger for group 'Anastasia' 
+## 
+## Test results: 
+##    t-statistic:  2.034 
+##    degrees of freedom:  23.025 
+##    p-value:  0.027 
+## 
+## Other information: 
+##    one-sided 95% confidence interval:  [0.863, Inf] 
+##    estimated effect size (Cohen's d):  0.724
+]]></output>
+    </console>
     <p>
       Again, the output changes in a predictable way. The definition of the null and alternative hypotheses has changed, the <m>p</m>-value has changed, and it now reports a one-sided confidence interval rather than a two-sided one.
     </p>
@@ -761,6 +1097,32 @@
           )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##    Paired samples t-test 
+## 
+## Variables:  grade_test2 , grade_test1 
+## 
+## Descriptive statistics: 
+##             grade_test2 grade_test1 difference
+##    mean          58.385      56.980      1.405
+##    std dev.       6.406       6.616      0.970
+## 
+## Hypotheses: 
+##    null:        population means are equal, or smaller for measurement 'grade_test2' 
+##    alternative: population mean is larger for measurement 'grade_test2' 
+## 
+## Test results: 
+##    t-statistic:  6.475 
+##    degrees of freedom:  19 
+##    p-value:  <.001 
+## 
+## Other information: 
+##    one-sided 95% confidence interval:  [1.03, Inf] 
+##    estimated effect size (Cohen's d):  1.448
+]]></output>
+    </console>
     <p>
       Yet again, the output changes in a predictable way. The hypotheses have changed, the <m>p</m>-value has changed, and the confidence interval is now one-sided. If your data are in long form, as they are in the <c>chico2</c> data frame, it still works the same way. Either of the following commands would work,
     </p>
@@ -797,6 +1159,21 @@
         t.test( x = grades, mu = 67.5 )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  One Sample t-test
+## 
+## data:  grades
+## t = 2.2547, df = 19, p-value = 0.03615
+## alternative hypothesis: true mean is not equal to 67.5
+## 95 percent confidence interval:
+##  67.84422 76.75578
+## sample estimates:
+## mean of x 
+##      72.3
+]]></output>
+    </console>
     <p>
       The input is the same as for the <c>oneSampleTTest()</c>: we specify the sample data using the argument <c>x</c>, and the value against which it is to be tested using the argument <c>mu</c>. The output is a lot more compressed.
     </p>
@@ -811,6 +1188,21 @@
         t.test( formula = grade ~ tutor, data = harpo )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Welch Two Sample t-test
+## 
+## data:  grade by tutor
+## t = 2.0342, df = 23.025, p-value = 0.05361
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.09249349 11.04804904
+## sample estimates:
+##  mean in group Anastasia mean in group Bernadette 
+##                 74.53333                 69.05556
+]]></output>
+    </console>
     <p>
       If you want to do the Student test, it's exactly the same except that you need to add an additional argument indicating that <c>var.equal = TRUE</c>. This is no different to how it worked in the <c>independentSamplesTTest()</c> function.
     </p>
@@ -825,6 +1217,21 @@
          )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Paired t-test
+## 
+## data:  chico$grade_test2 and chico$grade_test1
+## t = 6.4754, df = 19, p-value = 3.321e-06
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.9508686 1.8591314
+## sample estimates:
+## mean of the differences 
+##                   1.405
+]]></output>
+    </console>
     <p>
       Yet again, these are the same numbers that we saw in <xref ref="pairedsamplesttest" />. Feel free to check.
     </p>
@@ -864,6 +1271,11 @@
            )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.5041691
+]]></output>
+    </console>
       <p>
         and, just so that you can see that there's nothing fancy going on, the command below shows you how to calculate it if there weren't no fancypants <c>cohensD()</c> function available:
       </p>
@@ -872,6 +1284,11 @@
           ( mean(grades) - 67.5 ) / sd(grades)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.5041691
+]]></output>
+    </console>
       <p>
         Yep, same number. Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3\%) that are about .5 standard deviations higher than the level that you'd expect (67.5\%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
       </p>
@@ -895,6 +1312,11 @@
           )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.7395614
+]]></output>
+    </console>
       <p>
         This is the version of Cohen's <m>d</m> that gets reported by the <c>independentSamplesTTest()</c> function whenever it runs a Student <m>t</m>-test.
       </p>
@@ -912,6 +1334,11 @@
            )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.7244995
+]]></output>
+    </console>
       <p>
         This is the version of Cohen's <m>d</m> that gets reported by the <c>independentSamplesTTest()</c> function whenever it runs a Welch <m>t</m>-test.
       </p>
@@ -929,6 +1356,11 @@
            )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 1.447952
+]]></output>
+    </console>
       <p>
         This is the version of Cohen's <m>d</m> that gets reported by the <c>pairedSamplesTTest()</c> function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1\% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's <m>d</m> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class,
       </p>
@@ -940,6 +1372,11 @@
            )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.2157646
+]]></output>
+    </console>
       <p>
         what we see is that the overall effect size is quite small, when assessed on the scale of the original variables.
       </p>
@@ -1016,6 +1453,15 @@
           shapiro.test( x = normal.data )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  normal.data
+## W = 0.98654, p-value = 0.4076
+]]></output>
+    </console>
       <p>
         So, not surprisingly, we have no evidence that these data depart from normality. When reporting the results for a Shapiro-Wilk test, you should (as usual) make sure to include the test statistic <m>W</m> and the <m>p</m> value, though given that the sampling distribution depends so heavily on <m>N</m> it would probably be a politeness to include <m>N</m> as well.
       </p>
@@ -1040,6 +1486,21 @@
           print( awesome )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    scores group
+## 1     6.4     A
+## 2    10.7     A
+## 3    11.9     A
+## 4     7.3     A
+## 5    10.0     A
+## 6    14.5     B
+## 7    10.4     B
+## 8    12.9     B
+## 9    11.7     B
+## 10   13.0     B
+]]></output>
+    </console>
       <p>
         As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <m>A</m> against every observation in group <m>B</m>. Whenever the group <m>A</m> datum is larger, we place a check mark in the table:
       </p>
@@ -1060,6 +1521,16 @@
           wilcox.test( formula = scores ~ group, data = awesome)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Wilcoxon rank sum test
+## 
+## data:  scores by group
+## W = 3, p-value = 0.05556
+## alternative hypothesis: true location shift is not equal to 0
+]]></output>
+    </console>
       <p>
         Just like we saw with the <c>t.test()</c> function, there is an <c>alternative</c> argument that you can use to switch between two-sided tests and one-sided tests, plus a few other arguments that we don't need to worry too much about at an introductory level. Similarly, the <c>wilcox.test()</c> function allows you to use the  <c>x</c> and <c>y</c> arguments when you have your data stored separately for each group. For instance, suppose we use the data from the <c>awesome2.Rdata</c> file:
       </p>
@@ -1070,6 +1541,11 @@
           score.B
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1]  6.4 10.7 11.9  7.3 10.0
+]]></output>
+    </console>
       <p>
         When your data are organised like this, then you would use a command like this:
       </p>
@@ -1078,6 +1554,11 @@
           wilcox.test( x = score.A, y = score.B )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 14.5 10.4 12.9 11.7 13.0
+]]></output>
+    </console>
       <p>
         The output that R produces is pretty much the same as last time.
       </p>
@@ -1093,6 +1574,21 @@
           print( happiness )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    before after change
+## 1      30     6    -24
+## 2      43    29    -14
+## 3      21    11    -10
+## 4      24    31      7
+## 5      23    17     -6
+## 6      40     2    -38
+## 7      29    31      2
+## 8      56    21    -35
+## 9      38     8    -30
+## 10     16    21      5
+]]></output>
+    </console>
       <p>
         What I've measured here is the happiness of each student <c>before</c> taking the class and <c>after</c> taking the class; the <c>change</c> score is the difference between the two. Just like we saw with the <m>t</m>-test, there's no fundamental difference between doing a paired-samples test using <c>before</c> and <c>after</c>, versus doing a one-sample test using the <c>change</c> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:
       </p>
@@ -1112,6 +1608,16 @@
           )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Wilcoxon signed rank test
+## 
+## data:  happiness$change
+## V = 7, p-value = 0.03711
+## alternative hypothesis: true location is not equal to 0
+]]></output>
+    </console>
       <p>
         As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness. Switching to a paired samples version of the test won't give us different answers, of course; but here's the command to do it:
       </p>
@@ -1123,6 +1629,16 @@
           )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##  Wilcoxon signed rank test
+## 
+## data:  happiness$after and happiness$before
+## V = 7, p-value = 0.03711
+## alternative hypothesis: true location shift is not equal to 0
+]]></output>
+    </console>
     </subsection>
   </section>
   <section>

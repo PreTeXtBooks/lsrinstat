@@ -76,6 +76,48 @@
           print( utterance )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --             -- Class --   -- Size --
+##    afl.finalists          factor        400       
+##    afl.margins            numeric       176       
+##    afl2                   data.frame    4296 x 2  
+##    colour                 logical       1         
+##    d.cor                  numeric       1         
+##    describeImg            list          0         
+##    effort                 data.frame    10 x 2    
+##    emphCol                character     1         
+##    emphColLight           character     1         
+##    emphGrey               character     1         
+##    eps                    logical       1         
+##    Fibonacci              numeric       7         
+##    freq                   integer       17        
+##    generateRLineTypes     function                
+##    generateRPointShapes   function                
+##    height                 numeric       1         
+##    old                    list          66        
+##    oneCorPlot             function                
+##    out.0                  data.frame    100 x 2   
+##    out.1                  data.frame    100 x 2   
+##    out.2                  data.frame    100 x 2   
+##    parenthood             data.frame    100 x 4   
+##    plotOne                function                
+##    projecthome            character     1         
+##    speaker                character     10        
+##    suspicious.cases       logical       176       
+##    teams                  character     17        
+##    utterance              character     10        
+##    width                  numeric       1         
+##    X1                     numeric       11        
+##    X2                     numeric       11        
+##    X3                     numeric       11        
+##    X4                     numeric       11        
+##    Y1                     numeric       11        
+##    Y2                     numeric       11        
+##    Y3                     numeric       11        
+##    Y4                     numeric       11
+]]></output>
+    </console>
       <p>
         With these as my data, one task I might find myself needing to do is construct a frequency count of the number of words each character speaks during the show. The <c>table()</c> function provides a simple way do to this. The basic usage of the <c>table()</c> function is as follows:
       </p>
@@ -84,6 +126,13 @@
           table(speaker)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## speaker
+## makka-pakka   tombliboo  upsy-daisy 
+##           4           2           4
+]]></output>
+    </console>
       <p>
         The output here tells us on the first line that what we're looking at is a tabulation of the <c>speaker</c> variable. On the second line it lists all the different speakers that exist in the data, and on the third line it tells you how many times that speaker appears in the data. In other words, it's a frequency table<fn>As usual, you can assign this output to a variable. If you type <c>speaker.freq &lt;- table(speaker)</c> at the command prompt R will store the table as a variable. If you then type <c>class(speaker.freq)</c> you'll see that the output is actually of class <c>table</c>. The key thing to note about a table object is that it's basically a matrix (see <xref ref="matrix" />).</fn> Notice that in the command above I didn't name the argument, since <c>table()</c> is another function that makes use of unnamed arguments. You just type in a list of the variables that you want R to tabulate, and it tabulates them. For instance, if I type in the name of two variables, what I get as the output is a cross-tabulation:
       </p>
@@ -92,6 +141,15 @@
           table(speaker, utterance)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              utterance
+## speaker       ee onk oo pip
+##   makka-pakka  0   2  0   2
+##   tombliboo    1   0  1   0
+##   upsy-daisy   0   2  0   2
+]]></output>
+    </console>
       <p>
         When interpreting this table, remember that these are counts: so the fact that the first row and second column corresponds to a value of 2 indicates that Makka-Pakka (row 1) says "onk" (column 2) twice in this data set. As you'd expect, you can produce three way or higher order cross tabulations just by adding more objects to the list of inputs. However, I won't discuss that in this section.
       </p>
@@ -107,6 +165,21 @@
           itng
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        speaker utterance
+## 1   upsy-daisy       pip
+## 2   upsy-daisy       pip
+## 3   upsy-daisy       onk
+## 4   upsy-daisy       onk
+## 5    tombliboo        ee
+## 6    tombliboo        oo
+## 7  makka-pakka       pip
+## 8  makka-pakka       pip
+## 9  makka-pakka       onk
+## 10 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         There's a couple of options under these circumstances. Firstly, if you just want to cross-tabulate all of the variables in the data frame, then it's really easy:
       </p>
@@ -115,6 +188,15 @@
           table(itng)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              utterance
+## speaker       ee onk oo pip
+##   makka-pakka  0   2  0   2
+##   tombliboo    1   0  1   0
+##   upsy-daisy   0   2  0   2
+]]></output>
+    </console>
       <p>
         However, it's often the case that you want to select particular variables from the data frame to tabulate. This is where the <c>xtabs()</c> function is useful. In this function, you input a one sided <c>formula</c> in order to list all the variables you want to cross-tabulate, and the name of the <c>data</c> frame that stores the data:
       </p>
@@ -123,6 +205,15 @@
           xtabs( formula = ~ speaker + utterance, data = itng )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              utterance
+## speaker       ee onk oo pip
+##   makka-pakka  0   2  0   2
+##   tombliboo    1   0  1   0
+##   upsy-daisy   0   2  0   2
+]]></output>
+    </console>
       <p>
         Clearly, this is a totally unnecessary command in the context of the <c>itng</c> data frame, but in most situations when you're analysing real data this is actually extremely useful, since your data set will almost certainly contain lots of variables and you'll only want to tabulate a few of them at a time.
       </p>
@@ -151,6 +242,15 @@
           prop.table( x = itng.table ) # express as proportion:
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              utterance
+## speaker       ee onk oo pip
+##   makka-pakka  0   2  0   2
+##   tombliboo    1   0  1   0
+##   upsy-daisy   0   2  0   2
+]]></output>
+    </console>
       <p>
         Notice that there were 10 observations in our original data set, so all that R has done here is divide all our raw frequencies by 10. That's a sensible default, but more often you actually want to calculate the proportions separately by row (<c>margin = 1</c>) or by column (<c>margin = 2</c>). Again, this is most clearly seen by looking at examples:
       </p>
@@ -159,6 +259,15 @@
           prop.table( x = itng.table, margin = 1)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              utterance
+## speaker        ee onk  oo pip
+##   makka-pakka 0.0 0.5 0.0 0.5
+##   tombliboo   0.5 0.0 0.5 0.0
+##   upsy-daisy  0.0 0.5 0.0 0.5
+]]></output>
+    </console>
       <p>
         Notice that each row now sums to 1, but that's not true for each column. What we're looking at here is the proportions of utterances made by each character. In other words, 50% of Makka-Pakka's utterances are "pip", and the other 50% are "onk". Let's contrast this with the following command:
       </p>
@@ -167,6 +276,15 @@
           prop.table( x = itng.table, margin = 2)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##              utterance
+## speaker        ee onk  oo pip
+##   makka-pakka 0.0 0.5 0.0 0.5
+##   tombliboo   1.0 0.0 1.0 0.0
+##   upsy-daisy  0.0 0.5 0.0 0.5
+]]></output>
+    </console>
       <p>
         Now the columns all sum to 1 but the rows don't. In this version, what we're seeing is the proportion of characters associated with each utterance. For instance, whenever the utterance "ee" is made (in this data set), 100% of the time it's a Tombliboo saying it.
       </p>
@@ -209,6 +327,11 @@
           likert.raw
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 1 7 3 4 4 4 2 6 5 5
+]]></output>
+    </console>
       <p>
         However, if you think about it, this isn't the best way to represent these responses.   Because of the fairly symmetric way that we set up the response scale, there's a sense in which the midpoint of the scale should have been coded as 0 (no opinion), and the two endpoints should be <m>+3</m> (strong agree) and <m>-3</m> (strong disagree). By recoding the data in this way, it's a bit more reflective of how we really think about the responses. The recoding here is trivially easy: we just subtract 4 from the raw scores:
       </p>
@@ -218,6 +341,11 @@
           likert.centred
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 1 7 3 4 4 4 2 6 5 5
+]]></output>
+    </console>
       <p>
         One reason why it might be useful to have the data in this format is that there are a lot of situations where you might prefer to analyse the <em>strength</em> of the opinion separately from the <em>direction</em> of the opinion. We can do two different transformations on this <c>likert.centred</c> variable in order to distinguish between these two different concepts. Firstly, to compute an <c>opinion.strength</c> variable, we want to take the absolute value of the centred data (using the <c>abs()</c> function that we've seen previously), like so:
       </p>
@@ -252,6 +380,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 1 7 3 4 4 4 2 6 5 5
+]]></output>
+    </console>
       <p>
         In other words, the commands you use are basically ones as before: it's just that every time you want to read a variable from the data frame or write to the data frame, you use the <c>$</c> operator. That's the easiest way to do it, though I should make note of the fact that people sometimes make use of the <c>within()</c> function to do the same thing. However, since (a) I don't use the <c>within()</c> function anywhere else in this book, and (b) the  <c>$</c> operator works just fine, I won't discuss it any further.
       </p>
@@ -309,6 +442,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Note that the output variable here is a factor. In order to see what this command has actually done, we could just print out the <c>age.group</c> variable, but I think it's actually more helpful to create a data frame that includes both the original variable and the categorised one, so that you can see the two side by side:
       </p>
@@ -317,6 +455,22 @@
           data.frame(age, age.group)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    age age.group
+## 1   60     older
+## 2   58     older
+## 3   24     adult
+## 4   26     adult
+## 5   34     adult
+## 6   42     older
+## 7   31     adult
+## 8   30     adult
+## 9   33     adult
+## 10   2     young
+## 11   9     young
+]]></output>
+    </console>
       <p>
         It can also be useful to tabulate the output, just to see if you've got a nice even division of the sample:
       </p>
@@ -326,6 +480,13 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## age.group
+## young adult older 
+##     2     6     3
+]]></output>
+    </console>
       <p>
         In the example above, I made all the decisions myself. Much like the <c>hist()</c> function that we saw in <xref ref="graphics" />, if you want to you can delegate a lot of the choices to R. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow R to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
       </p>
@@ -334,6 +495,11 @@
           age.group2 &lt;- cut( x = age, breaks = 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         With this command, I've asked for three categories, but let R make the choices for where the boundaries should be. I won't bother to print out the <c>age.group2</c> variable, because it's not terribly pretty or very interesting. Instead, all of the important information can be extracted by looking at the tabulated data:
       </p>
@@ -342,6 +508,13 @@
           table( age.group2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## age.group2
+## (1.94,21.3] (21.3,40.7] (40.7,60.1] 
+##           2           6           3
+]]></output>
+    </console>
       <p>
         This output takes a little bit of interpretation, but it's not complicated. What R has done is determined that the lowest age category should run from 1.94 years up to 21.3 years, the second category should run from 21.3 years to 40.7 years, and so on. The formatting on those labels might look a bit funny to those of you who haven't studied a lot of maths, but it's pretty simple. When R describes the first category as corresponding to the range <m>(1.94, 21.3]</m> what it's saying is that the range consists of those numbers that are larger than 1.94 but less than <em>or equal to</em> 21.3. In other words, the weird asymmetric brackets is R s way of telling you that if there happens to be a value that is exactly equal to 21.3, then it belongs to the first category, not the second one. Obviously, this isn't actually possible since I've only specified the ages to the nearest whole number, but R doesn't know this and so it's trying to be precise just in case. This notation is actually pretty standard, but I suspect not everyone reading the book will have seen it before. In any case, those labels are pretty ugly, so it's usually a good idea to specify your own, meaningful labels to the categories.
       </p>
@@ -354,6 +527,11 @@
           table( age.group3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Notice the difference in the boundaries that the <c>quantileCut()</c> function selects. The first and third categories now span an age range of about 25 years each, whereas the middle category has shrunk to a span of only 6 years. There are some situations where this is genuinely what you want (that's why I wrote the function!), but in general you should be careful. Usually the numeric variable that you're trying to cut into categories is already expressed in meaningful units (i.e., it's interval scale), but if you cut it into unequal bin sizes then it's often very difficult to attach meaningful interpretations to the resulting categories.
       </p>
@@ -383,6 +561,11 @@
         answer = c("5", "23", "3",  "6.908",  "1000.245", "1", "1", "2")), caption = "Some of the mathematical functions available in R.")
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
     <subsection>
       <title>Rounding a number</title>
       <p>
@@ -393,6 +576,11 @@
           round( x = 4.3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         In contrast, if we want to round the number 4.7, we would round upwards to 5. In everyday life, when someone talks about "rounding", they usually mean "round to nearest", so this is the function we use most of the time. However sometimes you have reasons to want to always round up or always round down. If you want to always round down, use the <c>floor()</c> function instead; and if you want to force R to round up, then use <c>ceiling()</c>. That's the only difference between the three functions. What if you want to round to a certain number of digits? Let's suppose you want to round to a fixed number of decimal places, say 2 decimal places. If so, what you need to do is specify the <c>digits</c> argument to the <c>round()</c> function. That's pretty straightforward:
       </p>
@@ -401,6 +589,11 @@
           round( x = 0.0123, digits = 2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.01
+]]></output>
+    </console>
       <p>
         The only subtlety that you need to keep in mind is that sometimes what you want to do is round to 2 <term>significant digits</term> and not to two decimal places. The difference is that, when determining the number of significant digits, zeros don't count. To see this, let's apply the <c>signif()</c> function instead of the <c>round()</c> function:
       </p>
@@ -409,6 +602,11 @@
           signif( x = 0.0123, digits = 2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 0.012
+]]></output>
+    </console>
       <p>
         This time around, we get an answer of 0.012 because the zeros don't count as significant digits. Quite often scientific journals will ask you to report numbers to two or three significant digits, so it's useful to remember the distinction.
       </p>
@@ -425,6 +623,11 @@
           answer = c("4", "2")), caption = "Two more arithmetic operations that sometimes come in handy")
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         Since we're on the topic of simple calculations, there are two other arithmetic operations that I should mention, since they can come in handy when working with real data. These operations are calculating a modulus and doing integer division. They don't come up anywhere else in this book, but they are worth knowing about. First, let's consider <term>integer division</term>. Suppose I have $42 in my wallet, and want to buy some sandwiches, which are selling for $10 each. How many sandwiches can I afford<fn>The real answer is 0: $10 for a sandwich is a total ripoff so I should go next door and buy noodles.</fn> to buy? The answer is of course 4. Note that it's not 4.2, since no shop will sell me one-fifth of a sandwich. That's integer division. In R we perform integer division by using the <c>%/%</c> operator:
       </p>
@@ -433,6 +636,11 @@
           42 %/% 10
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         Okay, that's easy enough. What about the <term>modulus</term>? Basically, a modulus is the remainder after integer division, and it's calculated using the <c>%%</c> operator. For the sake of argument, let's suppose I buy four overpriced $10 sandwiches. If I started out with $42, how much money do I have left? The answer, as both R and common sense tells us, is $2:
       </p>
@@ -441,6 +649,11 @@
           42 %% 10
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 2
+]]></output>
+    </console>
       <p>
         So that's also pretty easy. There is, however, one subtlety that I need to mention, and this relates to how negative numbers are handled. Firstly, what would happen if I tried to do integer division with a negative number? Let's have a look:
       </p>
@@ -449,6 +662,11 @@
           -42 %/% 10
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4
+]]></output>
+    </console>
       <p>
         This might strike you as counterintuitive: why does <c>42 %/% 10</c> produce an answer of <c>4</c>, but <c>-42 %/% 10</c> gives us an answer of <c>-5</c>? Intuitively you might think that the answer to the second one should be <c>-4</c>. The way to think about it is like this. Suppose I <em>owe</em> the sandwich shop $42, but I don't have any money. How many sandwiches would <em>I</em> have to give <em>them</em> in order to stop them from calling security? The answer<fn>Again, I doubt that's the right "real world" answer. I suspect that most sandwich shops won't allow you to pay off your debts to them in sandwiches. But you get the idea.</fn> here is 5, not 4. If I handed them 4 sandwiches, I'd still owe them $2, right? So I actually have to give them 5 sandwiches. And since it's <em>me</em> giving them the sandwiches, the answer to <c>-42 %/% 10</c> is <c>-5</c>. As you might expect, the behaviour of the modulus operator has a similar pattern. If I've handed 5 sandwiches over to the shop in order to pay off my debt of $42, then <em>they</em> now owe me $8. So the modulus is now:
       </p>
@@ -457,6 +675,11 @@
           -42 %% 10
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 2
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Logarithms and exponentials</title>
@@ -471,6 +694,11 @@
           log10( 1000 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3
+]]></output>
+    </console>
       <p>
         Obviously, since you already know that <m>10^3 = 1000</m> there's really no point in getting R to tell you that the base-10 logarithm of 1000 is 3. However, most of the time you probably don't know what right answer is. For instance, I can honestly say that I didn't know that <m>10^{2.69897} = 500</m>, so it's rather convenient for me that I can use R to calculate the base-10 logarithm of 500:
       </p>
@@ -479,6 +707,11 @@
           log10( 500 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 2.69897
+]]></output>
+    </console>
       <p>
         Or at least it would be convenient if I had a pressing need to know the base-10 logarithm of 500.
       </p>
@@ -490,6 +723,11 @@
           log2( 8 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3
+]]></output>
+    </console>
       <p>
         Alternatively, a third type of logarithm <mdash /> and one we see a lot more of in statistics than either base 10 or base 2 <mdash /> is called the <term>natural logarithm</term>, and corresponds to the logarithm in base <m>e</m>. Since you might one day run into it, I'd better explain what <m>e</m> is. The number <m>e</m>, known as <term>Euler's number</term>, is one of those annoying "irrational" numbers whose decimal expansion is infinitely long, and is considered one of the most important numbers in mathematics. The first few digits of <m>e</m> are: <me> e = 2.718282 </me> There are quite a few situation in statistics that require us to calculate powers of <m>e</m>, though none of them appear in this book. Raising <m>e</m> to the power <m>x</m> is called the <term>exponential</term> of <m>x</m>, and so it's very common to see <m>e^x</m> written as <m>\exp(x)</m>. And so it's no surprise that R has a function that calculate exponentials, called <c>exp()</c>. For instance, suppose I wanted to calculate <m>e^3</m>. I could try typing in the value of <m>e</m> manually, like this:
       </p>
@@ -498,6 +736,11 @@
           2.718282 ^ 3
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 20.08554
+]]></output>
+    </console>
       <p>
         but it's much easier to do the same thing using the <c>exp()</c> function:
       </p>
@@ -506,6 +749,11 @@
           exp( 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 20.08554
+]]></output>
+    </console>
       <p>
         Anyway, because the number <m>e</m> crops up so often in statistics, the natural logarithm (i.e., logarithm in base <m>e</m>) also tends to turn up. Mathematicians often write it as <m>\log_e(x)</m> or <m>\ln(x)</m>, or sometimes even just <m>\log(x)</m>. In fact, R works the same way: the <c>log()</c> function corresponds to the natural logarithm<fn>Actually, that's a bit of a lie: the <c>log()</c> function is more flexible than that, and can be used to calculate logarithms in <em>any</em> base. The <c>log()</c> function has a <c>base</c> argument that you can specify, which has a default value of <m>e</m>. Thus <c>log10(1000)</c> is actually equivalent to  <c>log(x = 1000, base = 10)</c>.</fn> Anyway, as a quick check, let's calculate the natural logarithm of 20.08554 using R:
       </p>
@@ -514,6 +762,11 @@
           log( 20.08554 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 3
+]]></output>
+    </console>
       <p>
         And with that, I think we've had quite enough exponentials and logarithms for this book!
       </p>
@@ -543,6 +796,11 @@
           utterance[ is.MP.speaking ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "pip" "pip" "onk" "onk"
+]]></output>
+    </console>
       <p>
         Or, since I'm lazy, I could collapse it to a single command like so:
       </p>
@@ -551,6 +809,11 @@
           utterance[ speaker == "makka-pakka" ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "pip" "pip" "onk" "onk"
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Using <c>%in%</c> to match multiple cases</title>
@@ -562,6 +825,11 @@
           utterance %in% c("pip","oo")
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1]  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE
+]]></output>
+    </console>
       <p>
         What this does if return <c>TRUE</c> for those elements of <c>utterance</c> that are either <c>"pip"</c> or <c>"oo"</c> and returns <c>FALSE</c> for all the others. What that means is that if I want a list of all those instances of characters speaking either of these two words, I could do this:
       </p>
@@ -570,6 +838,11 @@
           speaker[ utterance %in% c("pip","oo") ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1]  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Using negative indices to drop elements</title>
@@ -581,6 +854,11 @@
           utterance[2:3]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "pip" "onk"
+]]></output>
+    </console>
       <p>
         But suppose, on the other hand, that I have discovered that observations 2 and 3 are untrustworthy, and I want to keep everything <em>except</em> those two elements. To that end, R lets you use negative numbers to remove specific values, like so:
       </p>
@@ -589,6 +867,11 @@
           utterance [ -(2:3) ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "pip" "onk" "ee"  "oo"  "pip" "pip" "onk" "onk"
+]]></output>
+    </console>
       <p>
         The output here corresponds to element 1 of the original vector, followed by elements 4, 5, and so on. When all you want to do is remove a few cases, this is a very handy convention.
       </p>
@@ -615,6 +898,11 @@
           speech.by.char
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Once you're starting to become comfortable working with lists and data frames, this output is all you need, since you can work with this list in much the same way that you would work with a data frame. For instance, if you want the first utterance made by Makka-Pakka, all you need to do is type this:
       </p>
@@ -623,6 +911,11 @@
           speech.by.char$`makka-pakka`[1]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "pip"
+]]></output>
+    </console>
       <p>
         Just remember that R does need you to add the quoting characters (i.e. <c>'</c>). Otherwise, there's nothing particularly new or difficult here.
       </p>
@@ -634,6 +927,48 @@
           who()
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --             -- Class --   -- Size --
+##    afl.finalists          factor        400       
+##    afl.margins            numeric       176       
+##    afl2                   data.frame    4296 x 2  
+##    colour                 logical       1         
+##    d.cor                  numeric       1         
+##    describeImg            list          0         
+##    effort                 data.frame    10 x 2    
+##    emphCol                character     1         
+##    emphColLight           character     1         
+##    emphGrey               character     1         
+##    eps                    logical       1         
+##    Fibonacci              numeric       7         
+##    freq                   integer       17        
+##    generateRLineTypes     function                
+##    generateRPointShapes   function                
+##    height                 numeric       1         
+##    old                    list          66        
+##    oneCorPlot             function                
+##    out.0                  data.frame    100 x 2   
+##    out.1                  data.frame    100 x 2   
+##    out.2                  data.frame    100 x 2   
+##    parenthood             data.frame    100 x 4   
+##    plotOne                function                
+##    projecthome            character     1         
+##    speaker                character     10        
+##    suspicious.cases       logical       176       
+##    teams                  character     17        
+##    utterance              character     10        
+##    width                  numeric       1         
+##    X1                     numeric       11        
+##    X2                     numeric       11        
+##    X3                     numeric       11        
+##    X4                     numeric       11        
+##    Y1                     numeric       11        
+##    Y2                     numeric       11        
+##    Y3                     numeric       11        
+##    Y4                     numeric       11
+]]></output>
+    </console>
       <p>
         Now we use the <c>importList()</c> function to copy all of the variables within the <c>speech.by.char</c> list:
       </p>
@@ -650,6 +985,48 @@
           who()
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --             -- Class --   -- Size --
+##    afl.finalists          factor        400       
+##    afl.margins            numeric       176       
+##    afl2                   data.frame    4296 x 2  
+##    colour                 logical       1         
+##    d.cor                  numeric       1         
+##    describeImg            list          0         
+##    effort                 data.frame    10 x 2    
+##    emphCol                character     1         
+##    emphColLight           character     1         
+##    emphGrey               character     1         
+##    eps                    logical       1         
+##    Fibonacci              numeric       7         
+##    freq                   integer       17        
+##    generateRLineTypes     function                
+##    generateRPointShapes   function                
+##    height                 numeric       1         
+##    old                    list          66        
+##    oneCorPlot             function                
+##    out.0                  data.frame    100 x 2   
+##    out.1                  data.frame    100 x 2   
+##    out.2                  data.frame    100 x 2   
+##    parenthood             data.frame    100 x 4   
+##    plotOne                function                
+##    projecthome            character     1         
+##    speaker                character     10        
+##    suspicious.cases       logical       176       
+##    teams                  character     17        
+##    utterance              character     10        
+##    width                  numeric       1         
+##    X1                     numeric       11        
+##    X2                     numeric       11        
+##    X3                     numeric       11        
+##    X4                     numeric       11        
+##    Y1                     numeric       11        
+##    Y2                     numeric       11        
+##    Y3                     numeric       11        
+##    Y4                     numeric       11
+]]></output>
+    </console>
       <p>
         we see that there are three new variables, called <c>makka.pakka</c>, <c>tombliboo</c> and <c>upsy.daisy</c>. Notice that the <c>importList()</c> function has converted the original character strings into valid R variable names, so the variable corresponding to <c>"makka-pakka"</c> is actually <c>makka.pakka</c>.<fn>You can do this yourself using the <c>make.names()</c> function. In fact, this is itself a handy thing to know about. For example, if you want to convert the names of the variables in the <c>speech.by.char</c> list into valid R variable names, you could use a command like this: <c>names(speech.by.char) &lt;- make.names(names(speech.by.char))</c>. However, I won't go into details here.</fn> Nevertheless, even though the names can change, note that each of these variables contains the exact same information as the original elements of the list did. For example:
       </p>
@@ -693,6 +1070,21 @@
           print( df )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        speaker utterance
+## 1   upsy-daisy       pip
+## 2   upsy-daisy       pip
+## 3   upsy-daisy       onk
+## 4   upsy-daisy       onk
+## 5    tombliboo        ee
+## 6    tombliboo        oo
+## 7  makka-pakka       pip
+## 8  makka-pakka       pip
+## 9  makka-pakka       onk
+## 10 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         The variable <c>df</c> here is still a data frame, but it only contains one variable (called <c>utterance</c>) and four cases. Notice that the row numbers are actually the same ones from the original data frame. It's worth taking a moment to briefly explain this. The reason that this happens is that these "row numbers' are actually row *names*. When you create a new data frame from scratch R will assign each row a fairly boring row name, which is identical to the row number. However, when you subset the data frame, each row keeps its original row name. This can be quite useful, since <mdash /> as in the current example <mdash /> it provides you a visual reminder of what each row in the new data frame corresponds to in the original data frame. However, if it annoys you, you can change the row names using the <c>rownames()</c> function.<fn>Conveniently, if you type <c>rownames(df) &lt;- NULL</c> R will renumber all the rows from scratch. For the <c>df</c> data frame, the labels that currently run from 7 to 10 will be changed to go from 1 to 4.</fn>
       </p>
@@ -705,6 +1097,15 @@
                   subset = speaker == "makka-pakka" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        speaker utterance
+## 7  makka-pakka       pip
+## 8  makka-pakka       pip
+## 9  makka-pakka       onk
+## 10 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         Not surprisingly, R has kept the same cases from the original data set (i.e., rows 7 through 10), but this time it has kept all of the variables from the data frame. Equally unsurprisingly, if I don't specify the <c>subset</c> argument, what we find is that R keeps all of the cases:
       </p>
@@ -716,6 +1117,21 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    utterance
+## 1        pip
+## 2        pip
+## 3        onk
+## 4        onk
+## 5         ee
+## 6         oo
+## 7        pip
+## 8        pip
+## 9        onk
+## 10       onk
+]]></output>
+    </console>
       <p>
         Again, it's important to note that this output is still a data frame: it's just a data frame with only a single variable.
       </p>
@@ -731,6 +1147,16 @@
           garden
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.1  upsy-daisy       pip    1
+## case.2  upsy-daisy       pip    2
+## case.3   tombliboo        ee    5
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         As you can see, the <c>garden</c> data frame contains 3 variables and 5 cases, and this time around I've used the <c>rownames()</c> function to attach slightly verbose labels to each of the cases. Moreover, let's assume that what we want to do is to pick out rows 4 and 5 (the two cases when Makka-Pakka is speaking), and columns 1 and 2 (variables <c>speaker</c> and <c>utterance</c>).
       </p>
@@ -750,6 +1176,13 @@
           garden[ 4:5, 1:2 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         Clearly, that's exactly what we asked for: the output here is a data frame containing two variables and two cases. Note that I could have gotten the same answer if I'd used the <c>c()</c> function to produce my vectors rather than the <c>:</c> operator. That is, the following command is equivalent to the last one:
       </p>
@@ -758,6 +1191,13 @@
           garden[ c(4,5), c(1,2) ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         It's just not as pretty. However, if the columns and rows that you want to keep don't happen to be next to each other in the original data frame, then you might find that you have to resort to using commands like <c>garden[ c(2,4,5), c(1,3) ]</c> to extract them.
       </p>
@@ -769,6 +1209,13 @@
           garden[ c("case.4", "case.5"), c("speaker", "utterance") ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         Once again, this produces exactly the same output, so I haven't bothered to show it. Note that, although this version is more annoying to <em>type</em> than the previous version, it's a bit easier to *read*, because it's often more meaningful to refer to the elements by their names rather than their numbers. Also note that you don't have to use the same convention for the rows and columns. For instance, I often find that the variable names are meaningful and so I sometimes refer to them by name, whereas the row names are pretty arbitrary so it's easier to refer to them by number. In fact, that's more or less exactly what's happening with the <c>garden</c> data frame, so it probably makes more sense to use this as the command:
       </p>
@@ -777,6 +1224,13 @@
           garden[ 4:5, c("speaker", "utterance") ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         Again, the output is identical.
       </p>
@@ -797,6 +1251,13 @@
           garden[ is.MP.speaking, c("speaker", "utterance") ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         And of course the output is, yet again, the same.
       </p>
@@ -811,6 +1272,16 @@
           garden[ , 1:2 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.1  upsy-daisy       pip
+## case.2  upsy-daisy       pip
+## case.3   tombliboo        ee
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         Alternatively, if I want to keep all the columns but only want the last two rows, I use the same trick, but this time I leave the second index blank. So my command becomes:
       </p>
@@ -819,6 +1290,13 @@
           garden[ 4:5, ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         The second elaboration I should note is that it's still okay to use negative indexes as a way of telling R to delete certain rows or columns. For instance, if I want to delete the 3rd column, then I use this command:
       </p>
@@ -827,6 +1305,16 @@
           garden[ , -3 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.1  upsy-daisy       pip
+## case.2  upsy-daisy       pip
+## case.3   tombliboo        ee
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         whereas if I want to delete the 3rd row, then I'd use this one:
       </p>
@@ -835,6 +1323,15 @@
           garden[ -3,  ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.1  upsy-daisy       pip    1
+## case.2  upsy-daisy       pip    2
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         So that's nice.
       </p>
@@ -849,6 +1346,12 @@
           garden[ 5, ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         This is exactly what you'd expect to see: a data frame containing three variables, and only one case per variable. Okay, no problems so far. What happens when you ask for a single *column*? Suppose, for instance, I try this as a command:
       </p>
@@ -857,6 +1360,11 @@
           garden[ , 3 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 1 2 5 7 9
+]]></output>
+    </console>
       <p>
         Based on everything that I've shown you so far, you would be well within your rights to expect to see R produce a data frame containing a single variable (i.e., <c>line</c>) and five cases. After all, that <em>is</em> what the <c>subset()</c> command does in this situation, and it's pretty consistent with everything else that I've shown you so far about how square brackets work. In other words, you should expect to see this:
       </p>
@@ -878,6 +1386,11 @@
           garden[ , 3 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 1 2 5 7 9
+]]></output>
+    </console>
       <p>
         That output is <em>_not a data frame_</em> at all! That's just an ordinary numeric vector containing 5 elements. What's going on here is that R has "noticed" that the output that we've asked for doesn't really "need" to be wrapped up in a data frame at all, because it only corresponds to a single variable. So what it does is "drop" the output from a data frame <em>containing</em> a single variable, "down" to a simpler output that corresponds to that variable. This behaviour is actually very convenient for day to day usage once you've become familiar with it <mdash /> and I suppose that's the real reason why R does this <mdash /> but there's no escaping the fact that it is <em>deeply</em> confusing to novices. It's especially confusing because the behaviour appears only for a very specific case: (a) it only works for columns and not for rows, because the columns correspond to variables and the rows do not, and (b) it only applies to the "rows and columns" version of the square brackets, and not to the <c>subset()</c> function,<fn>Actually, you can make the <c>subset()</c> function behave this way by using the optional <c>drop</c> argument, but by default <c>subset()</c> does not drop, which is probably more sensible and more intuitive to novice users.</fn> or to the "just columns" use of the square brackets (next section). As I say, it's very confusing when you're just starting out. For what it's worth, you can suppress this behaviour if you want, by setting <c>drop = FALSE</c> when you construct your bracketed expression. That is, you could do something like this:
       </p>
@@ -886,6 +1399,16 @@
           garden[ , 3, drop = FALSE ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        line
+## case.1    1
+## case.2    2
+## case.3    5
+## case.4    7
+## case.5    9
+]]></output>
+    </console>
       <p>
         I suppose that helps a little bit, in that it gives you some control over the dropping behaviour, but I'm not sure it helps to make things any easier to understand. Anyway, that's the "dropping" special case. Fun, isn't it?
       </p>
@@ -900,6 +1423,16 @@
           garden[ 1:2 ]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance
+## case.1  upsy-daisy       pip
+## case.2  upsy-daisy       pip
+## case.3   tombliboo        ee
+## case.4 makka-pakka       pip
+## case.5 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         As you can see, the output gives me the first two columns, much as if I'd typed <c>garden[,1:2]</c>. It doesn't give me the first two rows, which is what I'd have gotten if I'd used a command like <c>garden[1:2,]</c>. Not only that, if I ask for a <em>single</em> column, R does not drop the output:
       </p>
@@ -908,6 +1441,16 @@
           garden[3]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        line
+## case.1    1
+## case.2    2
+## case.3    5
+## case.4    7
+## case.5    9
+]]></output>
+    </console>
       <p>
         As I said earlier, the <em>only</em> case where dropping occurs by default is when you use the "row and columns" version of the square brackets, and the output happens to correspond to a single column. However, if you really want to force R to drop the output, you can do so using the "double brackets" notation:
       </p>
@@ -916,6 +1459,11 @@
           garden[[3]]
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 1 2 5 7 9
+]]></output>
+    </console>
       <p>
         Note that R will only allow you to ask for one column at a time using the double brackets. If you try to ask for multiple columns in this way, you get completely different behaviour,<fn>Specifically, recursive indexing, a handy tool in some contexts but not something that I want to discuss here.</fn> which may or may not produce an error, but definitely won't give you the output you're expecting. The only reason I'm mentioning it at all is that you might run into double brackets when doing further reading, and a lot of books don't explicitly point out the difference between <c>[</c> and <c>[[</c>. However, I promise that I won't be using <c>[[</c> anywhere else in this book.
       </p>
@@ -927,6 +1475,23 @@
           print.default( garden )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## $speaker
+## [1] upsy-daisy  upsy-daisy  tombliboo   makka-pakka makka-pakka
+## Levels: makka-pakka tombliboo upsy-daisy
+## 
+## $utterance
+## [1] pip pip ee  pip onk
+## Levels: ee onk oo pip
+## 
+## $line
+## [1] 1 2 5 7 9
+## 
+## attr(,"class")
+## [1] "data.frame"
+]]></output>
+    </console>
       <p>
         Apart from the weird part of the output right at the bottom, this is <em>identical</em> to the print out that you get when you print out a list (see <xref ref="lists" />). In other words, a data frame is a list. View from this "list based" perspective, it's clear what <c>garden[1]</c> is: it's the first variable stored in the list, namely <c>speaker</c>. In other words, when you use the "just columns" way of indexing a data frame, using only a single index, R assumes that you're thinking about the data frame as if it were a *list of variables*. In fact, when you use the <c>$</c> operator you're taking advantage of the fact that the data frame is secretly a list.
       </p>
@@ -938,6 +1503,16 @@
           print( garden )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.1  upsy-daisy       pip    1
+## case.2  upsy-daisy       pip    2
+## case.3   tombliboo        ee    5
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         Because of the fact that a data frame is basically a table of data, R provides a second "row and column" method for interacting with the data frame (see <xref ref="matrix" /> for a related example). This method makes much more sense in terms of the high-level <em>table of data</em> interpretation of what a data frame is, and so for the most part it's this method that people tend to prefer. In fact, throughout the rest of the book I will be sticking to the "row and column" approach (though I will use <c>$</c> a lot), and never again referring to the "just columns" approach. However, it does get used a lot in practice, so I think it's important that this book explain what's going on.
       </p>
@@ -962,6 +1537,11 @@
           sort( x = numbers )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         You can ask for R to sort in decreasing order rather than increasing:
       </p>
@@ -970,6 +1550,11 @@
           sort( x = numbers, decreasing = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 4 3 2
+]]></output>
+    </console>
       <p>
         And you can ask it to sort text data in alphabetical order:
       </p>
@@ -979,6 +1564,11 @@
           sort( text )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         That's pretty straightforward. That being said, it's important to note that I'm glossing over something here. When you apply <c>sort()</c> to a character vector it doesn't strictly sort into alphabetical order. R actually has a slightly different notion of how characters are ordered (see <xref ref="logictext2" /> and <xref ref="table-asciiorder" />), which is more closely related to how computers store text data than to how letters are ordered in the alphabet. However, that's a topic we'll discuss later. For now, the only thing I should note is that the <c>sort()</c> function doesn't alter the original variable. Rather, it creates a new, sorted variable as the output. So if I inspect my original <c>text</c> variable:
       </p>
@@ -987,6 +1577,11 @@
           text
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "swing"    "zebra"
+]]></output>
+    </console>
       <p>
         I can see that it has remained unchanged.
       </p>
@@ -1002,6 +1597,11 @@
           fac
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         Now let's sort it:
       </p>
@@ -1010,6 +1610,12 @@
           sort(fac)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] aardvark swing    zebra   
+## Levels: aardvark swing zebra
+]]></output>
+    </console>
       <p>
         This <em>looks</em> like it's sorted things into alphabetical order, but that's only because the factor levels themselves happen to be alphabetically ordered. Suppose I deliberately define the factor levels in a non-alphabetical order:
       </p>
@@ -1019,6 +1625,11 @@
           fac
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         Now what happens when we try to sort <c>fac</c> this time? The answer:
       </p>
@@ -1027,6 +1638,12 @@
           sort(fac)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] aardvark swing    zebra   
+## Levels: aardvark swing zebra
+]]></output>
+    </console>
       <p>
         It sorts the data into the numerical order implied by the factor levels, not the alphabetical order implied by the labels attached to those levels. Normally you never notice the distinction, because by default the factor levels are assigned in alphabetical order, but it's important to know the difference:
       </p>
@@ -1041,6 +1658,16 @@
           sortFrame( garden, speaker, line)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+## case.3   tombliboo        ee    5
+## case.1  upsy-daisy       pip    1
+## case.2  upsy-daisy       pip    2
+]]></output>
+    </console>
       <p>
         what R does is first sort by <c>speaker</c> (factor level order). Any ties (i.e., data from the same speaker) are then sorted in order of <c>line</c> (increasing numerical order). You can use the minus sign to indicate that numerical variables should be sorted in reverse order:
       </p>
@@ -1049,6 +1676,16 @@
           sortFrame( garden, speaker, -line)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.5 makka-pakka       onk    9
+## case.4 makka-pakka       pip    7
+## case.3   tombliboo        ee    5
+## case.2  upsy-daisy       pip    2
+## case.1  upsy-daisy       pip    1
+]]></output>
+    </console>
       <p>
         As of the current writing, the <c>sortFrame()</c> function is under development. I've started introducing functionality to allow you to use the <c>-</c> sign to non-numeric variables or to make a distinction between sorting factors alphabetically or by factor level. The idea is that you should be able to type in something like this:
       </p>
@@ -1057,6 +1694,16 @@
           sortFrame( garden, -speaker)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.1  upsy-daisy       pip    1
+## case.2  upsy-daisy       pip    2
+## case.3   tombliboo        ee    5
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         and have the output correspond to a sort of the <c>garden</c> data frame in <em>reverse</em> alphabetical order (or reverse factor level order) of <c>speaker</c>. As things stand right now, this will actually work, and it will produce sensible output:
       </p>
@@ -1065,6 +1712,16 @@
           sortFrame( garden, -speaker)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##            speaker utterance line
+## case.1  upsy-daisy       pip    1
+## case.2  upsy-daisy       pip    2
+## case.3   tombliboo        ee    5
+## case.4 makka-pakka       pip    7
+## case.5 makka-pakka       onk    9
+]]></output>
+    </console>
       <p>
         However, I'm not completely convinced that I've set this up in the ideal fashion, so this may change a little bit in the future.
       </p>
@@ -1130,6 +1787,14 @@
           rowCopy( x = fibonacci, times = 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##      [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,]    1    1    2    3    5    8
+## [2,]    1    1    2    3    5    8
+## [3,]    1    1    2    3    5    8
+]]></output>
+    </console>
       <p>
         Of course, in practice you don't need to name the arguments all the time. For instance, here's an example using the <c>colCopy()</c> function with the argument names omitted:
       </p>
@@ -1138,6 +1803,17 @@
           colCopy( fibonacci, 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##      [,1] [,2] [,3]
+## [1,]    1    1    1
+## [2,]    1    1    1
+## [3,]    2    2    2
+## [4,]    3    3    3
+## [5,]    5    5    5
+## [6,]    8    8    8
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Transposing a matrix or data frame</title>
@@ -1150,6 +1826,15 @@
           cakes
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        time.1 time.2 time.3 time.4 time.5
+## cake.1    100     80      0      0      0
+## cake.2    100    100     90     30     10
+## cake.3    100     20     20     20     20
+## cake.4    100    100    100    100    100
+]]></output>
+    </console>
       <p>
         And just to make sure you believe me that this is actually a matrix:
       </p>
@@ -1158,6 +1843,11 @@
           class( cakes )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "matrix"
+]]></output>
+    </console>
       <p>
         Okay, now let's transpose the matrix:
       </p>
@@ -1175,6 +1865,11 @@
           class( cakes.flipped )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "matrix"
+]]></output>
+    </console>
       <p>
         At this point you should have two questions: (1) how do we do the same thing for data frames? and (2) why should we care about this? Let's start with the how question. First, I should note that you can transpose a data frame just fine using the <c>t()</c> function, but that has the slightly awkward consequence of converting the output from a data frame to a matrix, which isn't usually what you want. It's quite easy to convert the output back again, of course,<fn>The function you need for that is called <c>as.data.frame()</c>.</fn> but I hate typing two commands when I can do it with one. To that end, the <c>lsr</c> package has a simple "convenience" function called <c>tFrame()</c> which does exactly the same thing as <c>t()</c> but converts the output to a data frame for you. To illustrate this, let's transpose the <c>itng</c> data frame that we used earlier. Here's the original data frame:
       </p>
@@ -1183,6 +1878,21 @@
           itng
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        speaker utterance
+## 1   upsy-daisy       pip
+## 2   upsy-daisy       pip
+## 3   upsy-daisy       onk
+## 4   upsy-daisy       onk
+## 5    tombliboo        ee
+## 6    tombliboo        oo
+## 7  makka-pakka       pip
+## 8  makka-pakka       pip
+## 9  makka-pakka       onk
+## 10 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         and here's what happens when you transpose it using <c>tFrame()</c>:
       </p>
@@ -1191,6 +1901,21 @@
           tFrame( itng )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##        speaker utterance
+## 1   upsy-daisy       pip
+## 2   upsy-daisy       pip
+## 3   upsy-daisy       onk
+## 4   upsy-daisy       onk
+## 5    tombliboo        ee
+## 6    tombliboo        oo
+## 7  makka-pakka       pip
+## 8  makka-pakka       pip
+## 9  makka-pakka       onk
+## 10 makka-pakka       onk
+]]></output>
+    </console>
       <p>
         An important point to recognise is that transposing a data frame is not always a sensible thing to do: in fact, I'd go so far as to argue that it's usually <em>not</em> sensible. It depends a lot on whether the "cases" from your original data frame would make sense as variables, and to think of each of your original "variables" as cases. I think that's emphatically <em>not</em> true for our <c>itng</c> data frame, so I wouldn't advise doing it in this situation.
       </p>
@@ -1215,6 +1940,64 @@
           who()
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    -- Name --             -- Class --   -- Size --
+##    afl.finalists          factor        400       
+##    afl.margins            numeric       176       
+##    afl2                   data.frame    4296 x 2  
+##    age                    numeric       11        
+##    age.breaks             numeric       4         
+##    age.group              factor        11        
+##    age.group2             factor        11        
+##    age.group3             factor        11        
+##    age.labels             character     3         
+##    colour                 logical       1         
+##    d.cor                  numeric       1         
+##    describeImg            list          0         
+##    df                     data.frame    10 x 4    
+##    effort                 data.frame    10 x 2    
+##    emphCol                character     1         
+##    emphColLight           character     1         
+##    emphGrey               character     1         
+##    eps                    logical       1         
+##    Fibonacci              numeric       7         
+##    freq                   integer       17        
+##    generateRLineTypes     function                
+##    generateRPointShapes   function                
+##    height                 numeric       1         
+##    is.MP.speaking         logical       10        
+##    itng                   data.frame    10 x 2    
+##    itng.table             table         3 x 4     
+##    likert.centred         numeric       10        
+##    likert.raw             numeric       10        
+##    old                    list          66        
+##    oneCorPlot             function                
+##    opinion.dir            numeric       10        
+##    opinion.strength       numeric       10        
+##    out.0                  data.frame    100 x 2   
+##    out.1                  data.frame    100 x 2   
+##    out.2                  data.frame    100 x 2   
+##    parenthood             data.frame    100 x 4   
+##    plotOne                function                
+##    projecthome            character     1         
+##    some.data              numeric       18        
+##    speaker                character     10        
+##    speech.by.char         list          3         
+##    suspicious.cases       logical       176       
+##    teams                  character     17        
+##    utterance              character     10        
+##    width                  numeric       1         
+##    X1                     numeric       11        
+##    X2                     numeric       11        
+##    X3                     numeric       11        
+##    X4                     numeric       11        
+##    Y1                     numeric       11        
+##    Y2                     numeric       11        
+##    Y3                     numeric       11        
+##    Y4                     numeric       11
+]]></output>
+    </console>
       <p>
         To get a sense of what I'm talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people's working memory capacity (WMC) and reaction times (RT). We recruit 10 participants, and measure their WMC and RT under three different conditions: a "no drug" condition, in which they are not under the influence of either caffeine or alcohol, a "caffeine" condition, in which they are under the inflence of caffeine, and an "alcohol" condition, in which... well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let's ignore that. The <c>drugs</c> data frame gives you a sense of what kind of data you might observe in an experiment like this:
       </p>
@@ -1223,6 +2006,32 @@
           drugs
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         This is a data set in "wide form", in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their <c>id</c> number and their <c>gender</c>) and six variables that refer to one of the two measured variables (WMC or RT) in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a <term>within-subject factor</term>.
       </p>
@@ -1238,6 +2047,32 @@
           head(drugs.2)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         The <c>drugs.2</c> data frame that we just created has 30 rows: each of the 10 participants appears in three separate rows, one corresponding to each of the three testing conditions. And instead of having a variable like <c>WMC_caffeine</c> that indicates that we were measuring "WMC" in the "caffeine" condition, this information is now recorded in two separate variables, one called <c>drug</c> and another called <c>WMC</c>. Obviously, the long and wide forms of the data contain the same information, but they represent quite different ways of organising that information. Sometimes you find yourself needing to analyse data in wide form, and sometimes you find that you need long form. So it's really useful to know how to switch between the two.
       </p>
@@ -1252,6 +2087,32 @@
           wideToLong( drugs )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         This is pretty good, actually. The only think it has gotten wrong here is that it doesn't know what name to assign to the within-subject factor, so instaed of calling it something sensible like <c>drug</c>, it has use the unimaginative name <c>within</c>. If you want to ensure that the <c>wideToLong()</c> function applies a sensible name, you have to specify the <c>within</c> argument, which is just a character string that specifies the name of the within-subject factor. So when I used this command earlier,
       </p>
@@ -1260,6 +2121,32 @@
           drugs.2 &lt;- wideToLong( data = drugs, within = "drug" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         all I was doing was telling R to use <c>drug</c> as the name of the within subject factor.
       </p>
@@ -1271,6 +2158,32 @@
           drugs.2 &lt;- wideToLong( data = drugs, within = "drug", sep = "/" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         and it would still work.
       </p>
@@ -1285,6 +2198,32 @@
           longToWide( data=drugs.2, formula= WMC+RT ~ drug )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         or, if we chose to omit argument names, we could simplify it to this:
       </p>
@@ -1293,6 +2232,32 @@
           longToWide( drugs.2, WMC+RT ~ drug )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         Note that, just like the <c>wideToLong()</c> function, the <c>longToWide()</c> function allows you to override the default separator character. For instance, if the command I used had been
       </p>
@@ -1301,6 +2266,32 @@
           longToWide( drugs.2, WMC+RT ~ drug, sep="/" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##    id gender WMC_alcohol WMC_caffeine WMC_no.drug RT_alcohol RT_caffeine
+## 1   1 female         3.7          3.7         3.9        488         236
+## 2   2 female         6.4          7.3         7.9        607         376
+## 3   3 female         4.6          7.4         7.3        643         226
+## 4   4   male         6.4          7.8         8.2        684         206
+## 5   5 female         4.9          5.2         7.0        593         262
+## 6   6   male         5.4          6.6         7.2        492         230
+## 7   7   male         7.9          7.9         8.9        690         259
+## 8   8   male         4.1          5.9         4.5        486         230
+## 9   9 female         5.2          6.2         7.2        686         273
+## 10 10 female         6.2          7.4         7.8        645         240
+##    RT_no.drug
+## 1         371
+## 2         349
+## 3         412
+## 4         252
+## 5         439
+## 6         464
+## 7         327
+## 8         305
+## 9         327
+## 10        498
+]]></output>
+    </console>
       <p>
         the output would contain variables with names like <c>RT/alcohol</c> instead of <c>RT_alcohol</c>.
       </p>
@@ -1318,6 +2309,25 @@
           choice
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   id gender MRT/block1/day1 MRT/block1/day2 MRT/block2/day1
+## 1  1   male             415             400             455
+## 2  2   male             500             490             532
+## 3  3 female             478             468             499
+## 4  4 female             550             502             602
+##   MRT/block2/day2 PC/block1/day1 PC/block1/day2 PC/block2/day1
+## 1             450             79             88             82
+## 2             518             83             92             86
+## 3             474             91             98             90
+## 4             588             75             89             78
+##   PC/block2/day2
+## 1             93
+## 2             97
+## 3            100
+## 4             95
+]]></output>
+    </console>
       <p>
         Notice that this time around we have variable names of the form <c>MRT/block1/day2</c>. As before, the first part of the name refers to the measured variable (response time), but there are now two suffixes, one indicating that the testing took place in block 1, and the other indicating that it took place on day 2. And just to complicate matters, it uses <c>/</c> as the separator character rather than <c>_</c>. Even so, reshaping this data set is pretty easy. The command to do it is,
       </p>
@@ -1326,6 +2336,25 @@
           choice.2 &lt;- wideToLong( choice, within=c("block","day"), sep="/" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   id gender MRT/block1/day1 MRT/block1/day2 MRT/block2/day1
+## 1  1   male             415             400             455
+## 2  2   male             500             490             532
+## 3  3 female             478             468             499
+## 4  4 female             550             502             602
+##   MRT/block2/day2 PC/block1/day1 PC/block1/day2 PC/block2/day1
+## 1             450             79             88             82
+## 2             518             83             92             86
+## 3             474             91             98             90
+## 4             588             75             89             78
+##   PC/block2/day2
+## 1             93
+## 2             97
+## 3            100
+## 4             95
+]]></output>
+    </console>
       <p>
         which is pretty much the exact same command we used last time. The only difference here is that, because there are two within-subject factors, the <c>within</c> argument is a vector that contains two names. When we look at the long form data frame that this creates, we get this:
       </p>
@@ -1334,6 +2363,25 @@
           choice.2
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   id gender MRT/block1/day1 MRT/block1/day2 MRT/block2/day1
+## 1  1   male             415             400             455
+## 2  2   male             500             490             532
+## 3  3 female             478             468             499
+## 4  4 female             550             502             602
+##   MRT/block2/day2 PC/block1/day1 PC/block1/day2 PC/block2/day1
+## 1             450             79             88             82
+## 2             518             83             92             86
+## 3             474             91             98             90
+## 4             588             75             89             78
+##   PC/block2/day2
+## 1             93
+## 2             97
+## 3            100
+## 4             95
+]]></output>
+    </console>
       <p>
         In this long form data frame we have two between-subject variables (<c>id</c> and <c>gender</c>), two variables that define our within-subject manipulations (<c>block</c> and <c>day</c>), and two more contain the measurements we took (<c>MRT</c> and <c>PC</c>).
       </p>
@@ -1345,6 +2393,25 @@
           longToWide( choice.2, MRT+PC ~ block+day, sep="/" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##   id gender MRT/block1/day1 MRT/block1/day2 MRT/block2/day1
+## 1  1   male             415             400             455
+## 2  2   male             500             490             532
+## 3  3 female             478             468             499
+## 4  4 female             550             502             602
+##   MRT/block2/day2 PC/block1/day1 PC/block1/day2 PC/block2/day1
+## 1             450             79             88             82
+## 2             518             83             92             86
+## 3             474             91             98             90
+## 4             588             75             89             78
+##   PC/block2/day2
+## 1             93
+## 2             97
+## 3            100
+## 4             95
+]]></output>
+    </console>
       <p>
         and this produces a wide form data set containing the same variables as the original <c>choice</c> data frame.
       </p>
@@ -1379,6 +2446,11 @@
           strtrim( x = animals, width = 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "cat" "dog" "kan" "wha"
+]]></output>
+    </console>
       <p>
         Note that the only thing that <c>strtrim()</c> does is chop off excess characters at the end of a string. It doesn't insert any whitespace characters to fill them out if the original string is shorter than the <c>width</c> argument. For example, if I trim the <c>animals</c> data to 4 characters, here's what I get:
       </p>
@@ -1387,6 +2459,11 @@
           strtrim( x = animals, width = 4 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "cat"  "dog"  "kang" "whal"
+]]></output>
+    </console>
       <p>
         The <c>"cat"</c> and <c>"dog"</c> strings still only use 3 characters. Okay, but what if you don't want to start from the first letter? Suppose, for instance, I only wanted to keep the second and third letter of each word. That doesn't happen quite as often, but there are some situations where you need to do something like that. If that does happen, then the function you need is <c>substr()</c>, in which you specify a <c>start</c> point and a <c>stop</c> point instead of specifying the width. For instance, to keep only the 2nd and 3rd letters of the various <c>animals</c>, I can do the following:
       </p>
@@ -1395,6 +2472,11 @@
           substr( x = animals, start = 2, stop = 3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "at" "og" "an" "ha"
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Pasting strings together</title>
@@ -1420,6 +2502,11 @@
           paste( "hello", "world" )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "hello world"
+]]></output>
+    </console>
       <p>
         Notice that R has inserted a space between the <c>"hello"</c> and <c>"world"</c>. Suppose that's not what I wanted. Instead, I might want to use <c>.</c> as the separator character, or to use no separator at all. To do either of those, I would need to specify <c>sep = "."</c> or <c>sep = ""</c>.<fn>To be honest, it does bother me a little that the default value of <c>sep</c> is a space. Normally when I want to paste strings together I don't want any separator character, so I'd prefer it if the default were <c>sep=""</c>. To that end, it's worth noting that there's also a <c>paste0()</c> function, which is identical to <c>paste()</c> except that it always assumes that <c>sep=""</c>. Type <c>?paste</c> for more information about this.</fn> For instance:
       </p>
@@ -1428,6 +2515,11 @@
           paste( "hello", "world", sep = "." )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "hello.world"
+]]></output>
+    </console>
       <p>
         Now let's consider a slightly more complicated example. Suppose I have two vectors that I want to <c>paste()</c> together. Let's say something like this:
       </p>
@@ -1445,6 +2537,11 @@
           paste( hw, ng )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "hello nasty"      "world government"
+]]></output>
+    </console>
       <p>
         However, there's nothing stopping you from overriding this default. All you have to do is specify a value for the <c>collapse</c> argument, and R will chuck everything into one dirty big string. To give you a sense of exactly how this works, what I'll do in this next example is specify <em>different</em> values for <c>sep</c> and <c>collapse</c>:
       </p>
@@ -1453,6 +2550,11 @@
           paste( hw, ng, sep = ".", collapse = ":::")
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "hello.nasty:::world.government"
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Splitting strings</title>
@@ -1487,6 +2589,11 @@
           monkey.1
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         One thing to note in passing is that the output here is a list (you can tell from the <c>[[1]]</c> part of the output), whose first and only element is a character vector. This is useful in a lot of ways, since it means that you can input a character vector for <c>x</c> and then then have the <c>strsplit()</c> function split all of them, but it's kind of annoying when you only have a single input. To that end, it's useful to know that you can <c>unlist()</c> the output:
       </p>
@@ -1495,6 +2602,12 @@
           unlist( monkey.1 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] "It"     "was"    "the"    "best"   "of"     "times." "It"    
+##  [8] "was"    "the"    "blurst" "of"     "times."
+]]></output>
+    </console>
       <p>
         To understand why it's important to remember to use the <c>fixed = TRUE</c> argument, suppose we wanted to split this into two separate sentences. That is, we want to use <c>split = "."</c> as our delimiter string. As long as we tell R to remember to treat this as a <em>fixed</em> separator character, then we get the right answer:
       </p>
@@ -1503,6 +2616,12 @@
           strsplit( x = monkey, split = ".", fixed = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [[1]]
+## [1] "It was the best of times"    " It was the blurst of times"
+]]></output>
+    </console>
       <p>
         However, if we don't do this, then R will assume that when you typed <c>split = "."</c> you were trying to construct a "regular expression", and as it happens the character <c>.</c> has a special meaning within a regular expression. As a consequence, if you forget to include the <c>fixed = TRUE</c> part, you won't get the answers you're looking for.
       </p>
@@ -1518,6 +2637,11 @@
           tolower( x = text )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         A slightly more powerful way of doing text transformations is to use the <c>chartr()</c> function, which allows you to specify a "character by character" substitution. This function contains three arguments, <c>old</c>, <c>new</c> and <c>x</c>. As usual <c>x</c> specifies the text that needs to be transformed. The <c>old</c> and <c>new</c> arguments are strings of the same length, and they specify how <c>x</c> is to be converted. Every instance of the first character in <c>old</c> is converted to the first character in <c>new</c> and so on. For instance, suppose I wanted to convert <c>"albino"</c> to <c>"libido"</c>. To do this, I need to convert all of the <c>"a"</c> characters (all 1 of them) in <c>"albino"</c> into <c>"l"</c> characters (i.e., <c>a</c> <m>\rightarrow</m> <c>l</c>). Additionally, I need to make the substitutions <c>l</c> <m>\rightarrow</m> <c>i</c> and <c>n</c> <m>\rightarrow</m> <c>d</c>. To do so, I would use the following command:
       </p>
@@ -1527,6 +2651,11 @@
           chartr( old = "aln", new = "lid", x = old.text )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
     </subsection>
     <subsection xml:id="logictext2">
       <title>Applying logical operations to text</title>
@@ -1572,6 +2701,11 @@
           ), caption = "The ordering of various text characters used by the &lt; and &gt; operators, as well as by the sort() function. Not shown is the “space” character, which actually comes ﬁrst on the list.")
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>Concatenating and printing with <c>cat()</c></title>
@@ -1584,6 +2718,11 @@
           paste( hw, ng, collapse = " " )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## hello world nasty government
+]]></output>
+    </console>
       <p>
         Notice the difference in the ordering of words. There's a few additional details that I need to mention about <c>cat()</c>. Firstly, <c>cat()</c> really is a function for *printing*, and not for creating text strings to store for later. You can't assign the output to a variable, as the following example illustrates:
       </p>
@@ -1593,6 +2732,11 @@
           x
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## hello world nasty government
+]]></output>
+    </console>
       <p>
         Despite my attempt to store the output as a variable, <c>cat()</c> printed the results on screen anyway, and it turns out that the variable I created doesn't contain anything at all.<fn>Note that you can capture the output from <c>cat()</c> if you want to, but you have to be sneaky and use the <c>capture.output()</c> function. For example, the command <c>x &lt;- capture.output(cat(hw,ng))</c> would work just fine.</fn> Secondly, the <c>cat()</c> function makes use of a number of "special" characters. I'll talk more about these in the next section, but I'll illustrate the basic point now, using the example of <c>"\n"</c> which is interpreted as a "new line" character. For instance, compare the behaviour of <c>print()</c> and <c>cat()</c> when asked to print the string <c>"hello\nworld"</c>:
       </p>
@@ -1602,6 +2746,11 @@
           cat( "hello\nworld" )  # interpret as newline
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "hello\nworld"
+]]></output>
+    </console>
       <p>
         In fact, this behaviour is important enough that it deserves a section of its very own...
       </p>
@@ -1617,6 +2766,11 @@
           Error: unexpected symbol in "'O'Rourke"
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         To some extent, R offers us a cheap fix to the problem because of the fact that it allows us to use either <c>"</c> or <c>'</c> as the delimiter character. Although <c>'O'rourke'</c> will make R cry, it is perfectly happy with <c>"O'Rourke"</c>:
       </p>
@@ -1625,6 +2779,11 @@
           "O'Rourke"
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "O'Rourke"
+]]></output>
+    </console>
       <p>
         This is a real advantage to having two different delimiter characters. Unfortunately, anyone with even the slightest bit of deviousness to them can see the problem with this. Suppose I'm reading a book that contains the following passage,
       </p>
@@ -1645,6 +2804,11 @@
           ), caption = "Standard escape characters that are evaluated by some text processing commands, including `cat()`. This convention dates back to the development of the C programming language in the 1970s, and as a consequence a lot of these characters make most sense if you pretend that R is actually a typewriter, as explained in the main text. Type `?Quotes` for the corresponding R help file.")
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         The solution to the problem is to designate an <term>escape character</term>, which in this case is <c>\</c>, the humble backslash. The escape character is a bit of a sacrificial lamb: if you include a backslash character in your string, R will <em>not</em> treat it as a literal character at all. It's actually used as a way of inserting "special" characters into your string. For instance, if you want to force R to insert actual quote marks into the string, then what you actually type is <c>\'</c> or <c>\"</c> (these are called <term>escape sequences</term>). So, in order to encode the string discussed earlier, here's a command I could use:
       </p>
@@ -1661,6 +2825,11 @@
           print( PJ )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "P.J. O'Rourke says, \"Yay, money!\". It's a joke, but no-one laughs."
+]]></output>
+    </console>
       <p>
         Hm. Why has R printed out the string using <c>\"</c>? For the exact same reason that <em>I</em> needed to insert the backslash in the first place. That is, when R prints out the <c>PJ</c> string, it has enclosed it with delimiter characters, and it wants to unambiguously show us which of the double quotes are delimiters and which ones are actually part of the string. Fortunately, if this bugs you, you can make it go away by using the <c>print.noquote()</c> function, which will just print out the literal string that you encoded in the first place:
       </p>
@@ -1683,6 +2852,11 @@
           cat( "xxxx\roo" )  # \r returns you to the beginning of the line
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         And that's pretty much it. There are a few other escape sequence that R recognises, which you can use to insert arbitrary ASCII or Unicode characters into your string (type <c>?Quotes</c> for more details) but I won't go into details here.
       </p>
@@ -1708,6 +2882,11 @@
           grep( pattern = "er", x = beers, fixed = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         What the output here is telling us is that the second and third elements of <c>beers</c> both contain the substring <c>"er"</c>. Alternatively, however, we might prefer it if <c>grep()</c> returned the actual strings themselves. We can do this by specifying <c>value = TRUE</c> in our function call. That is, we'd use a command like this:
       </p>
@@ -1716,6 +2895,11 @@
           grep( pattern = "er", x = beers, fixed = TRUE, value = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         The other two functions that I wanted to mention in this section are <c>gsub()</c> and <c>sub()</c>. These are both similar in spirit to <c>grep()</c> insofar as what they do is search through the input strings (<c>x</c>) and find all of the strings that match a <c>pattern</c>. However, what these two functions do is <em>replace</em> the pattern with a <c>replacement</c> string. The <c>gsub()</c> function will replace <em>all</em> instances of the pattern, whereas the <c>sub()</c> function just replaces the first instance of it in each string. To illustrate how this works, suppose I want to replace all instances of the letter <c>"a"</c> with the string <c>"BLAH"</c>. I can do this to the <c>beers</c> data using the <c>gsub()</c> function:
       </p>
@@ -1724,6 +2908,11 @@
           gsub( pattern = "a", replacement = "BLAH", x = beers, fixed = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Notice that all three of the <c>"a"</c>s in <c>"sierra nevada"</c> have been replaced. In contrast, let's see what happens when we use the exact same command, but this time using the <c>sub()</c> function instead:
       </p>
@@ -1732,6 +2921,11 @@
           sub( pattern = "a", replacement = "BLAH", x = beers, fixed = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Only the first <c>"a"</c> is changed.
       </p>
@@ -1746,6 +2940,11 @@
           grep( pattern = "[aeiou]s", x = beers, value = TRUE )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         So it turns out that only <c>"little creatures"</c> contains a vowel followed by the letter <c>"s"</c>. But of course, had the data contained a beer like <c>"fosters"</c>, that would have matched as well because it contains the string <c>"os"</c>. However, I deliberately chose not to include it because Fosters is not <mdash /> in my opinion <mdash /> a proper beer.<fn>I thank Amy Perfors for this example.</fn> As you can tell from this example, regular expressions are a neat tool for specifying <em>patterns</em> in text: in this case, "vowel then s". So they are definitely things worth knowing about if you ever find yourself needing to work with a large body of text. However, since they are fairly complex and not necessary for any of the applications discussed in this book, I won't talk about them any further.
       </p>
@@ -1792,6 +2991,11 @@
             na.strings = "NFI" )      # what is the code for missing data?
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         If I now have a look at the data I've loaded, I see that this is what I've got:
       </p>
@@ -1800,6 +3004,17 @@
           head( data )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##          V1 V2  V3   V4
+## 1   January 31   0 high
+## 2 February  28 100 high
+## 3    March  31 200  low
+## 4    April  30  50  out
+## 5    May    31  NA  out
+## 6    June   30   0 high
+]]></output>
+    </console>
       <p>
         Because I told R to expect <c>*</c> to be used as the quoting character instead of <c>"</c>; to look for tabs (which we write like this: <c>\t</c>) instead of commas, and to skip the first 8 lines of the file, it's basically loaded the right data. However, since <c>booksales2.csv</c> doesn't contain the column names, R has made them up. Showing the kind of imagination I expect from insentient software, R decided to call them <c>V1</c>, <c>V2</c>, <c>V3</c> and <c>V4</c>. Finally, because I told it that the file uses "NFI" to denote missing data, R correctly figures out that the sales data for May are actually missing.
       </p>
@@ -1846,6 +3061,11 @@
           X &lt;- read.xls( "datafile.xlsx" )   # create a data frame
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         This usually works. And if it doesn't, you're probably justified in "suggesting" to the person that sent you the file that they should send you a nice clean CSV file instead.
       </p>
@@ -1895,6 +3115,11 @@
         class(x)    # what class is it?
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
     <p>
       Obviously, if I want to do calculations using <c>x</c> in its current state, R is going to get very annoyed at me. It thinks that <c>x</c> is text, so it's not going to allow me to try to do mathematics using it! Obviously, we need to coerce <c>x</c> from character to numeric. We can do that in a straightforward way by using the <c>as.numeric()</c> function:
     </p>
@@ -1905,6 +3130,11 @@
         x + 1               # hey, addition works!
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
     <p>
       Not surprisingly, we can also convert it back again if we need to. The function that we use to do this is the <c>as.character()</c> function:
     </p>
@@ -1914,6 +3144,11 @@
         class(x)               # check the class:
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
     <p>
       However, there's some fairly obvious limitations: you can't coerce the string <c>"hello world"</c> into a number because, well, there's isn't a number that corresponds to it. Or, at least, you can't do anything useful:
     </p>
@@ -1922,6 +3157,11 @@
         as.numeric( "hello world" )  # this isn't going to work.
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## Warning: NAs introduced by coercion
+]]></output>
+    </console>
     <p>
       In this case R doesn't give you an error message; it just gives you a warning, and then says that the data is missing (see <xref ref="specials" /> for the interpretation of <c>NA</c>).
     </p>
@@ -1947,6 +3187,11 @@
           print( M )                  # and print it out...
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         The variable <c>M</c> is a matrix, which we can confirm by using the <c>class()</c> function. Notice that, when we bound the two vectors together, R retained the names of the original variables as row names. We could delete these if we wanted by typing <c>rownames(M)&lt;-NULL</c>, but I generally prefer having meaningful names attached to my variables, so I'll keep them. In fact, let's also add some highly unimaginative column names as well:
       </p>
@@ -1981,6 +3226,11 @@
           
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         The critical difference between a data frame and a matrix is that, in a data frame, we have this notion that each of the columns corresponds to a different variable: as a consequence, the columns in a data frame can be of different data types. The first column could be numeric, and the second column could contain character strings, and the third column could be logical data. In that sense, there is a fundamental asymmetry build into a data frame, because of the fact that columns represent variables (which can be qualitatively different to each other) and rows represent cases (which cannot). Matrices are intended to be thought of in a different way. At a fundamental level, a matrix really is just <em>one</em> variable: it just happens that this one variable is formatted into rows and columns. If you want a matrix of numeric data, every single element in the matrix <em>must</em> be a number. If you want a matrix of character strings, every single element in the matrix <em>must</em> be a character string. If you try to mix data of different types together, then R will either spit out an error, or quietly coerce the underlying data into a list. If you want to find out what class R secretly thinks the data within the matrix is, you need to do something like this:
       </p>
@@ -1989,6 +3239,11 @@
           class( M[1] )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "numeric"
+]]></output>
+    </console>
       <p>
         You can't type <c>class(M)</c>, because all that will happen is R will tell you that <c>M</c> is a matrix: we're not interested in the class of the matrix itself, we want to know what class the underlying data is assumed to be. Anyway, to give you a sense of how R enforces this, let's try to change one of the elements of our numeric matrix into a character string:
       </p>
@@ -1998,6 +3253,11 @@
           M
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "aardvark" "zebra"    "swing"
+]]></output>
+    </console>
       <p>
         It looks as if R has coerced all of the data in our matrix into character strings. And in fact, if we now typed in <c>class(M[1])</c> we'd see that this is exactly what has happened. If you alter the contents of one element in a matrix, R will change the underlying data type as necessary.
       </p>
@@ -2018,6 +3278,11 @@
           xtab.3d
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Hopefully this output is fairly straightforward: because R can't print out text in three dimensions, what it does is show a sequence of 2D slices through the 3D table. That is, the <c>, , dan.awake = FALSE</c> part indicates that the 2D table that follows below shows the 2D cross-tabulation of <c>speaker</c> against <c>utterance</c> only for the <c>dan.awake = FALSE</c> instances, and so on.<fn>I should note that if you type <c>class(xtab.3d)</c> you'll discover that this is a <c>"table"</c> object rather than an <c>"array"</c> object. However, this labelling is only skin deep. The underlying data structure here is actually an array. Advanced users may wish to check this using the command <c>class(unclass(xtab.3d))</c>, but it's not important for our purposes. All I really want to do in this section is show you what the output looks like when you encounter a 3D array.</fn>
       </p>
@@ -2032,6 +3297,11 @@
           likert.raw
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 1 7 3 4 4 4 2 6 5 5
+]]></output>
+    </console>
       <p>
         We can declare this to be an ordered factor in by using the <c>factor()</c> function, and setting <c>ordered = TRUE</c>. To illustrate how this works, let's create an ordered factor called <c>likert.ordinal</c> and have a look at it:
       </p>
@@ -2043,6 +3313,11 @@
           print( likert.ordinal )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         Notice that when we print out the ordered factor, R explicitly tells us what order the levels come in. Because I wanted to order my levels in terms of <em>increasing</em> strength of agreement, and because a response of 1 corresponded to the strongest agreement and 7 to the strongest disagreement, it was important that I tell R to encode 7 as the lowest value and 1 as the largest. Always check this when creating an ordered factor: it's very easy to accidentally encode your data "upside down" if you're not paying attention. In any case, note that we can (and should) attach meaningful names to these factor levels by using the <c>levels()</c> function, like this:
       </p>
@@ -2079,6 +3354,11 @@
           today + 1
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "2019-01-12"
+]]></output>
+    </console>
       <p>
         Let's see what happens when we add 365 days:
       </p>
@@ -2087,6 +3367,11 @@
           today + 365
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "2020-01-11"
+]]></output>
+    </console>
       <p>
         This is particularly handy if you forget that a year is a leap year since in that case you'd probably get it wrong is doing this in your head. R provides a number of functions for working with dates, but I don't want to talk about them in any detail. I will, however, make passing mention of the <c>weekdays()</c> function which will tell you what day of the week a particular date corresponded to, which is extremely convenient in some situations:
       </p>
@@ -2095,6 +3380,11 @@
           weekdays( today )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "Friday"
+]]></output>
+    </console>
       <p>
         I'll also point out that you can use the <c>as.Date()</c> to convert various different kinds of data into dates. If the data happen to be strings formatted exactly according to the international standard notation (i.e., <c>yyyy-mm-dd</c>) then the conversion is straightforward, because that's the format that R expects to see by default. You can convert dates from other formats too, but it's slightly trickier, and beyond the scope of this book.
       </p>
@@ -2118,6 +3408,11 @@
           0.1 + 0.2 == 0.3
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] FALSE
+]]></output>
+    </console>
       <p>
         Obviously, R has made a mistake here, because this is definitely the wrong answer. Your first thought might be that R is broken, and you might be considering switching to some other language. But you can reproduce the same error in dozens of different programming languages, so the issue isn't specific to R. Your next thought might be that it's something in the hardware, but you can get the same mistake on any machine. It's something deeper than that.
       </p>
@@ -2129,6 +3424,11 @@
           0.1 + 0.2 - 0.3
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 5.551115e-17
+]]></output>
+    </console>
       <p>
         Very tiny indeed. No sane person would care about differences that small. But R is not a sane person, and the equality operator <c>==</c> is very literal minded. It returns a value of <c>TRUE</c> only when the two values that it is given are absolutely identical to each other. And in this case they are not. However, this only answers half of the question. The other half of the question is, why are we getting these rounding errors when we're only using nice simple numbers like 0.1, 0.2 and 0.3? This seems a little counterintuitive. The answer is that, like most programming languages, R doesn't store numbers using their <em>decimal</em> expansion (i.e., base 10: using digits 0, 1, 2 ..., 9). We humans like to write our numbers in base 10 because we have 10 fingers. But computers don't have fingers, they have transistors; and transistors are built to store 2 numbers not 10. So you can see where this is going: the internal storage of a number in R is based on its <em>binary</em> expansion (i.e., base 2: using digits 0 and 1). And unfortunately, here's what the binary expansion of 0.1 looks like: <me> .1 \mbox{(decimal)} = .00011001100110011... \mbox{(binary)} </me> and the pattern continues forever. In other words, from the perspective of your computer, which likes to encode numbers in binary,<fn>Or at least, that's the default. If all your numbers are integers (whole numbers), then you can explicitly tell R to store them as integers by adding an <c>L</c> suffix at the end of the number. That is, an assignment like <c>x &lt;- 2L</c> tells R to assign <c>x</c> a value of 2, and to store it as an integer rather than as a binary expansion. Type <c>?integer</c> for more details.</fn> 0.1 is not a simple number at all. To a computer, 0.1 is actually an infinitely long binary number! As a consequence, the computer can make minor errors when doing calculations here.
       </p>
@@ -2140,6 +3440,11 @@
           abs( 0.1 + 0.2 - 0.3 ) &lt; 10^-10
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] 5.551115e-17
+]]></output>
+    </console>
       <p>
         To deal with this problem, there is a function called <c>all.equal()</c> that lets you test for equality but allows a small tolerance for rounding errors:
       </p>
@@ -2148,6 +3453,11 @@
           all.equal( 0.1 + 0.2, 0.3 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] TRUE
+]]></output>
+    </console>
     </subsection>
     <subsection xml:id="recycling">
       <title>The recycling rule</title>
@@ -2161,6 +3471,11 @@
           x + y                  # now add them:
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
       <p>
         As you can see from looking at this output, what R has done is "recycle" the value of the shorter vector (in this case <c>y</c>) several times. That is, the first element of <c>x</c> is added to the first element of <c>y</c>, and the second element of <c>x</c> is added to the second element of <c>y</c>. However, when R reaches the third element of <c>x</c> there isn't any corresponding element in <c>y</c>, so it returns to the beginning: thus, the third element of <c>x</c> is added to the <em>first</em> element of <c>y</c>. This process continues until R reaches the last element of <c>x</c>. And that's all there is to it really. The same recycling rule also applies for subtraction, multiplication and division. The only other thing I should note is that, if the length of the longer vector isn't an exact multiple of the length of the shorter one, R still does it, but also gives you a warning message:
       </p>
@@ -2171,6 +3486,11 @@
           x + y                  # now add them:
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## NULL
+]]></output>
+    </console>
     </subsection>
     <subsection xml:id="environments">
       <title>An introduction to environments</title>
@@ -2186,6 +3506,18 @@
           search()
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] ".GlobalEnv"          "package:BayesFactor" "package:Matrix"     
+##  [4] "package:coda"        "package:effects"     "package:lmtest"     
+##  [7] "package:zoo"         "package:gplots"      "package:sciplot"    
+## [10] "package:HistData"    "package:MASS"        "package:lsr"        
+## [13] "package:psych"       "package:car"         "package:carData"    
+## [16] "tools:rstudio"       "package:stats"       "package:graphics"   
+## [19] "package:grDevices"   "package:utils"       "package:datasets"   
+## [22] "package:methods"     "Autoloads"           "package:base"
+]]></output>
+    </console>
       <p>
         what I'm actually looking at is a *sequence of environments*. The first one, <c>".GlobalEnv"</c> is the technically-correct name for your workspace. No-one really calls it that: it's either called the workspace or the global environment. And so when you type in <c>objects()</c> or <c>who()</c> what you're really doing is listing the contents of <c>".GlobalEnv"</c>. But there's no reason why we can't look up the contents of these other environments using the <c>objects()</c> function (currently <c>who()</c> doesn't support this). You just have to be a bit more explicit in your command. If I wanted to find out what is in the <c>package:stats</c> environment (i.e., the environment into which the contents of the <c>stats</c> package have been loaded), here's what I'd get
       </p>
@@ -2194,6 +3526,12 @@
           head(objects("package:stats"))
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## [1] "acf"        "acf2AR"     "add.scope"  "add1"       "addmargins"
+## [6] "aggregate"
+]]></output>
+    </console>
       <p>
         where this time I've used head() to hide a lot of output because the stats package contains about 500 functions. In fact, you can actually use the environment panel in Rstudio to browse any of your loaded packages (just click on the text that says "Global Environment" and you'll see a dropdown menu like the one shown in <xref ref="fig-envs" />). The key thing to understand then, is that you can access any of the R variables and functions that are stored in one of these environments, precisely because those are the environments that you have loaded!<fn>For advanced users: that's a little over simplistic in two respects. First, it's a terribly imprecise way of talking about scoping. Second, it might give you the impression that all the variables in question are actually loaded into memory. That's not quite true, since that would be very wasteful of memory. Instead R has a "lazy loading" mechanism, in which what R actually does is create a "promise" to load those objects if they're actually needed. For details, check out the <c>delayedAssign()</c> function.</fn>
       </p>

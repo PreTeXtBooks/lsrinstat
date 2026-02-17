@@ -904,6 +904,10 @@
     <console>
       <output><![CDATA[
 ## [1] 40
+## function(x) {
+##   y <- x*4
+##   return(y)
+## }
 ]]></output>
     </console>
     <p>
