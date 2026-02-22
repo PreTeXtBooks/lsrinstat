@@ -80,12 +80,6 @@ mean( clin.trial$mood.gain )
               <cell>total</cell>
             </row>
             <row>
-              <cell halign="left"></cell>
-              <cell>no therapy</cell>
-              <cell>CBT</cell>
-              <cell>total</cell>
-            </row>
-            <row>
               <cell halign="left">placebo</cell>
               <cell>0.30</cell>
               <cell>0.60</cell>
