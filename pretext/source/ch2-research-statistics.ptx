@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<chapter xml:id="ch2-research-statistics">
+<chapter xml:id="studydesign">
   <title>A brief introduction to research design</title>
   <introduction>
   <blockquote>
@@ -12,7 +12,7 @@
     </p>
   </introduction>
 
-  <section xml:id="subsec-psychological-measurement">
+  <section xml:id="measurement">
     <title>Introduction to psychological measurement</title>
     
     <introduction>
@@ -109,7 +109,7 @@ to make life a little easier for readers who aren't sure how to refer to me. I s
     </subsection>
   </section>
 
-  <section xml:id="subsec-scales-of-measurement">
+  <section xml:id="scales">
     <title>Scales of measurement</title>
     
     <p>
@@ -284,7 +284,7 @@ to make life a little easier for readers who aren't sure how to refer to me. I s
       </p>
     </subsection>
 
-    <subsection xml:id="subsubsec-continuous-discrete">
+    <subsection xml:id="continuousdiscrete">
       <title>Continuous versus discrete variables</title>
       
       <p>

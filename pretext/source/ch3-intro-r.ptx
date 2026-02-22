@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch3-intro-r">
+<chapter xml:id="introR">
   <title>Getting started with R</title>
   <blockquote>
     <p><em>Robots are nice to work with.</em> --Roger Zelazny<fn>Source: <em>Dismal Light</em> (1968).</fn></p>

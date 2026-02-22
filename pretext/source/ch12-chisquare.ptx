@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch12-chisquare">
+<chapter xml:id="chisquare">
   <title>Categorical data analysis</title>
   <p>
     Now that we've got the basic theory behind hypothesis testing, it's time to start looking at specific tests that are commonly used in psychology. So where should we start? Not every textbook agrees on where to start, but I'm going to start with "<m>\chi^2</m> tests" (this chapter) and "<m>t</m>-tests" (<xref ref="ttest" />). Both of these tools are very frequently used in scientific practice, and while they're not as powerful as "analysis of variance" (<xref ref="anova" />) and "regression" (<xref ref="regression" />) they're much easier to understand.

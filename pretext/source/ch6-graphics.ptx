@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch6-graphics">
+<chapter xml:id="graphics">
   <title>Drawing graphs</title>
   <blockquote>
     <p><em>Above all else show the data.</em> --Edward Tufte<fn>The origin of this quote is Tufte's lovely book <em>The Visual Display of Quantitative Information</em>.</fn></p>
