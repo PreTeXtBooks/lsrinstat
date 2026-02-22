@@ -3020,7 +3020,7 @@
       </p>
       <figure>
         <caption>The <c>booksales2.csv</c> data file. It contains more or less the same data as the original <c>booksales.csv</c> data file, but has a lot of very quirky features.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/booksales2csv.jpg"/>
       </figure>
       <p>
         In real life you'll rarely see data this stupidly formatted.<fn>If you're lucky.</fn>
@@ -3496,7 +3496,7 @@
       <title>An introduction to environments</title>
       <figure>
         <caption>The environment panel in Rstudio can actually show you the contents of any loaded package: each package defines a separate environment, so you can select the one you want to look at in this panel.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/environments.png"/>
       </figure>
       <p>
         In this section I want to ask a slightly different question: what <em>is</em> the workspace exactly? This question seems simple, but there's a fair bit to it. This section can be skipped if you're not really interested in the technical details. In the description I gave earlier, I talked about the workspace as an abstract location in which R variables are stored. That's basically true, but it hides a couple of key details. For example, any time you have R open, it has to store <em>lots</em> of things in the computer's memory, not just your variables. For example, the <c>who()</c> function that I wrote has to be stored in memory somewhere, right? If it weren't I wouldn't be able to use it. That's pretty obvious. But equally obviously it's not in the workspace either, otherwise you should have seen it! Here's what's happening. R needs to keep track of a lot of different things, so what it does is organise them into <term>environments</term>, each of which can contain lots of different variables and functions. Your workspace is one such environment. Every package that you have loaded is another environment. And every time you call a function, R briefly creates a temporary environment in which the function itself can work, which is then deleted after the calculations are complete. So, when I type in <c>search()</c> at the command line

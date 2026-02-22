@@ -544,7 +544,7 @@
     </p>
     <figure xml:id="fig-boxplot1b">
       <caption>An annotated boxplot</caption>
-      <image source="generated/boxplot1b.png"/>
+      <image source="generated/boxplot1_annotated.png"/>
     </figure>
     <p>
       In practice, this isn't quite how boxplots usually work. In most applications, the "whiskers" don't cover the full range from minimum to maximum. Instead, they actually go out to the most extreme data point that doesn't exceed a certain bound. By default, this value is 1.5 times the interquartile range, corresponding to a <c>range</c> value of 1.5. Any observation whose value falls outside this range is plotted as a circle instead of being covered by the whiskers, and is commonly referred to as an <term>outlier</term>. For our AFL margins data, there is one observation (a game with a margin of 116 points) that falls outside this range. As a consequence, the upper whisker is pulled back to the next largest observation (a value of 108), and the observation at 116 is plotted as a circle. This is illustrated in <xref ref="fig-boxplot2a" />. Since the default value is <c>range = 1.5</c> we can draw this plot using the simple command

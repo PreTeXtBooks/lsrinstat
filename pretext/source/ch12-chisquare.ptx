@@ -281,9 +281,9 @@
     </subsection>
     <subsection>
       <title>Degrees of freedom</title>
-      <figure>
+      <figure xml:id="fig-manychi">
         <caption>Chi-square distributions with different values for the "degrees of freedom".</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/manychi.png"/>
       </figure>
       <p>
         When I introduced the chi-square distribution in <xref ref="otherdists" />, I was a bit vague about what "<term>degrees of freedom</term>" actually *means*. Obviously, it matters: looking <xref ref="fig-manychi" /> you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
@@ -294,9 +294,9 @@
     </subsection>
     <subsection>
       <title>Testing the null hypothesis</title>
-      <figure>
+      <figure xml:id="fig-goftest">
         <caption>Illustration of how the hypothesis testing works for the chi-square goodness of fit test.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/chisquaretestdist.png"/>
       </figure>
       <p>
         The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of <m>X^2</m> would lead is to reject the null hypothesis. As we saw earlier, large values of <m>X^2</m> imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of <m>X^2</m> imply that it's actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if <m>X^2</m> is bigger than the critical value we reject the null; but if <m>X^2</m> is smaller than this value we retain the null. In other words, to use the language we introduced in <xref ref="hypothesistesting" />, then we have to choose our critical value so that there is only a 5\% chance that <m>X^2</m> could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in <xref ref="fig-goftest" />.

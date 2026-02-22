@@ -82,9 +82,9 @@
       <p>
         Next, it helps to be clear about what I want to learn from the data. In this case, my research hypothesis relates to the <em>population</em> mean <m>\mu</m> for the psychology student grades, which is unknown. Specifically, I want to know if <m>\mu = 67.5</m> or not. Given that this is what I know, can we devise a hypothesis test to solve our problem? The data, along with the hypothesised distribution from which they are thought to arise, are shown in <xref ref="fig-zeppo" />. Not entirely obvious what the right answer is, is it? For this, we are going to need some statistics.
       </p>
-      <figure>
+      <figure xml:id="fig-zeppo">
         <caption>The theoretical distribution (solid line) from which the psychology student grades (grey bars) are supposed to have been generated.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/Zeppo.png"/>
       </figure>
     </subsection>
     <subsection>
@@ -98,9 +98,9 @@
       <p>
         For the moment, we'll act as if these are absolutely trustworthy facts. In real life, this kind of absolutely trustworthy background knowledge doesn't exist, and so if we want to rely on these facts we'll just have make the <em>assumption</em> that these things are true. However, since these assumptions may or may not be warranted, we might need to check them. For now though, we'll keep things simple.
       </p>
-      <figure>
+      <figure xml:id="fig-ztesthyp">
         <caption>Graphical illustration of the null and alternative hypotheses assumed by the one sample <m>z</m>-test (the two sided version, that is). The null and alternative hypotheses both assume that the population distribution is normal, and additionally assumes that the population standard deviation is known (fixed at some value <m>\\sigma_0</m>). The null hypothesis (left) is that the population mean <m>\\mu</m> is equal to some specified value <m>\\mu_0</m>. The alternative hypothesis is that the population mean differs from this value, <m>\\mu \\neq \\mu_0</m>.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/ztesthyp.png"/>
       </figure>
       <p>
         The next step is to figure out what we would be a good choice for a diagnostic test statistic; something that would help us discriminate between <m>H_0</m> and <m>H_1</m>. Given that the hypotheses all refer to the population mean <m>\mu</m>, you'd feel pretty confident that the sample mean <m>\bar{X}</m> would be a pretty useful place to start. What we could do, is look at the difference between the sample mean <m>\bar{X}</m> and the value that the null hypothesis predicts for the population mean. In our example, that would mean we calculate <m>\bar{X} - 67.5</m>. More generally, if we let <m>\mu_0</m> refer to the value that the null hypothesis claims is our population mean, then we'd want to calculate <me> \bar{X} - \mu_0 </me> If this quantity equals or is very close to 0, things are looking good for the null hypothesis. If this quantity is a long way away from 0, then it's looking less likely that the null hypothesis is worth retaining. But how far away from zero should it be for us to reject <m>H_0</m>?
@@ -111,20 +111,46 @@
       <p>
         Okay, if that's true, then what can we say about the distribution of <m>\bar{X}</m>? Well, as we discussed earlier (see <xref ref="clt" />), the sampling distribution of the mean <m>\bar{X}</m> is also normal, and has mean <m>\mu</m>. But the standard deviation of this sampling distribution <m>\mbox{SE}({\bar{X}})</m>, which is called the *standard error of the mean*, is <me> \mbox{SE}({\bar{X}}) = \frac{\sigma}{\sqrt{N}} </me> In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows: <me> \bar{X} \sim \mbox{Normal}(\mu_0,\mbox{SE}({\bar{X}})) </me> Now comes the trick. What we can do is convert the sample mean <m>\bar{X}</m> into a standard score (<xref ref="zscore" />). This is conventionally written as <m>z</m>, but for now I'm going to refer to it as <m>z_{\bar{X}}</m>. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, <em>not</em> a standardised version of a single observation, which is what a <m>z</m>-score usually refers to). When we do so, the <m>z</m>-score for our sample mean is <me> z_{\bar{X}} = \frac{\bar{X} - \mu_0}{\mbox{SE}({\bar{X}})} </me> or, equivalently <me> z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}} </me> This <m>z</m>-score is our test statistic. The nice thing about using this as our test statistic is that like all <m>z</m>-scores, it has a standard normal distribution: <me> z_{\bar{X}} \sim \mbox{Normal}(0,1) </me> (again, see <xref ref="zscore" /> if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the <m>z</m>-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean <m>\bar{X}</m> from the population mean <m>\mu_0</m> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for <m>z</m>-test are always the same, as illustrated in Figures <xref ref="fig-ztest1" /> and <xref ref="fig-ztest2" />. And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:
       </p>
-      <figure>
-        <caption>Critical <m>z</m> values</caption>
-        <image source="generated/plot.png"/>
-      </figure>
+      <table>
+        <title>Critical <m>z</m> values</title>
+        <tabular halign="center">
+          <row header="yes">
+            <cell>desired <m>\alpha</m> level</cell>
+            <cell>two-sided test</cell>
+            <cell>one-sided test</cell>
+          </row>
+          <row>
+            <cell>.1</cell>
+            <cell>1.644854</cell>
+            <cell>1.281552</cell>
+          </row>
+          <row>
+            <cell>.05</cell>
+            <cell>1.959964</cell>
+            <cell>1.644854</cell>
+          </row>
+          <row>
+            <cell>.01</cell>
+            <cell>2.575829</cell>
+            <cell>2.326348</cell>
+          </row>
+          <row>
+            <cell>.001</cell>
+            <cell>3.290527</cell>
+            <cell>3.090232</cell>
+          </row>
+        </tabular>
+      </table>
       <p>
         which in turn meant that researchers could calculate their <m>z</m>-statistic by hand, and then look up the critical value in a text book.  That was an incredibly handy thing to be able to do back then, but it's kind of unnecessary these days, since it's trivially easy to do it with software like R.
       </p>
-      <figure>
+      <figure xml:id="fig-ztest2">
         <caption>Rejection regions for the two-sided <m>z</m>-test</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/ztest2.png"/>
       </figure>
-      <figure>
+      <figure xml:id="fig-ztest1">
         <caption>Rejection regions for the one-sided <m>z</m>-test</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/ztest1.png"/>
       </figure>
     </subsection>
     <subsection>
@@ -257,16 +283,16 @@
     </p>
     <figure>
       <caption>Graphical illustration of the null and alternative hypotheses assumed by the (two sided) one sample <m>t</m>-test. Note the similarity to the <m>z</m>-test. The null hypothesis is that the population mean <m>\\mu</m> is equal to some specified value <m>\\mu_0</m>, and the alternative hypothesis is that it is not. Like the <m>z</m>-test, we assume that the data are normally distributed; but we do not assume that the population standard deviation <m>\\sigma</m> is known in advance.</caption>
-      <image source="generated/plot.png"/>
+      <image source="generated/oneSampleTTestHyp.png"/>
     </figure>
     <subsection>
       <title>Introducing the <m>t</m>-test</title>
       <p>
         This ambiguity is annoying, and it was resolved in 1908 by a guy called William Sealy Gosset [@Student1908], who was working as a chemist for the Guinness brewery at the time [see @Box1987]. Because Guinness took a dim view of its employees publishing statistical analysis (apparently they felt it was a trade secret), he published the work under the pseudonym "A Student", and to this day, the full name of the <m>t</m>-test is actually <em>_Student's <m>t</m>-test_</em>. The key thing that Gosset figured out is how we should accommodate the fact that we aren't completely sure what the true standard deviation is.<fn>Well, sort of. As I understand the history, Gosset only provided a partial solution: the general solution to the problem was provided by Sir Ronald Fisher.</fn> The answer is that it subtly changes the sampling distribution. In the <m>t</m>-test, our test statistic (now called a <m>t</m>-statistic) is calculated in exactly the same way I mentioned above. If our null hypothesis is that the true mean is <m>\mu</m>, but our sample has mean <m>\bar{X}</m> and our estimate of the population standard deviation is <m>\hat{\sigma}</m>, then our <m>t</m> statistic is: <me> t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} } </me> The only thing that has changed in the equation is that instead of using the known true value <m>\sigma</m>, we use the estimate <m>\hat{\sigma}</m>. And if this estimate has been constructed from <m>N</m> observations, then the sampling distribution turns into a <m>t</m>-distribution with <m>N-1</m> <term>degrees of freedom</term> (df). The <m>t</m> distribution is very similar to the normal distribution, but has "heavier" tails, as discussed earlier in <xref ref="otherdists" /> and illustrated in <xref ref="fig-ttestdist" />. Notice, though, that as df gets larger, the <m>t</m>-distribution starts to look identical to the standard normal distribution. This is as it should be: if you have a sample size of <m>N = 70,000,000</m> then your "estimate" of the standard deviation would be pretty much perfect, right? So, you should expect that for large <m>N</m>, the <m>t</m>-test would behave exactly the same way as a <m>z</m>-test. And that's exactly what happens!
       </p>
-      <figure>
+      <figure xml:id="fig-ttestdist">
         <caption>The <m>t</m> distribution with 2 degrees of freedom (left) and 10 degrees of freedom (right), with a standard normal distribution (i.e., mean 0 and std dev 1) plotted as dotted lines for comparison purposes. Notice that the <m>t</m> distribution has heavier tails (higher kurtosis) than the normal distribution; this effect is quite exaggerated when the degrees of freedom are very small, but negligible for larger values. In other words, for large <m>df</m> the <m>t</m> distribution is essentially identical to a normal distribution.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/tdist_3.png"/>
       </figure>
     </subsection>
     <subsection>
@@ -432,20 +458,20 @@
       <p>
         To give you a more detailed sense of what's going on here, I've plotted histograms showing the distribution of grades for both tutors (<xref ref="fig-harpohistanastasia" /> and <xref ref="fig-harpohistbernadette" />). Inspection of these histograms suggests that the students in Anastasia's class may be getting slightly better grades on average, though they also seem a little more variable.
       </p>
-      <figure>
+      <figure xml:id="fig-harpohistanastasia">
         <caption>Histogram showing the overall distribution of grades for students in Anastasia's class</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/HarpoAnastasia.png"/>
       </figure>
-      <figure>
+      <figure xml:id="fig-harpohistbernadette">
         <caption>Histogram showing the overall distribution of grades for students in Bernadette's class</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/HarpoBernadette.png"/>
       </figure>
       <p>
         Here is a simpler plot showing the means and corresponding confidence intervals for both groups of students (<xref ref="fig-ttestci" />).
       </p>
-      <figure>
+      <figure xml:id="fig-ttestci">
         <caption>Plots showing the mean grade for the students in Anastasia's and Bernadette's tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there's a real difference between the groups, though it's hard to say for sure.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/ttestci.png"/>
       </figure>
     </subsection>
     <subsection>
@@ -456,9 +482,9 @@
       <p>
         Okay, so let's let <m>\mu_1</m> denote the true population mean for group 1 (e.g., Anastasia's students), and <m>\mu_2</m> will be the true population mean for group 2 (e.g., Bernadette's students),<fn>A funny question almost always pops up at this point: what the heck <em>is</em> the population being referred to in this case? Is it the set of students actually taking Dr Harpo's class (all 33 of them)? The set of people who might take the class (an unknown number) of them? Or something else? Does it matter which of these we pick? It's traditional in an introductory behavioural stats class to mumble a lot at this point, but since I get asked this question every year by my students, I'll give a brief answer. Technically yes, it does matter: if you change your definition of what the "real world" population actually is, then the sampling distribution of your observed mean <m>\bar{X}</m> changes too. The <m>t</m>-test relies on an assumption that the observations are sampled at random from an infinitely large population; and to the extent that real life isn't like that, then the <m>t</m>-test can be wrong. In practice, however, this isn't usually a big deal: even though the assumption is almost always wrong, it doesn't lead to a lot of pathological behaviour from the test, so we tend to just ignore it.</fn> and as usual we'll let <m>\bar{X}_1</m> and <m>\bar{X}_2</m> denote the observed sample means for both of these groups. Our null hypothesis states that the two population means are identical (<m>\mu_1 = \mu_2</m>) and the alternative to this is that they are not (<m>\mu_1 \neq \mu_2</m>). Written in mathematical-ese, this is... <me> \begin{array}{ll} H_0: &amp; \mu_1 = \mu_2  \\ H_1: &amp; \mu_1 \neq \mu_2 \end{array} </me>
       </p>
-      <figure>
+      <figure xml:id="fig-ttesthyp">
         <caption>Graphical illustration of the null and alternative hypotheses assumed by the Student <m>t</m>-test. The null hypothesis assumes that both groups have the same mean <m>\\mu</m>, whereas the alternative assumes that they have different means <m>\\mu_1</m> and <m>\\mu_2</m>. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/studentTestHyp.png"/>
       </figure>
       <p>
         To construct a hypothesis test that handles this scenario, we start by noting that if the null hypothesis is true, then the difference between the population means is <em>exactly</em> zero, <m>\mu_1 - \mu_2 = 0</m> As a consequence, a diagnostic test statistic will be based on the difference between the two sample means. Because if the null hypothesis is true, then we'd expect <me> \bar{X}_1 - \bar{X}_2 </me> to be <em>pretty close</em> to zero. However, just like we saw with our one-sample tests (i.e., the one-sample <m>z</m>-test and the one-sample <m>t</m>-test) we have to be precise about exactly <em>how close</em> to zero this difference should be. And the solution to the problem is more or less the same one: we calculate a standard error estimate (SE), just like last time, and then divide the difference between means by this estimate. So our <em>_<m>t</m>-statistic_</em> will be of the form <me> t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}} </me> We just need to figure out what this standard error estimate actually is. This is a bit trickier than was the case for either of the two tests we've looked at so far, so we need to go through it a lot more carefully to understand how it works.
@@ -617,9 +643,9 @@
     <p>
       The second difference between Welch and Student is that the degrees of freedom are calculated in a very different way. In the Welch test, the "degrees of freedom " doesn't have to be a whole number any more, and it doesn't correspond all that closely to the "number of data points minus the number of constraints" heuristic that I've been using up to this point. The degrees of freedom are, in fact... <me> \mbox{df} = \frac{ ({\hat{\sigma}_1}^2 / N_1 + {\hat{\sigma}_2}^2 / N_2)^2 }{  ({\hat{\sigma}_1}^2 / N_1)^2 / (N_1 -1 )  + ({\hat{\sigma}_2}^2 / N_2)^2 / (N_2 -1 ) } </me> ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for out purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number.
     </p>
-    <figure>
+    <figure xml:id="fig-ttesthyp2">
       <caption>Graphical illustration of the null and alternative hypotheses assumed by the Welch <m>t</m>-test. Like the Student test we assume that both samples are drawn from a normal population; but the alternative hypothesis no longer requires the two populations to have equal variance.</caption>
-      <image source="generated/plot.png"/>
+      <image source="generated/welchTestHyp.png"/>
     </figure>
     <subsection>
       <title>Doing the test in R</title>
@@ -745,16 +771,16 @@
       <p>
         we see that this impression seems to be supported. Across all 20 students<fn>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I've</em> never taught an intro stats class with less than 350 students.</fn> the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <xref ref="fig-pairedta" />. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the <c>describe()</c> function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
       </p>
-      <figure>
+      <figure xml:id="fig-pairedta">
         <caption>Mean grade for test 1 and test 2, with associated 95% confidence intervals</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/pairedMeans.png"/>
       </figure>
       <p>
         Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in <xref ref="fig-pairedtb" />.
       </p>
-      <figure>
+      <figure xml:id="fig-pairedtb">
         <caption>Scatterplot showing the individual grades for test 1 and test 2</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/pairedScatterplot.png"/>
       </figure>
       <p>
         In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 (<m>x</m> co-ordinate) equals their grade for test 2 (<m>y</m> co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students <em>do</em> seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the <em>improvement</em> made by each student from one test to the next, and treating that as our raw data. To do this, we'll need to create a new variable for the <c>improvement</c> that each student makes, and add it to the <c>chico</c> data frame. The easiest way to do this is as follows:
@@ -786,9 +812,9 @@
       <p>
         Now that we've created and stored this <c>improvement</c> variable, we can draw a histogram showing the distribution of these improvement scores (using the <c>hist()</c> function), shown in <xref ref="fig-pairedtc" />.
       </p>
-      <figure>
+      <figure xml:id="fig-pairedtc">
         <caption>Histogram showing the improvement made by each student in Dr Chico's class. Notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/pairedHist.png"/>
       </figure>
       <p>
         When we look at histogram, it's very clear that there <em>is</em> a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use <c>ciMean()</c> to compute a confidence interval for the population mean of this new variable,
@@ -1244,10 +1270,27 @@
     <p>
       My suspicion is that the only time that you would want Cohen's <m>d</m> is when you're running a <m>t</m>-test, and if you're using the <c>oneSampleTTest</c>, <c>independentSamplesTTest</c> and <c>pairedSamplesTTest()</c> functions to run your <m>t</m>-tests, then you don't need to learn any new commands, because they automatically produce an estimate of Cohen's <m>d</m> as part of the output. However, if you're using <c>t.test()</c> then you'll need to use the <c>cohensD()</c> function (also in the <c>lsr</c> package) to do the calculations.
     </p>
-    <figure>
-      <caption>A (very) rough guide to interpreting Cohen's <m>d</m>. My personal recommendation is to not use these blindly. The <m>d</m> statistic has a natural interpretation in and of itself: it redescribes the different in means as the number of standard deviations that separates those means. So it's generally a good idea to think about what that means in practical terms. In some contexts a "small" effect could be of big practical importance. In other situations a "large" effect may not be all that interesting.</caption>
-      <image source="generated/plot.png"/>
-    </figure>
+    <table>
+      <title>A (very) rough guide to interpreting Cohen's <m>d</m>.</title>
+      <tabular halign="center">
+        <row header="yes">
+          <cell><m>d</m>-value</cell>
+          <cell>rough interpretation</cell>
+        </row>
+        <row>
+          <cell>about 0.2</cell>
+          <cell>small effect</cell>
+        </row>
+        <row>
+          <cell>about 0.5</cell>
+          <cell>moderate effect</cell>
+        </row>
+        <row>
+          <cell>about 0.8</cell>
+          <cell>large effect</cell>
+        </row>
+      </tabular>
+    </table>
     <subsection>
       <title>Cohen's <m>d</m> from one sample</title>
       <p>
@@ -1389,35 +1432,35 @@
     </p>
     <subsection>
       <title>QQ plots</title>
-      <figure>
+      <figure xml:id="fig-qq1a">
         <caption>Histogram of <c>normal.data</c>, a normally distributed sample with 100 observations.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/qqNormalHist.png"/>
       </figure>
-      <figure>
+      <figure xml:id="fig-qq1b">
         <caption>Normal QQ plot of <c>normal.data</c>, a normally distributed sample with 100 observations.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/qqNormalPlot.png"/>
       </figure>
       <p>
         The Shapiro-Wilk statistic associated with the data in Figures <xref ref="fig-qq1a" /> and <xref ref="fig-qq1b" /> is <m>W = .99</m>, indicating that no significant departures from normality were detected (<m>p = .73</m>). As you can see, these data form a pretty straight line; which is no surprise given that we sampled them from a normal distribution! In contrast, have a look at the two data sets shown in Figures <xref ref="fig-qq2a" />, <xref ref="fig-qq2b" />, <xref ref="fig-qq2c" />, <xref ref="fig-qq2d" />. Figures <xref ref="fig-qq2a" /> and <xref ref="fig-qq2b" /> show the histogram and a QQ plot for a data set that is highly skewed: the QQ plot curves upwards. Figures <xref ref="fig-qq2c" /> and <xref ref="fig-qq2d" /> show the same plots for a heavy tailed (i.e., high kurtosis) data set: in this case, the QQ plot flattens in the middle and curves sharply at either end.
       </p>
-      <figure>
+      <figure xml:id="fig-qq2a">
         <caption>A histogram of the 100 observations in a <c>skewed.data</c> set</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/qqSkewedHist.png"/>
       </figure>
-      <figure>
+      <figure xml:id="fig-qq2b">
         <caption>A normal QQ plot of the 100 observations in a <c>skewed.data</c> set</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/qqSkewedPlot.png"/>
       </figure>
       <p>
         The skewness of the data in Figures <xref ref="fig-qq2a" /> and <xref ref="fig-qq2b" /> is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <m>W=.80</m>, reflecting a significant departure from normality (<m>p&lt;.001</m>).
       </p>
-      <figure>
+      <figure xml:id="fig-qq2c">
         <caption>A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. </caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/qqHeavyTailedHist.png"/>
       </figure>
-      <figure>
+      <figure xml:id="fig-qq2d">
         <caption>A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. </caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/qqHeavyTailedPlot.png"/>
       </figure>
       <p>
         Figures <xref ref="fig-qq2c" /> and <xref ref="fig-qq2d" /> shows the same plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <m>W = .93</m>, again reflecting significant non-normality (<m>p &lt; .001</m>).
@@ -1441,9 +1484,9 @@
       <p>
         Because it's a little hard to explain the maths behind the <m>W</m> statistic, a better idea is to give a broad brush description of how it behaves. Unlike most of the test statistics that we'll encounter in this book, it's actually <em>small</em> values of <m>W</m> that indicated departure from normality. The <m>W</m> statistic has a maximum value of 1, which arises when the data look "perfectly normal". The smaller the value of <m>W</m>, the less normal the data are. However, the sampling distribution for <m>W</m>  <mdash /> which is not one of the standard ones that I discussed in <xref ref="probability" /> and is in fact a complete pain in the arse to work with <mdash /> does depend on the sample size <m>N</m>. To give you a feel for what these sampling distributions look like, I've plotted three of them in <xref ref="fig-swdist" />. Notice that, as the sample size starts to get large, the sampling distribution becomes very tightly clumped up near <m>W=1</m>, and as a consequence, for larger samples <m>W</m> doesn't have to be very much smaller than 1 in order for the test to be significant.
       </p>
-      <figure>
+      <figure xml:id="fig-swdist">
         <caption>Sampling distribution of the Shapiro-Wilk <m>W</m> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <m>W</m> indicate departure from normality.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/shapirowilkdist.png"/>
       </figure>
       <p>
         To run the test in R, we use the <c>shapiro.test()</c> function. It has only a single argument <c>x</c>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <c>normal.data</c>, we get the following:
