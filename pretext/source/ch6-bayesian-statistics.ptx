@@ -20,30 +20,46 @@
       <title>Priors: what you believed before</title>
 
     <p>The first thing you need to do ignore what I told you about the umbrella, and write down your pre-existing beliefs about rain. This is important: if you want to be honest about how your beliefs have been revised in the light of new evidence, then you <em>must</em> say something about what you believed before those data appeared! So, what might you believe about whether it will rain today? You probably know that I live in Australia, and that much of Australia is hot and dry. And in fact you're right: the city of Adelaide where I live has a Mediterranean climate, very similar to southern California, southern Europe or northern Africa. I'm writing this in January, and so you can assume it's the middle of summer. In fact, you might have decided to take a quick look on Wikipedia<fn>http://en.wikipedia.org/wiki/Climate_of_Adelaide</fn> and discovered that Adelaide gets an average of 4.4 days of rain across the 31 days of January. Without knowing anything else, you might conclude that the probability of January rain in Adelaide is about 15\%, and the probability of a dry day is 85\%. If this is really what you believe about Adelaide rainfall (and now that I've told it to you, I'm betting that this really <em>is</em> what you believe) then what I have written here is your <em>prior distribution</em>, written <m>P(h)</m>:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-           ~V1,                ~V2,
-
-   "Rainy day",             "0.15",
-     "Dry day",             "0.85"
-  ), col.names = c(  "Hypothesis", "Degree of Belief"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-34">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">Hypothesis</cell>
+          <cell>Degree of Belief</cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy day</cell>
+          <cell>0.15</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry day</cell>
+          <cell>0.85</cell>
+        </row>
+      </tabular>
+    </table>
     </subsection>
     <subsection>
       <title>Likelihoods: theories about the data</title>
 
     <p>To solve the reasoning problem, you need a theory about my behaviour. When does Dan carry an umbrella? You might guess that I'm not a complete idiot,<fn>It's a leap of faith, I know, but let's run with it okay?</fn> and I try to carry umbrellas only on rainy days. On the other hand, you also know that I have young kids, and you wouldn't be all that surprised to know that I'm pretty forgetful about this sort of thing. Let's suppose that on rainy days I remember my umbrella about 30\% of the time (I really am awful at this). But let's say that on dry days I'm only about 5\% likely to be carrying an umbrella. So you might write out a little table like this:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-           ~V1,        ~V2,           ~V3,
-   "Rainy day",     "0.30",        "0.70",
-     "Dry day",     "0.05",        "0.95"
-  ), col.names = c(  "Hypothesis", "Umbrella", "No umbrella"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-33">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">Hypothesis</cell>
+          <cell>Umbrella</cell>
+          <cell>No umbrella</cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy day</cell>
+          <cell>0.30</cell>
+          <cell>0.70</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry day</cell>
+          <cell>0.05</cell>
+          <cell>0.95</cell>
+        </row>
+      </tabular>
+    </table>
     <p>It's important to remember that each cell in this table describes your beliefs about what data <m>d</m> will be observed, <em>given</em> the truth of a particular hypothesis <m>h</m>. This "conditional probability" is written <m>P(d|h)</m>, which you can read as "the probability of <m>d</m> given <m>h</m>". In Bayesian statistics, this is referred to as <em>likelihood</em> of data <m>d</m> given hypothesis <m>h</m>.<fn>Um. I hate to bring this up, but some statisticians would object to me using the word "likelihood" here. The problem is that the word "likelihood" has a very specific meaning in frequentist statistics, and it's not quite the same as what it means in Bayesian statistics. As far as I can tell, Bayesians didn't originally have any agreed upon name for the likelihood, and so it became common practice for people to use the frequentist terminology. This wouldn't have been a problem, except for the fact that the way that Bayesians use the word turns out to be quite different to the way frequentists do. This isn't the place for yet another lengthy history lesson, but to put it crudely: when a Bayesian says "<em>a</em> likelihood function" they're usually referring one of the <em>rows</em> of the table. When a frequentist says the same thing, they're referring to the same table, but to them "<em>a</em> likelihood function" almost always refers to one of the <em>columns</em>. This distinction matters in some contexts, but it's not important for our purposes.</fn></p>
     </subsection>
     <subsection>
@@ -54,78 +70,168 @@ knitr::kable(tibble::tribble(
     <p>So, what is the probability that today is a rainy day <em>and</em> I remember to carry an umbrella? As we discussed earlier, the prior tells us that the probability of a rainy day is 15\%, and the likelihood tells us that the probability of me remembering my umbrella on a rainy day is 30\%. So the probability that both of these things are true is calculated by multiplying the two:</p>
     <p><me><![CDATA[\begin{array} P(\mbox{rainy}, \mbox{umbrella}) & = & P(\mbox{umbrella} | \mbox{rainy}) \times P(\mbox{rainy}) \\ & = & 0.30 \times 0.15 \\ & = & 0.045 \end{array}]]></me></p>
     <p>In other words, before being told anything about what actually happened, you think that there is a 4.5\% probability that today will be a rainy day and that I will remember an umbrella. However, there are of course <em>four</em> possible things that could happen, right? So let's repeat the exercise for all four. If we do that, we end up with the following table:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-      ~V1,        ~V2,           ~V3,
-  "Rainy",    "0.045",       "0.105",
-    "Dry",   "0.0425",      "0.8075"
-  ), col.names = c("", "Umbrella", "No-umbrella"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-32">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>Umbrella</cell>
+          <cell>No-umbrella</cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy</cell>
+          <cell>0.045</cell>
+          <cell>0.105</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry</cell>
+          <cell>0.0425</cell>
+          <cell>0.8075</cell>
+        </row>
+      </tabular>
+    </table>
     <p>This table captures all the information about which of the four possibilities are likely. To really get the full picture, though, it helps to add the row totals and column totals. That gives us this table:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-      ~V1,        ~V2,           ~V3,     ~V4,
-  "Rainy",   "0.0450",      "0.1050",  "0.15",
-    "Dry",   "0.0425",      "0.8075",  "0.85",
-  "Total",   "0.0875",      "0.9125",     "1"
-  ), col.names = c("", "Umbrella", "No-umbrella", "Total"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-31">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>Umbrella</cell>
+          <cell>No-umbrella</cell>
+          <cell>Total</cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy</cell>
+          <cell>0.0450</cell>
+          <cell>0.1050</cell>
+          <cell>0.15</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry</cell>
+          <cell>0.0425</cell>
+          <cell>0.8075</cell>
+          <cell>0.85</cell>
+        </row>
+        <row>
+          <cell halign="left">Total</cell>
+          <cell>0.0875</cell>
+          <cell>0.9125</cell>
+          <cell>1</cell>
+        </row>
+      </tabular>
+    </table>
     <p>This is a very useful table, so it's worth taking a moment to think about what all these numbers are telling us. First, notice that the row sums aren't telling us anything new at all. For example, the first row tells us that if we ignore all this umbrella business, the chance that today will be a rainy day is 15\%. That's not surprising, of course: that's our prior. The important thing isn't the number itself: rather, the important thing is that it gives us some confidence that our calculations are sensible! Now take a look at the column sums, and notice that they tell us something that we haven't explicitly stated yet. In the same way that the row sums tell us the probability of rain, the column sums tell us the probability of me carrying an umbrella. Specifically, the first column tells us that on average (i.e., ignoring whether it's a rainy day or not), the probability of me carrying an umbrella is 8.75\%. Finally, notice that when we sum across all four logically-possible events, everything adds up to 1. In other words, what we have written down is a proper probability distribution defined over all possible combinations of data and hypothesis.</p>
     <p>Now, because this table is so useful, I want to make sure you understand what all the elements correspond to, and how they written:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-      ~V1,                   ~V2,                      ~V3,          ~V4,
-
-  "Rainy", "$P$(Umbrella, Rainy)", "$P$(No-umbrella, Rainy)", "$P$(Rainy)",
-    "Dry",   "$P$(Umbrella, Dry)",   "$P$(No-umbrella, Dry)",   "$P$(Dry)",
-       "",       "$P$(Umbrella)",       "$P$(No-umbrella)",           ""
-  ), col.name=c(       "",            "Umbrella",            "No-umbrella",           ""))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-30">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>Umbrella</cell>
+          <cell>No-umbrella</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy</cell>
+          <cell><m>P</m>(Umbrella, Rainy)</cell>
+          <cell><m>P</m>(No-umbrella, Rainy)</cell>
+          <cell><m>P</m>(Rainy)</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry</cell>
+          <cell><m>P</m>(Umbrella, Dry)</cell>
+          <cell><m>P</m>(No-umbrella, Dry)</cell>
+          <cell><m>P</m>(Dry)</cell>
+        </row>
+        <row>
+          <cell halign="left"></cell>
+          <cell><m>P</m>(Umbrella)</cell>
+          <cell><m>P</m>(No-umbrella)</cell>
+          <cell></cell>
+        </row>
+      </tabular>
+    </table>
     <p>Finally, let's use "proper" statistical notation. In the rainy day problem, the data corresponds to the observation that I do or do not have an umbrella. So we'll let <m>d_1</m> refer to the possibility that you observe me carrying an umbrella, and <m>d_2</m> refers to you observing me not carrying one. Similarly, <m>h_1</m> is your hypothesis that today is rainy, and <m>h_2</m> is the hypothesis that it is not. Using this notation, the table looks like this:</p>
-    <program language="r">
-      <input><![CDATA[
-
-knitr::kable(tibble::tribble(
-      ~V1,            ~V2,            ~V3,        ~V4,
-  "$h_1$", "$P(h_1, d_1)$", "$P(h_1, d_2)$", "$P(h_1)$",
-  "$h_2$", "$P(h_2, d_1)$", "$P(h_2, d_2)$", "$P(h_2)$",
-       "",     "$P(d_1)$",     "$P(d_2)$",         ""
-  ), col.name=c(       "",            "$d_1$",            "$d_2$",           ""))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-29">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell><m>d_1</m></cell>
+          <cell><m>d_2</m></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell halign="left"><m>h_1</m></cell>
+          <cell><m>P(h_1, d_1)</m></cell>
+          <cell><m>P(h_1, d_2)</m></cell>
+          <cell><m>P(h_1)</m></cell>
+        </row>
+        <row>
+          <cell halign="left"><m>h_2</m></cell>
+          <cell><m>P(h_2, d_1)</m></cell>
+          <cell><m>P(h_2, d_2)</m></cell>
+          <cell><m>P(h_2)</m></cell>
+        </row>
+        <row>
+          <cell halign="left"></cell>
+          <cell><m>P(d_1)</m></cell>
+          <cell><m>P(d_2)</m></cell>
+          <cell></cell>
+        </row>
+      </tabular>
+    </table>
     </subsection>
     <subsection>
       <title>Updating beliefs using Bayes' rule</title>
 
     <p>The table we laid out in the last section is a very powerful tool for solving the rainy day problem, because it considers all four logical possibilities and states exactly how confident you are in each of them before being given any data. It's now time to consider what happens to our beliefs when we are actually given the data. In the rainy day problem, you are told that I really <em>am</em> carrying an umbrella. This is something of a surprising event: according to our table, the probability of me carrying an umbrella is only 8.75\%. But that makes sense, right? A guy carrying an umbrella on a summer day in a hot dry city is pretty unusual, and so you really weren't expecting that. Nevertheless, the problem tells you that it is true. No matter how unlikely you thought it was, you must now adjust your beliefs to accommodate the fact that you now <em>know</em> that I have an umbrella.<fn>If we were being a bit more sophisticated, we could extend the example to accommodate the possibility that I'm lying about the umbrella. But let's keep things simple, shall we?</fn> To reflect this new knowledge, our <em>revised</em> table must have the following numbers:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-      ~V1,        ~V2,           ~V3,
-  "Rainy",         "",           "0",
-    "Dry",         "",           "0",
-  "Total",        "1",           "0"
-  ), col.names = c("", "Umbrella", "No-umbrella"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-28">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>Umbrella</cell>
+          <cell>No-umbrella</cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy</cell>
+          <cell></cell>
+          <cell>0</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry</cell>
+          <cell></cell>
+          <cell>0</cell>
+        </row>
+        <row>
+          <cell halign="left">Total</cell>
+          <cell>1</cell>
+          <cell>0</cell>
+        </row>
+      </tabular>
+    </table>
     <p>In other words, the facts have eliminated any possibility of "no umbrella", so we have to put zeros into any cell in the table that implies that I'm not carrying an umbrella. Also, you know for a fact that I am carrying an umbrella, so the column sum on the left must be 1 to correctly describe the fact that <m>P(\mbox{umbrella})=1</m>.</p>
     <p>What two numbers should we put in the empty cells? Again, let's not worry about the maths, and instead think about our intuitions. When we wrote out our table the first time, it turned out that those two cells had almost identical numbers, right? We worked out that the joint probability of "rain and umbrella" was 4.5\%, and the joint probability of "dry and umbrella" was 4.25\%. In other words, before I told you that I am in fact carrying an umbrella, you'd have said that these two events were almost identical in probability, yes? But notice that <em>both</em> of these possibilities are consistent with the fact that I actually am carrying an umbrella. From the perspective of these two possibilities, very little has changed. I hope you'd agree that it's <em>still</em> true that these two possibilities are equally plausible. So what we expect to see in our final table is some numbers that preserve the fact that "rain and umbrella" is <em>slightly</em> more plausible than "dry and umbrella", while still ensuring that numbers in the table add up. Something like this, perhaps?</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-      ~V1,        ~V2,           ~V3,
-  "Rainy",         "0.514",           "0",
-    "Dry",         "0.486",           "0",
-  "Total",        "1",           "0"
-  ), col.names = c("", "Umbrella", "No-umbrella"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-27">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>Umbrella</cell>
+          <cell>No-umbrella</cell>
+        </row>
+        <row>
+          <cell halign="left">Rainy</cell>
+          <cell>0.514</cell>
+          <cell>0</cell>
+        </row>
+        <row>
+          <cell halign="left">Dry</cell>
+          <cell>0.486</cell>
+          <cell>0</cell>
+        </row>
+        <row>
+          <cell halign="left">Total</cell>
+          <cell>1</cell>
+          <cell>0</cell>
+        </row>
+      </tabular>
+    </table>
     <p>What this table is telling you is that, after being told that I'm carrying an umbrella, you believe that there's a 51.4\% chance that today will be a rainy day, and a 48.6\% chance that it won't. That's the answer to our problem! The <em>posterior probability</em> of rain <m>P(h|d)</m> given that I am carrying an umbrella is 51.4\%</p>
     <p>How did I calculate these numbers? You can probably guess. To work out that there was a 0.514 probability of "rain", all I did was take the 0.045 probability of "rain and umbrella" and divide it by the 0.0875 chance of "umbrella". This produces a table that satisfies our need to have everything sum to 1, and our need not to interfere with the relative plausibility of the two events that are actually consistent with the data. To say the same thing using fancy statistical jargon, what I've done here is divide the joint probability of the hypothesis and the data <m>P(d,h)</m> by the <em>marginal probability</em> of the data <m>P(d)</m>, and this is what gives us the posterior probability of the hypothesis <em>given</em> that we know the data have been observed. To write this as an equation:<fn>You might notice that this equation is actually a restatement of the same basic rule I listed at the start of the last section. If you multiply both sides of the equation by <m>P(d)</m>, then you get <m>P(d) P(h| d) = P(d,h)</m>, which is the rule for how joint probabilities are calculated. So I'm not actually introducing any "new" rules here, I'm just using the same rule in a different way.</fn> <me>P(h | d) = \frac{P(d,h)}{P(d)}</me></p>
     <p>However, remember what I said at the start of the last section, namely that the joint probability <m>P(d,h)</m> is calculated by multiplying the prior <m>P(h)</m> by the likelihood <m>P(d|h)</m>. In real life, the things we actually know how to write down are the priors and the likelihood, so let's substitute those back into the equation. This gives us the following formula for the posterior probability:</p>
@@ -153,17 +259,30 @@ knitr::kable(tibble::tribble(
       <title>Interpreting Bayes factors</title>
 
     <p>One of the really nice things about the Bayes factor is the numbers are inherently meaningful. If you run an experiment and you compute a Bayes factor of 4, it means that the evidence provided by your data corresponds to betting odds of 4:1 in favour of the alternative. However, there have been some attempts to quantify the standards of evidence that would be considered meaningful in a scientific context. The two most widely used are from @Jeffreys1961 and @Kass1995. Of the two, I tend to prefer the @Kass1995 table because it's a bit more conservative. So here it is:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-             ~V1,                    ~V2,
-         "1 - 3",  "Negligible evidence",
-        "3 - 20",    "Positive evidence",
-      "20 - 150",      "Strong evidence",
-        "$>$150", "Very strong evidence"
-  ), col.names = c(  "Bayes factor",       "Interpretation"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-26">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">Bayes factor</cell>
+          <cell>Interpretation</cell>
+        </row>
+        <row>
+          <cell halign="left">1 - 3</cell>
+          <cell>Negligible evidence</cell>
+        </row>
+        <row>
+          <cell halign="left">3 - 20</cell>
+          <cell>Positive evidence</cell>
+        </row>
+        <row>
+          <cell halign="left">20 - 150</cell>
+          <cell>Strong evidence</cell>
+        </row>
+        <row>
+          <cell halign="left"><m>&gt;</m>150</cell>
+          <cell>Very strong evidence</cell>
+        </row>
+      </tabular>
+    </table>
     <p>And to be perfectly honest, I think that even the Kass and Raftery standards are being a bit charitable. If it were up to me, I'd have called the "positive evidence" category "weak evidence". To me, anything in the range 3:1 to 20:1 is "weak" or "modest" evidence at best. But there are no hard and fast rules here: what counts as strong or weak evidence depends entirely on how conservative you are, and upon the standards that your community insists upon before it is willing to label a finding as "true".</p>
     <p>In any case, note that all the numbers listed above make sense if the Bayes factor is greater than 1 (i.e., the evidence favours the alternative hypothesis). However, one big practical advantage of the Bayesian approach relative to the orthodox approach is that it also allows you to quantify evidence <em>for</em> the null. When that happens, the Bayes factor will be less than 1. You can choose to report a Bayes factor less than 1, but to be honest I find it confusing. For example, suppose that the likelihood of the data under the null hypothesis <m>P(d|h_0)</m> is equal to 0.2, and the corresponding likelihood <m>P(d|h_0)</m> under the alternative hypothesis is 0.1. Using the equations given above,  Bayes factor here would be:</p>
     <p><me>\mbox{BF} = \frac{P(d|h_1)}{P(d|h_0)} = \frac{0.1}{0.2} = 0.5</me></p>
@@ -231,28 +350,43 @@ knitr::kable(tibble::tribble(
     </ul>
     <p>Wait, what? How can that last part be true? I mean, it sounds like a perfectly reasonable strategy doesn't it? You collected some data, the results weren't conclusive, so now what you want to do is collect more data until the the results <em>are</em> conclusive. What's wrong with that?</p>
     <p>Honestly, there's nothing wrong with it. It's a reasonable, sensible and rational thing to do. In real life, this is exactly what every researcher does. Unfortunately, the theory of null hypothesis testing as I described it in Chapter <xref ref="hypothesistesting"/> <em>forbids</em> you from doing this.<fn>In the interests of being completely honest,  I should acknowledge that not all orthodox statistical tests that rely on this silly assumption. There are a number of <em>sequential analysis</em> tools that are sometimes used in clinical trials and the like. These methods are built on the assumption that data are analysed as they arrive, and these tests aren't horribly broken in the way I'm complaining about here. However, sequential analysis methods are constructed in a very different fashion to the "standard" version of null hypothesis testing. They don't make it into any introductory textbooks, and they're not very widely used in the psychological literature. The concern I'm raising here is valid for every single orthodox test I've presented so far, and for almost every test I've seen reported in the papers I read.</fn> The reason is that the theory assumes that the experiment is finished and all the data are in. And because it assumes the experiment is over, it only considers <em>two</em> possible decisions. If you're using the conventional <m><![CDATA[p<.05]]></m> threshold, those decisions are:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-                     ~V1,               ~V2,
-
-     "$p$ less than .05", "Reject the null",
-  "$p$ greater than .05", "Retain the null"
-  ), col.names = c(               "Outcome",          "Action"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-25">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">Outcome</cell>
+          <cell>Action</cell>
+        </row>
+        <row>
+          <cell halign="left"><m>p</m> less than .05</cell>
+          <cell>Reject the null</cell>
+        </row>
+        <row>
+          <cell halign="left"><m>p</m> greater than .05</cell>
+          <cell>Retain the null</cell>
+        </row>
+      </tabular>
+    </table>
     <p>What <em>you're</em> doing is adding a third possible action to the decision making problem. Specifically, what you're doing is using the <m>p</m>-value itself as a reason to justify continuing the experiment. And as a consequence you've transformed the decision-making procedure into one that looks more like this:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-                       ~V1,                                       ~V2,
-
-       "$p$ less than .05", "Stop the experiment and reject the null",
-  "$p$ between .05 and .1",                 "Continue the experiment",
-     "$p$ greater than .1", "Stop the experiment and retain the null"
-  ), col.names = c(                 "Outcome",                                  "Action"))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-24">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">Outcome</cell>
+          <cell>Action</cell>
+        </row>
+        <row>
+          <cell halign="left"><m>p</m> less than .05</cell>
+          <cell>Stop the experiment and reject the null</cell>
+        </row>
+        <row>
+          <cell halign="left"><m>p</m> between .05 and .1</cell>
+          <cell>Continue the experiment</cell>
+        </row>
+        <row>
+          <cell halign="left"><m>p</m> greater than .1</cell>
+          <cell>Stop the experiment and retain the null</cell>
+        </row>
+      </tabular>
+    </table>
     <p>The "basic" theory of null hypothesis testing isn't built to handle this sort of thing, not in the form I described back in Chapter <xref ref="hypothesistesting"/>. If you're the kind of person who would choose to "collect more data" in real life, it implies that you are <em>not</em> making decisions in accordance with the rules of null hypothesis testing. Even if you happen to arrive at the same decision as the hypothesis test, you aren't following the decision <em>process</em> it implies, and it's this failure to follow the process that is causing the problem.<fn>A related problem: http://xkcd.com/1478/</fn> Your <m>p</m>-values are a lie.</p>
     <p>Worse yet, they're a lie in a dangerous way, because they're all <em>too small</em>. To give you a sense of just how bad it can be, consider the following (worst case) scenario. Imagine you're a really super-enthusiastic researcher on a tight budget who didn't pay any attention to my warnings above. You design a study comparing two groups. You desperately want to see a significant result at the <m><![CDATA[p<.05]]></m> level, but you really don't want to collect any more data than you have to (because it's expensive). In order to cut costs, you start collecting data, but every time a new observation arrives you run a <m>t</m>-test on your data. If the <m>t</m>-tests says <m><![CDATA[p<.05]]></m> then you stop the experiment and report a significant result. If not, you keep collecting data. You keep doing this until you reach your pre-defined spending limit for this experiment. Let's say that limit kicks in at <m>N=1000</m> observations. As it turns out, the truth of the matter is that there is no real effect to be found: the null hypothesis is true. So, what's the chance that you'll make it to the end of the experiment and (correctly) conclude that there is no effect? In an ideal world, the answer here should be 95\%. After all, the whole <em>point</em> of the <m><![CDATA[p<.05]]></m> criterion is to control the Type I error rate at 5\%, so what we'd hope is that there's only a 5\% chance of falsely rejecting the null hypothesis in this situation. However, there's no guarantee that will be true. You're breaking the rules: you're running tests repeatedly, "peeking" at your data to see if you've gotten a significant result, and all bets are off.</p>
     <program language="r">
@@ -1024,27 +1158,41 @@ models/max(models)
     <p>Okay, that's all well and good, you might be thinking, but what do I report as the alternative to the <m>p</m>-value? In the classical ANOVA table, you get a single <m>p</m>-value for every predictor in the model, so you can talk about the significance of each effect. What's the Bayesian analog of this?</p>
     <p>It's a good question, but the answer is tricky. Remember what I said in Section <xref ref="unbalancedanova"/> about ANOVA being complicated. Even in the classical version of ANOVA there are several different "things" that ANOVA might correspond to. Specifically, I discussed how you get different <m>p</m>-values depending on whether you use Type I tests, Type II tests or Type III tests. To work out which Bayes factor is analogous to "the" <m>p</m>-value in a classical ANOVA, you need to work out which version of ANOVA you want an analog for. For the purposes of this section, I'll assume you want Type II tests, because those are the ones I think are most sensible in general. As I discussed back in Section <xref ref="unbalancedanova"/>, Type II tests for a two-way ANOVA are reasonably straightforward, but if you have forgotten that section it wouldn't be a bad idea to read it again before continuing.</p>
     <p>Assuming you've had a refresher on Type II tests, let's have a look at how to pull them from the Bayes factor table. Suppose we want to test the main effect of <c>drug</c>. The null hypothesis for this test corresponds to a model that includes an effect of <c>therapy</c>, but no effect of <c>drug</c>. The alternative hypothesis is the model that includes both. In other words, what we want is the Bayes factor corresponding to this comparison:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-                   ~V1,                            ~V2,
-         "Null model:",        "`mood.gain ~ therapy`",
-  "Alternative model:", "`mood.gain ~ therapy + drug`"
-  ), col.names = c("", ""))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-23">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell halign="left">Null model:</cell>
+          <cell><c>mood.gain ~ therapy</c></cell>
+        </row>
+        <row>
+          <cell halign="left">Alternative model:</cell>
+          <cell><c>mood.gain ~ therapy + drug</c></cell>
+        </row>
+      </tabular>
+    </table>
     <p>As it happens, we can read the answer to this straight off the table because it corresponds to a comparison between the model in line 2 of the table and the model in line 3: the Bayes factor in this case  represents evidence <em>for</em> the null of 0.001 to 1. Or, more helpfully, the odds are about 1000 to 1 against the null.</p>
     <p>The main effect of <c>therapy</c> can be calculated in much the same way. In this case, the null model is the one that contains only an effect of drug, and the alternative is the model that contains both. So the relevant comparison is between lines 2 and 1 in the table. The odds in favour of the null here are only 0.35 to 1. Again, I find it useful to frame things the other way around, so I'd refer to this as evidence of about 3 to 1 in favour of an effect of <c>therapy</c>.</p>
     <p>Finally, in order to test an interaction effect, the null model here is one that contains both main effects but no interaction. The alternative model adds the interaction. That is:</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::kable(tibble::tribble(
-                   ~V1,                            ~V2,
-         "Null model:",        "`mood.gain ~ drug + therapy`",
-  "Alternative model:", "`mood.gain ~ drug + therapy + drug:therapy`"
-  ), col.names = c("", ""))
-]]></input>
-    </program>
+        <table xml:id="table-ch6bayesianstat-22">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell halign="left">Null model:</cell>
+          <cell><c>mood.gain ~ drug + therapy</c></cell>
+        </row>
+        <row>
+          <cell halign="left">Alternative model:</cell>
+          <cell><c>mood.gain ~ drug + therapy + drug:therapy</c></cell>
+        </row>
+      </tabular>
+    </table>
     <p>If we look those two models up in the table, we see that this comparison is between the models on lines 3 and 4 of the table. The odds of 0.98 to 1 imply that these two models are fairly evenly matched.</p>
     <p>You might be thinking that this is all pretty laborious, and I'll concede that's true. At some stage I might consider adding a function to the <c>lsr</c> package that would automate this process and construct something like a "Bayesian Type II ANOVA table" from the output of the <c>anovaBF()</c> function. However, I haven't had time to do this yet, nor have I made up my mind about whether it's really a good idea to do this. In the meantime, I thought I should show you the trick for how I do this in practice. The command that I use when I want to grab the right Bayes factors for a Type II ANOVA is this one:</p>
     <program language="r">

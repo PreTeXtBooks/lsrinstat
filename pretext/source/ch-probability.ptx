@@ -51,12 +51,116 @@
 <output><![CDATA[T,H,H,H,H,T,T,H,H,H,H,T,H,H,T,T,T,T,T,H]]></output>
 </console>
 <p>In this case 11 of these 20 coin flips (55\%) came up heads. Now suppose that I'd been keeping a running tally of the number of heads (which I'll call <m>N_H</m>) that I've seen, across the first <m>N</m> flips, and calculate the proportion of heads <m>N_H / N</m> every time. Here's what I'd get (I did literally flip coins to produce this!):</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-`number of flips` = c(1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10, 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20),
-`number of heads` = c( 0 , 1 , 2 , 3 , 4 , 4 , 4 , 5 , 6 , 7,  8  ,  8 ,  9 , 10 , 10 , 10 , 10 , 10 , 10 , 11 ), 
-`proportion` = c( .00 , .50 , .67 , .75 , .80 , .67 , .57 , .63 , .67 , .70, .73 , .67 , .69 , .71 , .67 ,  .63 , .59 , .56 , .53 , .55)))]]></input>
-</program>
+<table xml:id="table-probability-coinflips">
+  <title>Coin flip simulation results</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">number of flips</cell>
+      <cell>number of heads</cell>
+      <cell>proportion</cell>
+    </row>
+    <row>
+      <cell halign="left">1</cell>
+      <cell>0</cell>
+      <cell>.00</cell>
+    </row>
+    <row>
+      <cell halign="left">2</cell>
+      <cell>1</cell>
+      <cell>.50</cell>
+    </row>
+    <row>
+      <cell halign="left">3</cell>
+      <cell>2</cell>
+      <cell>.67</cell>
+    </row>
+    <row>
+      <cell halign="left">4</cell>
+      <cell>3</cell>
+      <cell>.75</cell>
+    </row>
+    <row>
+      <cell halign="left">5</cell>
+      <cell>4</cell>
+      <cell>.80</cell>
+    </row>
+    <row>
+      <cell halign="left">6</cell>
+      <cell>4</cell>
+      <cell>.67</cell>
+    </row>
+    <row>
+      <cell halign="left">7</cell>
+      <cell>4</cell>
+      <cell>.57</cell>
+    </row>
+    <row>
+      <cell halign="left">8</cell>
+      <cell>5</cell>
+      <cell>.63</cell>
+    </row>
+    <row>
+      <cell halign="left">9</cell>
+      <cell>6</cell>
+      <cell>.67</cell>
+    </row>
+    <row>
+      <cell halign="left">10</cell>
+      <cell>7</cell>
+      <cell>.70</cell>
+    </row>
+    <row>
+      <cell halign="left">11</cell>
+      <cell>8</cell>
+      <cell>.73</cell>
+    </row>
+    <row>
+      <cell halign="left">12</cell>
+      <cell>8</cell>
+      <cell>.67</cell>
+    </row>
+    <row>
+      <cell halign="left">13</cell>
+      <cell>9</cell>
+      <cell>.69</cell>
+    </row>
+    <row>
+      <cell halign="left">14</cell>
+      <cell>10</cell>
+      <cell>.71</cell>
+    </row>
+    <row>
+      <cell halign="left">15</cell>
+      <cell>10</cell>
+      <cell>.67</cell>
+    </row>
+    <row>
+      <cell halign="left">16</cell>
+      <cell>10</cell>
+      <cell>.63</cell>
+    </row>
+    <row>
+      <cell halign="left">17</cell>
+      <cell>10</cell>
+      <cell>.59</cell>
+    </row>
+    <row>
+      <cell halign="left">18</cell>
+      <cell>10</cell>
+      <cell>.56</cell>
+    </row>
+    <row>
+      <cell halign="left">19</cell>
+      <cell>10</cell>
+      <cell>.53</cell>
+    </row>
+    <row>
+      <cell halign="left">20</cell>
+      <cell>11</cell>
+      <cell>.55</cell>
+    </row>
+  </tabular>
+</table>
 <p>Notice that at the start of the sequence, the <em>proportion</em> of heads fluctuates wildly, starting at .00 and rising as high as .80. Later on, one gets the impression that it dampens out a bit, with more and more of the values actually being pretty close to the "right" answer of .50. This is the frequentist definition of probability in a nutshell: flip a fair coin over and over again, and as <m>N</m> grows large (approaches infinity, denoted <m>N\rightarrow \infty</m>), the proportion of heads will converge to 50\%. There are some subtle technicalities that the mathematicians care about, but qualitatively speaking, that's how the frequentists define probability. Unfortunately, I don't have an infinite number of coins, or the infinite patience required to flip a coin an infinite number of times. However, I do have a computer, and computers excel at mindless repetitive tasks. So I asked my computer to simulate flipping a coin 1000 times, and then drew a picture of what happens to the proportion <m>N_H / N</m> as <m>N</m> increases. Actually, I did it four times, just to make sure it wasn't a fluke. The results are shown in Figure <xref ref="fig:frequentistprobability"/>. As you can see, the <em>proportion of observed heads</em> eventually stops fluctuating, and settles down; when it does, the number at which it finally settles is the true probability of heads.</p>
 <console>
 <output><![CDATA[
@@ -108,15 +212,35 @@ colour <- TRUE
 <p>One of the disturbing truths about my life is that I only own 5 pairs of pants: three pairs of jeans, the bottom half of a suit, and a pair of tracksuit pants. Even sadder, I've given them names: I call them <m>X_1</m>, <m>X_2</m>, <m>X_3</m>, <m>X_4</m> and <m>X_5</m>. I really do: that's why they call me Mister Imaginative. Now, on any given day, I pick out exactly one of pair of pants to wear. Not even I'm so stupid as to try to wear two pairs of pants, and thanks to years of training I never go outside without wearing pants anymore. If I were to describe this situation using the language of probability theory, I would refer to each pair of pants (i.e., each <m>X</m>) as an <em>elementary event</em>. The key characteristic of elementary events is that every time we make an observation (e.g., every time I put on a pair of pants), then the outcome will be one and only one of these events. Like I said, these days I always wear exactly one pair of pants, so my pants satisfy this constraint. Similarly, the set of all possible events is called a <em>sample space</em>. Granted, some people would call it a "wardrobe", but that's because they're refusing to think about my pants in probabilistic terms. Sad.</p>
 <p>Okay, now that we have a sample space (a wardrobe), which is built from lots of possible elementary events (pants), what we want to do is assign a <em>probability</em> of one of these elementary events. For an event <m>X</m>, the probability of that event <m>P(X)</m> is a number that lies between 0 and 1. The bigger the value of <m>P(X)</m>, the more likely the event is to occur. So, for example, if <m>P(X) = 0</m>, it means the event <m>X</m> is impossible (i.e., I never wear those pants). On the other hand, if <m>P(X) = 1</m> it means that event <m>X</m> is certain to occur (i.e., I always wear those pants). For probability values in the middle, it means that I sometimes wear those pants. For instance, if <m>P(X) = 0.5</m> it means that I wear those pants half of the time.</p>
 <p>At this point, we're almost done. The last thing we need to recognise is that "something always happens". Every time I put on pants, I really do end up wearing pants (crazy, right?). What this somewhat trite statement means, in probabilistic terms, is that the probabilities of the elementary events need to add up to 1. This is known as the <em>law of total probability</em>, not that any of us really care. More importantly, if these requirements are satisfied, then what we have is a <em>probability distribution</em>. For example, this is an example of a probability distribution</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-`Which pants` = c(  "Label" , "Probability" ), 
-`Blue jeans` = c(  "$X_1$" , "$P(X_1) = .5$" ),
-`Grey jeans` = c(  "$X_2$ ", "$P(X_2) = .3$ "),
-`Black jeans` = c(  "$X_3$ ", "$P(X_3) = .1$" ),
-`Black suit` = c(  "$X_4$" , "$P(X_4) = 0$ "),
-`Blue tracksuit` = c(  "$X_5$ ", "$P(X_5) = .1$")))]]></input>
-</program>
+<table xml:id="table-probability-pants">
+  <title>An example probability distribution</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">Which pants</cell>
+      <cell>Blue jeans</cell>
+      <cell>Grey jeans</cell>
+      <cell>Black jeans</cell>
+      <cell>Black suit</cell>
+      <cell>Blue tracksuit</cell>
+    </row>
+    <row>
+      <cell halign="left">Label</cell>
+      <cell><m>X_1</m></cell>
+      <cell><m>X_2</m></cell>
+      <cell><m>X_3</m></cell>
+      <cell><m>X_4</m></cell>
+      <cell><m>X_5</m></cell>
+    </row>
+    <row>
+      <cell halign="left">Probability</cell>
+      <cell><m>P(X_1) = .5</m></cell>
+      <cell><m>P(X_2) = .3</m></cell>
+      <cell><m>P(X_3) = .1</m></cell>
+      <cell><m>P(X_4) = 0</m></cell>
+      <cell><m>P(X_5) = .1</m></cell>
+    </row>
+  </tabular>
+</table>
 <p>Each of the events has a probability that lies between 0 and 1, and if we add up the probability of all events, they sum to 1. Awesome. We can even draw a nice bar graph (see Section <xref ref="bargraph"/>) to visualise this distribution, as shown in Figure <xref ref="fig:pantsprob"/>. And at this point, we've all achieved something. You've learned what a probability distribution is, and I've finally managed to find a way to create a graph that focuses entirely on my pants. Everyone wins!</p>
 <console>
 <output><![CDATA[
