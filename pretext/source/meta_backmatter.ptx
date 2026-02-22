@@ -60,6 +60,10 @@
       Pfungst, O. (1911). <em>Clever Hans (The horse of Mr. von Osten): A contribution to experimental animal and human psychology</em> (C. L. Rahn, Trans.). New York: Henry Holt.
     </biblio>
 
+    <biblio type="raw" xml:id="biblio-RCoreTeam">
+      R Core Team (2018). <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing, Vienna, Austria. <url href="https://www.R-project.org/" visual="www.R-project.org"/>.
+    </biblio>
+
     <biblio type="raw" xml:id="biblio-Rosenthal1966">
       Rosenthal, R. (1966). <em>Experimenter effects in behavioral research</em>. New York: Appleton.
     </biblio>

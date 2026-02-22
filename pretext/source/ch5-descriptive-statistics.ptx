@@ -361,19 +361,40 @@
       <p>
         The first piece of notation to introduce is <m>N</m>, which we'll use to refer to the number of observations that we're averaging (in this case <m>N = 5</m>). Next, we need to attach a label to the observations themselves. It's traditional to use <m>X</m> for this, and to use subscripts to indicate which observation we're actually talking about. That is, we'll use <m>X_1</m> to refer to the first observation, <m>X_2</m> to refer to the second observation, and so on, all the way up to <m>X_N</m> for the last one. Or, to say the same thing in a slightly more abstract way, we use <m>X_i</m> to refer to the <m>i</m>-th observation. Just to make sure we're clear on the notation, the following table lists the 5 observations in the <c>afl.margins</c> variable, along with the mathematical symbol used to refer to it, and the actual value that the observation corresponds to:
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(rbind(
-                        c("winning margin, game 1", "$X_1$", "56 points"),
-                        c("winning margin, game 2", "$X_2$", "31 points"),
-                        c("winning margin, game 3", "$X_3$", "56 points"),
-                        c("winning margin, game 4", "$X_4$", "8 points"),
-                        c("winning margin, game 5", "$X_5$", "32 points")),
-          col.names = c("the observation", "its symbol", "the observed value"),
-            booktabs = TRUE)
-          
-        </input>
-      </program>
+            <table xml:id="table-ch5descriptives-4">
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">the observation</cell>
+            <cell>its symbol</cell>
+            <cell>the observed value</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 1</cell>
+            <cell><m>X_1</m></cell>
+            <cell>56 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 2</cell>
+            <cell><m>X_2</m></cell>
+            <cell>31 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 3</cell>
+            <cell><m>X_3</m></cell>
+            <cell>56 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 4</cell>
+            <cell><m>X_4</m></cell>
+            <cell>8 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 5</cell>
+            <cell><m>X_5</m></cell>
+            <cell>32 points</cell>
+          </row>
+        </tabular>
+      </table>
       <p>
         Okay, now let's try to write a formula for the mean. By tradition, we use <m>\bar{X}</m> as the notation for the mean. So the calculation for the mean could be expressed using the following formula: <me> \bar{X} = \frac{X_1 + X_2 + ... + X_{N-1} + X_N}{N} </me> This formula is entirely correct, but it's terribly long, so we make use of the <term>summation symbol</term> <m>\scriptstyle\sum</m> to shorten it.<fn>The choice to use <m>\Sigma</m> to denote summation isn't arbitrary: it's the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there's an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called "products", we use the <m>\Pi</m> symbol for this; the Greek upper case pi, which is the analogue of the letter P.</fn> If I want to add up the first five observations, I could write out the sum the long way, <m>X_1 + X_2 + X_3 + X_4 +X_5</m> or I could use the summation symbol to shorten it to this: <me> \sum_{i=1}^5 X_i </me> Taken literally, this could be read as "the sum, taken over all <m>i</m> values from 1 to 5, of the value <m>X_i</m>". But basically, what it means is "add up the first five observations". In any case, we can use this notation to write out the formula for the mean, which looks like this: <me> \bar{X} = \frac{1}{N} \sum_{i=1}^N X_i </me>
       </p>
@@ -820,19 +841,40 @@
       <p>
         Since the previous paragraph might sound a little abstract, let's go through the <term>mean absolute deviation</term> from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let's think about our AFL winning margins data, and once again we'll start by pretending that there's only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, <m>\bar{X}</m>. For these five observations, our mean is <m>\bar{X} = 36.6</m>. The next step is to convert each of our observations <m>X_i</m> into a deviation score. We do this by calculating the difference between the observation <m>X_i</m> and the mean <m>\bar{X}</m>. That is, the deviation score is defined to be <m>X_i - \bar{X}</m>. For the first observation in our sample, this is equal to <m>56 - 36.6 = 19.4</m>. Okay, that's simple enough. The next step in the process is to convert these deviations to absolute deviations. As we discussed earlier when talking about  the <c>abs()</c> function in R (<xref ref="usingfunctions" />), we do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of <m>-3</m> as <m>|-3|</m>, and so we say that <m>|-3| = 3</m>. We use the absolute value function here because we don't really care whether the value is higher than the mean or lower than the mean, we're just interested in how <em>close</em> it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(rbind(
-                        c("winning margin, game 1", "$X_1$", "56 points"),
-                        c("winning margin, game 2", "$X_2$", "31 points"),
-                        c("winning margin, game 3", "$X_3$", "56 points"),
-                        c("winning margin, game 4", "$X_4$", "8 points"),
-                        c("winning margin, game 5", "$X_5$", "32 points")),
-          col.names = c("the observation", "its symbol", "the observed value"),
-            booktabs = TRUE)
-          
-        </input>
-      </program>
+            <table xml:id="table-ch5descriptives-3">
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">the observation</cell>
+            <cell>its symbol</cell>
+            <cell>the observed value</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 1</cell>
+            <cell><m>X_1</m></cell>
+            <cell>56 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 2</cell>
+            <cell><m>X_2</m></cell>
+            <cell>31 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 3</cell>
+            <cell><m>X_3</m></cell>
+            <cell>56 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 4</cell>
+            <cell><m>X_4</m></cell>
+            <cell>8 points</cell>
+          </row>
+          <row>
+            <cell halign="left">winning margin, game 5</cell>
+            <cell><m>X_5</m></cell>
+            <cell>32 points</cell>
+          </row>
+        </tabular>
+      </table>
       <p>
         Now that we have calculated the absolute deviation score for every observation in the data set, all that we have to do to calculate the mean of these scores. Let's do that: <me> \frac{19.4 + 5.6 + 19.4 + 28.6 + 4.6}{5} = 15.52 </me> And we're done. The mean absolute deviation for these five scores is 15.52.
       </p>
@@ -884,21 +926,53 @@
       <p>
         Now that we've got the basic idea, let's have a look at a concrete example. Once again, let's use the first five AFL games as our data. If we follow the same approach that we took last time, we end up with the following table:
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(rbind(c("",1 , 56 , 19.4  , 376.36),
-                             c("",2 , 31 ,  -5.6 , 31.36),
-                             c("",3 , 56 , 19.4  , 376.36),
-                             c("",4 , 8 , -28.6  , 817.96),
-                             c("",5 , 32 , -4.6  , 21.16)),
-          caption = 'Basic arithmetic operations in R. These five operators are used very frequently throughout the text, so it\'s important to be familiar with them at the outset.',col.names = c("Notation [English]",
-                                                                 "$i$ [which game]",
-                                                                 "$X_i$ [value]",
-                                                                 "$X_i - \\bar{X}$ [deviation from mean]",
-                                                                 "$(X_i - \\bar{X})^2$ [absolute deviation]"),
-            booktabs = TRUE)
-        </input>
-      </program>
+            <table xml:id="table-ch5descriptives-2">
+        <title>Basic arithmetic operations in R. These five operators are used very frequently throughout the text, so it's important to be familiar with them at the outset.</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">Notation [English]</cell>
+            <cell><m>i</m> [which game]</cell>
+            <cell><m>X_i</m> [value]</cell>
+            <cell><m>X_i - \bar{X}</m> [deviation from mean]</cell>
+            <cell><m>(X_i - \bar{X})^2</m> [absolute deviation]</cell>
+          </row>
+          <row>
+            <cell halign="left"></cell>
+            <cell>1</cell>
+            <cell>56</cell>
+            <cell>19.4</cell>
+            <cell>376.36</cell>
+          </row>
+          <row>
+            <cell halign="left"></cell>
+            <cell>2</cell>
+            <cell>31</cell>
+            <cell>-5.6</cell>
+            <cell>31.36</cell>
+          </row>
+          <row>
+            <cell halign="left"></cell>
+            <cell>3</cell>
+            <cell>56</cell>
+            <cell>19.4</cell>
+            <cell>376.36</cell>
+          </row>
+          <row>
+            <cell halign="left"></cell>
+            <cell>4</cell>
+            <cell>8</cell>
+            <cell>-28.6</cell>
+            <cell>817.96</cell>
+          </row>
+          <row>
+            <cell halign="left"></cell>
+            <cell>5</cell>
+            <cell>32</cell>
+            <cell>-4.6</cell>
+            <cell>21.16</cell>
+          </row>
+        </tabular>
+      </table>
       <p>
         That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into R by hand...
       </p>
@@ -1154,17 +1228,30 @@
     <p>
       By convention, we say that the "normal curve" (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:
     </p>
-    <program language="r">
-      <input>
-        knitr::kable(rbind(
-                          c("too flat" , "platykurtic", "negative"),
-                          c("just pointy enough", "mesokurtic", "zero"),
-                          c("too pointy", "leptokurtic", "positive")),
-        
-        col.names = c("informal term", "technical name", "kurtosis value"),
-          booktabs = TRUE)
-      </input>
-    </program>
+        <table xml:id="table-ch5descriptives-1">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">informal term</cell>
+          <cell>technical name</cell>
+          <cell>kurtosis value</cell>
+        </row>
+        <row>
+          <cell halign="left">too flat</cell>
+          <cell>platykurtic</cell>
+          <cell>negative</cell>
+        </row>
+        <row>
+          <cell halign="left">just pointy enough</cell>
+          <cell>mesokurtic</cell>
+          <cell>zero</cell>
+        </row>
+        <row>
+          <cell halign="left">too pointy</cell>
+          <cell>leptokurtic</cell>
+          <cell>positive</cell>
+        </row>
+      </tabular>
+    </table>
     <p>
       The equation for kurtosis is pretty similar in spirit to the formulas we've seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:<fn>The "<m>-3</m>" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.</fn> <me> \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3 </me> I know, it's not terribly interesting to me either. More to the point, the <c>psych</c> package has a function called <c>kurtosi()</c> that you can use to calculate the kurtosis of your data. For instance, if we were to do this for the AFL margins,
     </p>
@@ -1681,16 +1768,47 @@
       <p>
         One thing to note: just because R can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in <xref ref="table-parenthoodtab" />.<fn>Actually, even that table is more than I'd bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</fn>  Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(rbind(
-                            c("Dan\'s grumpiness", 41 , 91 , 63.71 , 62 , 10.05 , 14),
-                            c("Dan\'s hours slept" , 4.84 , 9.00 , 6.97 , 7.03 , 1.02 , 1.45),
-                            c("Dan's son\'s hours slept" , 3.25 , 12.07 , 8.05 , 7.95 , 2.07 , 3.21)),
-          caption = 'Descriptive statistics for the parenthood data.', col.names = c("variable" , "min" , "max" , "mean" , "median" , "std. dev" , "IQR"),
-            booktabs = TRUE)
-        </input>
-      </program>
+            <table xml:id="table-parenthoodtab">
+        <title>Descriptive statistics for the parenthood data.</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">variable</cell>
+            <cell>min</cell>
+            <cell>max</cell>
+            <cell>mean</cell>
+            <cell>median</cell>
+            <cell>std. dev</cell>
+            <cell>IQR</cell>
+          </row>
+          <row>
+            <cell halign="left">Dan's grumpiness</cell>
+            <cell>41</cell>
+            <cell>91</cell>
+            <cell>63.71</cell>
+            <cell>62</cell>
+            <cell>10.05</cell>
+            <cell>14</cell>
+          </row>
+          <row>
+            <cell halign="left">Dan's hours slept</cell>
+            <cell>4.84</cell>
+            <cell>9.00</cell>
+            <cell>6.97</cell>
+            <cell>7.03</cell>
+            <cell>1.02</cell>
+            <cell>1.45</cell>
+          </row>
+          <row>
+            <cell halign="left">Dan's son's hours slept</cell>
+            <cell>3.25</cell>
+            <cell>12.07</cell>
+            <cell>8.05</cell>
+            <cell>7.95</cell>
+            <cell>2.07</cell>
+            <cell>3.21</cell>
+          </row>
+        </tabular>
+      </table>
     </subsection>
     <subsection>
       <title>The strength and direction of a relationship</title>
@@ -1770,24 +1888,66 @@
       <p>
         Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say <m>r= .4</m>? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than <m>.95</m> is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases <mdash /> even in psychology <mdash /> where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least <m>.9</m> really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above <m>.3</m> you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in <xref ref="table-interpretingcorrelations" /> is pretty typical.
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(
-          rbind(
-          c("-1.0 to -0.9" ,"Very strong", "Negative"),
-          c("-0.9 to -0.7", "Strong", "Negative") ,
-          c("-0.7 to -0.4", "Moderate", "Negative") ,
-          c("-0.4 to -0.2", "Weak", "Negative"),
-          c("-0.2 to 0","Negligible", "Negative") ,
-          c("0 to 0.2","Negligible", "Positive"),
-          c("0.2 to 0.4", "Weak", "Positive"),
-          c("0.4 to 0.7", "Moderate", "Positive"),
-          c("0.7 to 0.9", "Strong", "Positive"),
-          c("0.9 to 1.0", "Very strong", "Positive")), col.names=c("Correlation", "Strength", "Direction"),
-            booktabs = TRUE, caption = "Rough guide to interpreting correlations")
-          
-        </input>
-      </program>
+            <table xml:id="table-interpretingcorrelations">
+        <title>Rough guide to interpreting correlations</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">Correlation</cell>
+            <cell>Strength</cell>
+            <cell>Direction</cell>
+          </row>
+          <row>
+            <cell halign="left">-1.0 to -0.9</cell>
+            <cell>Very strong</cell>
+            <cell>Negative</cell>
+          </row>
+          <row>
+            <cell halign="left">-0.9 to -0.7</cell>
+            <cell>Strong</cell>
+            <cell>Negative</cell>
+          </row>
+          <row>
+            <cell halign="left">-0.7 to -0.4</cell>
+            <cell>Moderate</cell>
+            <cell>Negative</cell>
+          </row>
+          <row>
+            <cell halign="left">-0.4 to -0.2</cell>
+            <cell>Weak</cell>
+            <cell>Negative</cell>
+          </row>
+          <row>
+            <cell halign="left">-0.2 to 0</cell>
+            <cell>Negligible</cell>
+            <cell>Negative</cell>
+          </row>
+          <row>
+            <cell halign="left">0 to 0.2</cell>
+            <cell>Negligible</cell>
+            <cell>Positive</cell>
+          </row>
+          <row>
+            <cell halign="left">0.2 to 0.4</cell>
+            <cell>Weak</cell>
+            <cell>Positive</cell>
+          </row>
+          <row>
+            <cell halign="left">0.4 to 0.7</cell>
+            <cell>Moderate</cell>
+            <cell>Positive</cell>
+          </row>
+          <row>
+            <cell halign="left">0.7 to 0.9</cell>
+            <cell>Strong</cell>
+            <cell>Positive</cell>
+          </row>
+          <row>
+            <cell halign="left">0.9 to 1.0</cell>
+            <cell>Very strong</cell>
+            <cell>Positive</cell>
+          </row>
+        </tabular>
+      </table>
       <p>
         However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet" [@Anscombe1973], which is a collection of four data sets. Each data set has two variables, an <m>X</m> and a <m>Y</m>. For all four data sets the mean value for <m>X</m> is 9 and the mean for <m>Y</m> is 7.5. The, standard deviations for all <m>X</m> variables are almost identical, as are those for the the <m>Y</m> variables. And in each case the correlation between <m>X</m> and <m>Y</m> is <m>r = 0.816</m>. You can verify this yourself, since the dataset comes distributed with R. The commands would be:
       </p>

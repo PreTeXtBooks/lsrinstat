@@ -33,12 +33,19 @@
 </ul>
 <p>All of these are legitimate examples of a statistical hypothesis because they are statements about a population parameter and are meaningfully related to my experiment.</p>
 <p>What this discussion makes clear, I hope, is that when attempting to construct a statistical hypothesis test the researcher actually has two quite distinct hypotheses to consider. First, he or she has a research hypothesis (a claim about psychology), and this corresponds to a statistical hypothesis (a claim about the data generating population). In my ESP example, these might be</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-   `Dan's.research.hypothesis` = c("ESP.exists"),
-                      `Dan's.statistical.hypothesis` = c("$\\theta \\neq 0.5$")
-))]]></input>
-</program>
+<table xml:id="table-ht-hypotheses">
+  <title>Research hypothesis and corresponding statistical hypothesis</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">Dan's research hypothesis</cell>
+      <cell>Dan's statistical hypothesis</cell>
+    </row>
+    <row>
+      <cell halign="left">ESP exists</cell>
+      <cell><m>\theta \neq 0.5</m></cell>
+    </row>
+  </tabular>
+</table>
 <p>And the key thing to recognise is this: <em>a statistical hypothesis test is a test of the statistical hypothesis, not the research hypothesis</em>. If your study is badly designed, then the link between your research hypothesis and your statistical hypothesis is broken. To give a silly example, suppose that my ESP study was conducted in a situation where the participant can actually see the card reflected in a window; if that happens, I would be able to find very strong evidence that <m>\theta \neq 0.5</m>, but this would tell us nothing about whether "ESP exists".</p>
 </subsection>
 <subsection>
@@ -51,27 +58,49 @@
 <title>Two types of errors</title>
 <p>Before going into details about how a statistical test is constructed, it's useful to understand the philosophy behind it. I hinted at it when pointing out the similarity between a null hypothesis test and a criminal trial, but I should now be explicit. Ideally, we would like to construct our test so that we never make any errors. Unfortunately, since the world is messy, this is never possible. Sometimes you're just really unlucky: for instance, suppose you flip a coin 10 times in a row and it comes up heads all 10 times. That feels like very strong evidence that the coin is biased (and it is!), but of course there's a 1 in 1024 chance that this would happen even if the coin was totally fair. In other words, in real life we <em>always</em> have to accept that there's a chance that we did the wrong thing. As a consequence, the goal behind statistical hypothesis testing is not to <em>eliminate</em> errors, but to <em>minimise</em> them.</p>
 <p>At this point, we need to be a bit more precise about what we mean by "errors". Firstly,  let's state the obvious: it is either the case that the null hypothesis is true, or it is false; and our test will either reject the null hypothesis or retain it.<fn>An aside regarding the language you use to talk about hypothesis testing. Firstly, one thing you really want to avoid is the word "prove": a statistical test really doesn't <em>prove</em> that a hypothesis is true or false. Proof implies certainty, and as the saying goes, statistics means never having to say you're certain. On that point almost everyone would agree. However, beyond that there's a fair amount of confusion. Some people argue that you're only allowed to make statements like "rejected the null", "failed to reject the null", or possibly "retained the null". According to this line of thinking, you can't say things like "accept the alternative" or "accept the null". Personally I think this is too strong: in my opinion, this conflates null hypothesis testing with Karl Popper's falsificationist view of the scientific process. While there are similarities between falsificationism and null hypothesis testing, they aren't equivalent. However, while I personally think it's fine to talk about accepting a hypothesis (on the proviso that "acceptance" doesn't actually mean that it's necessarily true, especially in the case of the null hypothesis), many people will disagree. And more to the point, you should be aware that this particular weirdness exists, so that you're not caught unawares by it when writing up your own results.</fn> So, as the table below illustrates, after we run the test and make our choice, one of four things might have happened:</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c("$H_0$ is true", "$H_0$ is false"),
-`retain.$H_0$` = c("correct decision", "error (type II)"),
-`reject.$H_0$` = c("error (type I)", "correct decision")
-), col.names = c("", "retain $H_0$", "reject $H_0$"))
-]]></input>
-</program>
+<table xml:id="table-ht-errortypes">
+  <title>The four possible outcomes of a hypothesis test</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left"></cell>
+      <cell>retain <m>H_0</m></cell>
+      <cell>reject <m>H_0</m></cell>
+    </row>
+    <row>
+      <cell halign="left"><m>H_0</m> is true</cell>
+      <cell>correct decision</cell>
+      <cell>error (type I)</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>H_0</m> is false</cell>
+      <cell>error (type II)</cell>
+      <cell>correct decision</cell>
+    </row>
+  </tabular>
+</table>
 <p>As a consequence there are actually <em>two</em> different types of error here. If we reject a null hypothesis that is actually true, then we have made a <em>type I error</em>. On the other hand, if we retain the null hypothesis when it is in fact false, then we have made a <em>type II error</em>.</p>
 <p>Remember how I said that statistical testing was kind of like a criminal trial? Well, I meant it. A criminal trial requires that you establish "beyond a reasonable doubt" that the defendant did it. All of the evidentiary rules are (in theory, at least) designed to ensure that there's (almost) no chance of wrongfully convicting an innocent defendant. The trial is designed to protect the rights of a defendant: as the English jurist William Blackstone famously said, it is "better that ten guilty persons escape than that one innocent suffer." In other words, a criminal trial doesn't treat the two types of error in the same way~... punishing the innocent is deemed to be much worse than letting the guilty go free. A statistical test is pretty much the same: the single most important design principle of the test is to <em>control</em> the probability of a type I error, to keep it below some fixed probability. This probability, which is denoted <m>\alpha</m>, is called the <em>significance level</em> of the test (or sometimes, the <em>size</em> of the test). And I'll say it again, because it is so central to the whole set-up~... a hypothesis test is said to have significance level <m>\alpha</m> if the type I error rate is no larger than <m>\alpha</m>.</p>
 <p>So, what about the type II error rate? Well, we'd also like to keep those under control too, and we denote this probability by <m>\beta</m>. However, it's much more common to refer to the  <em>power</em> of the test, which is the probability with which we reject a null hypothesis when it really is false, which is <m>1-\beta</m>. To help keep this straight, here's the same table again, but with the relevant numbers added:</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c("$H_0$ is true", "$H_0$ is false"),
-retain = c("$1-\\alpha$ (probability of correct retention)",
-                   "$\\beta$ (type II error rate)"),
-reject = c("$\\alpha$ (type I error rate)",
-                   "$1-\\beta$  (power of the test)")), col.names=c("", "retain $H_0$", "reject $H_0$")
-)
-]]></input>
-</program>
+<table xml:id="table-ht-errorrates">
+  <title>Error rates and power of a hypothesis test</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left"></cell>
+      <cell>retain <m>H_0</m></cell>
+      <cell>reject <m>H_0</m></cell>
+    </row>
+    <row>
+      <cell halign="left"><m>H_0</m> is true</cell>
+      <cell><m>1-\alpha</m> (probability of correct retention)</cell>
+      <cell><m>\alpha</m> (type I error rate)</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>H_0</m> is false</cell>
+      <cell><m>\beta</m> (type II error rate)</cell>
+      <cell><m>1-\beta</m> (power of the test)</cell>
+    </row>
+  </tabular>
+</table>
 <p>A "powerful" hypothesis test is one that has a small value of <m>\beta</m>, while still keeping <m>\alpha</m> fixed at some (small) desired level. By convention, scientists make use of three different <m>\alpha</m> levels: <m>.05</m>, <m>.01</m> and <m>.001</m>. Notice the asymmetry here~... the tests are designed to <em>ensure</em> that the <m>\alpha</m> level is kept small, but there's no corresponding guarantee regarding <m>\beta</m>. We'd certainly <em>like</em> the type II error rate to be small, and we try to design tests that keep it small, but this is very much secondary to the overwhelming need to control the type I error rate. As Blackstone might have said if he were a statistician, it is "better to retain 10 false null hypotheses than to reject a single true one". To be honest, I don't know that I agree with this philosophy -- there are situations where I think it makes sense, and situations where I think it doesn't -- but that's neither here nor there. It's how the tests are built.</p>
 </section>
 <section xml:id="teststatistics">
@@ -200,12 +229,35 @@ colour <- TRUE
 <title>A softer view of decision making</title>
 <p>One problem with the hypothesis testing procedure that I've described is that it makes no distinction at all between a result this "barely significant" and those that are "highly significant". For instance, in my ESP study the data I obtained only just fell inside the critical region - so I did get a significant effect, but was a pretty near thing. In contrast, suppose that I'd run a study in which <m>X=97</m> out of my <m>N=100</m> participants got the answer right. This would obviously be significant too, but my a much larger margin; there's really no ambiguity about this at all. The procedure that I described makes no distinction between the two. If I adopt the standard convention of allowing <m>\alpha = .05</m> as my acceptable Type I error rate, then both of these are significant results.</p>
 <p>This is where the <m>p</m> value comes in handy. To understand how it works, let's suppose that we ran lots of hypothesis tests on the same data set: but with a different value of <m>\alpha</m> in each case. When we do that for my original ESP data, what we'd get is something like this</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-   Value = c(0.05, 0.04, 0.03, 0.02, 0.01),
-    Reject = c("Yes", "Yes", "Yes", "No", "No")), col.names=c("Value of $\\alpha$", "Reject the null?"))
-]]></input>
-</program>
+<table xml:id="table-ht-alpha-values">
+  <title>Hypothesis test outcomes at different significance levels</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">Value of <m>\alpha</m></cell>
+      <cell>Reject the null?</cell>
+    </row>
+    <row>
+      <cell halign="left">0.05</cell>
+      <cell>Yes</cell>
+    </row>
+    <row>
+      <cell halign="left">0.04</cell>
+      <cell>Yes</cell>
+    </row>
+    <row>
+      <cell halign="left">0.03</cell>
+      <cell>Yes</cell>
+    </row>
+    <row>
+      <cell halign="left">0.02</cell>
+      <cell>No</cell>
+    </row>
+    <row>
+      <cell halign="left">0.01</cell>
+      <cell>No</cell>
+    </row>
+  </tabular>
+</table>
 <p>When we test ESP data (<m>X=62</m> successes out of <m>N=100</m> observations) using <m>\alpha</m> levels of .03 and above, we'd always find ourselves rejecting the null hypothesis. For <m>\alpha</m> levels of .02 and below, we always end up retaining the null hypothesis. Therefore, somewhere between .02 and .03 there must be a smallest value of <m>\alpha</m> that would allow us to reject the null hypothesis for this data. This is the <m>p</m> value; as it turns out the ESP data has <m>p = .021</m>. In short:</p>
 <blockquote>
 <p><m>p</m> is defined to be the smallest Type I error rate (<m>\alpha</m>) that you have to be willing to tolerate if you want to reject the null hypothesis.</p>
@@ -337,16 +389,26 @@ colour <- TRUE
 <p><em>Since all models are wrong the scientist must be alert to what is importantly wrong. It is inappropriate to be concerned with mice when there are tigers abroad</em> -- George Box 1976</p>
 </blockquote>
 <p>The plot shown in Figure <xref ref="fig-powerfunction"/> captures a fairly basic point about hypothesis testing. If the true state of the world is very different from what the null hypothesis predicts, then your power will be very high; but if the true state of the world is similar to the null (but not identical) then the power of the test is going to be very low. Therefore, it's useful to be able to have some way of quantifying how "similar" the true state of the world is to the null hypothesis. A statistic that does this is called a measure of <em>effect size</em> [e.g. @Cohen1988; @Ellis2010]. Effect size is defined slightly differently in different contexts,<fn>There's an R package called <c>compute.es</c> that can be used for calculating a very broad range of effect size measures; but for the purposes of the current book we won't need it: all of the effect size measures that I'll talk about here have functions in the <c>lsr</c> package</fn> (and so this section just talks in general terms) but the qualitative idea that it tries to capture is always the same: how big is the difference between the <em>true</em> population parameters, and the parameter values that are assumed by the null hypothesis? In our ESP example, if we let <m>\theta_0 = 0.5</m> denote the value assumed by the null hypothesis, and let <m>\theta</m> denote the true value, then a simple measure of effect size could be something like the difference between the true value and null (i.e., <m>\theta - \theta_0</m>), or possibly just the magnitude of this difference,  <m>\mbox{abs}(\theta - \theta_0)</m>.</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c("significant result", "non-significant result"),
-NAbig.effect.size = c("difference is real, and  of practical importance",
-                      "no effect observed"),
-NAsmall.effect.size = c("difference is real, but might not be interesting",
-                        "no effect observed")
-), col.names=c("", "big effect size", "small effect size"))
-]]></input>
-</program>
+<table xml:id="table-ht-effectsize">
+  <title>Interpreting effect size and significance</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left"></cell>
+      <cell>big effect size</cell>
+      <cell>small effect size</cell>
+    </row>
+    <row>
+      <cell halign="left">significant result</cell>
+      <cell>difference is real, and of practical importance</cell>
+      <cell>difference is real, but might not be interesting</cell>
+    </row>
+    <row>
+      <cell halign="left">non-significant result</cell>
+      <cell>no effect observed</cell>
+      <cell>no effect observed</cell>
+    </row>
+  </tabular>
+</table>
     <console>
       <output><![CDATA[
 ## 
