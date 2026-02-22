@@ -3072,17 +3072,17 @@ row.2      5     6     7
       <p>
         The single-index approach is illustrated in <xref ref="table-matrixindex" /> but I don't really want to focus on it since we'll never really need it for this book, and matrices don't play anywhere near as large a role in this book as data frames do. 
 The critical difference between a data frame and a matrix is that, in a data frame, we have this
-notion that each of the columns corresponds to a dierent variable: as a consequence, the columns in a
-data frame can be of dierent data types. The rst column could be numeric, and the second column
+notion that each of the columns corresponds to a different variable: as a consequence, the columns in a
+data frame can be of different data types. The first column could be numeric, and the second column
 could contain character strings, and the third column could be logical data. In that sense, there is a
 fundamental asymmetry build into a data frame, because of the fact that columns represent variables
-(which can be qualitatively dierent to each other) and rows represent cases (which cannot). Matrices
-are intended to be thought of in a dierent way. At a fundamental level, a matrix really is just one
+(which can be qualitatively different to each other) and rows represent cases (which cannot). Matrices
+are intended to be thought of in a different way. At a fundamental level, a matrix really is just one
 variable: it just happens that this one variable is formatted into rows and columns. If you want a matrix
 of numeric data, every single element in the matrix must be a number. If you want a matrix of character
-strings, every single element in the matrix must be a character string. If you try to mix data of dierent
+strings, every single element in the matrix must be a character string. If you try to mix data of different
 types together, then R will either spit out an error, or quietly coerce the underlying data into a list. If
-you want to nd out what class R secretly thinks the data within the matrix is, you need to do something
+you want to find out what class R secretly thinks the data within the matrix is, you need to do something
 like this:
       </p>
             <table xml:id="table-matrixindex">

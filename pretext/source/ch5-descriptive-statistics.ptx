@@ -2088,20 +2088,4 @@
     <row><cell>Dan's son's hours slept</cell><cell>3.25</cell><cell>12.07</cell><cell>8.05</cell><cell>7.95</cell><cell>2.07</cell><cell>3.21</cell></row>
   </tabular>
 </table>
-<table xml:id="table-interpretingcorrelations">
-  <title>Rough guide to interpreting correlations.</title>
-  <tabular halign="left">
-    <row header="yes"><cell>Correlation</cell><cell>Strength</cell><cell>Direction</cell></row>
-    <row><cell>-1.0 to -0.9</cell><cell>Very strong</cell><cell>Negative</cell></row>
-    <row><cell>-0.9 to -0.7</cell><cell>Strong</cell><cell>Negative</cell></row>
-    <row><cell>-0.7 to -0.4</cell><cell>Moderate</cell><cell>Negative</cell></row>
-    <row><cell>-0.4 to -0.2</cell><cell>Weak</cell><cell>Negative</cell></row>
-    <row><cell>-0.2 to 0</cell><cell>Negligible</cell><cell>Negative</cell></row>
-    <row><cell>0 to 0.2</cell><cell>Negligible</cell><cell>Positive</cell></row>
-    <row><cell>0.2 to 0.4</cell><cell>Weak</cell><cell>Positive</cell></row>
-    <row><cell>0.4 to 0.7</cell><cell>Moderate</cell><cell>Positive</cell></row>
-    <row><cell>0.7 to 0.9</cell><cell>Strong</cell><cell>Positive</cell></row>
-    <row><cell>0.9 to 1.0</cell><cell>Very strong</cell><cell>Positive</cell></row>
-  </tabular>
-</table>
 </chapter>
