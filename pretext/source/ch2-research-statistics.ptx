@@ -818,8 +818,8 @@ to make life a little easier for readers who aren't sure how to refer to me. I s
     </p>
 
     <ul>
-      <li><p><xref ref="subsec-psychological-measurement">Introduction to psychological measurement</xref>. What does it mean to operationalise a theoretical construct? What does it mean to have variables and take measurements?</p></li>
-      <li><p><xref ref="subsec-scales-of-measurement">Scales of measurement and types of variables</xref>. Remember that there are <em>two</em> different distinctions here: there's the difference between discrete and continuous data, and there's the difference between the four different scale types (nominal, ordinal, interval and ratio).</p></li>
+      <li><p><xref ref="measurement">Introduction to psychological measurement</xref>. What does it mean to operationalise a theoretical construct? What does it mean to have variables and take measurements?</p></li>
+      <li><p><xref ref="scales">Scales of measurement and types of variables</xref>. Remember that there are <em>two</em> different distinctions here: there's the difference between discrete and continuous data, and there's the difference between the four different scale types (nominal, ordinal, interval and ratio).</p></li>
       <li><p><xref ref="subsec-reliability-measurement">Reliability of a measurement</xref>. If I measure the "same" thing twice, should I expect to see the same result? Only if my measure is reliable. But what does it mean to talk about doing the "same" thing? Well, that's why we have different types of reliability. Make sure you remember what they are.</p></li>
       <li><p><xref ref="subsec-role-variables">Terminology: predictors and outcomes</xref>. What roles do variables play in an analysis? Can you remember the difference between predictors and outcomes? Dependent and independent variables? Etc.</p></li>
       <li><p><xref ref="subsec-experimental-nonexperimental">Experimental and non-experimental research designs</xref>. What makes an experiment an experiment? Is it a nice white lab coat, or does it have something to do with researcher control over variables?</p></li>
