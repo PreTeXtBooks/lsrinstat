@@ -1593,7 +1593,7 @@
         </tabular>
       </table>
       <p>
-        However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet" [@Anscombe1973], which is a collection of four data sets. Each data set has two variables, an <m>X</m> and a <m>Y</m>. For all four data sets the mean value for <m>X</m> is 9 and the mean for <m>Y</m> is 7.5. The, standard deviations for all <m>X</m> variables are almost identical, as are those for the the <m>Y</m> variables. And in each case the correlation between <m>X</m> and <m>Y</m> is <m>r = 0.816</m>. You can verify this yourself, since the dataset comes distributed with R. The commands would be:
+        However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet" <xref ref="biblio-Anscombe1973">(Anscombe, 1973)</xref>, which is a collection of four data sets. Each data set has two variables, an <m>X</m> and a <m>Y</m>. For all four data sets the mean value for <m>X</m> is 9 and the mean for <m>Y</m> is 7.5. The, standard deviations for all <m>X</m> variables are almost identical, as are those for the the <m>Y</m> variables. And in each case the correlation between <m>X</m> and <m>Y</m> is <m>r = 0.816</m>. You can verify this yourself, since the dataset comes distributed with R. The commands would be:
       </p>
       <program language="r">
         <input>
