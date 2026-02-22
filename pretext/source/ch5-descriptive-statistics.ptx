@@ -15,307 +15,8 @@
     <console>
       <output><![CDATA[
 ##    -- Name --             -- Class --     -- Size --
-##    a                      numeric         1         
-##    addArrow               function                  
-##    addDistPlot            function                  
-##    afl                    data.frame      4296 x 12 
-##    afl.finalists          factor          400       
-##    afl.margins            numeric         176       
-##    afl2                   data.frame      4296 x 2  
-##    age.breaks             numeric         4         
-##    age.group              factor          11        
-##    age.group2             factor          11        
-##    age.group3             factor          11        
-##    age.labels             character       3         
-##    agpp                   data.frame      100 x 3   
-##    animals                character       4         
-##    anova.model            aov             13        
-##    anovaImg               list            0         
-##    any.sales.this.month   logical         12        
-##    awesome                data.frame      10 x 2    
-##    b                      numeric         1         
-##    bad.coef               numeric         2         
-##    balance                numeric         1         
-##    beers                  character       3         
-##    berkeley               data.frame      39 x 3    
-##    berkeley.small         data.frame      46 x 2    
-##    binomPlot              function                  
-##    bw                     numeric         1         
-##    cake.1                 numeric         5         
-##    cake.2                 numeric         5         
-##    cake.df                data.frame      5 x 2     
-##    cake.mat1              matrix          5 x 2     
-##    cake.mat2              matrix          2 x 5     
-##    cakes                  matrix          4 x 5     
-##    cakes.flipped          matrix          5 x 4     
-##    cardChoices            xtabs           4 x 4     
-##    cards                  data.frame      200 x 3   
-##    chapek9                data.frame      180 x 2   
-##    chapekFrequencies      xtabs           3 x 2     
-##    chi.sq.20              numeric         1000      
-##    chi.sq.3               numeric         1000      
-##    chico                  data.frame      20 x 3    
-##    chico2                 data.frame      40 x 4    
-##    chico3                 data.frame      20 x 4    
-##    chiSqImg               list            0         
-##    choice                 data.frame      4 x 10    
-##    choice.2               data.frame      16 x 6    
-##    clin.trial             data.frame      18 x 3    
-##    clin.trial.2           data.frame      18 x 5    
-##    coef                   numeric         2         
-##    coffee                 data.frame      18 x 3    
-##    colour                 logical         1         
-##    crit                   numeric         1         
-##    crit.hi                numeric         1         
-##    crit.lo                numeric         1         
-##    crit.val               numeric         1         
-##    crosstab               xtabs           2 x 3     
-##    d.cor                  numeric         1         
-##    Dan                    list            4         
-##    dan.awake              logical         10        
-##    data                   data.frame      12 x 4    
-##    day                    character       1         
-##    days.per.month         numeric         12        
-##    def.par                list            66        
-##    describeImg            list            0         
-##    dev.from.gp.means      array           18        
-##    dev.from.grand.mean    array           3         
-##    df                     numeric         1         
-##    doubleMax              function                  
-##    drawBasicScatterplot   function                  
-##    drug.anova             aov             13        
-##    drug.lm                lm              13        
-##    drug.means             numeric         3         
-##    drug.regression        lm              12        
-##    druganxifree           numeric         18        
-##    drugs                  data.frame      10 x 8    
-##    drugs.2                data.frame      30 x 5    
-##    eff                    eff             22        
-##    effort                 data.frame      10 x 2    
-##    emphCol                character       1         
-##    emphColLight           character       1         
-##    emphGrey               character       1         
-##    eps                    logical         1         
-##    es                     matrix          4 x 7     
-##    estImg                 list            0         
-##    eta.squared            numeric         1         
-##    eventNames             character       5         
-##    expected               numeric         4         
-##    expt                   data.frame      9 x 4     
-##    f                      table           14        
-##    F.3.20                 numeric         1000      
-##    F.stat                 numeric         1         
-##    fac                    factor          3         
-##    february.sales         numeric         1         
-##    fibonacci              numeric         6         
-##    Fibonacci              numeric         7         
-##    fileName               character       1         
-##    formula1               formula                   
-##    formula2               formula                   
-##    formula3               formula                   
-##    formula4               formula                   
-##    freq                   integer         17        
-##    full.model             lm              12        
-##    G                      factor          18        
-##    garden                 data.frame      5 x 3     
-##    generateRLineTypes     function                  
-##    generateRPointShapes   function                  
-##    good.coef              numeric         2         
-##    gp.mean                array           3         
-##    gp.means               array           3         
-##    gp.sizes               array           3         
-##    grades                 numeric         20        
-##    grand.mean             numeric         1         
-##    greeting               character       1         
-##    h                      numeric         1         
-##    happiness              data.frame      10 x 3    
-##    harpo                  data.frame      33 x 2    
-##    heavy.tailed.data      numeric         100       
-##    height                 numeric         1         
-##    hw                     character       2         
-##    i                      integer         1         
-##    interest               numeric         1         
-##    IQ                     numeric         10000     
-##    is.MP.speaking         logical         5         
-##    is.the.Party.correct   table           14        
-##    itng                   data.frame      10 x 2    
-##    itng.table             table           3 x 4     
-##    likert.centred         numeric         10        
-##    likert.ordinal         ordered         10        
-##    likert.raw             numeric         10        
-##    lower.area             numeric         1         
-##    m                      numeric         1         
-##    M                      matrix          2 x 3     
-##    M0                     lm              12        
-##    M1                     lm              12        
-##    makka.pakka            character       4         
-##    max.val                numeric         1         
-##    mod                    lm              13        
-##    mod.1                  lm              11        
-##    mod.2                  lm              13        
-##    mod.3                  lm              13        
-##    mod.4                  lm              13        
-##    mod.H                  lm              13        
-##    mod.R                  lm              13        
-##    model                  aov             13        
-##    model.1                aov             13        
-##    model.2                aov             13        
-##    model.3                aov             13        
-##    models                 BFBayesFactor             
-##    monkey                 character       1         
-##    monkey.1               list            1         
-##    month                  numeric         1         
-##    monthly.multiplier     numeric         1         
-##    months                 character       12        
-##    ms.diff                numeric         1         
-##    ms.res                 numeric         1         
-##    msg                    character       1         
-##    mu                     numeric         3         
-##    mu.null                numeric         1         
-##    my.anova               aov             13        
-##    my.anova.residuals     numeric         18        
-##    my.contrasts           list            2         
-##    my.formula             formula                   
-##    my.var                 numeric         1         
-##    n                      numeric         1         
-##    N                      integer         1         
-##    ng                     character       2         
-##    nhstImg                list            0         
-##    nodrug.regression      lm              12        
-##    normal.a               numeric         1000      
-##    normal.b               numeric         1000      
-##    normal.c               numeric         1000      
-##    normal.d               numeric         1000      
-##    normal.data            numeric         100       
-##    null.model             lm              11        
-##    nullProbs              numeric         4         
-##    numbers                numeric         3         
-##    observed               table           4         
-##    old                    list            66        
-##    old.text               character       1         
-##    old_par                list            72        
-##    oneCorPlot             function                  
-##    opinion.dir            numeric         10        
-##    opinion.strength       numeric         10        
-##    out.0                  data.frame      100 x 2   
-##    out.1                  data.frame      100 x 2   
-##    out.2                  data.frame      100 x 2   
-##    outcome                numeric         18        
-##    p.value                numeric         1         
-##    parenthood             data.frame      100 x 4   
-##    payments               numeric         1         
-##    PJ                     character       1         
-##    plotHist               function                  
-##    plotOne                function                  
-##    plotSamples            function                  
-##    plotTwo                function                  
-##    pow                    numeric         100       
-##    probabilities          numeric         5         
-##    projecthome            character       1         
-##    quadruple              function                  
-##    r                      numeric         1         
-##    R.squared              numeric         1         
-##    random.contrasts       matrix          3 x 2     
-##    regression.1           lm              12        
-##    regression.2           lm              12        
-##    regression.3           lm              12        
-##    regression.model       lm              12        
-##    regression.model.2     lm              13        
-##    regression.model.3     lm              13        
-##    regressionImg          list            0         
-##    resid                  numeric         18        
-##    revenue                numeric         1         
-##    right.table            xtabs           2 x 2     
-##    row.1                  numeric         3         
-##    row.2                  numeric         3         
-##    royalty                numeric         1         
-##    rtfm.1                 data.frame      8 x 3     
-##    rtfm.2                 data.frame      8 x 3     
-##    rtfm.3                 data.frame      8 x 3     
-##    s                      numeric         1         
-##    salem.tabs             table           2 x 2     
-##    sales                  numeric         1         
-##    sales.by.month         numeric         12        
-##    sample.mean            numeric         1         
-##    scaled.chi.sq.20       numeric         1000      
-##    scaled.chi.sq.3        numeric         1000      
-##    score.A                numeric         5         
-##    score.B                numeric         5         
-##    sd.true                numeric         1         
-##    sd1                    numeric         2         
-##    sem.true               numeric         1         
-##    setUpPlot              function                  
-##    sig                    numeric         1         
-##    sigEx                  expression                
-##    simpson                matrix          6 x 5     
-##    skewed.data            numeric         100       
-##    some.data              numeric         18        
-##    speaker                character       10        
-##    speech.by.char         list            3         
-##    squared.devs           array           3         
-##    ss.diff                numeric         1         
-##    SS.drug                numeric         1         
-##    SS.res                 numeric         1         
-##    ss.res.full            numeric         1         
-##    ss.res.null            numeric         1         
-##    SS.resid               numeric         1         
-##    SS.therapy             numeric         1         
-##    ss.tot                 numeric         1         
-##    SS.tot                 numeric         1         
-##    SSb                    numeric         1         
-##    SStot                  numeric         1         
-##    SSw                    numeric         1         
-##    stock.levels           character       12        
-##    suspicious.cases       logical         176       
-##    t.3                    numeric         1000      
-##    teams                  character       17        
-##    text                   character       2         
-##    therapy.means          numeric         2         
-##    theta                  numeric         1         
-##    today                  Date            1         
-##    tombliboo              character       2         
-##    total.paid             numeric         1         
-##    trial                  data.frame      16 x 2    
-##    ttestImg               list            0         
-##    type.I.sum             numeric         1         
-##    type.II.sum            numeric         1         
-##    upper.area             numeric         1         
-##    upsy.daisy             character       4         
-##    utterance              character       10        
-##    w                      character       1         
-##    W                      character       1         
-##    w.length               integer         1         
-##    width                  numeric         1         
-##    words                  character       6         
-##    wt.squared.devs        array           3         
-##    X                      numeric         1000      
-##    x1                     numeric         61        
-##    X1                     numeric         11        
-##    x2                     numeric         61        
-##    X2                     numeric         11        
-##    x3                     numeric         61        
-##    X3                     numeric         11        
-##    X4                     numeric         11        
-##    xlu                    numeric         1         
-##    xtab.3d                table           3 x 4 x 2 
-##    xval                   numeric         1001      
-##    Y                      numeric         100       
-##    Y.pred                 numeric         100       
-##    y1                     numeric         61        
-##    Y1                     numeric         11        
-##    y2                     numeric         61        
-##    Y2                     numeric         11        
-##    y3                     numeric         61        
-##    Y3                     numeric         11        
-##    Y4                     numeric         11        
-##    Ybar                   array           18        
-##    yhat.2                 numeric         100       
-##    yval                   numeric         1001      
-##    yval.1                 numeric         1001      
-##    yval.2                 numeric         1001      
-##    z                      logical         101       
-##    Z                      array           18        
-##    z.score                numeric         1
+##    afl.finalists          factor          400
+##    afl.margins            numeric         176
 ]]></output>
     </console>
   <p>
@@ -456,7 +157,7 @@
       </program>
     <console>
       <output><![CDATA[
-## [1] 183
+## [1] 36.6
 ]]></output>
     </console>
       <p>
@@ -552,7 +253,7 @@
         </li>
       </ul>
       <p>
-        Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (skewed; see <xref ref="skewandkurtosis" />). This is illustrated in <xref ref="fig-meanmedian" /> notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
+        Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (skewed; see <xref ref="skewandkurtosis" />). This is illustrated in <xref ref="fig-meanmedian" /> notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
       </p>
     </subsection>
     <subsection xml:id="housingpriceexample">
@@ -621,6 +322,7 @@
     <console>
       <output><![CDATA[
 ## [1] 4.1
+## [1] 5.5
 ]]></output>
     </console>
       <p>
@@ -727,7 +429,7 @@
         Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.
       </p>
       <p>
-        One last point to make with respect to the mode. While it's generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let's go back to thinking about our <c>afl.margins</c> variable. This variable is clearly ratio scale (if it's not clear to you, it may help to re-read <xref ref="scales" />), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario... a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win \$50. If you don't, you lose \$1. There are no consolation prizes for "almost" getting the right answer. You have to guess exactly the right margin<fn>This is called a "0-1 loss function", meaning that you either win (1) or you lose (0), with no middle ground.</fn> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value
+        One last point to make with respect to the mode. While it's generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let's go back to thinking about our <c>afl.margins</c> variable. This variable is clearly ratio scale (if it's not clear to you, it may help to re-read <xref ref="scales" />), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario... a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don't, you lose $1. There are no consolation prizes for "almost" getting the right answer. You have to guess exactly the right margin<fn>This is called a "0-1 loss function", meaning that you either win (1) or you lose (0), with no middle ground.</fn> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value
       </p>
       <program language="r">
         <input>
@@ -740,6 +442,7 @@
     <console>
       <output><![CDATA[
 ## [1] 3
+## [1] 8
 ]]></output>
     </console>
       <p>
@@ -763,11 +466,6 @@
           min( afl.margins )
         </input>
       </program>
-    <console>
-      <output><![CDATA[
-## [1] 116
-]]></output>
-    </console>
       <p>
         where I've omitted the output because it's not interesting. The other possibility is to use the <c>range()</c> function; which outputs both the minimum value and the maximum value in a vector, like this:
       </p>
@@ -841,45 +539,64 @@
       <p>
         Since the previous paragraph might sound a little abstract, let's go through the <term>mean absolute deviation</term> from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let's think about our AFL winning margins data, and once again we'll start by pretending that there's only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, <m>\bar{X}</m>. For these five observations, our mean is <m>\bar{X} = 36.6</m>. The next step is to convert each of our observations <m>X_i</m> into a deviation score. We do this by calculating the difference between the observation <m>X_i</m> and the mean <m>\bar{X}</m>. That is, the deviation score is defined to be <m>X_i - \bar{X}</m>. For the first observation in our sample, this is equal to <m>56 - 36.6 = 19.4</m>. Okay, that's simple enough. The next step in the process is to convert these deviations to absolute deviations. As we discussed earlier when talking about  the <c>abs()</c> function in R (<xref ref="usingfunctions" />), we do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of <m>-3</m> as <m>|-3|</m>, and so we say that <m>|-3| = 3</m>. We use the absolute value function here because we don't really care whether the value is higher than the mean or lower than the mean, we're just interested in how <em>close</em> it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:
       </p>
-            <table xml:id="table-ch5descriptives-3">
-        <tabular halign="center">
-          <row header="yes" bottom="minor">
-            <cell halign="left">the observation</cell>
-            <cell>its symbol</cell>
-            <cell>the observed value</cell>
-          </row>
-          <row>
-            <cell halign="left">winning margin, game 1</cell>
-            <cell><m>X_1</m></cell>
-            <cell>56 points</cell>
-          </row>
-          <row>
-            <cell halign="left">winning margin, game 2</cell>
-            <cell><m>X_2</m></cell>
-            <cell>31 points</cell>
-          </row>
-          <row>
-            <cell halign="left">winning margin, game 3</cell>
-            <cell><m>X_3</m></cell>
-            <cell>56 points</cell>
-          </row>
-          <row>
-            <cell halign="left">winning margin, game 4</cell>
-            <cell><m>X_4</m></cell>
-            <cell>8 points</cell>
-          </row>
-          <row>
-            <cell halign="left">winning margin, game 5</cell>
-            <cell><m>X_5</m></cell>
-            <cell>32 points</cell>
-          </row>
-        </tabular>
-      </table>
+<table xml:id="table-ch5descriptives-3">
+  <title>English notation: values, deviations, and absolute deviations</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">game</cell>
+      <cell>symbol</cell>
+      <cell>value <m>X_i</m></cell>
+      <cell>deviation <m>X_i - \bar{X}</m></cell>
+      <cell>absolute deviation <m>\lvert X_i - \bar{X} \rvert</m></cell>
+    </row>
+
+    <row>
+      <cell halign="left">game 1</cell>
+      <cell><m>X_1</m></cell>
+      <cell>56</cell>
+      <cell>19.4</cell>
+      <cell>19.4</cell>
+    </row>
+
+    <row>
+      <cell halign="left">game 2</cell>
+      <cell><m>X_2</m></cell>
+      <cell>31</cell>
+      <cell>-5.6</cell>
+      <cell>5.6</cell>
+    </row>
+
+    <row>
+      <cell halign="left">game 3</cell>
+      <cell><m>X_3</m></cell>
+      <cell>56</cell>
+      <cell>19.4</cell>
+      <cell>19.4</cell>
+    </row>
+
+    <row>
+      <cell halign="left">game 4</cell>
+      <cell><m>X_4</m></cell>
+      <cell>8</cell>
+      <cell>-28.6</cell>
+      <cell>28.6</cell>
+    </row>
+
+    <row>
+      <cell halign="left">game 5</cell>
+      <cell><m>X_5</m></cell>
+      <cell>32</cell>
+      <cell>-4.6</cell>
+      <cell>4.6</cell>
+    </row>
+  </tabular>
+</table>
       <p>
         Now that we have calculated the absolute deviation score for every observation in the data set, all that we have to do to calculate the mean of these scores. Let's do that: <me> \frac{19.4 + 5.6 + 19.4 + 28.6 + 4.6}{5} = 15.52 </me> And we're done. The mean absolute deviation for these five scores is 15.52.
       </p>
       <p>
-        However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, "mean absolute deviation" and "median absolute deviation" have the same acronym (MAD), which leads to a certain amount of ambiguity, and since R tends to use MAD to refer to the median absolute deviation, I'd better come up with something different for the mean absolute deviation. Sigh. What I'll do is use AAD instead, short for <em>average</em> absolute deviation. Now that we have some unambiguous notation, here's the formula that describes what we just calculated: <me> \mbox{}(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}| </me>
+        However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, "mean absolute deviation" and "median absolute deviation" have the same acronym (MAD), which leads to a certain amount of ambiguity, and since R tends to use MAD to refer to the median absolute deviation, I'd better come up with something different for the mean absolute deviation. Sigh. What I'll do is use AAD instead, short for
+<em>average</em> absolute deviation. Now that we have some unambiguous notation, here's the formula that describes what we just calculated: <me> AAD(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}| </me>
       </p>
       <p>
         The last thing we need to talk about is how to calculate AAD in R. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that's pretty tedious. You'd end up with a series of commands that might look like this:
@@ -1112,6 +829,7 @@
     <console>
       <output><![CDATA[
 ## [1] 21.10124
+## [1] 19.5
 ]]></output>
     </console>
       <p>
@@ -1381,11 +1099,6 @@
       <p>
         This is one of those situations I was referring to in <xref ref="factors" />, in which it is helpful to declare your nominal scale variable as a factor rather than a character vector. Because I've defined <c>afl.finalists</c> as a factor, R <em>knows</em> that it should treat it as a nominal scale variable, and so it gives you a much more detailed (and helpful) summary than it would have if I'd left it as a character vector.
       </p>
-      <program language="r">
-        <input>
-          rm(list=ls(all=TRUE))
-        </input>
-      </program>
     </subsection>
     <subsection>
       <title>"Summarising" a data frame</title>
@@ -1552,29 +1265,6 @@
         by( data=clin.trial, INDICES=clin.trial$therapy, FUN=describe )
       </input>
     </program>
-    <console>
-      <output><![CDATA[
-## clin.trial$therapy: no.therapy
-##           vars n mean   sd median trimmed  mad min max range skew kurtosis
-## drug*        1 9 2.00 0.87    2.0    2.00 1.48 1.0 3.0   2.0 0.00    -1.81
-## therapy*     2 9 1.00 0.00    1.0    1.00 0.00 1.0 1.0   0.0  NaN      NaN
-## mood.gain    3 9 0.72 0.59    0.5    0.72 0.44 0.1 1.7   1.6 0.51    -1.59
-##             se
-## drug*     0.29
-## therapy*  0.00
-## mood.gain 0.20
-## -------------------------------------------------------- 
-## clin.trial$therapy: CBT
-##           vars n mean   sd median trimmed  mad min max range  skew
-## drug*        1 9 2.00 0.87    2.0    2.00 1.48 1.0 3.0   2.0  0.00
-## therapy*     2 9 2.00 0.00    2.0    2.00 0.00 2.0 2.0   0.0   NaN
-## mood.gain    3 9 1.04 0.45    1.1    1.04 0.44 0.3 1.8   1.5 -0.03
-##           kurtosis   se
-## drug*        -1.81 0.29
-## therapy*       NaN 0.00
-## mood.gain    -1.12 0.15
-]]></output>
-    </console>
     <p>
       This will produce the exact same output as the command shown earlier. However, there's nothing special about the <c>describe()</c> function. You could just as easily use the <c>by()</c> function in conjunction with the <c>summary()</c> function. For example:
     </p>
@@ -1688,11 +1378,6 @@
     </p>
     <subsection>
       <title>The data</title>
-      <program language="r">
-        <input>
-          rm(list=ls(all=TRUE))
-        </input>
-      </program>
       <p>
         After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called <c>parenthood.Rdata</c>. If we load the data...
       </p>
@@ -1768,47 +1453,6 @@
       <p>
         One thing to note: just because R can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in <xref ref="table-parenthoodtab" />.<fn>Actually, even that table is more than I'd bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</fn>  Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.
       </p>
-            <table xml:id="table-parenthoodtab">
-        <title>Descriptive statistics for the parenthood data.</title>
-        <tabular halign="center">
-          <row header="yes" bottom="minor">
-            <cell halign="left">variable</cell>
-            <cell>min</cell>
-            <cell>max</cell>
-            <cell>mean</cell>
-            <cell>median</cell>
-            <cell>std. dev</cell>
-            <cell>IQR</cell>
-          </row>
-          <row>
-            <cell halign="left">Dan's grumpiness</cell>
-            <cell>41</cell>
-            <cell>91</cell>
-            <cell>63.71</cell>
-            <cell>62</cell>
-            <cell>10.05</cell>
-            <cell>14</cell>
-          </row>
-          <row>
-            <cell halign="left">Dan's hours slept</cell>
-            <cell>4.84</cell>
-            <cell>9.00</cell>
-            <cell>6.97</cell>
-            <cell>7.03</cell>
-            <cell>1.02</cell>
-            <cell>1.45</cell>
-          </row>
-          <row>
-            <cell halign="left">Dan's son's hours slept</cell>
-            <cell>3.25</cell>
-            <cell>12.07</cell>
-            <cell>8.05</cell>
-            <cell>7.95</cell>
-            <cell>2.07</cell>
-            <cell>3.21</cell>
-          </row>
-        </tabular>
-      </table>
     </subsection>
     <subsection>
       <title>The strength and direction of a relationship</title>
@@ -2039,9 +1683,77 @@
       <p>
         Okay, so let's have a look at our students when we rank them from worst to best in terms of effort and reward:
       </p>
-      <p>
-        | | rank (hours worked) | rank (grade received) | |-|---------------------|-----------------------| |student | 1 |   1 |   1 | |student | 2  | 10   |10 | |student | 3 |   6  |  6 | |student | 4 |   2 |   2 | |student | 5 |   3 |   3 | |student | 6  |  5  |  5 | |student | 7  |  4  |  4 | |student | 8  |  8  |  8 | |student | 9   | 7  |  7 | |student | 10  |  9|    9
-      </p>
+<table xml:id="table-ranks-hours-grades">
+  <title>Ranks for Hours Worked and Grades Received</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">student</cell>
+      <cell>rank (hours worked)</cell>
+      <cell>rank (grade received)</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 1</cell>
+      <cell>1</cell>
+      <cell>1</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 2</cell>
+      <cell>10</cell>
+      <cell>10</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 3</cell>
+      <cell>6</cell>
+      <cell>6</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 4</cell>
+      <cell>2</cell>
+      <cell>2</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 5</cell>
+      <cell>3</cell>
+      <cell>3</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 6</cell>
+      <cell>5</cell>
+      <cell>5</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 7</cell>
+      <cell>4</cell>
+      <cell>4</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 8</cell>
+      <cell>8</cell>
+      <cell>8</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 9</cell>
+      <cell>7</cell>
+      <cell>7</cell>
+    </row>
+
+    <row>
+      <cell halign="left">student 10</cell>
+      <cell>9</cell>
+      <cell>9</cell>
+    </row>
+
+  </tabular>
+</table>
       <p>
         Hm. These are <em>identical</em>. The student who put in the most effort got the best grade, the student with the least effort got the worst grade, etc. We can get R to construct these rankings using the <c>rank()</c> function, like this:
       </p>
