@@ -55,7 +55,7 @@ print( clin.trial )]]></input>
 ## 18 joyzepam        CBT       1.4
 ]]></output>
     </console>
-    <p>For the purposes of this chapter, what we're really interested in is the effect of <c>drug</c> on <c>mood.gain</c>. The first thing to do is calculate some descriptive statistics and draw some graphs. In Chapter <xref ref="descriptives"/> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <c>xtabs()</c> function to see how many people we have in each group:</p>
+    <p>For the purposes of this chapter, what we're really interested in is the effect of <c>drug</c> on <c>mood.gain</c>. The first thing to do is calculate some descriptive statistics and draw some graphs. In Chapter <xref ref="ch5-descriptive-statistics"/> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <c>xtabs()</c> function to see how many people we have in each group:</p>
     <program language="r">
   <input><![CDATA[
 xtabs( ~drug, clin.trial )]]></input>
@@ -125,7 +125,7 @@ colour <- TRUE
     <title>How ANOVA works</title>
 
     <p>In order to answer the question posed by our clinical trial data, we're going to run a one-way ANOVA. As usual, I'm going to start by showing you how to do it the hard way, building the statistical tool from the ground up and showing you how you could do it in R if you didn't have access to any of the cool built-in ANOVA functions. And, as always, I hope you'll read it carefully, try to do it the long way once or twice to make sure you really understand how ANOVA works, and then -- once you've grasped the concept -- never <em>ever</em> do it this way again.</p>
-    <p>The experimental design that I described in the previous section strongly suggests that we're interested in comparing the average mood change for the three different drugs. In that sense, we're talking about an analysis similar to the <m><![CDATA[t]]></m>-test (Chapter <xref ref="ttest"/>, but involving more than two groups. If we let <m><![CDATA[\mu_P]]></m> denote the population mean for the mood change induced by the placebo, and let <m><![CDATA[\mu_A]]></m> and <m><![CDATA[\mu_J]]></m> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
+    <p>The experimental design that I described in the previous section strongly suggests that we're interested in comparing the average mood change for the three different drugs. In that sense, we're talking about an analysis similar to the <m><![CDATA[t]]></m>-test (Chapter <xref ref="ch13-ttest"/>, but involving more than two groups. If we let <m><![CDATA[\mu_P]]></m> denote the population mean for the mood change induced by the placebo, and let <m><![CDATA[\mu_A]]></m> and <m><![CDATA[\mu_J]]></m> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
     <me><![CDATA[\begin{array}{rcl}
 H_0 &:& \mbox{it is true that } \mu_P = \mu_A = \mu_J
 \end{array}]]></me>
@@ -142,17 +142,58 @@ H_1 &:& \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
     <me><![CDATA[\mbox{Var}(Y) = \frac{1}{N} \sum_{k=1}^G \sum_{i=1}^{N_k} \left(Y_{ik} - \bar{Y} \right)^2]]></me>
     <p>This formula looks pretty much identical to the formula for the variance in Section <xref ref="var"/>. The only difference is that this time around I've got two summations here: I'm summing over groups (i.e., values for <m><![CDATA[k]]></m>) and over the people within the groups (i.e., values for <m><![CDATA[i]]></m>). This is purely a cosmetic detail: if I'd instead used the notation <m><![CDATA[Y_p]]></m> to refer to the value of the outcome variable for person <m><![CDATA[p]]></m> in the sample, then I'd only have a single summation. The only reason that we have a double summation here is that I've classified people into groups, and then assigned numbers to people within groups.</p>
     <p>A concrete example might be useful here. Let's consider this table, in which we have a total of <m><![CDATA[N=5]]></m> people sorted into <m><![CDATA[G=2]]></m> groups. Arbitrarily, let's say that the "cool" people are group 1, and the "uncool" people are group 2, and it turns out that we have three cool people (<m><![CDATA[N_1 = 3]]></m>) and two uncool people (<m><![CDATA[N_2 = 2]]></m>).</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-     ~V1,      ~V2,      ~V3,          ~V4,              ~V5,                 ~V6,
-   "Ann",      "1",   "cool",          "1",              "1",                "20",
-   "Ben",      "2",   "cool",          "1",              "2",                "55",
-   "Cat",      "3",   "cool",          "1",              "3",                "21",
-   "Dan",      "4", "uncool",          "2",              "1",                "91",
-   "Egg",      "5", "uncool",          "2",              "2",                "22"
-  ), col.names = c("name", "person ($p$)",  "group", "group num ($k$)", "index in group ($i$)",        "grumpiness ($Y_{ik}$ or $Y_p$)"))]]></input>
-</program>
+        <table xml:id="table-chanova-44">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">name</cell>
+          <cell>person (<m>p</m>)</cell>
+          <cell>group</cell>
+          <cell>group num (<m>k</m>)</cell>
+          <cell>index in group (<m>i</m>)</cell>
+          <cell>grumpiness (<m>Y_{ik}</m> or <m>Y_p</m>)</cell>
+        </row>
+        <row>
+          <cell halign="left">Ann</cell>
+          <cell>1</cell>
+          <cell>cool</cell>
+          <cell>1</cell>
+          <cell>1</cell>
+          <cell>20</cell>
+        </row>
+        <row>
+          <cell halign="left">Ben</cell>
+          <cell>2</cell>
+          <cell>cool</cell>
+          <cell>1</cell>
+          <cell>2</cell>
+          <cell>55</cell>
+        </row>
+        <row>
+          <cell halign="left">Cat</cell>
+          <cell>3</cell>
+          <cell>cool</cell>
+          <cell>1</cell>
+          <cell>3</cell>
+          <cell>21</cell>
+        </row>
+        <row>
+          <cell halign="left">Dan</cell>
+          <cell>4</cell>
+          <cell>uncool</cell>
+          <cell>2</cell>
+          <cell>1</cell>
+          <cell>91</cell>
+        </row>
+        <row>
+          <cell halign="left">Egg</cell>
+          <cell>5</cell>
+          <cell>uncool</cell>
+          <cell>2</cell>
+          <cell>2</cell>
+          <cell>22</cell>
+        </row>
+      </tabular>
+    </table>
     <p>Notice that I've constructed two different labelling schemes here. We have a "person" variable <m><![CDATA[p]]></m>, so it would be perfectly sensible to refer to <m><![CDATA[Y_p]]></m> as the grumpiness of the <m><![CDATA[p]]></m>-th person in the sample. For instance, the table shows that Dan is the four so we'd say <m><![CDATA[p = 4]]></m>. So, when talking about the grumpiness <m><![CDATA[Y]]></m> of this "Dan" person, whoever he might be, we could refer to his grumpiness by saying that <m><![CDATA[Y_p = 91]]></m>, for person <m><![CDATA[p = 4]]></m> that is.  However, that's not the only way we could refer to Dan. As an alternative we could note that Dan belongs to the "uncool" group (<m><![CDATA[k = 2]]></m>), and is in fact the first person listed in the uncool group (<m><![CDATA[i = 1]]></m>). So it's equally valid to refer to Dan's grumpiness by saying that <m><![CDATA[Y_{ik} = 91]]></m>, where <m><![CDATA[k = 2]]></m> and <m><![CDATA[i = 1]]></m>. In other words, each person <m><![CDATA[p]]></m> corresponds to a unique <m><![CDATA[ik]]></m> combination, and so the formula that I gave above is actually identical to our original formula for the variance, which would be</p>
     <me><![CDATA[\mbox{Var}(Y) = \frac{1}{N} \sum_{p=1}^N  \left(Y_{p} - \bar{Y} \right)^2]]></me>
     <p>In both formulas, all we're doing is summing over all of the observations in the sample. Most of the time we would just use the simpler <m><![CDATA[Y_p]]></m> notation: the equation using <m><![CDATA[Y_p]]></m> is clearly the simpler of the two. However, when doing an ANOVA it's important to keep track of which participants belong in which groups, and we need to use the <m><![CDATA[Y_{ik}]]></m> notation to do this.</p>
@@ -295,23 +336,35 @@ width <- 7
     <p>At a very general level, the intuition behind the <m><![CDATA[F]]></m> statistic is straightforward: bigger values of <m><![CDATA[F]]></m> means that the between-groups variation is large, relative to the within-groups variation. As a consequence, the larger the value of <m><![CDATA[F]]></m>, the more evidence we have against the null hypothesis. But how large does <m><![CDATA[F]]></m> have to be in order to actually <em>reject</em> <m><![CDATA[H_0]]></m>? In order to understand this, you need a slightly deeper understanding of what ANOVA is and what the mean squares values actually are.</p>
     <p>The next section discusses that in a bit of detail, but for readers that aren't interested in the details of what the test is actually measuring, I'll cut to the chase. In order to complete our hypothesis test, we need to know the sampling distribution for <m><![CDATA[F]]></m> if the null hypothesis is true. Not surprisingly, the sampling distribution for the <m><![CDATA[F]]></m> <em>statistic</em> under the null hypothesis is an <m><![CDATA[F]]></m> <em>distribution</em>. If you recall back to our discussion of the <m><![CDATA[F]]></m> distribution in Chapter \@ref(probability, the <m><![CDATA[F]]></m> distribution has two parameters, corresponding to the two degrees of freedom involved: the first one df<m><![CDATA[_1]]></m> is the between groups degrees of freedom df<m><![CDATA[_b]]></m>, and the second one df<m><![CDATA[_2]]></m> is the within groups degrees of freedom df<m><![CDATA[_w]]></m>.</p>
     <p>A summary of all the key quantities involved in a one-way ANOVA, including the formulas showing how they are calculated, is shown in Table <xref ref="tab-anovatable"/>.</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-             type = c("between groups", "within groups"),
-               df = c("$\\mbox{df}_b = G-1$", "$\\mbox{df}_w = N-G$"),
-   sum.of.squares = c("SS$_b = \\displaystyle\\sum_{k=1}^G N_k (\\bar{Y}_k - \\bar{Y})^2$", 
-                      "SS$_w = \\sum_{k=1}^G \\sum_{i = 1}^{N_k} ( {Y}_{ik} - \\bar{Y}_k)^2$
-"),
-     mean.squares = c("$\\mbox{MS}_b = \\frac{\\mbox{SS}_b}{\\mbox{df}_b}$
-", "$\\mbox{MS}_w =  \\frac{\\mbox{SS}_w}{\\mbox{df}_w}$
-"),
-      F.statistic = c("$F = \\frac{\\mbox{MS}_b }{ \\mbox{MS}_w }$
-", "-"),
-          p.value = c("[complicated]", "-")
-), col.names = c("","df", "sum of squares", "mean squares", "$F$ statistic", "$p$ value"), caption = "All of the key quantities involved in an ANOVA, organised into a \"standard\" ANOVA table. The formulas for all quantities (except the $p$-value, which has a very ugly formula and would be nightmarishly hard to calculate without a computer) are shown."
-)]]></input>
-</program>
+        <table xml:id="table-chanova-43">
+      <title>All of the key quantities involved in an ANOVA, organised into a "standard" ANOVA table. The formulas for all quantities (except the <m>p</m>-value, which has a very ugly formula and would be nightmarishly hard to calculate without a computer) are shown.</title>
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>df</cell>
+          <cell>sum of squares</cell>
+          <cell>mean squares</cell>
+          <cell><m>F</m> statistic</cell>
+          <cell><m>p</m> value</cell>
+        </row>
+        <row>
+          <cell halign="left">between groups</cell>
+          <cell><m>\mbox{df}_b = G-1</m></cell>
+          <cell>SS<m>_b = \displaystyle\sum_{k=1}^G N_k (\bar{Y}_k - \bar{Y})^2</m></cell>
+          <cell><m>\mbox{MS}_b = \frac{\mbox{SS}_b}{\mbox{df}_b}</m></cell>
+          <cell><m>F = \frac{\mbox{MS}_b }{ \mbox{MS}_w }</m></cell>
+          <cell>[complicated]</cell>
+        </row>
+        <row>
+          <cell halign="left">within groups</cell>
+          <cell><m>\mbox{df}_w = N-G</m></cell>
+          <cell>SS<m>_w = \sum_{k=1}^G \sum_{i = 1}^{N_k} ( {Y}_{ik} - \bar{Y}_k)^2</m></cell>
+          <cell><m>\mbox{MS}_w =  \frac{\mbox{SS}_w}{\mbox{df}_w}</m></cell>
+          <cell>-</cell>
+          <cell>-</cell>
+        </row>
+      </tabular>
+    </table>
     </subsection>
   <subsection xml:id="anovamodel">
     <title>The model for the data and the meaning of <m><![CDATA[F]]></m> (advanced)</title>
@@ -333,40 +386,116 @@ knitr::kable(data.frame(stringsAsFactors=FALSE,
     <title>A worked example</title>
 
     <p>The previous discussion was fairly abstract, and a little on the technical side, so I think that at this point it might be useful to see a worked example. For that, let's go back to the clinical trial data that I introduced at the start of the chapter. The descriptive statistics that we calculated at the beginning tell us our group means: an average mood gain of 0.45 for the placebo, 0.72 for Anxifree, and 1.48 for Joyzepam. With that in mind, let's party like it's 1899 <fn>Or, to be precise, party like "it's 1899 and we've got no friends and nothing better to do with our time than do some calculations that wouldn't have made any sense in 1899 because ANOVA didn't exist until about the 1920s".</fn> and  start doing some pencil and paper calculations. I'll only do this for the first 5 observations, because it's not bloody 1899 and I'm very lazy. Let's start by calculating <m><![CDATA[\mbox{SS}_{w}]]></m>, the within-group sums of squares. First, let's draw up a nice table to help us with our calculations...</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-           ~V1,         ~V2,
-   "placebo",     "0.5",
-   "placebo",     "0.3",
-   "placebo",     "0.1",
-  "anxifree",     "0.6",
-  "anxifree",     "0.4"
-  ), col.names = c("group ($k$)", "outcome ($Y_{ik}$)"))]]></input>
-</program>
+        <table xml:id="table-chanova-42">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">group (<m>k</m>)</cell>
+          <cell>outcome (<m>Y_{ik}</m>)</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.5</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.3</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.1</cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.6</cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.4</cell>
+        </row>
+      </tabular>
+    </table>
     <p>At this stage, the only thing I've included in the table is the raw data itself: that is, the grouping variable (i.e., <c>drug</c>) and outcome variable (i.e. <c>mood.gain</c>) for each person. Note that the outcome variable here corresponds to the <m><![CDATA[Y_{ik}]]></m> value in our equation previously. The next step in the calculation is to write down, for each person in the study, the corresponding group mean; that is, <m><![CDATA[\bar{Y}_k]]></m>. This is slightly repetitive, but not particularly difficult since we already calculated those group means when doing our descriptive statistics:</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-         ~V1,        ~V2,               ~V3,
-   "placebo",      "0.5",       "**0.45**",
-   "placebo",      "0.3",       "**0.45**",
-   "placebo",      "0.1",       "**0.45**",
-  "anxifree",      "0.6",       "**0.72**",
-  "anxifree",      "0.4",       "**0.72**"
-  ), col.names= c("group ($k$)",  "outcome ($Y_{ik}$)", "**group mean** ($\\bar{Y}_k$)"))]]></input>
-</program>
+        <table xml:id="table-chanova-41">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">group (<m>k</m>)</cell>
+          <cell>outcome (<m>Y_{ik}</m>)</cell>
+          <cell><alert>group mean</alert> (<m>\bar{Y}_k</m>)</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.5</cell>
+          <cell><alert>0.45</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.3</cell>
+          <cell><alert>0.45</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.1</cell>
+          <cell><alert>0.45</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.6</cell>
+          <cell><alert>0.72</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.4</cell>
+          <cell><alert>0.72</alert></cell>
+        </row>
+      </tabular>
+    </table>
     <p>Now that we've written those down, we need to calculate -- again for every person -- the deviation from the corresponding group mean. That is, we want to subtract <m><![CDATA[Y_{ik} - \bar{Y}_k]]></m>. After we've done that, we need to square everything. When we do that, here's what we get:</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-         ~V1,        ~V2,            ~V3,                           ~V4,                           ~V5,
-   "placebo",      "0.5",         "0.45",                   "**0.05**",                 "**0.0025**",
-   "placebo",      "0.3",         "0.45",                  "**-0.15**",                 "**0.0225**",
-   "placebo",      "0.1",         "0.45",                  "**-0.35**",                 "**0.1225**",
-  "anxifree",      "0.6",         "0.72",                  "**-0.12**",                 "**0.0136**",
-  "anxifree",      "0.4",         "0.72",                  "**-0.32**",                 "**0.1003**"), col.names = c("group ($k$)",  "outcome ($Y_{ik}$)",   "group mean ($\\bar{Y}_k$)", "**dev.\\ from group mean** ($Y_{ik} - \\bar{Y}_{k}$)",      "**squared deviation** ($(Y_{ik} - \\bar{Y}_{k})^2$)"))]]></input>
-</program>
+        <table xml:id="table-chanova-40">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">group (<m>k</m>)</cell>
+          <cell>outcome (<m>Y_{ik}</m>)</cell>
+          <cell>group mean (<m>\bar{Y}_k</m>)</cell>
+          <cell><alert>dev.\ from group mean</alert> (<m>Y_{ik} - \bar{Y}_{k}</m>)</cell>
+          <cell><alert>squared deviation</alert> (<m>(Y_{ik} - \bar{Y}_{k})^2</m>)</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.5</cell>
+          <cell>0.45</cell>
+          <cell><alert>0.05</alert></cell>
+          <cell><alert>0.0025</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.3</cell>
+          <cell>0.45</cell>
+          <cell><alert>-0.15</alert></cell>
+          <cell><alert>0.0225</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.1</cell>
+          <cell>0.45</cell>
+          <cell><alert>-0.35</alert></cell>
+          <cell><alert>0.1225</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.6</cell>
+          <cell>0.72</cell>
+          <cell><alert>-0.12</alert></cell>
+          <cell><alert>0.0136</alert></cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.4</cell>
+          <cell>0.72</cell>
+          <cell><alert>-0.32</alert></cell>
+          <cell><alert>0.1003</alert></cell>
+        </row>
+      </tabular>
+    </table>
     <p>The last step is equally straightforward. In order to calculate the within-group sum of squares, we just add up  the squared deviations across all observations:</p>
     <me><![CDATA[\begin{array}{rcl}
 \mbox{SS}_w &=& 0.0025 + 0.0225 + 0.1225 + 0.0136 + 0.1003 \\
@@ -425,25 +554,67 @@ print( SSw )]]></input>
     </console>
     <p>Obviously, this isn't the same as what I calculated, because R used all 18 observations. But if I'd typed <c>sum( squared.devs[1:5] )</c> instead, it would have given the same answer that I got earlier.</p>
     <p>Okay. Now that we've calculated the within groups variation, <m><![CDATA[\mbox{SS}_w]]></m>, it's time to turn our attention to the between-group sum of squares, <m><![CDATA[\mbox{SS}_b]]></m>. The calculations for this case are very similar. The main difference is that, instead of calculating the differences between an observation <m><![CDATA[Y_{ik}]]></m> and a group mean <m><![CDATA[\bar{Y}_k]]></m> for all of the observations, we calculate the differences between the group means <m><![CDATA[\bar{Y}_k]]></m> and the grand mean <m><![CDATA[\bar{Y}]]></m> (in this case 0.88) for all of the groups...</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-         ~V1,            ~V2,          ~V3,                         ~V4,                             ~V5,
-   "placebo",         "0.45",       "0.88",                     "-0.43",                          "0.18",
-  "anxifree",         "0.72",       "0.88",                     "-0.16",                          "0.03",
-  "joyzepam",         "1.48",       "0.88",                      "0.60",                          "0.36"
-  ), col.names = c("group ($k$)",   "group mean ($\\bar{Y}_k$)", "grand mean ($\\bar{Y}$)",                 "deviation ($\\bar{Y}_{k} - \\bar{Y}$)",            "squared deviations ($(\\bar{Y}_{k} - \\bar{Y})^2$)"))]]></input>
-</program>
+        <table xml:id="table-chanova-39">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">group (<m>k</m>)</cell>
+          <cell>group mean (<m>\bar{Y}_k</m>)</cell>
+          <cell>grand mean (<m>\bar{Y}</m>)</cell>
+          <cell>deviation (<m>\bar{Y}_{k} - \bar{Y}</m>)</cell>
+          <cell>squared deviations (<m>(\bar{Y}_{k} - \bar{Y})^2</m>)</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.45</cell>
+          <cell>0.88</cell>
+          <cell>-0.43</cell>
+          <cell>0.18</cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.72</cell>
+          <cell>0.88</cell>
+          <cell>-0.16</cell>
+          <cell>0.03</cell>
+        </row>
+        <row>
+          <cell halign="left">joyzepam</cell>
+          <cell>1.48</cell>
+          <cell>0.88</cell>
+          <cell>0.60</cell>
+          <cell>0.36</cell>
+        </row>
+      </tabular>
+    </table>
     <p>However, for the between group calculations we need to multiply each of these squared deviations by <m><![CDATA[N_k]]></m>, the number of observations in the group. We do this because every <em>observation</em> in the group (all <m><![CDATA[N_k]]></m> of them) is associated with a between group difference. So if there are six people in the placebo group, and the placebo group mean differs from the grand mean by 0.19, then the <em>total</em> between group variation associated with these six people is <m><![CDATA[6 \times 0.16 = 1.14]]></m>. So we have to extend our little table of calculations...</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-         ~V1,                             ~V2,           ~V3,                                 ~V4,
-   "placebo",                          "0.18",           "6",                              "1.11",
-  "anxifree",                          "0.03",           "6",                              "0.16",
-  "joyzepam",                          "0.36",           "6",                              "2.18"
-  ), col.names = c(     "group ($k$)",            "squared deviations ($(\\bar{Y}_{k} - \\bar{Y})^2$)", "sample size ($N_k$)",              "weighted squared dev ($N_k (\\bar{Y}_{k} - \\bar{Y})^2$)"))]]></input>
-</program>
+        <table xml:id="table-chanova-38">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">group (<m>k</m>)</cell>
+          <cell>squared deviations (<m>(\bar{Y}_{k} - \bar{Y})^2</m>)</cell>
+          <cell>sample size (<m>N_k</m>)</cell>
+          <cell>weighted squared dev (<m>N_k (\bar{Y}_{k} - \bar{Y})^2</m>)</cell>
+        </row>
+        <row>
+          <cell halign="left">placebo</cell>
+          <cell>0.18</cell>
+          <cell>6</cell>
+          <cell>1.11</cell>
+        </row>
+        <row>
+          <cell halign="left">anxifree</cell>
+          <cell>0.03</cell>
+          <cell>6</cell>
+          <cell>0.16</cell>
+        </row>
+        <row>
+          <cell halign="left">joyzepam</cell>
+          <cell>0.36</cell>
+          <cell>6</cell>
+          <cell>2.18</cell>
+        </row>
+      </tabular>
+    </table>
     <p>And so now our between group sum of squares is obtained by summing these "weighted squared deviations" over all three groups in the study:</p>
     <me><![CDATA[\begin{array}{rcl}
 \mbox{SS}_{b} &=& 1.11 + 0.16 + 2.18 \\
@@ -516,14 +687,34 @@ pf( 18.6, df1 = 2, df2 = 15, lower.tail = FALSE)]]></input>
     </console>
     <p>Therefore, our <m><![CDATA[p]]></m>-value comes to 0.0000867, or <m><![CDATA[8.67 \times 10^{-5}]]></m> in scientific notation. So, unless we're being <em>extremely</em> conservative about our Type I error rate, we're pretty much guaranteed to reject the null hypothesis.</p>
     <p>At this point, we're basically done. Having completed our calculations, it's traditional to organise all these numbers into an ANOVA table like the one in Table@reftab:anovatable. For our clinical trial data, the ANOVA table would look like this:</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-               ~V1,  ~V2,              ~V3,            ~V4,             ~V5,                      ~V6,
-  "between groups",  "2",           "3.45",         "1.73",          "18.6", "$8.67 \\times 10^{-5}$",
-   "within groups", "15",           "1.39",         "0.09",             "-",                      "-"
-  ), col.names = c("", "df", "sum of squares", "mean squares", "$F$-statistic", "$p$-value"))]]></input>
-</program>
+        <table xml:id="table-chanova-37">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left"></cell>
+          <cell>df</cell>
+          <cell>sum of squares</cell>
+          <cell>mean squares</cell>
+          <cell><m>F</m>-statistic</cell>
+          <cell><m>p</m>-value</cell>
+        </row>
+        <row>
+          <cell halign="left">between groups</cell>
+          <cell>2</cell>
+          <cell>3.45</cell>
+          <cell>1.73</cell>
+          <cell>18.6</cell>
+          <cell><m>8.67 \times 10^{-5}</m></cell>
+        </row>
+        <row>
+          <cell halign="left">within groups</cell>
+          <cell>15</cell>
+          <cell>1.39</cell>
+          <cell>0.09</cell>
+          <cell>-</cell>
+          <cell>-</cell>
+        </row>
+      </tabular>
+    </table>
     <p>These days, you'll probably never have much reason to want to construct one of these tables yourself, but you <em>will</em> find that almost all statistical software (R included) tends to organise the output of an ANOVA into a table like this, so it's a good idea to get used to reading them. However, although the software will output a full ANOVA table, there's almost never a good reason to include the whole table in your write up. A pretty standard way of reporting this result would be to write something like this:</p>
     <blockquote>
       <p>One-way ANOVA showed a significant effect of drug on mood gain (<m><![CDATA[F(2,15) = 18.6, p<.001]]></m>).</p>
@@ -684,21 +875,73 @@ etaSquared( x = my.anova )]]></input>
     </ul>
     <p>If any one of those three claims is false, then the null hypothesis is also false. So, now that we've rejected our null hypothesis, we're thinking that <em>at least</em> one of those things isn't true. But which ones? All three of these propositions are of interest: you certainly want to know if your new drug Joyzepam is better than a placebo, and it would be nice to know how well it stacks up against an existing commercial alternative (i.e., Anxifree). It would even be useful to check the performance of Anxifree against the placebo: even if Anxifree has already been extensively tested against placebos by other researchers, it can still be very useful to check that your study is producing similar results to earlier work.</p>
     <p>When we characterise the null hypothesis in terms of these three distinct propositions, it becomes clear that there are eight possible "states of the world" that we need to distinguish between:</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-             ~V1,                     ~V2,                     ~V3,                     ~V4,                 ~V5,
-
-             "1",           "$\\checkmark$",           "$\\checkmark$",           "$\\checkmark$",              "null",
-             "2",           "$\\checkmark$",           "$\\checkmark$",                      "",       "alternative",
-             "3",           "$\\checkmark$",                      "",           "$\\checkmark$",       "alternative",
-             "4",           "$\\checkmark$",                      "",                      "",       "alternative",
-             "5",                      "",           "$\\checkmark$",           "$\\checkmark$",       "alternative",
-             "6",                      "",           "$\\checkmark$",                      "",       "alternative",
-             "7",                      "",                      "",           "$\\checkmark$",       "alternative",
-             "8",                      "",                      "",                      "",       "alternative"
-  ), col.names = c("possibility:", "is $\\mu_P = \\mu_A$?", "is $\\mu_P = \\mu_J$?", "is $\\mu_A = \\mu_J$?", "which hypothesis?"))]]></input>
-</program>
+        <table xml:id="table-chanova-36">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">possibility:</cell>
+          <cell>is <m>\mu_P = \mu_A</m>?</cell>
+          <cell>is <m>\mu_P = \mu_J</m>?</cell>
+          <cell>is <m>\mu_A = \mu_J</m>?</cell>
+          <cell>which hypothesis?</cell>
+        </row>
+        <row>
+          <cell halign="left">1</cell>
+          <cell><m>\checkmark</m></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell>null</cell>
+        </row>
+        <row>
+          <cell halign="left">2</cell>
+          <cell><m>\checkmark</m></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell></cell>
+          <cell>alternative</cell>
+        </row>
+        <row>
+          <cell halign="left">3</cell>
+          <cell><m>\checkmark</m></cell>
+          <cell></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell>alternative</cell>
+        </row>
+        <row>
+          <cell halign="left">4</cell>
+          <cell><m>\checkmark</m></cell>
+          <cell></cell>
+          <cell></cell>
+          <cell>alternative</cell>
+        </row>
+        <row>
+          <cell halign="left">5</cell>
+          <cell></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell>alternative</cell>
+        </row>
+        <row>
+          <cell halign="left">6</cell>
+          <cell></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell></cell>
+          <cell>alternative</cell>
+        </row>
+        <row>
+          <cell halign="left">7</cell>
+          <cell></cell>
+          <cell></cell>
+          <cell><m>\checkmark</m></cell>
+          <cell>alternative</cell>
+        </row>
+        <row>
+          <cell halign="left">8</cell>
+          <cell></cell>
+          <cell></cell>
+          <cell></cell>
+          <cell>alternative</cell>
+        </row>
+      </tabular>
+    </table>
     <p>By rejecting the null hypothesis, we've decided that we <em>don't</em> believe that \#1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in Figure <xref ref="fig-moodgain"/>, it's tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there's no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
   <subsection>
     <title>Running "pairwise" <m><![CDATA[t]]></m>-tests</title>
@@ -720,7 +963,7 @@ t.test( formula = mood.gain ~ drug,
        var.equal = TRUE 
 )]]></input>
 </program>
-    <p>See Chapter <xref ref="datahandling"/> if you've forgotten how the <c>%in%</c> operator works. Regardless of which version we do, R will print out the results of the <m><![CDATA[t]]></m>-test, though I haven't included that output here. If we go on to do this for all possible pairs of variables, we can look to see which (if any) pairs of groups are significantly different to each other. This "lots of <m><![CDATA[t]]></m>-tests idea" isn't a bad strategy, though as we'll see later on there are some problems with it. However, for the moment our bigger problem is that it's a <em>pain</em> to have to type in such a long command over and over again: for instance, if your experiment has 10 groups, then you have to run 45 <m><![CDATA[t]]></m>-tests. That's way too much typing.</p>
+    <p>See Chapter <xref ref="ch7-data-handling"/> if you've forgotten how the <c>%in%</c> operator works. Regardless of which version we do, R will print out the results of the <m><![CDATA[t]]></m>-test, though I haven't included that output here. If we go on to do this for all possible pairs of variables, we can look to see which (if any) pairs of groups are significantly different to each other. This "lots of <m><![CDATA[t]]></m>-tests idea" isn't a bad strategy, though as we'll see later on there are some problems with it. However, for the moment our bigger problem is that it's a <em>pain</em> to have to type in such a long command over and over again: for instance, if your experiment has 10 groups, then you have to run 45 <m><![CDATA[t]]></m>-tests. That's way too much typing.</p>
     <p>To help keep the typing to a minimum, R provides a function called <c>pairwise.t.test()</c> that automatically runs all of the <m><![CDATA[t]]></m>-tests for you. There are three arguments that you need to specify, the outcome variable <c>x</c>, the group variable <c>g</c>, and the <c>p.adjust.method</c> argument, which "adjusts" the <m><![CDATA[p]]></m>-value in one way or another. I'll explain <m><![CDATA[p]]></m>-value adjustment in a moment, but for now we can just set <c>p.adjust.method = "none"</c> since we're not doing any adjustments. For our example, here's what we do:</p>
     <program language="r">
   <input><![CDATA[
@@ -828,18 +1071,46 @@ posthocPairwiseT( my.anova, p.adjust.method = "bonferroni")]]></input>
     <p>(i.e., the biggest <m><![CDATA[p]]></m>-value remains unchanged, the second biggest <m><![CDATA[p]]></m>-value is doubled, the third biggest <m><![CDATA[p]]></m>-value is tripled, and so on), <em>or</em></p>
     <me><![CDATA[p^\prime_j = p^\prime_{j+1}]]></me>
     <p>whichever one is <em>larger</em>. This might sound a little confusing, so let's go through it a little more slowly. Here's what the Holm correction does. First, you sort all of your <m><![CDATA[p]]></m>-values in order, from smallest to largest. For the smallest <m><![CDATA[p]]></m>-value all you do is multiply it by <m><![CDATA[m]]></m>, and you're done. However, for all the other ones it's a two-stage process. For instance, when you move to the second smallest <m><![CDATA[p]]></m> value, you first multiply it by <m><![CDATA[m-1]]></m>. If this produces a number that is bigger than the adjusted <m><![CDATA[p]]></m>-value that you got last time, then you keep it. But if it's smaller than the last one, then you copy the last <m><![CDATA[p]]></m>-value. To illustrate how this works, consider the table below, which shows the calculations of a Holm correction for a collection of five <m><![CDATA[p]]></m>-values:</p>
-    <program language="r">
-  <input><![CDATA[
-knitr::kable(tibble::tribble(
-        ~V1,        ~V2,             ~V3,        ~V4,
-
-     ".001",        "5",          ".005",     ".005",
-     ".005",        "4",          ".020",     ".020",
-     ".019",        "3",          ".057",     ".057",
-     ".022",        "2",          ".044",     ".057",
-     ".103",        "1",          ".103",     ".103"
-  ), col.names = c("raw $p$", "rank $j$", "$p \\times j$", "Holm $p$"))]]></input>
-</program>
+        <table xml:id="table-chanova-35">
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">raw <m>p</m></cell>
+          <cell>rank <m>j</m></cell>
+          <cell><m>p \times j</m></cell>
+          <cell>Holm <m>p</m></cell>
+        </row>
+        <row>
+          <cell halign="left">.001</cell>
+          <cell>5</cell>
+          <cell>.005</cell>
+          <cell>.005</cell>
+        </row>
+        <row>
+          <cell halign="left">.005</cell>
+          <cell>4</cell>
+          <cell>.020</cell>
+          <cell>.020</cell>
+        </row>
+        <row>
+          <cell halign="left">.019</cell>
+          <cell>3</cell>
+          <cell>.057</cell>
+          <cell>.057</cell>
+        </row>
+        <row>
+          <cell halign="left">.022</cell>
+          <cell>2</cell>
+          <cell>.044</cell>
+          <cell>.057</cell>
+        </row>
+        <row>
+          <cell halign="left">.103</cell>
+          <cell>1</cell>
+          <cell>.103</cell>
+          <cell>.103</cell>
+        </row>
+      </tabular>
+    </table>
     <p>Hopefully that makes things clear.</p>
     <p>Although it's a little harder to calculate, the Holm correction has some very nice properties: it's more powerful than Bonferroni (i.e., it has a lower Type II error rate), but -- counterintuitive as it might seem -- it has the <em>same</em> Type I error rate. As a consequence, in practice there's never any reason to use the simpler Bonferroni correction, since it is always outperformed by the slightly more elaborate Holm correction. Because of this, the Holm correction is the default one used by <c>pairwise.t.test()</c> and <c>posthocPairwiseT()</c>. To run the Holm correction in R, you could specify <c>p.adjust.method = "Holm"</c> if you wanted to, but since it's the default you can just to do this:</p>
     <program language="r">
@@ -1033,12 +1304,12 @@ shapiro.test( x = my.anova.residuals )   # run Shapiro-Wilk test]]></input>
 ## W = 0.96019, p-value = 0.6053
 ]]></output>
     </console>
-    <p>The histogram and QQ plot are both look pretty normal to me.<fn>Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from Chapter <xref ref="graphics"/> to help you draw cleaner looking images.</fn> This is supported by the results of our Shapiro-Wilk test (<m><![CDATA[W = .96]]></m>, <m><![CDATA[p = .61]]></m>) which finds no indication that normality is violated.</p>
+    <p>The histogram and QQ plot are both look pretty normal to me.<fn>Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from Chapter <xref ref="ch6-graphics"/> to help you draw cleaner looking images.</fn> This is supported by the results of our Shapiro-Wilk test (<m><![CDATA[W = .96]]></m>, <m><![CDATA[p = .61]]></m>) which finds no indication that normality is violated.</p>
   </section>
   <section xml:id="kruskalwallis">
     <title>Removing the normality assumption</title>
 
-    <p>Now that we've seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn't rely on any particular assumption about the kind of distribution involved). We've seen non-parametric tests before, in Chapter <xref ref="ttest"/>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you've got three or more groups, you can use the <em>Kruskal-Wallis rank sum test</em> [@KruskalWallis1952]. So that's the test we'll talk about next.</p>
+    <p>Now that we've seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn't rely on any particular assumption about the kind of distribution involved). We've seen non-parametric tests before, in Chapter <xref ref="ch13-ttest"/>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you've got three or more groups, you can use the <em>Kruskal-Wallis rank sum test</em> [@KruskalWallis1952]. So that's the test we'll talk about next.</p>
   <subsection>
     <title>The logic behind the Kruskal-Wallis test</title>
 

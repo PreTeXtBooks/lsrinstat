@@ -7,10 +7,10 @@
     <p><em>Form follows function</em></p>
     <p>-- Louis Sullivan</p>
   </blockquote>
-  <p>In <xref ref="introR"/> our main goal was to get started in R. As we go through the book we'll run into a lot of new  R concepts, which I'll explain alongside the relevant data analysis concepts. However, there's still quite a few things that I need to talk about now, otherwise we'll run into problems when we start trying to work with data and do statistics. So that's the goal in this chapter: to build on the introductory content from the last chapter, to get you to the point that we can start using R for statistics. Broadly speaking, the chapter comes in two parts. The first half of the chapter is devoted to the "mechanics" of R: installing and loading packages, managing the workspace, navigating the file system, and loading and saving data. In the second half, I'll talk more about what kinds of variables exist in R, and introduce three new kinds of variables: factors, data frames and formulas. I'll finish up by talking a little bit about the help documentation in R as well as some other avenues for finding assistance. In general, I'm not trying to be comprehensive in this chapter, I'm trying to make sure that you've got the basic foundations needed to tackle the content that comes later in the book. However, a lot of the topics are revisited in more detail later, especially in <xref ref="datahandling"/> and <xref ref="scripting"/>.</p>
+  <p>In <xref ref="ch3-intro-r"/> our main goal was to get started in R. As we go through the book we'll run into a lot of new  R concepts, which I'll explain alongside the relevant data analysis concepts. However, there's still quite a few things that I need to talk about now, otherwise we'll run into problems when we start trying to work with data and do statistics. So that's the goal in this chapter: to build on the introductory content from the last chapter, to get you to the point that we can start using R for statistics. Broadly speaking, the chapter comes in two parts. The first half of the chapter is devoted to the "mechanics" of R: installing and loading packages, managing the workspace, navigating the file system, and loading and saving data. In the second half, I'll talk more about what kinds of variables exist in R, and introduce three new kinds of variables: factors, data frames and formulas. I'll finish up by talking a little bit about the help documentation in R as well as some other avenues for finding assistance. In general, I'm not trying to be comprehensive in this chapter, I'm trying to make sure that you've got the basic foundations needed to tackle the content that comes later in the book. However, a lot of the topics are revisited in more detail later, especially in <xref ref="ch7-data-handling"/> and <xref ref="ch8-scripting"/>.</p>
   <section xml:id="comments">
     <title>Using comments</title>
-    <p>Before discussing any of the more complicated stuff, I want to introduce the <em><em>comment</em></em> character, <c>#</c>. It has a simple meaning: it tells R to ignore everything else you've written on this line. You won't have much need of the <c>#</c> character immediately, but it's very useful later on when writing scripts (see <xref ref="scripting"/>). However, while you don't need to use it, I want to be able to include comments in my R extracts. For instance, if you read this:<fn>Notice that I used <c>print(keeper)</c> rather than just typing <c>keeper</c>. Later on in the text I'll sometimes use the <c>print()</c> function to display things because I think it helps make clear what I'm doing, but in practice people rarely do this.</fn></p>
+    <p>Before discussing any of the more complicated stuff, I want to introduce the <em><em>comment</em></em> character, <c>#</c>. It has a simple meaning: it tells R to ignore everything else you've written on this line. You won't have much need of the <c>#</c> character immediately, but it's very useful later on when writing scripts (see <xref ref="ch8-scripting"/>). However, while you don't need to use it, I want to be able to include comments in my R extracts. For instance, if you read this:<fn>Notice that I used <c>print(keeper)</c> rather than just typing <c>keeper</c>. Later on in the text I'll sometimes use the <c>print()</c> function to display things because I think it helps make clear what I'm doing, but in practice people rarely do this.</fn></p>
     <program language="r">
       <input>
         seeker &lt;- 3.1415           # create the first variable
@@ -39,7 +39,7 @@
 ## [1] 8.539539
 ]]></output>
     </console>
-    <p>You might have already noticed that the code extracts in <xref ref="introR"/> included the <c>#</c> character, but from now on, you'll start seeing <c>#</c> characters appearing in the extracts, with some human-readable explanatory remarks next to them. These are still perfectly legitimate commands, since R knows that it should ignore the <c>#</c> character and everything after it. But hopefully they'll help make things a little easier to understand.</p>
+    <p>You might have already noticed that the code extracts in <xref ref="ch3-intro-r"/> included the <c>#</c> character, but from now on, you'll start seeing <c>#</c> characters appearing in the extracts, with some human-readable explanatory remarks next to them. These are still perfectly legitimate commands, since R knows that it should ignore the <c>#</c> character and everything after it. But hopefully they'll help make things a little easier to understand.</p>
   </section>
   <section xml:id="packageinstall">
     <title>Installing and loading packages</title>
@@ -435,7 +435,7 @@ The downloaded binary packages are in
     <ul>
       <li><p><em>Workspace files</em> are those with a .Rdata file extension. This is the standard kind of file that R uses to store data and variables. They're called "workspace files" because you can use them to save your whole workspace.</p></li>
       <li><p><em>Comma separated value (CSV) files</em> are those with a .csv file extension. These are just regular old text files, and they can be opened with almost any software. It's quite typical for people to store data in CSV files, precisely because they're so simple.</p></li>
-      <li><p><em>Script files</em> are those with a .R file extension. These aren't data files at all; rather, they're used to save a collection of commands that you want R to execute later. They're just text files, but we won't make use of them until <xref ref="scripting"/>.</p></li>
+      <li><p><em>Script files</em> are those with a .R file extension. These aren't data files at all; rather, they're used to save a collection of commands that you want R to execute later. They're just text files, but we won't make use of them until <xref ref="ch8-scripting"/>.</p></li>
     </ul>
     <p>There are also several other types of file that R makes use of,<fn>Notably those with .rda, .Rd, .Rhistory, .rdb and .rdx extensions</fn> but they're not really all that central to our interests. There are also several other kinds of data file that you might want to import into R. For instance, you might want to open  Microsoft Excel spreadsheets (.xlsx files), or data files that have been saved in the native file formats for other statistics software, such as SPSS, SAS, Minitab, Stata or Systat.  Finally, you might have to handle databases. R tries hard to play nicely with other software, so it has tools that let you open and work with any of these and many others. I'll discuss some of these other possibilities elsewhere in this book (<xref ref="importing"/>), but for now I want to focus primarily on the two kinds of data file that you're most likely to need: .Rdata files and .csv files. In this section I'll talk about how to load a workspace file, how to import data from a CSV file, and how to save your workspace to a workspace file. Throughout this section I'll first describe the (sometimes awkward) R commands that do all the work, and then I'll show you the (much easier) way to do it using RStudio.</p>
     <subsection>
@@ -444,11 +444,36 @@ The downloaded binary packages are in
       <ul>
         <li><p><c>file</c>. This should be a character string that specifies a path to the file that needs to be loaded. You can use an absolute path or a relative path to do so.</p></li>
       </ul>
-      <p>Using the absolute file path, the command would look like this: ``<c> load( file = "/Users/dan/Rbook/data/booksales.Rdata" ) </c>`<c> but this is pretty lengthy. Given that the working directory (remember, we changed the directory at the end of <xref ref="nav3"/>) is </c>/Users/dan/Rbook/data<c>, I could use a relative file path, like so: </c>`<c> load( file = "../data/booksales.Rdata" ) </c>`<c> However, my preference is usually to change the working directory first, and <em>then</em> load the file. What that would look like is this: </c>`<c> setwd( "../data" )         # move to the data directory load( "booksales.Rdata" )  # load the data </c>`<c> If I were then to type </c>who()` I'd see that there are several new variables in my workspace now.  Throughout this book, whenever you see me loading a file, I will assume that the file is actually stored in the working directory, or that you've changed the working directory so that R is pointing at the directory that contains the file. Obviously, <em>you</em> don't need type that command yourself: you can use the RStudio file panel to do the work.</p>
+      <p>Using the absolute file path, the command would look like this:</p>
+      <program language="r">
+        <input>
+          load( file = "/Users/dan/Rbook/data/booksales.Rdata" )
+        </input>
+      </program>
+      <p>but this is pretty lengthy. Given that the working directory (remember, we changed the directory at the end of <xref ref="nav3"/>) is <c>/Users/dan/Rbook/data</c>, I could use a relative file path, like so:</p>
+      <program language="r">
+        <input>
+          load( file = "../data/booksales.Rdata" )
+        </input>
+      </program>
+      <p>However, my preference is usually to change the working directory first, and <em>then</em> load the file. What that would look like is this:</p>
+      <program language="r">
+        <input>
+          setwd( "../data" )         # move to the data directory
+          load( "booksales.Rdata" )  # load the data
+        </input>
+      </program>
+      <p>If I were then to type <c>who()</c> I'd see that there are several new variables in my workspace now.  Throughout this book, whenever you see me loading a file, I will assume that the file is actually stored in the working directory, or that you've changed the working directory so that R is pointing at the directory that contains the file. Obviously, <em>you</em> don't need type that command yourself: you can use the RStudio file panel to do the work.</p>
     </subsection>
     <subsection>
       <title>Loading workspace files using RStudio</title>
-      <p>Okay, so how do we open an .Rdata file using the RStudio file panel? It's terribly simple. First, use the file panel to find the folder that contains the file you want to load. If you look at Figure <xref ref="fig-filepanel"/>, you can see that there are several .Rdata files listed. Let's say I want to load the <c>booksales.Rdata</c> file. All I have to do is click on the file name. RStudio brings up a little dialog box asking me to confirm that I do want to load this file. I click yes. The following command then turns up in the console, ``<c> load("~/Rbook/data/booksales.Rdata") </c>`<c> and the new variables will appear in the workspace (you'll see them in the Environment panel in RStudio, or if you type </c>who()`). So easy it barely warrants having its own section.</p>
+      <p>Okay, so how do we open an .Rdata file using the RStudio file panel? It's terribly simple. First, use the file panel to find the folder that contains the file you want to load. If you look at Figure <xref ref="fig-filepanel"/>, you can see that there are several .Rdata files listed. Let's say I want to load the <c>booksales.Rdata</c> file. All I have to do is click on the file name. RStudio brings up a little dialog box asking me to confirm that I do want to load this file. I click yes. The following command then turns up in the console,</p>
+      <program language="r">
+        <input>
+          load("~/Rbook/data/booksales.Rdata")
+        </input>
+      </program>
+      <p>and the new variables will appear in the workspace (you'll see them in the Environment panel in RStudio, or if you type <c>who()</c>). So easy it barely warrants having its own section.</p>
     </subsection>
     <subsection xml:id="loadingcsv">
       <title>Importing data from CSV files using loadingcsv</title>
@@ -517,7 +542,14 @@ The downloaded binary packages are in
         <li><p>Decimal. What character is used to specify the decimal point? In English speaking countries, this is almost always a period (i.e., <c>.</c>). That's not universally true: many European countries use a comma. So you can change that if you need to.</p></li>
         <li><p>Quote. What character is used to denote a block of text? That's usually going to be a double quote mark. It is for the <c>booksales.csv</c> file, so that's what I selected.</p></li>
       </ul>
-      <p>The nice thing about the RStudio window is that it shows you the raw data file at the top of the window, and it shows you a preview of the data at the bottom. If the data at the bottom doesn't look right, try changing some of the settings on the left hand side. Once you're happy, click "Import". When you do, two commands appear in the R console: ``<c> booksales &lt;- read.csv("~/Rbook/data/booksales.csv") View(booksales) </c>`` The first of these commands is the one that loads the data. The second one will display a pretty table showing the data in RStudio.</p>
+      <p>The nice thing about the RStudio window is that it shows you the raw data file at the top of the window, and it shows you a preview of the data at the bottom. If the data at the bottom doesn't look right, try changing some of the settings on the left hand side. Once you're happy, click "Import". When you do, two commands appear in the R console:</p>
+      <program language="r">
+        <input>
+          booksales &lt;- read.csv("~/Rbook/data/booksales.csv")
+          View(booksales)
+        </input>
+      </program>
+      <p>The first of these commands is the one that loads the data. The second one will display a pretty table showing the data in RStudio.</p>
     </subsection>
     <subsection>
       <title>Saving a workspace file using <c>save</c></title>
@@ -557,7 +589,7 @@ The downloaded binary packages are in
     </subsection>
     <subsection xml:id="save1">
       <title>Saving a workspace file using RStudio</title>
-      <p>RStudio allows you to save the workspace pretty easily. In the environment panel (Figures <xref ref="fig-workspace"/> and <xref ref="fig-workspace2"/>) you can see the "save" button. There's no text, but it's the same icon that gets used on every computer everywhere: it's the one that looks like a floppy disk. You know, those things that haven't been used in about 20 years. Alternatively, go to the "Session" menu and click on the "Save Workspace As..." option.<fn>A word of warning: what you <em>don't</em> want to do is use the "File" menu. If you look in the "File" menu you will see "Save" and "Save As..." options, but they don't save the workspace. Those options are used for dealing with <em>scripts</em>, and so they'll produce <c>.R</c> files. We won't get to those until <xref ref="scripting"/>.</fn> This will bring up the standard "save" dialog box for your operating system (e.g., on a Mac it'll look a little bit like the loading dialog box in Figure <xref ref="fig-fileopen"/>). Type in the name of the file that you want to save it to, and all the variables in your workspace will be saved to disk. You'll see an R command like this one</p>
+      <p>RStudio allows you to save the workspace pretty easily. In the environment panel (Figures <xref ref="fig-workspace"/> and <xref ref="fig-workspace2"/>) you can see the "save" button. There's no text, but it's the same icon that gets used on every computer everywhere: it's the one that looks like a floppy disk. You know, those things that haven't been used in about 20 years. Alternatively, go to the "Session" menu and click on the "Save Workspace As..." option.<fn>A word of warning: what you <em>don't</em> want to do is use the "File" menu. If you look in the "File" menu you will see "Save" and "Save As..." options, but they don't save the workspace. Those options are used for dealing with <em>scripts</em>, and so they'll produce <c>.R</c> files. We won't get to those until <xref ref="ch8-scripting"/>.</fn> This will bring up the standard "save" dialog box for your operating system (e.g., on a Mac it'll look a little bit like the loading dialog box in Figure <xref ref="fig-fileopen"/>). Type in the name of the file that you want to save it to, and all the variables in your workspace will be saved to disk. You'll see an R command like this one</p>
       <program language="r">
         <input>
           save.image("~/Desktop/Untitled.RData")
@@ -570,13 +602,13 @@ The downloaded binary packages are in
       <p>Until now, we've talked mostly about loading and saving <em>data</em>. Other things you might want to save include:</p>
       <ul>
         <li><p><em>The output</em>. Sometimes you might also want to keep a copy of all your interactions with R, including everything that you typed in and everything that R did in response. There are some functions that you can use to get R to write its output to a file rather than to print onscreen (e.g., <c>sink()</c>), but to be honest, if you do want to save the R output, the easiest thing to do is to use the mouse to select the relevant text in the R console, go to the "Edit" menu in RStudio and select "Copy". The output has now been copied to the clipboard. Now open up your favourite text editor or word processing software, and paste it. And you're done.  However, this will only save the contents of the console, not the plots you've drawn (assuming you've drawn some). We'll talk about saving images later on.</p></li>
-        <li><p><em>A script</em>. While it is possible -- and sometimes handy -- to save the R output as a method for keeping a copy of your statistical analyses, another option that people use a lot (especially when you move beyond simple "toy" analyses) is to write <em>scripts</em>. A script is a text file in which you write out all the commands that you want R to run. You can write your script using whatever software you like. In real world data analysis writing scripts is a key skill -- and as you become familiar with R you'll probably find that most of what you do involves scripting rather than typing commands at the R prompt. However, you won't need to do much scripting initially, so we'll leave that until <xref ref="scripting"/>.</p></li>
+        <li><p><em>A script</em>. While it is possible -- and sometimes handy -- to save the R output as a method for keeping a copy of your statistical analyses, another option that people use a lot (especially when you move beyond simple "toy" analyses) is to write <em>scripts</em>. A script is a text file in which you write out all the commands that you want R to run. You can write your script using whatever software you like. In real world data analysis writing scripts is a key skill -- and as you become familiar with R you'll probably find that most of what you do involves scripting rather than typing commands at the R prompt. However, you won't need to do much scripting initially, so we'll leave that until <xref ref="ch8-scripting"/>.</p></li>
       </ul>
     </subsection>
   </section>
   <section xml:id="useful">
     <title>Useful things to know about variables</title>
-    <p>In <xref ref="introR"/> I talked a lot about variables, how they're assigned and some of the things you can do with them, but there's a lot of additional complexities. That's not a surprise of course. However, some of those issues are worth drawing your attention to now. So that's the goal of this section; to cover a few extra topics. As a consequence, this section is basically a bunch of things that I want to briefly mention, but don't really fit in anywhere else. In short, I'll talk about several different issues in this section, which are only loosely connected to one another.</p>
+    <p>In <xref ref="ch3-intro-r"/> I talked a lot about variables, how they're assigned and some of the things you can do with them, but there's a lot of additional complexities. That's not a surprise of course. However, some of those issues are worth drawing your attention to now. So that's the goal of this section; to cover a few extra topics. As a consequence, this section is basically a bunch of things that I want to briefly mention, but don't really fit in anywhere else. In short, I'll talk about several different issues in this section, which are only loosely connected to one another.</p>
     <subsection xml:id="specials">
       <title>Special values</title>
       <p>The first thing I want to mention are some of the "special" values that you might see R produce. Most likely you'll see them in situations where you were expecting a number, but there are quite a few other ways you can encounter them. These values are <c>Inf</c>, <c>NaN</c>, <c>NA</c> and <c>NULL</c>. These values can crop up in various different places, and so it's important to understand what they mean.</p>
@@ -745,7 +777,7 @@ The downloaded binary packages are in
   </section>
   <section xml:id="factors">
     <title>Factors</title>
-    <p>Okay, it's time to start introducing some of the data types that are somewhat more specific to statistics. If you remember back to <xref ref="studydesign"/>, when we assign numbers to possible outcomes, these numbers can mean quite different things depending on what kind of variable we are attempting to measure. In particular, we commonly make the distinction between <em>nominal</em>, <em>ordinal</em>, <em>interval</em> and <em>ratio</em> scale data. How do we capture this distinction in R? Currently, we only seem to have a single numeric data type. That's probably not going to be enough, is it?</p>
+    <p>Okay, it's time to start introducing some of the data types that are somewhat more specific to statistics. If you remember back to <xref ref="ch2-research-statistics"/>, when we assign numbers to possible outcomes, these numbers can mean quite different things depending on what kind of variable we are attempting to measure. In particular, we commonly make the distinction between <em>nominal</em>, <em>ordinal</em>, <em>interval</em> and <em>ratio</em> scale data. How do we capture this distinction in R? Currently, we only seem to have a single numeric data type. That's probably not going to be enough, is it?</p>
     <p>A little thought suggests that the numeric variable class in R is perfectly suited for capturing ratio scale data. For instance, if I were to measure response time (RT) for five different events, I could store the data in R like this:</p>
     <program language="r">
       <input>
@@ -800,8 +832,18 @@ The downloaded binary packages are in
 ## Levels: 1 2 3
 ]]></output>
     </console>
-      <p>It looks more or less the same as before (though it's not immediately obvious what all that <c>Levels</c> rubbish is about), but if we ask R to tell us what the class of the <c>group</c> variable is now, it's clear that it has done what we asked: ```{R} class(group)</p>
-      <p>``<c> Neat. Better yet, now that I've converted </c>group` to a factor, look what happens when I try to add 2 to it:</p>
+      <p>It looks more or less the same as before (though it's not immediately obvious what all that <c>Levels</c> rubbish is about), but if we ask R to tell us what the class of the <c>group</c> variable is now, it's clear that it has done what we asked:</p>
+      <program language="r">
+        <input>
+          class(group)
+        </input>
+      </program>
+    <console>
+      <output><![CDATA[
+## [1] "factor"
+]]></output>
+    </console>
+      <p>Neat. Better yet, now that I've converted <c>group</c> to a factor, look what happens when I try to add 2 to it:</p>
       <program language="r">
         <input>
           group + 2
@@ -985,7 +1027,7 @@ Error: object 'score' not found
     </subsection>
     <subsection>
       <title>Looking for more on data frames?</title>
-      <p>There's a lot more that can be said about data frames: they're fairly complicated beasts, and the longer you use R the more important it is to make sure you really understand them. We'll talk a lot more about them in <xref ref="datahandling"/>.</p>
+      <p>There's a lot more that can be said about data frames: they're fairly complicated beasts, and the longer you use R the more important it is to make sure you really understand them. We'll talk a lot more about them in <xref ref="ch7-data-handling"/>.</p>
     </subsection>
   </section>
   <section xml:id="lists">
@@ -1245,7 +1287,7 @@ we get the "title" information, and a short "description" of what the function d
   </section>
   <section>
     <title>Summary</title>
-    <p>This chapter continued where <xref ref="introR"/> left off. The focus was still primarily on introducing basic R concepts, but this time at least you can see how those concepts are related to data analysis:</p>
+    <p>This chapter continued where <xref ref="ch3-intro-r"/> left off. The focus was still primarily on introducing basic R concepts, but this time at least you can see how those concepts are related to data analysis:</p>
     <ul>
       <li><p>Installing, loading and updating packages. <xref ref="packageinstall"/> explained how to extend the functionality of R by installing and using packages, which is critical to becoming an effective R user.</p></li>
       <li><p>Getting around. <xref ref="workspace"/> talked about how to manage your workspace and how to keep it tidy. Similarly, <xref ref="navigation"/> talked about how to get R to interact with the rest of the file system.</p></li>
@@ -1255,6 +1297,6 @@ we get the "title" information, and a short "description" of what the function d
       <li><p>Generic functions. How is it that some function seem to be able to do lots of different things? <xref ref="generics"/> tells you how.</p></li>
       <li><p>Getting help. Assuming that you're not looking for counselling, <xref ref="help"/> covers several possibilities. If you are looking for counselling, well, this book really can't help you there. Sorry.</p></li>
     </ul>
-    <p>Taken together, <xref ref="introR"/> and <xref ref="mechanics"/> provide enough of a background that you can finally get started doing some statistics! Yes, there's a lot more R concepts that you ought to know (and we'll talk about some of them in Chapters<xref ref="datahandling"/> and<xref ref="scripting"/>), but I think that we've talked quite enough about programming for the moment. It's time to see how your experience with programming can be used to do some data analysis...</p>
+    <p>Taken together, <xref ref="ch3-intro-r"/> and <xref ref="ch4-additional-r-concepts"/> provide enough of a background that you can finally get started doing some statistics! Yes, there's a lot more R concepts that you ought to know (and we'll talk about some of them in Chapters<xref ref="ch7-data-handling"/> and<xref ref="ch8-scripting"/>), but I think that we've talked quite enough about programming for the moment. It's time to see how your experience with programming can be used to do some data analysis...</p>
   </section>
 </chapter>

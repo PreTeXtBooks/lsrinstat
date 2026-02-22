@@ -365,7 +365,7 @@
         </input>
       </program>
       <p>
-        And we're done. We now have three shiny new variables, all of which are useful transformations of the original <c>likert.raw</c> data. All of this should seem pretty familiar to you. The tools that you use to do regular calculations in R (e.g., Chapters <xref ref="introR" /> and <xref ref="mechanics" />) are very much the same ones that you use to transform your variables! To that end, in <xref ref="mathfunc" /> I'll revisit the topic of doing calculations in R because there's a lot of other functions and operations that are worth knowing about.
+        And we're done. We now have three shiny new variables, all of which are useful transformations of the original <c>likert.raw</c> data. All of this should seem pretty familiar to you. The tools that you use to do regular calculations in R (e.g., Chapters <xref ref="ch3-intro-r"/> and <xref ref="ch4-additional-r-concepts"/>) are very much the same ones that you use to transform your variables! To that end, in <xref ref="mathfunc" /> I'll revisit the topic of doing calculations in R because there's a lot of other functions and operations that are worth knowing about.
       </p>
       <p>
         Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. To that end, it may help to note that the following example does all of the calculations using variables inside a data frame, and stores the variables created inside it:
@@ -488,7 +488,7 @@
 ]]></output>
     </console>
       <p>
-        In the example above, I made all the decisions myself. Much like the <c>hist()</c> function that we saw in <xref ref="graphics" />, if you want to you can delegate a lot of the choices to R. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow R to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
+        In the example above, I made all the decisions myself. Much like the <c>hist()</c> function that we saw in <xref ref="ch6-graphics"/>, if you want to you can delegate a lot of the choices to R. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow R to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
       </p>
       <program language="r">
         <input>
@@ -543,24 +543,67 @@
   <section xml:id="mathfunc">
     <title>A few more mathematical functions and operations</title>
     <p>
-      In <xref ref="transform" /> I discussed the ideas behind variable transformations, and showed that a lot of the transformations that you might want to apply to your data are based on fairly simple mathematical functions and operations, of the kind that we discussed in <xref ref="introR" />. In this section I want to return to that discussion, and mention several other mathematical functions and arithmetic operations that I didn't bother to mention when introducing you to R, but are actually quite useful for a lot of real world data analysis. <xref ref="table-mathfunctab" /> gives a brief overview of the various mathematical functions I want to talk about (and some that I already have talked about). Obviously this doesn't even come close to cataloging the range of possibilities available in R, but it does cover a very wide range of functions that are used in day to day data analysis.
+      In <xref ref="transform" /> I discussed the ideas behind variable transformations, and showed that a lot of the transformations that you might want to apply to your data are based on fairly simple mathematical functions and operations, of the kind that we discussed in <xref ref="ch3-intro-r"/>. In this section I want to return to that discussion, and mention several other mathematical functions and arithmetic operations that I didn't bother to mention when introducing you to R, but are actually quite useful for a lot of real world data analysis. <xref ref="table-mathfunctab" /> gives a brief overview of the various mathematical functions I want to talk about (and some that I already have talked about). Obviously this doesn't even come close to cataloging the range of possibilities available in R, but it does cover a very wide range of functions that are used in day to day data analysis.
     </p>
-    <program language="r">
-      <input>
-        knitr::kable(data.frame(stringsAsFactors=FALSE,
-        `mathematical function` = c("square root",
-                                    "absolute value",
-                                    "logarithm (base 10)",
-                                    "logarithm (base e)",
-                                    "exponentiation",
-                                    "rounding to nearest",
-                                    "rounding down",
-                                    "rounding up"),
-        `R function` = c("sqrt()", "abs()", "log10()", "log()", "exp()", "round()", "floor()", "ceiling()"),
-        `example input` = c("sqrt(25)", "abs(-23)", "log10(1000)", "log(1000)", "exp(6.908)", "round(1.32)", "floor(1.32)", "ceiling(1.32)"),
-        answer = c("5", "23", "3",  "6.908",  "1000.245", "1", "1", "2")), caption = "Some of the mathematical functions available in R.")
-      </input>
-    </program>
+        <table xml:id="table-mathfunctab">
+      <title>Some of the mathematical functions available in R.</title>
+      <tabular halign="center">
+        <row header="yes" bottom="minor">
+          <cell halign="left">mathematical function</cell>
+          <cell>R function</cell>
+          <cell>example input</cell>
+          <cell>answer</cell>
+        </row>
+        <row>
+          <cell halign="left">square root</cell>
+          <cell>sqrt()</cell>
+          <cell>sqrt(25)</cell>
+          <cell>5</cell>
+        </row>
+        <row>
+          <cell halign="left">absolute value</cell>
+          <cell>abs()</cell>
+          <cell>abs(-23)</cell>
+          <cell>23</cell>
+        </row>
+        <row>
+          <cell halign="left">logarithm (base 10)</cell>
+          <cell>log10()</cell>
+          <cell>log10(1000)</cell>
+          <cell>3</cell>
+        </row>
+        <row>
+          <cell halign="left">logarithm (base e)</cell>
+          <cell>log()</cell>
+          <cell>log(1000)</cell>
+          <cell>6.908</cell>
+        </row>
+        <row>
+          <cell halign="left">exponentiation</cell>
+          <cell>exp()</cell>
+          <cell>exp(6.908)</cell>
+          <cell>1000.245</cell>
+        </row>
+        <row>
+          <cell halign="left">rounding to nearest</cell>
+          <cell>round()</cell>
+          <cell>round(1.32)</cell>
+          <cell>1</cell>
+        </row>
+        <row>
+          <cell halign="left">rounding down</cell>
+          <cell>floor()</cell>
+          <cell>floor(1.32)</cell>
+          <cell>1</cell>
+        </row>
+        <row>
+          <cell halign="left">rounding up</cell>
+          <cell>ceiling()</cell>
+          <cell>ceiling(1.32)</cell>
+          <cell>2</cell>
+        </row>
+      </tabular>
+    </table>
     <console>
       <output><![CDATA[
 ## NULL
@@ -613,16 +656,29 @@
     </subsection>
     <subsection>
       <title>Modulus and integer division</title>
-      <program language="r">
-        <input>
-          knitr::kable(data.frame(stringsAsFactors=FALSE,
-          `operation` = c("integer division",
-                                      "modulus"),
-          `operator` = c("%/%", "%%"),
-          `example input` = c("42 %/% 10", "42 %% 10"),
-          answer = c("4", "2")), caption = "Two more arithmetic operations that sometimes come in handy")
-        </input>
-      </program>
+            <table xml:id="table-ch7datahandling-7">
+        <title>Two more arithmetic operations that sometimes come in handy</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">operation</cell>
+            <cell>operator</cell>
+            <cell>example input</cell>
+            <cell>answer</cell>
+          </row>
+          <row>
+            <cell halign="left">integer division</cell>
+            <cell>%/%</cell>
+            <cell>42 %/% 10</cell>
+            <cell>4</cell>
+          </row>
+          <row>
+            <cell halign="left">modulus</cell>
+            <cell>%%</cell>
+            <cell>42 %% 10</cell>
+            <cell>2</cell>
+          </row>
+        </tabular>
+      </table>
     <console>
       <output><![CDATA[
 ## [1] 4
@@ -775,7 +831,7 @@
   <section xml:id="subset">
     <title>Extracting a subset of a vector</title>
     <p>
-      One very important kind of data handling is being able to extract a particular subset of the data. For instance, you might be interested only in analysing the data from one experimental condition, or you may want to look closely at the data from people over 50 years in age. To do this, the first step is getting R to extract the subset of the data corresponding to the observations that you're interested in. In this section I'll talk about subsetting as it applies to vectors, extending the discussion from Chapters <xref ref="introR" /> and <xref ref="mechanics" />. In <xref ref="subsetdataframe" /> I'll go on to talk about how this discussion extends to  data frames.
+      One very important kind of data handling is being able to extract a particular subset of the data. For instance, you might be interested only in analysing the data from one experimental condition, or you may want to look closely at the data from people over 50 years in age. To do this, the first step is getting R to extract the subset of the data corresponding to the observations that you're interested in. In this section I'll talk about subsetting as it applies to vectors, extending the discussion from Chapters <xref ref="ch3-intro-r"/> and <xref ref="ch4-additional-r-concepts"/>. In <xref ref="subsetdataframe" /> I'll go on to talk about how this discussion extends to  data frames.
     </p>
     <subsection>
       <title>Refresher</title>
@@ -1163,11 +1219,46 @@
       <p>
         How shall we do this? As usual, there's more than one way. The first way is based on the observation that, since a data frame is basically a table, every element in the data frame has a row number and a column number. So, if we want to pick out a single element, we have to specify the row number <em>and</em> a column number within the square brackets. By convention, the row number comes first. So, for the data frame above, which has 5 rows and 3 columns, the numerical indexing scheme looks like this:
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(data.frame(stringsAsFactors=FALSE, row = c("1","2","3", "4", "5"), col1 = c("[1,1]", "[2,1]", "[3,1]", "[4,1]", "[5,1]"), col2 = c("[1,2]", "[2,2]", "[3,2]", "[4,2]", "[5,2]"), col3 = c("[1,3]", "[2,3]", "[3,3]", "[4,3]", "[5,3]")))
-        </input>
-      </program>
+            <table xml:id="table-ch7datahandling-6">
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">row</cell>
+            <cell>col1</cell>
+            <cell>col2</cell>
+            <cell>col3</cell>
+          </row>
+          <row>
+            <cell halign="left">1</cell>
+            <cell>[1,1]</cell>
+            <cell>[1,2]</cell>
+            <cell>[1,3]</cell>
+          </row>
+          <row>
+            <cell halign="left">2</cell>
+            <cell>[2,1]</cell>
+            <cell>[2,2]</cell>
+            <cell>[2,3]</cell>
+          </row>
+          <row>
+            <cell halign="left">3</cell>
+            <cell>[3,1]</cell>
+            <cell>[3,2]</cell>
+            <cell>[3,3]</cell>
+          </row>
+          <row>
+            <cell halign="left">4</cell>
+            <cell>[4,1]</cell>
+            <cell>[4,2]</cell>
+            <cell>[4,3]</cell>
+          </row>
+          <row>
+            <cell halign="left">5</cell>
+            <cell>[5,1]</cell>
+            <cell>[5,2]</cell>
+            <cell>[5,3]</cell>
+          </row>
+        </tabular>
+      </table>
       <p>
         If I want the 3rd case of the 2nd variable, what I would type is <c>garden[3,2]</c>, and R would print out some output showing that, this element corresponds to the utterance <c>"ee"</c>. However, let's hold off from actually doing that for a moment, because there's something slightly counterintuitive about the specifics of what R does under those circumstances (see <xref ref="dropping" />). Instead, let's aim to solve our original problem, which is to pull out two rows (4 and 5) and two columns (1 and 2). This is fairly simple to do, since R allows us to specify multiple rows and multiple columns. So let's try that:
       </p>
@@ -2694,13 +2785,17 @@
       <p>
         This may seem slightly counterintuitive. With that in mind, it may help to have a quick look <xref ref="table-asciiorder" />, which lists various text characters in the order that R uses.
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(data.frame(stringsAsFactors=FALSE,
-                     Characters = c("! \" # $ % &amp; ’ ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ‘ a b c d e f g h i j k l m n o p q r s t u v w x y z } | {")
-          ), caption = "The ordering of various text characters used by the &lt; and &gt; operators, as well as by the sort() function. Not shown is the “space” character, which actually comes ﬁrst on the list.")
-        </input>
-      </program>
+            <table xml:id="table-asciiorder">
+        <title>The ordering of various text characters used by the &lt; and &gt; operators, as well as by the sort() function. Not shown is the “space” character, which actually comes ﬁrst on the list.</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">Characters</cell>
+          </row>
+          <row>
+            <cell halign="left">! " # $ % &amp; ’ ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [  ] ^ _ ‘ a b c d e f g h i j k l m n o p q r s t u v w x y z } | {</cell>
+          </row>
+        </tabular>
+      </table>
     <console>
       <output><![CDATA[
 ## [1] "aardvark" "zebra"    "swing"
@@ -2793,17 +2888,55 @@
       <p>
         and I want to enter this as a string. Neither the <c>'</c> or <c>"</c> delimiters will solve the problem here, since this string contains both a single quote character and a double quote character. To encode strings like this one, we have to do something a little bit clever.
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(data.frame(stringsAsFactors=FALSE,
-             Escape.sequence = c("`\\n`", "`\\t`", "`\\v`", "`\\b`", "`\\r`", "`\\f`", "`\\a`", "`\\\\`",
-                                 "`\\'`", "`\\\"`"),
-              Interpretation = c("Newline", "Horizontal Tab", "Vertical Tab",
-                                 "Backspace", "Carriage Return", "Form feed",
-                                 "Alert sound", "Backslash", "Single quote", "Double quote")
-          ), caption = "Standard escape characters that are evaluated by some text processing commands, including `cat()`. This convention dates back to the development of the C programming language in the 1970s, and as a consequence a lot of these characters make most sense if you pretend that R is actually a typewriter, as explained in the main text. Type `?Quotes` for the corresponding R help file.")
-        </input>
-      </program>
+            <table xml:id="table-textescape">
+        <title>Standard escape characters that are evaluated by some text processing commands, including `cat()`. This convention dates back to the development of the C programming language in the 1970s, and as a consequence a lot of these characters make most sense if you pretend that R is actually a typewriter, as explained in the main text. Type `?Quotes` for the corresponding R help file.</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">Escape sequence</cell>
+            <cell>Interpretation</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\n</c></cell>
+            <cell>Newline</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\t</c></cell>
+            <cell>Horizontal Tab</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\v</c></cell>
+            <cell>Vertical Tab</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\b</c></cell>
+            <cell>Backspace</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\r</c></cell>
+            <cell>Carriage Return</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\f</c></cell>
+            <cell>Form feed</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\a</c></cell>
+            <cell>Alert sound</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\\</c></cell>
+            <cell>Backslash</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\'</c></cell>
+            <cell>Single quote</cell>
+          </row>
+          <row>
+            <cell halign="left"><c>\"</c></cell>
+            <cell>Double quote</cell>
+          </row>
+        </tabular>
+      </table>
     <console>
       <output><![CDATA[
 ## [1] "aardvark" "zebra"    "swing"
@@ -3207,25 +3340,52 @@
       <p>
         The single-index approach is illustrated in <xref ref="table-matrixindex" /> but I don't really want to focus on it since we'll never really need it for this book, and matrices don't play anywhere near as large a role in this book as data frames do. The reason for these differences is that for this is that, for both data frames and matrices, the "row and column" version exists to allow the human user to interact with the object in the psychologically meaningful way: since both data frames and matrices are basically just tables of data, it's the same in each case. However, the single-index version is really a method for you to interact with the object in terms of its internal structure, and the internals for data frames and matrices are quite different.
       </p>
-      <program language="r">
-        <input>
-          knitr::kable(data.frame(stringsAsFactors=FALSE,
-                   Row = c("Row 1", "Row 2"),
-                 Col.1 = c("[1,1]", "[2,1]"),
-                 Col.2 = c("[1,2]", "[2,2]"),
-                 Col.3 = c("[1,3]", "[2,3]")
-          ), caption = "The row and column version, which is identical to the corresponding indexing scheme for a data frame of the same size.")
-          
-          knitr::kable(data.frame(stringsAsFactors=FALSE,
-                   Row = c("Row 1", "Row 2"),
-                 Col.1 = c(1, 2),
-                 Col.2 = c(3, 4),
-                 Col.3 = c(5, 6)
-          ), caption = "The single-index version, which is quite different to what we would get with a data frame.")
-          
-          
-        </input>
-      </program>
+            <table xml:id="table-matrixindex">
+        <title>The row and column version, which is identical to the corresponding indexing scheme for a data frame of the same size.</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">Row</cell>
+            <cell>Col 1</cell>
+            <cell>Col 2</cell>
+            <cell>Col 3</cell>
+          </row>
+          <row>
+            <cell halign="left">Row 1</cell>
+            <cell>[1,1]</cell>
+            <cell>[1,2]</cell>
+            <cell>[1,3]</cell>
+          </row>
+          <row>
+            <cell halign="left">Row 2</cell>
+            <cell>[2,1]</cell>
+            <cell>[2,2]</cell>
+            <cell>[2,3]</cell>
+          </row>
+        </tabular>
+      </table>
+      <table xml:id="table-ch7datahandling-5">
+        <title>The single-index version, which is quite different to what we would get with a data frame.</title>
+        <tabular halign="center">
+          <row header="yes" bottom="minor">
+            <cell halign="left">Row</cell>
+            <cell>Col 1</cell>
+            <cell>Col 2</cell>
+            <cell>Col 3</cell>
+          </row>
+          <row>
+            <cell halign="left">Row 1</cell>
+            <cell>1</cell>
+            <cell>3</cell>
+            <cell>5</cell>
+          </row>
+          <row>
+            <cell halign="left">Row 2</cell>
+            <cell>2</cell>
+            <cell>4</cell>
+            <cell>6</cell>
+          </row>
+        </tabular>
+      </table>
     <console>
       <output><![CDATA[
 ## NULL
