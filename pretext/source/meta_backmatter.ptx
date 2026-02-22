@@ -24,6 +24,10 @@
   <references>
     <title>References</title>
     
+    <biblio type="raw" xml:id="biblio-Anscombe1973">
+      Anscombe, F. J. (1973). Graphs in statistical analysis. <em>The American Statistician</em>, 27(1), 17-21.
+    </biblio>
+
     <biblio type="raw" xml:id="biblio-Adair1984">
       Adair, G. (1984). The Hawthorne effect: A reconsideration of the methodological artifact. <em>Journal of Applied Psychology</em>, 69, 334-345.
     </biblio>
