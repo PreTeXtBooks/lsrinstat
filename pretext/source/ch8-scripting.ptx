@@ -142,7 +142,7 @@
 Firstly, as you can see from this extract I've done a tiny bit of syntax highlighting here, greying out the comments
 a bit so that you can visually distinguish between the commands that R will execute and the comments which it
 it will ignore. Secondly, notice that I've gone a bit overboard with my commenting: at the top of the script I've
-explained the purpose of the script, who wrote it, and when it was written. Then, throughout the script file itself
+explained the purpose of the script, who wrote it, and when it was written. Then, throughout the script file itself
 I've added a lot of comments explaining what each section of the code actually does. In real life people don't
 tend to comment this thoroughly, but the basic idea is a very good one: you really do want your script to explain
 itself. Nevertheless, as you'd expect R completely ignores all of the commented parts. When we run this script,
