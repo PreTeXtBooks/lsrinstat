@@ -301,15 +301,31 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 <title>Estimating the population mean</title>
 <p>Suppose we go to Port Pirie and 100 of the locals are kind enough to sit through an IQ test. The average IQ score among these people turns out to be <m>\bar{X}=98.5</m>. So what is the true mean IQ for the entire population of Port Pirie? Obviously, we don't know the answer to that question. It could be <m>97.2</m>, but if could also be <m>103.5</m>. Our sampling isn't exhaustive so we cannot give a definitive answer. Nevertheless if I was forced at gunpoint to give a "best guess" I'd have to say <m>98.5</m>. That's the essence of statistical estimation: giving a best guess.</p>
 <p>In this example, estimating the unknown poulation parameter is straightforward. I calculate the sample mean, and I use that as my <em>estimate of the population mean</em>. It's pretty simple, and in the next section I'll explain the statistical justification for this intuitive answer. However, for the moment what I want to do is make sure you recognise that the sample statistic and the estimate of the population parameter are conceptually different things. A sample statistic is a description of your data, whereas the estimate is a guess about the population. With that in mind, statisticians often different notation to refer to them. For instance, if true population mean is denoted <m>\mu</m>, then we would use <m>\hat\mu</m> to refer to our estimate of the population mean. In contrast, the sample mean is denoted <m>\bar{X}</m> or sometimes <m>m</m>. However, in simple random samples, the estimate of the population mean is identical to the sample mean: if I observe a sample mean of <m>\bar{X} = 98.5</m>, then my estimate of the population mean is also <m>\hat\mu = 98.5</m>. To help keep the notation clear, here's a handy table:</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-                   Symbol = c("$\\bar{X}$", "$\\mu$", "$\\hat{\\mu}$"),
-              What.is.it = c("Sample mean", "True population mean",
-                              "Estimate of the population mean"),
-   Do.we.know.what.it.is = c("Yes  calculated from the raw data",
-                              "Almost never known for sure",
-                              "Yes  identical to the sample mean")))]]></input>
-</program>
+<table xml:id="table-estimation-mean-notation">
+  <title>Notation for sample mean and population mean</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">Symbol</cell>
+      <cell>What is it?</cell>
+      <cell>Do we know what it is?</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\bar{X}</m></cell>
+      <cell>Sample mean</cell>
+      <cell>Yes, calculated from the raw data</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\mu</m></cell>
+      <cell>True population mean</cell>
+      <cell>Almost never known for sure</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\hat{\mu}</m></cell>
+      <cell>Estimate of the population mean</cell>
+      <cell>Yes, identical to the sample mean</cell>
+    </row>
+  </tabular>
+</table>
 </subsection>
 <subsection>
 <title>Estimating the population standard deviation</title>
@@ -338,25 +354,46 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 <p>The fix to this systematic bias turns out to be very simple. Here's how it works. Before tackling the standard deviation, let's look at the variance. If you recall from Section <xref ref="var"/>, the sample variance is defined to be the average of the squared deviations from the sample mean. That is: <me>s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2</me> The sample variance <m>s^2</m> is a biased estimator of the population variance <m>\sigma^2</m>. But as it turns out, we only need to make a tiny tweak to transform this into an unbiased estimator. All we have to do is divide by <m>N-1</m> rather than by <m>N</m>. If we do that, we obtain the following formula: <me>\hat\sigma^2 = \frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2</me> This is an unbiased estimator of the population variance <m>\sigma</m>. Moreover, this finally answers the question we raised in Section <xref ref="var"/>. Why did R give us slightly different answers when we used the <c>var()</c> function? Because the <c>var()</c> function calculates <m>\hat\sigma^2</m> not <m>s^2</m>, that's why. A similar story applies for the standard deviation. If we divide by <m>N-1</m> rather than <m>N</m>, our estimate of the population standard deviation becomes: <me>\hat\sigma = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2}</me> and when we use R's built in standard deviation function <c>sd()</c>, what it's doing is calculating <m>\hat\sigma</m>, not <m>s</m>.<fn>Okay, I'm hiding something else here. In a bizarre and counterintuitive twist, since <m>\hat\sigma^2</m> is an unbiased estimator of <m>\sigma^2</m>, you'd assume that taking the square root would be fine, and <m>\hat\sigma</m> would be an unbiased estimator of <m>\sigma</m>. Right? Weirdly, it's not. There's actually a subtle, tiny bias in <m>\hat\sigma</m>. This is just bizarre: <m>\hat\sigma^2</m> is and unbiased estimate of the population variance <m>\sigma^2</m>, but when you take the square root, it turns out that <m>\hat\sigma</m> is a biased estimator of the population standard deviation <m>\sigma</m>. Weird, weird, weird, right? So, why is <m>\hat\sigma</m> biased? The technical answer is "because non-linear transformations (e.g., the square root) don't commute with expectation", but that just sounds like gibberish to everyone who hasn't taken a course in mathematical statistics. Fortunately, it doesn't matter for practical purposes. The bias is small, and in real life everyone uses <m>\hat\sigma</m> and it works just fine. Sometimes mathematics is just annoying.</fn></p>
 <p>One final point: in practice, a lot of people tend to refer to <m>\hat{\sigma}</m> (i.e., the formula where we divide by <m>N-1</m>) as the <em>sample</em> standard deviation. Technically, this is incorrect: the <em>sample</em> standard deviation should be equal to <m>s</m> (i.e., the formula where we divide by <m>N</m>). These aren't the same thing, either conceptually or numerically. One is a property of the sample, the other is an estimated characteristic of the population. However, in almost every real life application, what we actually care about is the estimate of the population parameter, and so people always report <m>\hat\sigma</m> rather than <m>s</m>. This is the right number to report, of course, it's that people tend to get a little bit imprecise about terminology when they write it up, because "sample standard deviation" is shorter than "estimated population standard deviation". It's no big deal, and in practice I do the same thing everyone else does. Nevertheless, I think it's important to keep the two <em>concepts</em> separate: it's never a good idea to confuse "known properties of your sample" with "guesses about the population from which it came". The moment you start thinking that <m>s</m> and <m>\hat\sigma</m> are the same thing, you start doing exactly that.</p>
 <p>To finish this section off, here's another couple of tables to help keep things clear:</p>
-<program language="r">
-<input><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-                   Symbol = c("$s$", "$\\sigma$", "$\\hat{\\sigma}$", "$s^2$",
-                              "$\\sigma^2$", "$\\hat{\\sigma}^2$"),
-              What.is.it = c("Sample standard deviation",
-                              "Population standard deviation",
-                              "Estimate of the population standard deviation", "Sample variance",
-                              "Population variance",
-                              "Estimate of the population variance"),
-   Do.we.know.what.it.is = c("Yes - calculated from the raw data",
-                              "Almost never known for sure",
-                              "Yes - but not the same as the sample standard deviation",
-                              "Yes - calculated from the raw data",
-                              "Almost never known for sure",
-                              "Yes -  but not the same as the sample variance")
-))
-
-]]></input>
-</program>
+<table xml:id="table-estimation-sd-notation">
+  <title>Notation for standard deviation and variance</title>
+  <tabular halign="center">
+    <row header="yes" bottom="minor">
+      <cell halign="left">Symbol</cell>
+      <cell>What is it?</cell>
+      <cell>Do we know what it is?</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>s</m></cell>
+      <cell>Sample standard deviation</cell>
+      <cell>Yes, calculated from the raw data</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\sigma</m></cell>
+      <cell>Population standard deviation</cell>
+      <cell>Almost never known for sure</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\hat{\sigma}</m></cell>
+      <cell>Estimate of the population standard deviation</cell>
+      <cell>Yes, but not the same as the sample standard deviation</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>s^2</m></cell>
+      <cell>Sample variance</cell>
+      <cell>Yes, calculated from the raw data</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\sigma^2</m></cell>
+      <cell>Population variance</cell>
+      <cell>Almost never known for sure</cell>
+    </row>
+    <row>
+      <cell halign="left"><m>\hat{\sigma}^2</m></cell>
+      <cell>Estimate of the population variance</cell>
+      <cell>Yes, but not the same as the sample variance</cell>
+    </row>
+  </tabular>
+</table>
 </subsection>
 </section>
 <section xml:id="ci">
