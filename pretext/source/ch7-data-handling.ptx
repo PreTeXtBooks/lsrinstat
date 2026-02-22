@@ -365,7 +365,7 @@
         </input>
       </program>
       <p>
-        And we're done. We now have three shiny new variables, all of which are useful transformations of the original <c>likert.raw</c> data. All of this should seem pretty familiar to you. The tools that you use to do regular calculations in R (e.g., Chapters <xref ref="introR" /> and <xref ref="mechanics" />) are very much the same ones that you use to transform your variables! To that end, in <xref ref="mathfunc" /> I'll revisit the topic of doing calculations in R because there's a lot of other functions and operations that are worth knowing about.
+        And we're done. We now have three shiny new variables, all of which are useful transformations of the original <c>likert.raw</c> data. All of this should seem pretty familiar to you. The tools that you use to do regular calculations in R (e.g., Chapters <xref ref="ch3-intro-r"/> and <xref ref="ch4-additional-r-concepts"/>) are very much the same ones that you use to transform your variables! To that end, in <xref ref="mathfunc" /> I'll revisit the topic of doing calculations in R because there's a lot of other functions and operations that are worth knowing about.
       </p>
       <p>
         Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. To that end, it may help to note that the following example does all of the calculations using variables inside a data frame, and stores the variables created inside it:
@@ -488,7 +488,7 @@
 ]]></output>
     </console>
       <p>
-        In the example above, I made all the decisions myself. Much like the <c>hist()</c> function that we saw in <xref ref="graphics" />, if you want to you can delegate a lot of the choices to R. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow R to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
+        In the example above, I made all the decisions myself. Much like the <c>hist()</c> function that we saw in <xref ref="ch6-graphics"/>, if you want to you can delegate a lot of the choices to R. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow R to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
       </p>
       <program language="r">
         <input>
@@ -543,7 +543,7 @@
   <section xml:id="mathfunc">
     <title>A few more mathematical functions and operations</title>
     <p>
-      In <xref ref="transform" /> I discussed the ideas behind variable transformations, and showed that a lot of the transformations that you might want to apply to your data are based on fairly simple mathematical functions and operations, of the kind that we discussed in <xref ref="introR" />. In this section I want to return to that discussion, and mention several other mathematical functions and arithmetic operations that I didn't bother to mention when introducing you to R, but are actually quite useful for a lot of real world data analysis. <xref ref="table-mathfunctab" /> gives a brief overview of the various mathematical functions I want to talk about (and some that I already have talked about). Obviously this doesn't even come close to cataloging the range of possibilities available in R, but it does cover a very wide range of functions that are used in day to day data analysis.
+      In <xref ref="transform" /> I discussed the ideas behind variable transformations, and showed that a lot of the transformations that you might want to apply to your data are based on fairly simple mathematical functions and operations, of the kind that we discussed in <xref ref="ch3-intro-r"/>. In this section I want to return to that discussion, and mention several other mathematical functions and arithmetic operations that I didn't bother to mention when introducing you to R, but are actually quite useful for a lot of real world data analysis. <xref ref="table-mathfunctab" /> gives a brief overview of the various mathematical functions I want to talk about (and some that I already have talked about). Obviously this doesn't even come close to cataloging the range of possibilities available in R, but it does cover a very wide range of functions that are used in day to day data analysis.
     </p>
         <table xml:id="table-mathfunctab">
       <title>Some of the mathematical functions available in R.</title>
@@ -831,7 +831,7 @@
   <section xml:id="subset">
     <title>Extracting a subset of a vector</title>
     <p>
-      One very important kind of data handling is being able to extract a particular subset of the data. For instance, you might be interested only in analysing the data from one experimental condition, or you may want to look closely at the data from people over 50 years in age. To do this, the first step is getting R to extract the subset of the data corresponding to the observations that you're interested in. In this section I'll talk about subsetting as it applies to vectors, extending the discussion from Chapters <xref ref="introR" /> and <xref ref="mechanics" />. In <xref ref="subsetdataframe" /> I'll go on to talk about how this discussion extends to  data frames.
+      One very important kind of data handling is being able to extract a particular subset of the data. For instance, you might be interested only in analysing the data from one experimental condition, or you may want to look closely at the data from people over 50 years in age. To do this, the first step is getting R to extract the subset of the data corresponding to the observations that you're interested in. In this section I'll talk about subsetting as it applies to vectors, extending the discussion from Chapters <xref ref="ch3-intro-r"/> and <xref ref="ch4-additional-r-concepts"/>. In <xref ref="subsetdataframe" /> I'll go on to talk about how this discussion extends to  data frames.
     </p>
     <subsection>
       <title>Refresher</title>

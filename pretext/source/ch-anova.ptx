@@ -55,7 +55,7 @@ print( clin.trial )]]></input>
 ## 18 joyzepam        CBT       1.4
 ]]></output>
     </console>
-    <p>For the purposes of this chapter, what we're really interested in is the effect of <c>drug</c> on <c>mood.gain</c>. The first thing to do is calculate some descriptive statistics and draw some graphs. In Chapter <xref ref="descriptives"/> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <c>xtabs()</c> function to see how many people we have in each group:</p>
+    <p>For the purposes of this chapter, what we're really interested in is the effect of <c>drug</c> on <c>mood.gain</c>. The first thing to do is calculate some descriptive statistics and draw some graphs. In Chapter <xref ref="ch5-descriptive-statistics"/> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <c>xtabs()</c> function to see how many people we have in each group:</p>
     <program language="r">
   <input><![CDATA[
 xtabs( ~drug, clin.trial )]]></input>
@@ -93,7 +93,7 @@ plotmeans(  formula = mood.gain ~ drug,  # plot mood.gain by drug
              n.label = FALSE              # don't display sample size
  )]]></input>
 </program>
-    <p>The results are shown in Figure <xref ref="fig:moodgain"/>, which plots the average mood gain for all three conditions; error bars show 95\% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn't as large.</p>
+    <p>The results are shown in Figure <xref ref="fig-moodgain"/>, which plots the average mood gain for all three conditions; error bars show 95\% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn't as large.</p>
     <p>The question that we want to answer is: are these difference "real", or are they just due to chance?</p>
     <program language="r">
   <input><![CDATA[
@@ -120,7 +120,7 @@ colour <- TRUE
     <title>How ANOVA works</title>
 
     <p>In order to answer the question posed by our clinical trial data, we're going to run a one-way ANOVA. As usual, I'm going to start by showing you how to do it the hard way, building the statistical tool from the ground up and showing you how you could do it in R if you didn't have access to any of the cool built-in ANOVA functions. And, as always, I hope you'll read it carefully, try to do it the long way once or twice to make sure you really understand how ANOVA works, and then -- once you've grasped the concept -- never <em>ever</em> do it this way again.</p>
-    <p>The experimental design that I described in the previous section strongly suggests that we're interested in comparing the average mood change for the three different drugs. In that sense, we're talking about an analysis similar to the <m><![CDATA[t]]></m>-test (Chapter <xref ref="ttest"/>, but involving more than two groups. If we let <m><![CDATA[\mu_P]]></m> denote the population mean for the mood change induced by the placebo, and let <m><![CDATA[\mu_A]]></m> and <m><![CDATA[\mu_J]]></m> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
+    <p>The experimental design that I described in the previous section strongly suggests that we're interested in comparing the average mood change for the three different drugs. In that sense, we're talking about an analysis similar to the <m><![CDATA[t]]></m>-test (Chapter <xref ref="ch13-ttest"/>, but involving more than two groups. If we let <m><![CDATA[\mu_P]]></m> denote the population mean for the mood change induced by the placebo, and let <m><![CDATA[\mu_A]]></m> and <m><![CDATA[\mu_J]]></m> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
     <me><![CDATA[\begin{array}{rcl}
 H_0 &:& \mbox{it is true that } \mu_P = \mu_A = \mu_J
 \end{array}]]></me>
@@ -927,7 +927,7 @@ etaSquared( x = my.anova )]]></input>
         </row>
       </tabular>
     </table>
-    <p>By rejecting the null hypothesis, we've decided that we <em>don't</em> believe that \#1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in Figure <xref ref="fig:moodgain"/>, it's tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there's no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
+    <p>By rejecting the null hypothesis, we've decided that we <em>don't</em> believe that \#1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in Figure <xref ref="fig-moodgain"/>, it's tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there's no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
   <subsection>
     <title>Running "pairwise" <m><![CDATA[t]]></m>-tests</title>
 
@@ -948,7 +948,7 @@ t.test( formula = mood.gain ~ drug,
        var.equal = TRUE 
 )]]></input>
 </program>
-    <p>See Chapter <xref ref="datahandling"/> if you've forgotten how the <c>%in%</c> operator works. Regardless of which version we do, R will print out the results of the <m><![CDATA[t]]></m>-test, though I haven't included that output here. If we go on to do this for all possible pairs of variables, we can look to see which (if any) pairs of groups are significantly different to each other. This "lots of <m><![CDATA[t]]></m>-tests idea" isn't a bad strategy, though as we'll see later on there are some problems with it. However, for the moment our bigger problem is that it's a <em>pain</em> to have to type in such a long command over and over again: for instance, if your experiment has 10 groups, then you have to run 45 <m><![CDATA[t]]></m>-tests. That's way too much typing.</p>
+    <p>See Chapter <xref ref="ch7-data-handling"/> if you've forgotten how the <c>%in%</c> operator works. Regardless of which version we do, R will print out the results of the <m><![CDATA[t]]></m>-test, though I haven't included that output here. If we go on to do this for all possible pairs of variables, we can look to see which (if any) pairs of groups are significantly different to each other. This "lots of <m><![CDATA[t]]></m>-tests idea" isn't a bad strategy, though as we'll see later on there are some problems with it. However, for the moment our bigger problem is that it's a <em>pain</em> to have to type in such a long command over and over again: for instance, if your experiment has 10 groups, then you have to run 45 <m><![CDATA[t]]></m>-tests. That's way too much typing.</p>
     <p>To help keep the typing to a minimum, R provides a function called <c>pairwise.t.test()</c> that automatically runs all of the <m><![CDATA[t]]></m>-tests for you. There are three arguments that you need to specify, the outcome variable <c>x</c>, the group variable <c>g</c>, and the <c>p.adjust.method</c> argument, which "adjusts" the <m><![CDATA[p]]></m>-value in one way or another. I'll explain <m><![CDATA[p]]></m>-value adjustment in a moment, but for now we can just set <c>p.adjust.method = "none"</c> since we're not doing any adjustments. For our example, here's what we do:</p>
     <program language="r">
   <input><![CDATA[
@@ -1289,12 +1289,12 @@ shapiro.test( x = my.anova.residuals )   # run Shapiro-Wilk test]]></input>
 ## W = 0.96019, p-value = 0.6053
 ]]></output>
     </console>
-    <p>The histogram and QQ plot are both look pretty normal to me.<fn>Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from Chapter <xref ref="graphics"/> to help you draw cleaner looking images.</fn> This is supported by the results of our Shapiro-Wilk test (<m><![CDATA[W = .96]]></m>, <m><![CDATA[p = .61]]></m>) which finds no indication that normality is violated.</p>
+    <p>The histogram and QQ plot are both look pretty normal to me.<fn>Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from Chapter <xref ref="ch6-graphics"/> to help you draw cleaner looking images.</fn> This is supported by the results of our Shapiro-Wilk test (<m><![CDATA[W = .96]]></m>, <m><![CDATA[p = .61]]></m>) which finds no indication that normality is violated.</p>
   </section>
   <section xml:id="kruskalwallis">
     <title>Removing the normality assumption</title>
 
-    <p>Now that we've seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn't rely on any particular assumption about the kind of distribution involved). We've seen non-parametric tests before, in Chapter <xref ref="ttest"/>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you've got three or more groups, you can use the <em>Kruskal-Wallis rank sum test</em> [@KruskalWallis1952]. So that's the test we'll talk about next.</p>
+    <p>Now that we've seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn't rely on any particular assumption about the kind of distribution involved). We've seen non-parametric tests before, in Chapter <xref ref="ch13-ttest"/>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you've got three or more groups, you can use the <em>Kruskal-Wallis rank sum test</em> [@KruskalWallis1952]. So that's the test we'll talk about next.</p>
   <subsection>
     <title>The logic behind the Kruskal-Wallis test</title>
 
