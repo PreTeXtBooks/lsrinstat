@@ -1017,7 +1017,7 @@
       </p>
       <figure xml:id="fig-aflsd">
         <caption>An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the "approximately 68% rule" discussed in the main text.</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/aflSD.png"/>
       </figure>
     </subsection>
     <subsection xml:id="mad">
@@ -1118,7 +1118,7 @@
     </p>
     <figure xml:id="fig-skewness">
       <caption>An illustration of skewness. On the left we have a negatively skewed data set (skewness <m>= -.93</m>), in the middle we have a data set with no skew (technically, skewness <m>= -.006</m>), and on the right we have a positively skewed data set (skewness <m>= .93</m>).</caption>
-      <image source="generated/plot.png"/>
+      <image source="generated/skewness.png"/>
     </figure>
     <p>
       Since it's the more interesting of the two, let's start by talking about the <term>skewness</term>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As <xref ref="fig-skewness" /> illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is "longer" than the upper tail) and not so many extremely large values (left panel), then we say that the data are *negatively skewed*. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are *positively skewed*. That's the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows <me> \mbox{skewness}(X) = \frac{1}{N \hat{\sigma}^3} \sum_{i=1}^N (X_i - \bar{X})^3 </me> where <m>N</m> is the number of observations, <m>\bar{X}</m> is the sample mean, and <m>\hat{\sigma}</m> is the standard deviation (the "divide by <m>N-1</m>" version, that is). Perhaps more helpfully, it might be useful to point out that the <c>psych</c> package contains a <c>skew()</c> function that you can use to calculate skewness. So if we wanted to use this function to calculate the skewness of the <c>afl.margins</c> data, we'd first need to load the package
@@ -1149,7 +1149,7 @@
     </p>
     <figure xml:id="fig-kurtosis">
       <caption>An illustration of kurtosis. On the left, we have a "platykurtic" data set (kurtosis = <m>-.95</m>), meaning that the data set is "too flat". In the middle we have a "mesokurtic" data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a "leptokurtic" data set (kurtosis <m>= 2.12</m>) indicating that the data set is "too pointy". Note that kurtosis is measured with respect to a normal curve (black line)</caption>
-      <image source="generated/plot.png"/>
+      <image source="generated/kurtosis.png"/>
     </figure>
     <p>
       By convention, we say that the "normal curve" (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:
@@ -1676,7 +1676,7 @@
       </p>
       <figure xml:id="fig-parenthood">
         <caption>Histograms for the three interesting variables in the <c>parenthood</c> data set</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/parenthood.png"/>
       </figure>
       <p>
         One thing to note: just because R can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in <xref ref="table-parenthoodtab" />.<fn>Actually, even that table is more than I'd bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</fn>  Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.
@@ -1696,11 +1696,11 @@
       <title>The strength and direction of a relationship</title>
       <figure xml:id="fig-scatterparent1a">
         <caption>Scatterplot showing the relationship between <c>dan.sleep</c> and <c>dan.grump</c></caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/scatterparent1a.png"/>
       </figure>
       <figure xml:id="fig-scatterparent1b">
         <caption>Scatterplot showing the relationship between <c>baby.sleep</c> and <c>dan.grump</c></caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/scatterparent1b.png"/>
       </figure>
       <p>
         We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let's compare the relationship between <c>dan.sleep</c> and <c>dan.grump</c> (<xref ref="fig-scatterparent1a" /> with that between <c>baby.sleep</c> and <c>dan.grump</c> (<xref ref="fig-scatterparent1b" />. When looking at these two plots side by side, it's clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it's also pretty obvious that the relationship between <c>dan.sleep</c> and <c>dan.grump</c> is <em>stronger</em> than the relationship between <c>baby.sleep</c> and <c>dan.grump</c>. The plot on the left is "neater" than the one on the right. What it feels like is that if you want to predict what my mood is, it'd help you a little bit to know how many hours my son slept, but it'd be <em>more</em> helpful to know how many hours I slept.
@@ -1720,7 +1720,7 @@
       </p>
       <figure xml:id="fig-corr">
         <caption>Illustration of the effect of varying the strength and direction of a correlation</caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/corr.png"/>
       </figure>
       <p>
         The formula for the Pearson's correlation coefficient can be written in several different ways. I think the simplest way to write down the formula is to break it into two steps. Firstly, let's introduce the idea of a <term>covariance</term>. The covariance between two variables <m>X</m> and <m>Y</m> is a generalisation of the notion of the variance; it's a mathematically simple way of describing the relationship between two variables that isn't terribly informative to humans: <me> \mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right) </me> Because we're multiplying (i.e., taking the "product" of) a quantity that depends on <m>X</m> by a quantity that depends on <m>Y</m> and then averaging<fn>Just like we saw with the variance and the standard deviation, in practice we divide by <m>N-1</m> rather than <m>N</m>.</fn>, you can think of the formula for the covariance as an "average cross product" between <m>X</m> and <m>Y</m>. The covariance has the nice property that, if <m>X</m> and <m>Y</m> are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure@reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which <m>X</m> and <m>Y</m> are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if <m>X</m> refers to the <c>dan.sleep</c> variable (units: hours) and <m>Y</m> refers to the <c>dan.grump</c> variable (units: grumps), then the units for their covariance are "hours <m>\times</m> grumps". And I have no freaking idea what that would even mean.
@@ -1821,7 +1821,7 @@
       <title>Spearman's rank correlations</title>
       <figure xml:id="fig-rankcorrpic">
         <caption>The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <m>r = .91</m>. However, the interesting thing to note here is that there's actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <m>rho = 1</m>. With such a small data set, however, it's an open question as to which version better describes the actual relationship involved. </caption>
-        <image source="generated/plot.png"/>
+        <image source="generated/rankcorrpic.png"/>
       </figure>
       <p>
         The Pearson correlation coefficient is useful for a lot of things, but it does have shortcomings. One issue in particular stands out: what it actually measures is the strength of the <em>linear</em> relationship between two variables. In other words, what it gives you is a measure of the extent to which the data all tend to fall on a single, perfectly straight line. Often, this is a pretty good approximation to what we mean when we say "relationship", and so the Pearson correlation is a good thing to calculation. Sometimes, it isn't.
