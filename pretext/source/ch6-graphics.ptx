@@ -48,7 +48,7 @@
       <caption>Our first plot</caption>
       <image source="generated/firstplot.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
@@ -56,7 +56,7 @@
           plot( Fibonacci )
         </input>
       </program>
-    </remark>
+    
     <p>
       As you can see, what R has done is plot the <em>values</em> stored in the <c>Fibonacci</c> variable on the vertical axis (y-axis) and the corresponding <em>index</em> on the horizontal axis (x-axis). In other words, since the 4th element of the vector has a value of 3, we get a dot plotted at the location (4,3). That's pretty straightforward, and the image in <xref ref="fig-firstplot" /> is probably pretty close to what you would have had in mind when I suggested that we plot the <c>Fibonacci</c> data. However, there's quite a lot of customisation options available to you, so we should probably spend a bit of time looking at some of those options. So, be warned: this ends up being a fairly long section, because there's so many possibilities open to you. Don't let it overwhelm you though... while all of the options discussed here are handy to know about, you can get by just fine only knowing a few of them. The only reason I've included all this stuff right at the beginning is that it ends up making the rest of the chapter a lot more readable!
     </p>
@@ -98,7 +98,7 @@
         <caption>How to add your own title, subtitle, x-axis label and y-axis label to the plot.</caption>
         <image source="generated/secondplot.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -111,7 +111,7 @@
             
           </input>
         </program>
-      </remark>
+      
       <p>
         It's more or less as you'd expect. The plot itself is identical to the one we drew in <xref ref="fig-firstplot" />, except for the fact that we've changed the axis labels, and added a title and a subtitle. Even so, there's a couple of interesting features worth calling your attention to. Firstly, notice that the subtitle is drawn below the plot, which I personally find annoying; as a consequence I almost never use subtitles. You may have a different opinion, of course, but the important thing is that you remember where the subtitle actually goes.  Secondly, notice that R has decided to use boldface text and a larger font size for the title. This is one of my most hated default settings in R graphics, since I feel that it draws too much attention to the title. Generally, while I do want my reader to look at the title, I find that the R defaults are a bit overpowering, so I often like to change the settings. To that end, there are a bunch of graphical parameters that you can use to customise the font style:
       </p>
@@ -136,7 +136,7 @@
         <caption>How to customise the appearance of the titles and labels.</caption>
         <image source="generated/thirdplot.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -150,7 +150,7 @@
              		  col.lab = "gray50" )
           </input>
         </program>
-      </remark>
+      
       <p>
         Although this command is quite long, it's not complicated: all it does is override a bunch of the default parameter values. The only difficult aspect to this is that you have to remember what each of these parameters is called, and what all the different values are. And in practice I never remember: I have to look up the help documentation every time, or else look it up in this book.
       </p>
@@ -211,8 +211,8 @@
         </li>
       </ul>
       <figure xml:id="fig-pch">
-        <caption>Changing the plotted characters</caption>
-        <image source="generated/pch.png"/>
+        <caption>Changing the <c>pch</c> parameter (panel a) or the <c>lty</c> parameter (panel b).</caption>
+        <image source="pchimages.png"/>
       </figure>
       <ul>
         <li>
@@ -222,10 +222,6 @@
           <p><em>Line type</em>: <c>lty</c>. The <em>l</em>ine <em>ty</em>pe parameter describes the kind of line that R draws. It has seven values which you can specify using a number between <c>0</c> and <c>7</c>, or using a meaningful character string: <c>"blank"</c>, <c>"solid"</c>, <c>"dashed"</c>, <c>"dotted"</c>, <c>"dotdash"</c>, <c>"longdash"</c>, or <c>"twodash"</c>. Note that the "blank" version (value 0) just means that R doesn't draw the lines at all. The other six versions are shown in <xref ref="fig-lty" />.</p>
         </li>
       </ul>
-      <figure xml:id="fig-lty">
-        <caption>Line types</caption>
-        <image source="generated/lty.png"/>
-      </figure>
       <ul>
         <li>
           <p><em>Line width</em>: <c>lwd</c>. The last graphical parameter in this category that I want to mention is the <em>l</em>ine <em>w</em>i<em>d</em>th parameter, which is just a number specifying the width of the line. The default value is 1. Not surprisingly, larger values produce thicker lines and smaller values produce thinner lines. Try playing around with different values of <c>lwd</c> to see what happens.</p>
@@ -238,7 +234,7 @@
         <caption>Customising various aspects to the plot itself.</caption>
         <image source="generated/fifthplot.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -251,7 +247,7 @@
             		 lwd=4)
           </input>
         </program>
-      </remark>
+      
     </subsection>
     <subsection>
       <title>Changing the appearance of the axes</title>
@@ -279,7 +275,7 @@
         <caption>Altering the scale and appearance of the plot axes.</caption>
         <image source="generated/fourthplot.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -292,7 +288,7 @@
              )
           </input>
         </program>
-      </remark>
+      
       <p>
         Before moving on, I should point out that there are several graphical parameters relating to the axes, the box, and the general appearance of the plot which allow finer grain control over the appearance of the axes and the annotations.
       </p>
@@ -314,7 +310,7 @@
         <caption>Other ways to customise the axes</caption>
         <image source="generated/sixthplot.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -324,7 +320,7 @@
             		 las = 1 )         # rotate the text
           </input>
         </program>
-      </remark>
+      
     </subsection>
     <subsection>
       <title>Don't panic</title>
@@ -357,26 +353,26 @@
       <caption>A histogram with too few bins</caption>
       <image source="generated/hist1b.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
           hist( x = afl.margins, breaks = 3 )
         </input>
       </program>
-    </remark>
+    
     <figure xml:id="fig-hist1c">
       <caption>A histogram with too many bins</caption>
       <image source="generated/hist1c.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
           hist( x = afl.margins, breaks = 0:116 )
         </input>
       </program>
-    </remark>
+    
     <p>
       In <xref ref="fig-hist1c" />, the bins are only 1 point wide. As a result, although the plot is very informative (it displays the entire data set with no loss of information at all!) the plot is very hard to interpret, and feels quite cluttered. On the other hand, the plot in <xref ref="fig-hist1b" /> has a bin width of 50 points, and has the opposite problem: it's very easy to "read" this plot, but it doesn't convey a lot of information. One gets the sense that this histogram is hiding too much. In short, the way in which you specify the breaks has a big effect on what the histogram looks like, so it's important to make sure you choose the breaks sensibly. In general R does a pretty good job of selecting the breaks on its own, since it makes use of some quite clever tricks that statisticians have devised for automatically selecting the right bins for a histogram, but nevertheless it's usually a good idea to play around with the breaks a bit to see what happens.
     </p>
@@ -406,7 +402,7 @@
         <caption>A histogram with histogram specific customisations</caption>
         <image source="generated/hist1d.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -422,7 +418,7 @@
             )
           </input>
         </program>
-      </remark>
+      
       <p>
         Overall, this is a much nicer histogram than the default ones.
       </p>
@@ -531,14 +527,14 @@
       <caption>A basic boxplot</caption>
       <image source="generated/boxplot1a.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
           boxplot( x = afl.margins, range = 100 )
         </input>
       </program>
-    </remark>
+    
     <p>
       What R draws is shown in <xref ref="fig-boxplot1a" />, the most basic boxplot possible. When you look at this plot, this is how you should interpret it: the thick line in the middle of the box is the median; the box itself spans the range from the 25th percentile to the 75th percentile; and the "whiskers" cover the full range from the minimum value to the maximum value. This is summarised in the annotated plot in <xref ref="fig-boxplot1b" />.
     </p>
@@ -553,14 +549,14 @@
       <caption>By default, R will only extent the whiskers a distance of 1.5 times the interquartile range, and will plot any points that fall outside that range separately</caption>
       <image source="generated/boxplot2a.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
           boxplot( afl.margins )
         </input>
       </program>
-    </remark>
+    
     <subsection>
       <title>Visual style of your boxplot</title>
       <p>
@@ -676,19 +672,12 @@
           which( suspicious.cases )
         </input>
       </program>
+<pre>
+137
+</pre>
       <p>
         although in real life I probably wouldn't bother creating the <c>suspicious.cases</c> variable: I'd just cut out the middle man and use a command like <c>which( afl.margins &gt; 300 )</c>. In any case, what this has done is shown me that the outlier corresponds to game 137. Then, I find the recorded margin for that game:
       </p>
-      <program language="r">
-        <input>
-          afl.margins[137]
-        </input>
-      </program>
-    <console>
-      <output><![CDATA[
-## [1] 333
-]]></output>
-    </console>
       <p>
         Hm. That definitely doesn't sound right. So then I go back to the original data source (the internet!) and I discover that the actual margin of that game was 33 points. Now it's pretty clear what happened. Someone must have typed in the wrong number. Easily fixed, just by typing <c>afl.margins[137] &lt;- 33</c>.   While this might seem like a silly example, I should stress that this kind of thing actually happens a lot. Real world data sets are often riddled with stupid errors, especially when someone had to type something into a computer at some point. In fact, there's actually a name for this phase of data analysis, since in practice it can waste a huge chunk of our time: <term>data cleaning</term>. It involves searching for typos, missing data and all sorts of other obnoxious errors in raw data files.<fn>Sometimes it's convenient to have the boxplot automatically label the outliers for you. The original <c>boxplot()</c> function doesn't allow you to do this; however, the <c>Boxplot()</c> function in the <c>car</c> package does. The design of the <c>Boxplot()</c> function is very similar to <c>boxplot()</c>. It just adds a few new arguments that allow you to tweak the labelling scheme. I'll leave it to the reader to check this out.</fn>
       </p>
@@ -758,7 +747,7 @@
         <caption>Boxplots showing the AFL winning margins for the 24 years from 1987 to 2010 inclusive. This is the default plot created by R, with no annotations added and no changes to the visual design. It's pretty readable, though at a minimum you'd want to include some basic annotations labelling the axes. Compare and contrast with <xref ref="fig-multipleboxplots2" /></caption>
         <image source="generated/multipleboxplots.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -767,7 +756,7 @@
             )
           </input>
         </program>
-      </remark>
+      
       <p>
         Even this, the default version of the plot, gives a sense of why it's sometimes useful to choose boxplots instead of histograms. Even before taking the time to turn this basic output into something more readable, it's possible to get a good sense of what the data look like from year to year without getting overwhelmed with too much detail. Now imagine what would have happened if I'd tried to cram 24 histograms into this space: no chance at all that the reader is going to learn anything useful.
       </p>
@@ -778,7 +767,7 @@
         <caption>A cleaned up version of <xref ref="fig-multipleboxplots" />. Notice that I've used a very minimalist design for the boxplots, so as to focus the eye on the medians. I've also converted the medians to solid dots, to convey a sense that year to year variation in the median should be thought of as a single coherent plot (similar to what we did when plotting the <c>Fibonacci</c> variable earlier). The size of outliers has been shrunk, because they aren't actually very interesting. In contrast, I've added a fill colour to the boxes, to make it easier to look at the trend in the interquartile range across years.</caption>
         <image source="generated/multipleboxplots2.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
@@ -803,7 +792,7 @@
              )
           </input>
         </program>
-      </remark>
+      
       <p>
         Of course, given that the command is that long, you might have guessed that I didn't spend ages typing all that rubbish in over and over again. Instead, I wrote a script, which I kept tweaking until it produced the figure that I wanted. We'll talk about scripts later in <xref ref="scripts" />, but given the length of the command I thought I'd remind you that there's an easier way of trying out different commands than typing them all in over and over.
       </p>
@@ -821,7 +810,7 @@
       <caption>the default scatterplot that R produces</caption>
       <image source="generated/scattera.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
@@ -831,7 +820,7 @@
            )
         </input>
       </program>
-    </remark>
+    
     <p>
       The second way do to it is to use a "formula and data frame" format, but I'm going to avoid using it.<fn>The reason is that there's an annoying design flaw in the way the <c>plot()</c> function handles this situation. The problem is that the <c>plot.formula()</c> function uses different names to for the arguments than the <c>plot()</c> function expects. As a consequence, you can't specify the formula argument by name. If you just specify a formula as the first argument without using the name it works fine, because the <c>plot()</c> function thinks the formula corresponds to the <c>x</c> argument, and the <c>plot.formula()</c> function thinks it corresponds to the <c>formula</c> argument; and surprisingly, everything works nicely. But the moment that you, the user, tries to be unambiguous about the name, one of those two functions is going to cry.</fn> For now, let's just stick with the <c>x</c> and <c>y</c> version. If we do this, the result is the very basic scatterplot shown in <xref ref="fig-scattera" />. This serves fairly well, but there's a few customisations that we probably want to make in order to have this work properly. As usual, we want to add some labels, but there's a few other things we might want to do as well. Firstly, it's sometimes useful to rescale the plots. In <xref ref="fig-scattera" /> R has selected the scales so that the data fall neatly in the middle. But, in this case, we happen to know that the grumpiness measure falls on a scale from 0 to 100, and the hours slept falls on a natural scale between 0 hours and about 12 or so hours (the longest I can sleep in real life). So the command I might use to draw this is:
     </p>
@@ -856,7 +845,7 @@
       <caption>A scatterplot with scatter plot specific customisations</caption>
       <image source="generated/scatterb.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
@@ -876,7 +865,7 @@
           )
         </input>
       </program>
-    </remark>
+    
     <p>
       And when I do so, R plots the line over the top of the plot that I drew using the previous command. In most realistic data analysis situations you absolutely don't want to just guess where the line through the points goes, since there's about a billion different ways in which you can get R to do a better job. However, it does at least illustrate the basic idea.
     </p>
@@ -932,14 +921,14 @@
         <caption>A scatterplot matrix from the `pairs() function</caption>
         <image source="generated/pairs.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
             pairs( x = parenthood ) # draw corresponding scatterplot matrix
           </input>
         </program>
-      </remark>
+      
       <p>
         The output of the <c>pairs()</c> command is shown in <xref ref="fig-pairs" />.  An alternative way of calling the <c>pairs()</c> function, which can be useful in some situations, is to specify the variables to include using a one-sided formula. For instance, this
       </p>
@@ -967,7 +956,7 @@
       </input>
     </program>
     <p>
-      This isn't exactly the prettiest of frequency tables, of course. I'm only doing it this way so that you can see the <c>barplot()</c> function in it's "purest" form: when the input is just an ordinary numeric vector. That being said, I'm obviously going to need the team names to create some labels, so let's create a variable with those. I'll do this using the <c>levels()</c> function, which outputs the names of all the levels of a factor (see <xref ref="factors" />:
+      This isn't exactly the prettiest of frequency tables, of course. I'm only doing it this way so that you can see the <c>barplot()</c> function in it's "purest" form: when the input is just an ordinary numeric vector. That being said, I'm obviously going to need the team names to create some labels, so let's create a variable with those. I'll do this using the <c>levels()</c> function, which outputs the names of all the levels of a factor (see <xref ref="factors" />):
     </p>
     <program language="r">
       <input>
@@ -998,14 +987,14 @@
       <caption>we've added the labels, but because the text runs horizontally R only includes a few of them</caption>
       <image source="generated/bar1b.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
           	barplot( height = freq, names.arg = teams )
         </input>
       </program>
-    </remark>
+    
     <p>
       This is an improvement, but not much of an improvement. R has only included a few of the labels, because it can't fit them in the plot. This is the same behaviour we saw earlier with the multiple-boxplot graph in <xref ref="fig-multipleboxplots" />. However, in <xref ref="fig-multipleboxplots" /> it wasn't an issue: it's pretty obvious from inspection that the two unlabelled plots in between 1987 and 1990 must correspond to the data from 1988 and 1989. However, the fact that <c>barplot()</c> has omitted the names of every team in between Adelaide and Fitzroy is a lot more problematic.
     </p>
@@ -1016,7 +1005,7 @@
       <caption>we've rotated the labels, but now the text is too long to fit</caption>
       <image source="generated/bar1c.png"/>
     </figure>
-    <remark>
+    
       <title>R Code</title>
       <program language="r">
         <input>
@@ -1025,7 +1014,7 @@
           			las = 2)            # rotate the labels
         </input>
       </program>
-    </remark>
+    
     <p>
       ... the result is the bar graph shown in <xref ref="fig-bar1c" />. We've fixed the problem, but we've created a new one:  the axis labels don't quite fit anymore. To fix this, we have to be a bit cleverer again. A simple fix would be to use shorter names rather than the full name of all teams, and in many situations that's probably the right thing to do. However, at other times you really do need to create a bit more space to add your labels, so I'll show you how to do that.
     </p>
@@ -1049,22 +1038,21 @@
         <caption>we fix this by expanding the margin at the bottom, and add several other customisations to make the chart a bit nicer</caption>
         <image source="generated/bar1d.png"/>
       </figure>
-      <remark>
+      
         <title>R Code</title>
         <program language="r">
           <input>
-            	  old &lt;- par( no.readonly=TRUE )
-            	  par( mar = c( 10.1, 4.1, 4.1, 2.1) )
-            barplot( height = freq,
-            		names.arg = teams,
-            		las=2,
-            		ylab = "Number of Finals",
-            		main = "Finals Played, 1987-2010",
-            		density = 10,
-            		angle = 20)
+barplot( height = freq, # the data to plot
+  names.arg = teams, # label the plots
+  las = 2, # rotate the labels
+  ylab = "Number of Finals", # y axis label
+  main = "Finals Played, 1987-2010", # figure title
+  density = 10, # shade the bars
+  angle = 20 # shading lines angle
+  )
           </input>
         </program>
-      </remark>
+      
       <program language="r">
         <input>
           par(old)
