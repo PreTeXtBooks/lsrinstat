@@ -3596,4 +3596,14 @@
       There are a number of books out there that extend this discussion. A couple of my favourites are @Spector2008 "Data Manipulation with R" and @Teetor2011 "R Cookbook".
     </p>
   </section>
+
+<figure xml:id="fig-booksales2csv">
+  <caption>A CSV file with non-standard formatting, showing an alternative data file for the booksales data set.</caption>
+  <image source="images/booksales2csv.jpg"/>
+</figure>
+
+<figure xml:id="fig-envs">
+  <caption>The environment panel in RStudio showing loaded packages and their environments, with a dropdown to switch from Global Environment to package environments.</caption>
+  <image source="images/environments.png"/>
+</figure>
 </chapter>

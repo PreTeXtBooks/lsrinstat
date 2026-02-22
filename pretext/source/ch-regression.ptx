@@ -59,11 +59,32 @@ colour <- TRUE
 	abline( bad.coef, col=ifelse(colour,emphCol,"black"), lwd=3 )
 ]]></input>
     </program>
-    <p>Since the basic ideas in regression are closely tied to correlation, we'll return to the <c>parenthood.Rdata</c> file that we were using to illustrate how correlations work. Recall that, in this data set, we were trying to find out why Dan is so very grumpy all the time, and our working hypothesis was that I'm not getting enough sleep. We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day. The actual scatterplot that we draw is the one shown in Figure <xref ref="fig:regression0"/>, and as we saw previously this corresponds to a correlation of <m>r=-.90</m>, but what we find ourselves secretly imagining is something that looks closer to Figure <xref ref="fig:regression1a"/>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a <em>regression line</em>. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in Figure <xref ref="fig:regression1b"/>.</p>
-    <p>This is not highly surprising: the line that I've drawn in Figure <xref ref="fig:regression1b"/> doesn't "fit" the data very well, so it doesn't make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let's start with a refresher of some high school maths. The formula for a straight line is usually written like this: <me>y = mx + c</me> Or, at least, that's what it was when I went to high school all those years ago. The two <em>variables</em> are <m>x</m> and <m>y</m>, and we have two <em>coefficients</em>, <m>m</m> and <m>c</m>. The coefficient <m>m</m> represents the <em>slope</em> of the line, and the coefficient <m>c</m> represents the <em><m>y</m>-intercept</em> of the line. Digging further back into our decaying memories of high school (sorry, for some of us high school was a long time ago), we remember that the intercept is interpreted as "the value of <m>y</m> that you get when <m>x=0</m>". Similarly, a slope of <m>m</m> means that if you increase the <m>x</m>-value by 1 unit, then the <m>y</m>-value goes up by <m>m</m> units; a negative slope means that the <m>y</m>-value would go down rather than up. Ah yes, it's all coming back to me now.</p>
+    <p>Since the basic ideas in regression are closely tied to correlation, we'll return to the <c>parenthood.Rdata</c> file that we were using to illustrate how correlations work. Recall that, in this data set, we were trying to find out why Dan is so very grumpy all the time, and our working hypothesis was that I'm not getting enough sleep. We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day. The actual scatterplot that we draw is the one shown in Figure <xref ref="fig-regression0"/>, and as we saw previously this corresponds to a correlation of <m>r=-.90</m>, but what we find ourselves secretly imagining is something that looks closer to Figure <xref ref="fig-regression1a"/>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a <em>regression line</em>. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in Figure <xref ref="fig-regression1b"/>.</p>
+    <p>This is not highly surprising: the line that I've drawn in Figure <xref ref="fig-regression1b"/> doesn't "fit" the data very well, so it doesn't make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let's start with a refresher of some high school maths. The formula for a straight line is usually written like this: <me>y = mx + c</me> Or, at least, that's what it was when I went to high school all those years ago. The two <em>variables</em> are <m>x</m> and <m>y</m>, and we have two <em>coefficients</em>, <m>m</m> and <m>c</m>. The coefficient <m>m</m> represents the <em>slope</em> of the line, and the coefficient <m>c</m> represents the <em><m>y</m>-intercept</em> of the line. Digging further back into our decaying memories of high school (sorry, for some of us high school was a long time ago), we remember that the intercept is interpreted as "the value of <m>y</m> that you get when <m>x=0</m>". Similarly, a slope of <m>m</m> means that if you increase the <m>x</m>-value by 1 unit, then the <m>y</m>-value goes up by <m>m</m> units; a negative slope means that the <m>y</m>-value would go down rather than up. Ah yes, it's all coming back to me now.</p>
     <p>Now that we've remembered that, it should come as no surprise to discover that we use the exact same formula to describe a regression line. If <m>Y</m> is the outcome variable (the DV) and <m>X</m> is the predictor variable (the IV), then the formula that describes our regression is written like this: <me>\hat{Y_i} = b_1 X_i + b_0</me> Hm. Looks like the same formula, but there's some extra frilly bits in this version. Let's make sure we understand them. Firstly, notice that I've written <m>X_i</m> and <m>Y_i</m> rather than just plain old <m>X</m> and <m>Y</m>. This is because we want to remember that we're dealing with actual data. In this equation, <m>X_i</m> is the value of predictor variable for the <m>i</m>th observation (i.e., the number of hours of sleep that I got on day <m>i</m> of my little study), and <m>Y_i</m> is the corresponding value of the outcome variable (i.e., my grumpiness on that day). And although I haven't said so explicitly in the equation, what we're assuming is that this formula works for all observations in the data set (i.e., for all <m>i</m>). Secondly, notice that I wrote <m>\hat{Y}_i</m> and not <m>Y_i</m>. This is because we want to make the distinction between the <em>actual data</em> <m>Y_i</m>, and the <em>estimate</em> <m>\hat{Y}_i</m> (i.e., the prediction that our regression line is making). Thirdly, I changed the letters used to describe the coefficients from <m>m</m> and <m>c</m> to <m>b_1</m> and <m>b_0</m>. That's just the way that statisticians like to refer to the coefficients in a regression model. I've no idea why they chose <m>b</m>, but that's what they did. In any case <m>b_0</m> always refers to the intercept term, and <m>b_1</m> refers to the slope.</p>
     <p>Excellent, excellent. Next, I can't help but notice that -- regardless of whether we're talking about the good regression line or the bad one -- the data don't fall perfectly on the line. Or, to say it another way, the data <m>Y_i</m> are not identical to the predictions of the regression model <m>\hat{Y_i}</m>. Since statisticians love to attach letters, names and numbers to everything, let's refer to the difference between the model prediction and that actual data point as a <em>residual</em>, and we'll refer to it as <m>\epsilon_i</m>.<fn>The <m>\epsilon</m> symbol is the Greek letter epsilon. It's traditional to use <m>\epsilon_i</m> or <m>e_i</m> to denote a residual.</fn> Written using mathematics, the residuals are defined as: <me>\epsilon_i = Y_i - \hat{Y}_i</me> which in turn means that we can write down the complete linear regression model as: <me>Y_i = b_1 X_i + b_0 + \epsilon_i</me></p>
-  </section>
+  
+  <figure xml:id="fig-regression0">
+    <caption>Scatterplot showing the relationship between Dan's sleep and Dan's grumpiness.</caption>
+    <image source="images/regression0.png"/>
+  </figure>
+  <figure xml:id="fig-regression1a">
+    <caption>The best-fitting regression line through the scatterplot of sleep vs grumpiness.</caption>
+    <image source="images/regression1a.png"/>
+  </figure>
+  <figure xml:id="fig-regression1b">
+    <caption>A poorly-fitting regression line through the scatterplot of sleep vs grumpiness.</caption>
+    <image source="images/regression1b.png"/>
+  </figure>
+  <figure xml:id="fig-regression3a">
+    <caption>Illustration of residuals with a good regression fit.</caption>
+    <image source="images/regression3a.png"/>
+  </figure>
+  <figure xml:id="fig-regression3b">
+    <caption>Illustration of residuals with a poor regression fit.</caption>
+    <image source="images/regression3b.png"/>
+  </figure>
+</section>
   <section xml:id="regressionestimation">
     <title>Estimating a linear regression model</title>
 
@@ -91,7 +112,7 @@ colour <- TRUE
 
 ]]></input>
     </program>
-    <p>Okay, now let's redraw our pictures, but this time I'll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in Figure <xref ref="fig:regression3a"/>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at Figure <xref ref="fig:regression3b"/>. Hm. Maybe what we "want" in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I'll go so far as to say that the "best fitting" regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that ...</p>
+    <p>Okay, now let's redraw our pictures, but this time I'll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in Figure <xref ref="fig-regression3a"/>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at Figure <xref ref="fig-regression3b"/>. Hm. Maybe what we "want" in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I'll go so far as to say that the "best fitting" regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that ...</p>
     <blockquote>
       <p>The estimated regression coefficients, <m>\hat{b}_0</m> and <m>\hat{b}_1</m> are those that minimise the sum of the squared residuals, which we could either write as <m>\sum_i (Y_i - \hat{Y}_i)^2</m> or as <m>\sum_i {\epsilon_i}^2</m>.</p>
     </blockquote>
@@ -129,7 +150,7 @@ print( regression.1 )
 ##     125.956       -8.937
 ]]></output>
     </console>
-    <p>This looks promising. There's two separate pieces of information here. Firstly, R is politely reminding us what the command was that we used to specify the model in the first place, which can be helpful. More importantly from our perspective, however, is the second part, in which R gives us the intercept <m>\hat{b}_0 = 125.96</m> and the slope <m>\hat{b}_1 = -8.94</m>. In other words, the best-fitting regression line that I plotted in Figure <xref ref="fig:regression1a"/> has this formula: <me>\hat{Y}_i = -8.94 \ X_i + 125.96</me></p>
+    <p>This looks promising. There's two separate pieces of information here. Firstly, R is politely reminding us what the command was that we used to specify the model in the first place, which can be helpful. More importantly from our perspective, however, is the second part, in which R gives us the intercept <m>\hat{b}_0 = 125.96</m> and the slope <m>\hat{b}_1 = -8.94</m>. In other words, the best-fitting regression line that I plotted in Figure <xref ref="fig-regression1a"/> has this formula: <me>\hat{Y}_i = -8.94 \ X_i + 125.96</me></p>
     </subsection>
     <subsection>
       <title>Interpreting the estimated model</title>
@@ -179,14 +200,19 @@ print( regression.2 )
 ##   125.96557     -8.95025      0.01052
 ]]></output>
     </console>
-    <p>The coefficient associated with <c>dan.sleep</c> is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for <c>baby.sleep</c> is very small, suggesting that it doesn't really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep <em>I</em> get. To get a sense of what this multiple regression model looks like, Figure <xref ref="fig:multipleregression"/> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
+    <p>The coefficient associated with <c>dan.sleep</c> is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for <c>baby.sleep</c> is very small, suggesting that it doesn't really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep <em>I</em> get. To get a sense of what this multiple regression model looks like, Figure <xref ref="fig-multipleregression"/> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
     </subsection>
     <subsection>
       <title>Formula for the general case</title>
 
     <p>The equation that I gave above shows you what a multiple regression model looks like when you include two predictors. Not surprisingly, then, if you want more than two predictors all you have to do is add more <m>X</m> terms and more <m>b</m> coefficients. In other words, if you have <m>K</m> predictor variables in the model then the regression equation looks like this: <me>Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i</me></p>
     </subsection>
-  </section>
+  
+  <figure xml:id="fig-multipleregression">
+    <caption>3D scatterplot illustrating multiple regression with two predictors.</caption>
+    <image source="images/multipleregression.png"/>
+  </figure>
+</section>
   <section xml:id="r2">
     <title>Quantifying the fit of the regression model</title>
 
@@ -700,14 +726,14 @@ rstudent( model = regression.2 )
       <title>Three kinds of anomalous data</title>
 
     <p>One danger that you can run into with linear regression models is that your analysis might be disproportionately sensitive to a smallish number of "unusual" or "anomalous" observations. I discussed this idea previously in Section <xref ref="boxplotoutliers"/> in the context of discussing the outliers that get automatically identified by the <c>boxplot()</c> function, but this time we need to be much more precise. In the context of linear regression, there are three conceptually distinct ways in which an observation might be called "anomalous". All three are interesting, but they have rather different implications for your analysis.</p>
-    <p>The first kind of unusual observation is an <em>outlier</em>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in Figure <xref ref="fig:outlier"/>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <m>\epsilon_i^*</m>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data -- e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case, and try to find out why it's so different.</p>
+    <p>The first kind of unusual observation is an <em>outlier</em>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in Figure <xref ref="fig-outlier"/>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <m>\epsilon_i^*</m>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data -- e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case, and try to find out why it's so different.</p>
     <program language="r">
       <input><![CDATA[
 knitr::include_graphics(file.path(projecthome, "img","regression2","unusual_outlier.png"))
 
 ]]></input>
     </program>
-    <p>The second way in which an observation can be unusual is if it has high <em>leverage</em>: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in Figure <xref ref="fig:leverage"/>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <m>h_i</m>. The formula for the hat value is rather complicated<fn>Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix <m>H</m> that converts the vector of observed values <m>y</m> into a vector of fitted values <m>\hat{y}</m>, such that <m>\hat{y} = H y</m>. The name comes from the fact that this is the matrix that "puts a hat on <m>y</m>". The  hat <em>value</em> of the <m>i</m>-th observation is the <m>i</m>-th diagonal element of this matrix (so technically I should be writing it as <m>h_{ii}</m> rather than <m>h_{i}</m>). Oh, and in case you care, here's how it's calculated: <m>H = X(X^TX)^{-1} X^T</m>. Pretty, isn't it?</fn> but its interpretation is not: <m>h_i</m> is a measure of the extent to which the <m>i</m>-th observation is "in control" of where the regression line ends up going. You can extract the hat values using the following command:</p>
+    <p>The second way in which an observation can be unusual is if it has high <em>leverage</em>: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in Figure <xref ref="fig-leverage"/>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <m>h_i</m>. The formula for the hat value is rather complicated<fn>Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix <m>H</m> that converts the vector of observed values <m>y</m> into a vector of fitted values <m>\hat{y}</m>, such that <m>\hat{y} = H y</m>. The name comes from the fact that this is the matrix that "puts a hat on <m>y</m>". The  hat <em>value</em> of the <m>i</m>-th observation is the <m>i</m>-th diagonal element of this matrix (so technically I should be writing it as <m>h_{ii}</m> rather than <m>h_{i}</m>). Oh, and in case you care, here's how it's calculated: <m>H = X(X^TX)^{-1} X^T</m>. Pretty, isn't it?</fn> but its interpretation is not: <m>h_i</m> is a measure of the extent to which the <m>i</m>-th observation is "in control" of where the regression line ends up going. You can extract the hat values using the following command:</p>
     <program language="r">
       <input><![CDATA[
 hatvalues( model = regression.2 )
@@ -758,7 +784,7 @@ knitr::include_graphics(file.path(projecthome, "img","regression2", "unusual_lev
 ]]></input>
     </program>
     <p>In general, if an observation lies far away from the other ones in terms of the predictor variables, it will have a large hat value (as a rough guide, high leverage is when the hat value is more than 2-3 times the average; and note that the sum of the hat values is constrained to be equal to <m>K+1</m>). High leverage points are also worth looking at in more detail, but they're much less likely to be a cause for concern unless they are also outliers.  % guide from Venables and Ripley.</p>
-    <p>This brings us to our third measure of unusualness, the <em>influence</em> of an observation. A high influence observation is an outlier that has high leverage. That is, it is an observation that is very different to all the other ones in some respect, and also lies a long way from the regression line. This is illustrated in Figure <xref ref="fig:influence"/>. Notice the contrast to the previous two figures: outliers don't move the regression line much, and neither do high leverage points. But something that is an outlier and has high leverage... that has a big effect on the regression line.</p>
+    <p>This brings us to our third measure of unusualness, the <em>influence</em> of an observation. A high influence observation is an outlier that has high leverage. That is, it is an observation that is very different to all the other ones in some respect, and also lies a long way from the regression line. This is illustrated in Figure <xref ref="fig-influence"/>. Notice the contrast to the previous two figures: outliers don't move the regression line much, and neither do high leverage points. But something that is an outlier and has high leverage... that has a big effect on the regression line.</p>
     <program language="r">
       <input><![CDATA[
 knitr::include_graphics(file.path(projecthome, "img","regression2","unusual_influence.png"))
@@ -816,7 +842,7 @@ cooks.distance( model = regression.2 )
 ]]></output>
     </console>
     <p>As a rough guide, Cook's distance greater than 1 is often considered large (that's what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <m>4/N</m> has also been suggested as a possible rule of thumb.</p>
-    <p>As hinted above, you don't usually need to make use of these functions, since you can have R automatically draw the critical plots.<fn>Though special mention should be made of the <c>influenceIndexPlot()</c> and <c>influencePlot()</c> functions in the <c>car</c> package. These produce somewhat more detailed pictures than the default plots that I've shown here. There's also an <c>outlierTest()</c> function that tests to see if any of the Studentised residuals are significantly larger than would  be expected by chance.</fn> For the <c>regression.2</c> model, these are the plots showing Cook's distance (Figure <xref ref="fig:regressionplot4"/>) and the more detailed breakdown showing the scatter plot of the Studentised residual against leverage (Figure <xref ref="fig:regressionplot5"/>). To draw these, we can use the <c>plot()</c> function. When the main argument <c>x</c> to this function is a linear model object, it will draw one of six different plots, each of which is quite useful for doing regression diagnostics. You specify which one you want using the <c>which</c> argument (a number between 1 and 6). If you don't do this then R will draw all six. The two plots of interest to us in this context are generated using the following commands:</p>
+    <p>As hinted above, you don't usually need to make use of these functions, since you can have R automatically draw the critical plots.<fn>Though special mention should be made of the <c>influenceIndexPlot()</c> and <c>influencePlot()</c> functions in the <c>car</c> package. These produce somewhat more detailed pictures than the default plots that I've shown here. There's also an <c>outlierTest()</c> function that tests to see if any of the Studentised residuals are significantly larger than would  be expected by chance.</fn> For the <c>regression.2</c> model, these are the plots showing Cook's distance (Figure <xref ref="fig-regressionplot4"/>) and the more detailed breakdown showing the scatter plot of the Studentised residual against leverage (Figure <xref ref="fig-regressionplot5"/>). To draw these, we can use the <c>plot()</c> function. When the main argument <c>x</c> to this function is a linear model object, it will draw one of six different plots, each of which is quite useful for doing regression diagnostics. You specify which one you want using the <c>which</c> argument (a number between 1 and 6). If you don't do this then R will draw all six. The two plots of interest to us in this context are generated using the following commands:</p>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 4)
@@ -864,7 +890,7 @@ lm( formula = dan.grump ~ dan.sleep + baby.sleep,  # same formula
  )
 ]]></input>
     </program>
-    <p>The resulting plot is shown in Figure <xref ref="fig:residhist"/>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so.</p>
+    <p>The resulting plot is shown in Figure <xref ref="fig-residhist"/>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so.</p>
     <program language="r">
       <input><![CDATA[
 knitr::include_graphics(file.path(projecthome, "img","regression2","residhist.png"))
@@ -877,7 +903,7 @@ knitr::include_graphics(file.path(projecthome, "img","regression2","residhist.pn
 plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
 ]]></input>
     </program>
-    <p>The output is shown in Figure <xref ref="fig:regressionplot2"/>, showing the standardised residuals plotted as a function of their theoretical quantiles according to the regression model. The fact that the output appends the model specification to the picture is nice.</p>
+    <p>The output is shown in Figure <xref ref="fig-regressionplot2"/>, showing the standardised residuals plotted as a function of their theoretical quantiles according to the regression model. The fact that the output appends the model specification to the picture is nice.</p>
     </subsection>
     <subsection xml:id="regressionlinearity">
       <title>Checking the linearity of the relationship</title>
@@ -893,7 +919,7 @@ plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
 
 ]]></input>
     </program>
-    <p>The third thing we might want to test is the linearity of the relationships between the predictors and the outcomes. There's a few different things that you might want to do in order to check this. Firstly, it never hurts to just plot the relationship between the fitted values <m>\hat{Y}_i</m> and the observed values <m>Y_i</m> for the outcome variable, as illustrated in Figure <xref ref="fig:regressionlinearity"/>. To draw this we could use the <c>fitted.values()</c> function to extract the <m>\hat{Y_i}</m> values in much the same way that we used the <c>residuals()</c> function to extract the <m>\epsilon_i</m> values. So the commands to draw this figure might look like this:</p>
+    <p>The third thing we might want to test is the linearity of the relationships between the predictors and the outcomes. There's a few different things that you might want to do in order to check this. Firstly, it never hurts to just plot the relationship between the fitted values <m>\hat{Y}_i</m> and the observed values <m>Y_i</m> for the outcome variable, as illustrated in Figure <xref ref="fig-regressionlinearity"/>. To draw this we could use the <c>fitted.values()</c> function to extract the <m>\hat{Y_i}</m> values in much the same way that we used the <c>residuals()</c> function to extract the <m>\epsilon_i</m> values. So the commands to draw this figure might look like this:</p>
     <program language="r">
       <input><![CDATA[
  yhat.2 <- fitted.values( object = regression.2 )
@@ -916,8 +942,8 @@ plot(x = regression.2, which = 1)
 plot(x = regression.2, which = 1)   # Figure @ref{fig:regressionplot1}
 ]]></input>
     </program>
-    <p>The output is shown in Figure <xref ref="fig:regressionplot1"/>. As you can see, not only does it draw the scatterplot showing the fitted value against the residuals, it also plots a line through the data that shows the relationship between the two. Ideally, this should be a straight, perfectly horizontal line. There's some hint of curvature here, but it's not clear whether or not we be concerned.</p>
-    <p>A somewhat more advanced version of the same plot is produced by the <c>residualPlots()</c> function in the <c>car</c> package. This function not only draws plots comparing the fitted values to the residuals, it does so for each individual predictor. The command is and the resulting plots are shown in Figure <xref ref="fig:residualPlots"/>.</p>
+    <p>The output is shown in Figure <xref ref="fig-regressionplot1"/>. As you can see, not only does it draw the scatterplot showing the fitted value against the residuals, it also plots a line through the data that shows the relationship between the two. Ideally, this should be a straight, perfectly horizontal line. There's some hint of curvature here, but it's not clear whether or not we be concerned.</p>
+    <p>A somewhat more advanced version of the same plot is produced by the <c>residualPlots()</c> function in the <c>car</c> package. This function not only draws plots comparing the fitted values to the residuals, it does so for each individual predictor. The command is and the resulting plots are shown in Figure <xref ref="fig-residualPlots"/>.</p>
     <program language="r">
       <input><![CDATA[
 residualPlots( model = regression.2 ) 
@@ -930,7 +956,7 @@ residualPlots( model = regression.2 )   # Figure @ref{fig:residualPlots}
 ]]></input>
     </program>
     <p>Note that this function also reports the results of a bunch of <em>curvature tests</em>. For a predictor variable <m>X</m> in some regression model, this test is equivalent to adding a new predictor to the model corresponding to <m>X^2</m>, and running the <m>t</m>-test on the <m>b</m> coefficient associated with this new predictor. If it comes up significant, it implies that there is some nonlinear relationship between the variable and the residuals.</p>
-    <p>The third line here is the <em>Tukey test</em>, which is basically the same test, except that instead of squaring one of the predictors and adding it to the model, you square the fitted-value. In any case, the fact that the curvature tests have come up significant is hinting that the curvature that we can see in Figures <xref ref="fig:regressionplot1"/> and <xref ref="fig:residualPlots"/> is genuine;<fn>And, if you take the time to check the <c>residualPlots()</c> for <c>regression.1</c>, it's pretty clear that this isn't some wacky distortion being caused by the fact that <c>baby.sleep</c> is a useless predictor variable. It's an actual nonlinearity in the relationship between <c>dan.sleep</c> and <c>dan.grump</c>.</fn> although it still bears remembering that the pattern in Figure <xref ref="fig:regressionlinearity"/> is pretty damn straight: in other words the deviations from linearity are pretty small, and probably not worth worrying about.</p>
+    <p>The third line here is the <em>Tukey test</em>, which is basically the same test, except that instead of squaring one of the predictors and adding it to the model, you square the fitted-value. In any case, the fact that the curvature tests have come up significant is hinting that the curvature that we can see in Figures <xref ref="fig-regressionplot1"/> and <xref ref="fig-residualPlots"/> is genuine;<fn>And, if you take the time to check the <c>residualPlots()</c> for <c>regression.1</c>, it's pretty clear that this isn't some wacky distortion being caused by the fact that <c>baby.sleep</c> is a useless predictor variable. It's an actual nonlinearity in the relationship between <c>dan.sleep</c> and <c>dan.grump</c>.</fn> although it still bears remembering that the pattern in Figure <xref ref="fig-regressionlinearity"/> is pretty damn straight: in other words the deviations from linearity are pretty small, and probably not worth worrying about.</p>
     <p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We discussed the basics of variable transformation in Sections <xref ref="transform"/> and \ref(mathfunc), but I do want to make special note of one additional possibility that I didn't mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it's very widely used <me>f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}</me> for all values of <m>\lambda</m> except <m>\lambda = 0</m>. When <m>\lambda = 0</m> we just take the natural logarithm (i.e., <m>\ln(x)</m>). You can calculate it using the <c>boxCox()</c> function in the <c>car</c> package. Better yet, if what you're trying to do is convert a data to normal, or as normal as possible, there's the <c>powerTransform()</c> function in the <c>car</c> package that can estimate the best value of <m>\lambda</m>. Variable transformation is another topic that deserves a fairly detailed treatment, but (again) due to deadline constraints, it will have to wait until a future version of this book.</p>
     </subsection>
     <subsection xml:id="regressionhomogeneity">
@@ -942,13 +968,13 @@ residualPlots( model = regression.2 )   # Figure @ref{fig:residualPlots}
 plot(x = regression.2, which = 3)
 ]]></input>
     </program>
-    <p>and the resulting plot is shown in Figure <xref ref="fig:regressionplot3"/>. Note that this plot actually uses the standardised residuals (i.e., converted to <m>z</m> scores) rather than the raw ones, but it's immaterial from our point of view. What we're looking to see here is a straight, horizontal line running through the middle of the plot.</p>
+    <p>and the resulting plot is shown in Figure <xref ref="fig-regressionplot3"/>. Note that this plot actually uses the standardised residuals (i.e., converted to <m>z</m> scores) rather than the raw ones, but it's immaterial from our point of view. What we're looking to see here is a straight, horizontal line running through the middle of the plot.</p>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 3)
 ]]></input>
     </program>
-    <p>A slightly more formal approach is to run hypothesis tests. The <c>car</c> package provides a function called <c>ncvTest()</c> (<em>non-constant variance test</em>) that can be used for this purpose [@Cook1983]. I won't explain the details of how it works, other than to say that the idea is that what you do is run a regression to see if there is a relationship between the squared residuals <m>\epsilon_i</m> and the fitted values <m>\hat{Y}_i</m>, or possibly to run a regression using all of the original predictors instead of just <m>\hat{Y}_i</m>.<fn>Note that the underlying mechanics of the test aren't the same as the ones I've described for regressions; the goodness of fit is assessed using what's known as a score-test not an <m>F</m>-test, and the test statistic is (approximately) <m>\chi^2</m> distributed if there's no relationship</fn> Using the default settings, the <c>ncvTest()</c> looks for a relationship between <m>\hat{Y}_i</m> and the variance of the residuals, making it a straightforward analogue of Figure <xref ref="fig:regressionplot3"/>. So if we run it for our model,</p>
+    <p>A slightly more formal approach is to run hypothesis tests. The <c>car</c> package provides a function called <c>ncvTest()</c> (<em>non-constant variance test</em>) that can be used for this purpose [@Cook1983]. I won't explain the details of how it works, other than to say that the idea is that what you do is run a regression to see if there is a relationship between the squared residuals <m>\epsilon_i</m> and the fitted values <m>\hat{Y}_i</m>, or possibly to run a regression using all of the original predictors instead of just <m>\hat{Y}_i</m>.<fn>Note that the underlying mechanics of the test aren't the same as the ones I've described for regressions; the goodness of fit is assessed using what's known as a score-test not an <m>F</m>-test, and the test statistic is (approximately) <m>\chi^2</m> distributed if there's no relationship</fn> Using the default settings, the <c>ncvTest()</c> looks for a relationship between <m>\hat{Y}_i</m> and the variance of the residuals, making it a straightforward analogue of Figure <xref ref="fig-regressionplot3"/>. So if we run it for our model,</p>
     <program language="r">
       <input><![CDATA[
 ncvTest( regression.2 )
@@ -1036,7 +1062,52 @@ vif( regression.3 )
     </console>
     <p>Yep, that's some mighty fine collinearity you've got there.</p>
     </subsection>
-  </section>
+  
+  <figure xml:id="fig-outlier">
+    <caption>Illustration of an outlier in regression: an observation with an unusually large residual.</caption>
+    <image source="images/outlier.png"/>
+  </figure>
+  <figure xml:id="fig-leverage">
+    <caption>Illustration of high leverage: an observation far from others on the predictor variable.</caption>
+    <image source="images/leverage.png"/>
+  </figure>
+  <figure xml:id="fig-influence">
+    <caption>Illustration of high influence: an observation that is both an outlier and has high leverage.</caption>
+    <image source="images/influence.png"/>
+  </figure>
+  <figure xml:id="fig-residhist">
+    <caption>Histogram of standardised residuals from the regression model, with normal distribution overlay.</caption>
+    <image source="images/residhist.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot1">
+    <caption>Fitted values vs residuals plot for checking linearity assumptions.</caption>
+    <image source="images/regressionplot1.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot2">
+    <caption>Normal Q-Q plot of standardised residuals from the regression model.</caption>
+    <image source="images/regressionplot2.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot3">
+    <caption>Scale-location plot for checking homogeneity of variance.</caption>
+    <image source="images/regressionplot3.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot4">
+    <caption>Cook's distance plot for identifying influential observations.</caption>
+    <image source="images/regressionplot4.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot5">
+    <caption>Residuals vs leverage plot for the regression model.</caption>
+    <image source="images/regressionplot5.png"/>
+  </figure>
+  <figure xml:id="fig-residualPlots">
+    <caption>Residual plots from the car package's residualPlots() function.</caption>
+    <image source="images/residualPlots.png"/>
+  </figure>
+  <figure xml:id="fig-regressionlinearity">
+    <caption>Plot of fitted values vs observed values for checking linearity.</caption>
+    <image source="images/regressionlinearity.png"/>
+  </figure>
+</section>
   <section xml:id="modelselreg">
     <title>Model selection</title>
 
