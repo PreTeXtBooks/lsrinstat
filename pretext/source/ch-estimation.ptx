@@ -112,6 +112,27 @@ colour <- TRUE
 </console>
 <p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in Figure <xref ref="fig-IQdist"/>b. As you can see, the histogram is <em>roughly</em> the right shape, but it's a very crude approximation to the true population distribution shown in Figure <xref ref="fig-IQdist"/>a. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <em>sample statistics</em> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I'll talk about how you can estimate population parameters using your sample statistics (Section <xref ref="pointestimates"/> and how to work out how confident you are in your estimates (Section <xref ref="ci"/> but before we get to that there's a few more ideas in sampling theory that you need to know about.</p>
 </subsection>
+
+<figure xml:id="fig-srs1">
+  <caption>Simple random sampling without replacement. Each chip drawn is not replaced before the next draw.</caption>
+  <image source="images/srs1.png"/>
+</figure>
+<figure xml:id="fig-brs">
+  <caption>Biased sampling. A sampling procedure in which certain groups are systematically over- or under-represented.</caption>
+  <image source="images/brs.png"/>
+</figure>
+<figure xml:id="fig-srs2">
+  <caption>Simple random sampling with replacement. Each chip drawn is replaced before the next draw.</caption>
+  <image source="images/srs2.png"/>
+</figure>
+<figure xml:id="fig-IQdista">
+  <caption>The population distribution of IQ scores: a normal distribution with mean 100 and standard deviation 15.</caption>
+  <image source="images/IQdista.png"/>
+</figure>
+<figure xml:id="fig-IQdist">
+  <caption>Sample histograms of IQ scores showing how larger samples better approximate the population distribution.</caption>
+  <image source="images/IQdist.png"/>
+</figure>
 </section>
 <section xml:id="lawlargenumbers">
 <title>The law of large numbers</title>
@@ -156,7 +177,7 @@ print(head(IQ))]]></input>
 > IQ.2
 [1]  78  88 111 111 117]]></output>
 </console>
-<p>This time around, the mean IQ in my sample is 101. If I repeat the experiment 10 times I obtain the results shown in Table <xref ref="tab:replications"/>, and as you can see the sample mean varies from one replication to the next.</p>
+<p>This time around, the mean IQ in my sample is 101. If I repeat the experiment 10 times I obtain the results shown in Table <xref ref="tab-replications"/>, and as you can see the sample mean varies from one replication to the next.</p>
 <console>
 <output><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
 NANA = c("Replication 1", "Replication 2", "Replication 3", "Replication 4",
@@ -171,7 +192,7 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
                   105.8), caption = "Ten replications of the IQ experiment, each with a sample size of $N=5$.")
 )]]></output>
 </console>
-<p>Now suppose that I decided to keep going in this fashion, replicating this "five IQ scores" experiment over and over again. Every time I replicate the experiment I write down the sample mean. Over time, I'd be amassing a new data set, in which every experiment generates a single data point. The first 10 observations from my data set are the sample means listed in Table <xref ref="tab:replications"/>, so my data set starts out like this:</p>
+<p>Now suppose that I decided to keep going in this fashion, replicating this "five IQ scores" experiment over and over again. Every time I replicate the experiment I write down the sample mean. Over time, I'd be amassing a new data set, in which every experiment generates a single data point. The first 10 observations from my data set are the sample means listed in Table <xref ref="tab-replications"/>, so my data set starts out like this:</p>
 <console>
 <output><![CDATA[                      95.0 101.0 101.6 103.8 104.4 ...]]></output>
 </console>
@@ -292,6 +313,51 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 <p>As it happens, not only are all of these statements true, there is a very famous theorem in statistics that proves all three of them, known as the <em>central limit theorem</em>. Among other things, the central limit theorem tells us that if the population distribution has mean <m>\mu</m> and standard deviation <m>\sigma</m>, then the sampling distribution of the mean also has mean <m>\mu</m>, and the standard error of the mean is <me>\mbox{SEM} = \frac{\sigma}{ \sqrt{N} }</me> Because we divide the population standard devation <m>\sigma</m> by the square root of the sample size <m>N</m>, the SEM gets smaller as the sample size increases. It also tells us that the shape of the sampling distribution becomes normal.<fn>As usual, I'm being a bit sloppy here. The central limit theorem is a bit more general than this section implies. Like most introductory stats texts, I've discussed one situation where the central limit theorem holds: when you're taking an average across lots of independent events drawn from the same distribution. However, the central limit theorem is much broader than this. There's a whole class of things called "<m>U</m>-statistics" for instance, all of which satisfy the central limit theorem and therefore become normally distributed for large sample sizes. The mean is one such statistic, but it's not the only one.</fn></p>
 <p>This result is useful for all sorts of things. It tells us why large experiments are more reliable than small ones, and because it gives us an explicit formula for the standard error it tells us <em>how much</em> more reliable a large experiment is. It tells us why the normal distribution is, well, <em>normal</em>. In real experiments, many of the things that we want to measure are actually averages of lots of different quantities (e.g., arguably, "general" intelligence as measured by IQ is an average of a large number of "specific" skills and abilities), and when that happens, the averaged quantity should follow a normal distribution. Because of this mathematical law, the normal distribution pops up over and over again in real data.</p>
 </subsection>
+
+<figure xml:id="fig-sampdistmean">
+  <caption>The sampling distribution of the mean for N=5 IQ scores, replicated many times.</caption>
+  <image source="images/sampdistmean.png"/>
+</figure>
+<figure xml:id="fig-sampdistmax">
+  <caption>The sampling distribution of the maximum IQ score in samples of N=5.</caption>
+  <image source="images/sampdistmax.png"/>
+</figure>
+<figure xml:id="fig-IQsampa">
+  <caption>Sampling distribution of the mean for N=1: very wide distribution.</caption>
+  <image source="images/IQsampa.png"/>
+</figure>
+<figure xml:id="fig-IQsampb">
+  <caption>Sampling distribution of the mean for N=10: narrower distribution.</caption>
+  <image source="images/IQsampb.png"/>
+</figure>
+<figure xml:id="fig-IQsampc">
+  <caption>Sampling distribution of the mean for N=100: very narrow distribution.</caption>
+  <image source="images/IQsampc.png"/>
+</figure>
+<figure xml:id="fig-cltdemo">
+  <caption>The central limit theorem in action: population distribution (not normal).</caption>
+  <image source="images/cltdemo.png"/>
+</figure>
+<figure xml:id="fig-cltdemoa">
+  <caption>Sampling distribution of the mean for N=2 samples from the non-normal population.</caption>
+  <image source="images/cltdemoa.png"/>
+</figure>
+<figure xml:id="fig-cltdemob">
+  <caption>Sampling distribution of the mean for N=4 samples from the non-normal population.</caption>
+  <image source="images/cltdemob.png"/>
+</figure>
+<figure xml:id="fig-cltdemoc">
+  <caption>Sampling distribution of the mean for N=8 samples from the non-normal population - approximately normal.</caption>
+  <image source="images/cltdemoc.png"/>
+</figure>
+<figure xml:id="fig-sampdistsd">
+  <caption>Sampling distribution of the standard deviation showing bias for small N.</caption>
+  <image source="images/sampdistsd.png"/>
+</figure>
+<figure xml:id="fig-estimatorbias">
+  <caption>Average sample mean (unbiased) and average sample standard deviation (biased) as a function of sample size.</caption>
+  <image source="images/estimatorbias.png"/>
+</figure>
 </section>
 <section xml:id="pointestimates">
 <title>Estimating population parameters</title>
@@ -395,6 +461,23 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
   </tabular>
 </table>
 </subsection>
+
+<table xml:id="tab-replications">
+  <title>Results of repeated replications of a five IQ scores experiment</title>
+  <tabular>
+    <row header="yes"><cell>Replication</cell><cell>Sample mean</cell></row>
+    <row><cell>1</cell><cell>95.1</cell></row>
+    <row><cell>2</cell><cell>101.3</cell></row>
+    <row><cell>3</cell><cell>103.4</cell></row>
+    <row><cell>4</cell><cell>97.8</cell></row>
+    <row><cell>5</cell><cell>105.7</cell></row>
+    <row><cell>6</cell><cell>99.2</cell></row>
+    <row><cell>7</cell><cell>92.4</cell></row>
+    <row><cell>8</cell><cell>107.8</cell></row>
+    <row><cell>9</cell><cell>98.1</cell></row>
+    <row><cell>10</cell><cell>104.0</cell></row>
+  </tabular>
+</table>
 </section>
 <section xml:id="ci">
 <title>Estimating a confidence interval</title>
@@ -501,6 +584,11 @@ bargraph.CI( x.factor = year,            # grouping variable
 )]]></input>
 </program>
 </subsection>
+
+<figure xml:id="fig-cirep">
+  <caption>Illustration of confidence intervals as a repeated-samples concept. 95% of all confidence intervals constructed using this procedure contain the true population mean.</caption>
+  <image source="images/cirep.png"/>
+</figure>
 </section>
 <section>
 <title>Summary</title>

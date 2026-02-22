@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch3-intro-r">
+<chapter xml:id="introR">
   <title>Getting started with R</title>
   <blockquote>
     <p><em>Robots are nice to work with.</em> --Roger Zelazny<fn>Source: <em>Dismal Light</em> (1968).</fn></p>
@@ -1871,4 +1871,64 @@ Error: object 'f' not found
       We still haven't arrived at anything that resembles a "data set", of course. Maybe the next Chapter will get us a bit closer...
     </p>
   </section>
+<figure xml:id="fig-RStudio">
+  <caption>A screenshot of RStudio in progress on a Mac. The interface looks almost identical regardless of operating system.</caption>
+  <image source="images/RStudio.png"/>
+</figure>
+<figure xml:id="fig-RStudiotab">
+  <caption>RStudio's tab-completion feature showing a list of functions matching the typed letters.</caption>
+  <image source="images/RStudiotab.png"/>
+</figure>
+<figure xml:id="fig-RStudiotab2">
+  <caption>RStudio's tab-completion feature showing argument names when a function name is already typed.</caption>
+  <image source="images/RStudiotab2.png"/>
+</figure>
+<figure xml:id="fig-RStudiohistory">
+  <caption>The history panel in RStudio showing a list of recent commands.</caption>
+  <image source="images/RStudiohistory.png"/>
+</figure>
+<figure xml:id="fig-RStudiooptions">
+  <caption>The RStudio preferences dialog, showing the option to change workspace saving behaviour.</caption>
+  <image source="images/RStudiooptions.png"/>
+</figure>
+<figure xml:id="fig-quitR">
+  <caption>Dialog box shown when quitting RStudio, asking whether to save the workspace image.</caption>
+  <image source="images/quitR.png"/>
+</figure>
+<table xml:id="table-arithmetic1">
+  <title>Basic arithmetic operators in R</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Operation</cell><cell>Operator</cell><cell>Example</cell><cell>Result</cell></row>
+    <row><cell>Addition</cell><cell>+</cell><cell>10 + 2</cell><cell>12</cell></row>
+    <row><cell>Subtraction</cell><cell>-</cell><cell>9 - 3</cell><cell>6</cell></row>
+    <row><cell>Multiplication</cell><cell>*</cell><cell>5 * 5</cell><cell>25</cell></row>
+    <row><cell>Division</cell><cell>/</cell><cell>10 / 3</cell><cell>3.333...</cell></row>
+    <row><cell>Power</cell><cell>^</cell><cell>5 ^ 2</cell><cell>25</cell></row>
+    <row><cell>Integer division</cell><cell>%/%</cell><cell>10 %/% 3</cell><cell>3</cell></row>
+    <row><cell>Modulus (remainder)</cell><cell>%%</cell><cell>10 %% 3</cell><cell>1</cell></row>
+  </tabular>
+</table>
+<table xml:id="table-logicals">
+  <title>Logical operators in R</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Operation</cell><cell>Operator</cell><cell>Example</cell><cell>Result</cell></row>
+    <row><cell>Less than</cell><cell>&lt;</cell><cell>2 &lt; 3</cell><cell>TRUE</cell></row>
+    <row><cell>Less than or equal</cell><cell>&lt;=</cell><cell>2 &lt;= 2</cell><cell>TRUE</cell></row>
+    <row><cell>Greater than</cell><cell>&gt;</cell><cell>2 &gt; 3</cell><cell>FALSE</cell></row>
+    <row><cell>Greater than or equal</cell><cell>&gt;=</cell><cell>2 &gt;= 2</cell><cell>TRUE</cell></row>
+    <row><cell>Equal to</cell><cell>==</cell><cell>2 == 3</cell><cell>FALSE</cell></row>
+    <row><cell>Not equal to</cell><cell>!=</cell><cell>2 != 3</cell><cell>TRUE</cell></row>
+  </tabular>
+</table>
+<table xml:id="table-logicals2">
+  <title>Additional logical operators in R</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Operation</cell><cell>Operator</cell><cell>Example</cell><cell>Result</cell></row>
+    <row><cell>Not</cell><cell>!</cell><cell>!TRUE</cell><cell>FALSE</cell></row>
+    <row><cell>And (element-wise)</cell><cell>&amp;</cell><cell>TRUE &amp; FALSE</cell><cell>FALSE</cell></row>
+    <row><cell>Or (element-wise)</cell><cell>|</cell><cell>TRUE | FALSE</cell><cell>TRUE</cell></row>
+    <row><cell>And (first element only)</cell><cell>&amp;&amp;</cell><cell>TRUE &amp;&amp; FALSE</cell><cell>FALSE</cell></row>
+    <row><cell>Or (first element only)</cell><cell>||</cell><cell>TRUE || FALSE</cell><cell>TRUE</cell></row>
+  </tabular>
+</table>
 </chapter>

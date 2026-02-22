@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch5-descriptive-statistics">
+<chapter xml:id="descriptives">
   <title>Descriptive statistics</title>
   <p>
     Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what <term>descriptive statistics</term> (as opposed to inferential statistics) is all about. In fact, to many people the term "statistics" is synonymous with descriptive statistics. It is this topic that we'll consider in this chapter, but before going into any details, let's take a moment to get a sense of why we need descriptive statistics. To do this, let's load the <c>aflsmall.Rdata</c> file, and use the <c>who()</c> function in the <c>lsr</c> package to see what variables are stored in the file:
@@ -2367,4 +2367,29 @@
       Thus it is no small thing to say that the first task of the statistician and the scientist is to summarise the data, to find some collection of numbers that can convey to an audience a sense of what has happened. This is the job of descriptive statistics, but it's not a job that can be told solely using the numbers. You are a data analyst, not a statistical software package. Part of your job is to take these <em>statistics</em> and turn them into a <em>description</em>. When you analyse data, it is not sufficient to list off a collection of numbers. Always remember that what you're really trying to do is communicate with a human audience. The numbers are important, but they need to be put together into a meaningful story that your audience can interpret. That means you need to think about framing. You need to think about context. And you need to think about the individual events that your statistics are summarising.
     </p>
   </section>
+<table xml:id="table-parenthoodtab">
+  <title>Descriptive statistics for the parenthood data.</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Variable</cell><cell>Min</cell><cell>Max</cell><cell>Mean</cell><cell>Median</cell><cell>Std. Dev</cell><cell>IQR</cell></row>
+    <row><cell>Dan's grumpiness</cell><cell>41</cell><cell>91</cell><cell>63.71</cell><cell>62</cell><cell>10.05</cell><cell>14</cell></row>
+    <row><cell>Dan's hours slept</cell><cell>4.84</cell><cell>9.00</cell><cell>6.97</cell><cell>7.03</cell><cell>1.02</cell><cell>1.45</cell></row>
+    <row><cell>Dan's son's hours slept</cell><cell>3.25</cell><cell>12.07</cell><cell>8.05</cell><cell>7.95</cell><cell>2.07</cell><cell>3.21</cell></row>
+  </tabular>
+</table>
+<table xml:id="table-interpretingcorrelations">
+  <title>Rough guide to interpreting correlations.</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Correlation</cell><cell>Strength</cell><cell>Direction</cell></row>
+    <row><cell>-1.0 to -0.9</cell><cell>Very strong</cell><cell>Negative</cell></row>
+    <row><cell>-0.9 to -0.7</cell><cell>Strong</cell><cell>Negative</cell></row>
+    <row><cell>-0.7 to -0.4</cell><cell>Moderate</cell><cell>Negative</cell></row>
+    <row><cell>-0.4 to -0.2</cell><cell>Weak</cell><cell>Negative</cell></row>
+    <row><cell>-0.2 to 0</cell><cell>Negligible</cell><cell>Negative</cell></row>
+    <row><cell>0 to 0.2</cell><cell>Negligible</cell><cell>Positive</cell></row>
+    <row><cell>0.2 to 0.4</cell><cell>Weak</cell><cell>Positive</cell></row>
+    <row><cell>0.4 to 0.7</cell><cell>Moderate</cell><cell>Positive</cell></row>
+    <row><cell>0.7 to 0.9</cell><cell>Strong</cell><cell>Positive</cell></row>
+    <row><cell>0.9 to 1.0</cell><cell>Very strong</cell><cell>Positive</cell></row>
+  </tabular>
+</table>
 </chapter>

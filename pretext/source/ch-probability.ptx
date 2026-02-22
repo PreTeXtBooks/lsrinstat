@@ -203,6 +203,11 @@ colour <- TRUE
 <p>For the most part, I'm a pragmatist so I'll use any statistical method that I trust. As it turns out, that makes me prefer Bayesian methods, for reasons I'll explain towards the end of the book, but I'm not fundamentally opposed to frequentist methods. Not everyone is quite so relaxed. For instance, consider Sir Ronald Fisher, one of the towering figures of 20th century statistics and a vehement opponent to all things Bayesian, whose paper on the mathematical foundations of statistics referred to Bayesian probability as "an impenetrable jungle [that] arrests progress towards precision of statistical concepts" @Fisher1922b. Or the psychologist Paul Meehl, who suggests that relying on frequentist methods could turn you into "a potent but sterile intellectual rake who leaves in his merry path a long train of ravished maidens but no viable scientific offspring" @Meehl1967. The history of statistics, as you might gather, is not devoid of entertainment.</p>
 <p>In any case, while I personally prefer the Bayesian view, the majority of statistical analyses are based on the frequentist approach. My reasoning is pragmatic: the goal of this book is to cover roughly the same territory as a typical undergraduate stats class in psychology, and if you want to understand the statistical tools used by most psychologists, you'll need a good grasp of frequentist methods. I promise you that this isn't wasted effort. Even if you end up wanting to switch to the Bayesian perspective, you really should read through at least one book on the "orthodox" frequentist view. And since R is the most widely used statistical language for Bayesians, you might as well read a book that uses R. Besides, I won't completely ignore the Bayesian perspective. Every now and then I'll add some commentary from a Bayesian point of view, and I'll revisit the topic in more depth in Chapter <xref ref="bayes"/>.</p>
 </subsection>
+
+<figure xml:id="fig-frequentistprobability">
+  <caption>The proportion of heads over time. Each line represents a different simulation of flipping a fair coin repeatedly. As the number of flips increases, the proportion of heads converges to 0.5.</caption>
+  <image source="images/frequentistprobability.png"/>
+</figure>
 </section>
 <section xml:id="basicprobability">
 <title>Basic probability theory</title>
@@ -260,7 +265,7 @@ probabilities <- c( .5, .3, .1, 0, .1)
 	)]]></output>
 </console>
 <p>The only other thing that I need to point out is that probability theory allows you to talk about <em>non elementary events</em> as well as elementary ones. The easiest way to illustrate the concept is with an example. In the pants example, it's perfectly legitimate to refer to the probability that I wear jeans. In this scenario, the "Dan wears jeans" event said to have happened as long as the elementary event that actually did occur is one of the appropriate ones; in this case "blue jeans", "black jeans" or "grey jeans". In mathematical terms, we defined the "jeans" event <m>E</m> to correspond to the set of elementary events <m>(X_1, X_2, X_3)</m>. If any of these elementary events occurs, then <m>E</m> is also said to have occurred. Having decided to write down the definition of the <m>E</m> this way, it's pretty straightforward to state what the probability <m>P(E)</m> is: we just add everything up. In this particular case <me>P(E) = P(X_1) + P(X_2) + P(X_3)</me> and, since the probabilities of blue, grey and black jeans respectively are .5, .3 and .1, the probability that I wear jeans is equal to .9.</p>
-<p>At this point you might be thinking that this is all terribly obvious and simple and you'd be right. All we've really done is wrap some basic mathematics around a few common sense intuitions. However, from these simple beginnings it's possible to construct some extremely powerful mathematical tools. I'm definitely not going to go into the details in this book, but what I will do is list -- in  Table <xref ref="tab:probrules"/> -- some of the other rules that probabilities satisfy. These rules can be derived from the simple assumptions that I've outlined above, but since we don't actually use these rules for anything in this book, I won't do so here.</p>
+<p>At this point you might be thinking that this is all terribly obvious and simple and you'd be right. All we've really done is wrap some basic mathematics around a few common sense intuitions. However, from these simple beginnings it's possible to construct some extremely powerful mathematical tools. I'm definitely not going to go into the details in this book, but what I will do is list -- in  Table <xref ref="tab-probrules"/> -- some of the other rules that probabilities satisfy. These rules can be derived from the simple assumptions that I've outlined above, but since we don't actually use these rules for anything in this book, I won't do so here.</p>
 <console>
 <output><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
 English = c("Not $A$", "$A$ or $B$", "$A$ and $B$"),
@@ -271,6 +276,22 @@ Formula = c("$1-P(A)$", "$P(A) + P(B) - P(A \\cap B)$", "$P(A|B) P(B)$")),captio
 ]]></output>
 </console>
 </subsection>
+
+<figure xml:id="fig-pantsprob">
+  <caption>A visual depiction of the probability distribution over pants preference for the population of students in the introductory statistics class.</caption>
+  <image source="images/pantsprob.png"/>
+</figure>
+<table xml:id="tab-probrules">
+  <title>Basic rules of probability</title>
+  <tabular>
+    <row header="yes"><cell>Rule name</cell><cell>Formula</cell></row>
+    <row><cell>Probability range</cell><cell>0 &lt;= P(E) &lt;= 1</cell></row>
+    <row><cell>Total probability</cell><cell>sum of all P(E_i) = 1</cell></row>
+    <row><cell>Complement rule</cell><cell>P(not E) = 1 - P(E)</cell></row>
+    <row><cell>Addition rule</cell><cell>P(A or B) = P(A) + P(B) - P(A and B)</cell></row>
+    <row><cell>Multiplication rule</cell><cell>P(A and B) = P(A|B) * P(B)</cell></row>
+  </tabular>
+</table>
 </section>
 <section xml:id="binomial">
 <title>The binomial distribution</title>
@@ -315,7 +336,7 @@ Normal = c("$p(X | \\mu, \\sigma) = \\displaystyle\\frac{1}{\\sqrt{2\\pi}\\sigma
 </subsection>
 <subsection>
 <title>Working with the binomial distribution in R</title>
-<p>Although some people find it handy to know the formulas in Table <xref ref="tab:distformulas"/>, most people just want to know how to use the distributions without worrying too much about the maths. To that end, R has a function called <c>dbinom()</c> that calculates binomial probabilities for us. The main arguments to the function are</p>
+<p>Although some people find it handy to know the formulas in Table <xref ref="tab-distformulas"/>, most people just want to know how to use the distributions without worrying too much about the maths. To that end, R has a function called <c>dbinom()</c> that calculates binomial probabilities for us. The main arguments to the function are</p>
 <ul>
 <li><p><c>x</c>. This is a number, or vector of numbers, specifying the outcomes whose probability you're trying to calculate.</p></li>
 <li><p><c>size</c>. This is a number telling R the size of the experiment.</p></li>
@@ -385,7 +406,7 @@ Normal = c("$p(X | \\mu, \\sigma) = \\displaystyle\\frac{1}{\\sqrt{2\\pi}\\sigma
 	binomPlot( n=100, p=1/2, xlab="Number of heads observed" )
 ]]></output>
 </console>
-<p>At this point, I should probably explain the name of the <c>dbinom()</c> function. Obviously, the "binom" part comes from the fact that we're working with the binomial distribution, but the "d" prefix is probably a bit of a mystery. In this section I'll give a partial explanation: specifically, I'll explain why there is a prefix. As for why it's a "d" specifically, you'll have to wait until the next section. What's going on here is that R actually provides <em>four</em> functions in relation to the binomial distribution. These four functions are <c>dbinom()</c>, <c>pbinom()</c>, <c>rbinom()</c> and <c>qbinom()</c>, and each one calculates a different quantity of interest. Not only that, R does the same thing for <em>every</em> probability distribution that it implements. No matter what distribution you're talking about, there's a <c>d</c> function, a <c>p</c> function, a <c>q</c> function and a <c>r</c> function. This is illustrated in Table <xref ref="tab:pdistnames"/>, using the binomial distribution and the normal distribution as examples.</p>
+<p>At this point, I should probably explain the name of the <c>dbinom()</c> function. Obviously, the "binom" part comes from the fact that we're working with the binomial distribution, but the "d" prefix is probably a bit of a mystery. In this section I'll give a partial explanation: specifically, I'll explain why there is a prefix. As for why it's a "d" specifically, you'll have to wait until the next section. What's going on here is that R actually provides <em>four</em> functions in relation to the binomial distribution. These four functions are <c>dbinom()</c>, <c>pbinom()</c>, <c>rbinom()</c> and <c>qbinom()</c>, and each one calculates a different quantity of interest. Not only that, R does the same thing for <em>every</em> probability distribution that it implements. No matter what distribution you're talking about, there's a <c>d</c> function, a <c>p</c> function, a <c>q</c> function and a <c>r</c> function. This is illustrated in Table <xref ref="tab-pdistnames"/>, using the binomial distribution and the normal distribution as examples.</p>
 <console>
 <output><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
             What.it.does = c("probability (density) of",
@@ -437,6 +458,41 @@ Normal = c("$p(X | \\mu, \\sigma) = \\displaystyle\\frac{1}{\\sqrt{2\\pi}\\sigma
     </console>
 <p>As you can see, these numbers are pretty much what you'd expect given the distribution shown in Figure <xref ref="fig-binomial1"/>. Most of the time I roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer,<fn>Since computers are  deterministic machines, they can't actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are <em>pseudorandom</em>, and the quality of those numbers depends on the specific method used. By default R uses the "Mersenne twister" method. In any case, you can find out more by typing <c>?Random</c>, but as usual the R help files are fairly dense.</fn> but for the purposes of this book we don't need to worry too much about them.</p>
 </subsection>
+
+<figure xml:id="fig-binomial1">
+  <caption>The binomial distribution with size parameter N=20 and probability parameter theta=1/3. Each bar represents the probability of getting X skulls out of 20 dice rolls.</caption>
+  <image source="images/binomial1.png"/>
+</figure>
+<figure xml:id="fig-binomial2a">
+  <caption>The binomial distribution with N=20 and theta=0.5 (coin flipping).</caption>
+  <image source="images/binomial2a.png"/>
+</figure>
+<figure xml:id="fig-binomial2b">
+  <caption>The binomial distribution with N=100 and theta=0.5 (coin flipping).</caption>
+  <image source="images/binomial2b.png"/>
+</figure>
+<table xml:id="tab-distformulas">
+  <title>Formulas for common probability distributions</title>
+  <tabular>
+    <row header="yes"><cell>Distribution</cell><cell>Parameters</cell><cell>Notes</cell></row>
+    <row><cell>Binomial(N, theta)</cell><cell>N = trials, theta = success probability</cell><cell>dbinom() in R</cell></row>
+    <row><cell>Normal(mu, sigma)</cell><cell>mu = mean, sigma = std dev</cell><cell>dnorm() in R</cell></row>
+    <row><cell>t(df)</cell><cell>df = degrees of freedom</cell><cell>dt() in R</cell></row>
+    <row><cell>chi-squared(df)</cell><cell>df = degrees of freedom</cell><cell>dchisq() in R</cell></row>
+    <row><cell>F(df1, df2)</cell><cell>df1, df2 = degrees of freedom</cell><cell>df() in R</cell></row>
+  </tabular>
+</table>
+<table xml:id="tab-pdistnames">
+  <title>R functions for common probability distributions</title>
+  <tabular>
+    <row header="yes"><cell>Distribution</cell><cell>density</cell><cell>cumulative</cell><cell>quantile</cell><cell>random</cell></row>
+    <row><cell>normal</cell><cell>dnorm()</cell><cell>pnorm()</cell><cell>qnorm()</cell><cell>rnorm()</cell></row>
+    <row><cell>t</cell><cell>dt()</cell><cell>pt()</cell><cell>qt()</cell><cell>rt()</cell></row>
+    <row><cell>chi-squared</cell><cell>dchisq()</cell><cell>pchisq()</cell><cell>qchisq()</cell><cell>rchisq()</cell></row>
+    <row><cell>F</cell><cell>df()</cell><cell>pf()</cell><cell>qf()</cell><cell>rf()</cell></row>
+    <row><cell>binomial</cell><cell>dbinom()</cell><cell>pbinom()</cell><cell>qbinom()</cell><cell>rbinom()</cell></row>
+  </tabular>
+</table>
 </section>
 <section xml:id="normal">
 <title>The normal distribution</title>
@@ -539,6 +595,27 @@ par(mfrow=c(1,1))]]></output>
 <p>The point of this discussion is to make clear that, when we're talking about continuous distributions, it's not meaningful to talk about the probability of a specific value. However, what we <em>can</em> talk about is the probability that the value lies within a particular range of values. To find out the probability associated with a particular range, what you need to do is calculate the "area under the curve". We've seen this concept already: in Figure <xref ref="fig-sdnorm1"/>, the shaded areas shown depict genuine probabilities (e.g., in the left hand panel of Figure <xref ref="fig-sdnorm1"/> it shows the probability of observing a value that falls within 1 standard deviation of the mean).</p>
 <p>Okay, so that explains part of the story. I've explained a little bit about how continuous probability distributions should be interpreted (i.e., area under the curve is the key thing), but I haven't actually explained what the <c>dnorm()</c> function actually calculates. Equivalently, what does the formula for <m>p(x)</m> that I described earlier actually mean? Obviously, <m>p(x)</m> doesn't describe a probability, but what is it? The name for this quantity <m>p(x)</m> is a <em>probability density</em>, and in terms of the plots we've been drawing, it corresponds to the <em>height</em> of the curve. The densities themselves aren't meaningful in and of themselves: but they're "rigged" to ensure that the <em>area</em> under the curve is always interpretable as genuine probabilities. To be honest, that's about as much as you really need to know for now.<fn>For those readers who know a little calculus, I'll give a slightly more precise explanation. In the same way that probabilities are non-negative numbers that must sum to 1, probability densities are non-negative numbers that must integrate to 1 (where the integral is taken across all possible values of <m>X</m>). To calculate the probability that <m>X</m> falls between <m>a</m> and <m>b</m> we calculate the definite integral of the density function over the corresponding range, <m>\int_a^b p(x) \ dx</m>. If you don't remember or never learned calculus, don't worry about this. It's not needed for this book.</fn></p>
 </subsection>
+
+<figure xml:id="fig-normdist">
+  <caption>The normal distribution with mean 0 and standard deviation 1.</caption>
+  <image source="images/normdist.png"/>
+</figure>
+<figure xml:id="fig-normmean">
+  <caption>Normal distributions with different means but the same standard deviation.</caption>
+  <image source="images/normmean.png"/>
+</figure>
+<figure xml:id="fig-normsd">
+  <caption>Normal distributions with the same mean but different standard deviations.</caption>
+  <image source="images/normsd.png"/>
+</figure>
+<figure xml:id="fig-sdnorm1">
+  <caption>Illustration of the 68-95-99.7 rule: the shaded area shows the probability of falling within 1 standard deviation of the mean.</caption>
+  <image source="images/sdnorm1.png"/>
+</figure>
+<figure xml:id="fig-sdnorm2">
+  <caption>Illustration of the 68-95-99.7 rule: the shaded area shows the probability of falling within 2 standard deviations of the mean.</caption>
+  <image source="images/sdnorm2.png"/>
+</figure>
 </section>
 <section xml:id="otherdists">
 <title>Other useful distributions</title>
@@ -689,6 +766,23 @@ hist( F.3.20 )                                 # ... and draw a picture]]></inpu
 </program>
 <p>The resulting <c>F.3.20</c> variable does in fact store variables that follow an <m>F</m> distribution with 3 and 20 degrees of freedom. This is illustrated in Figure <xref ref="fig-variaterelations"/>, which plots the histgram of the observations stored in <c>F.3.20</c> against the true <m>F</m> distribution with <m>df_1 = 3</m> and <m>df_2 = 20</m>. Again, they match.</p>
 <p>Okay, time to wrap this section up. We've seen three new distributions: <m>\chi^2</m>, <m>t</m> and <m>F</m>. They're all continuous distributions, and they're all closely related to the normal distribution. I've talked a little bit about the precise nature of this relationship, and shown you some R commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we're going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn't be surprised to see <m>\chi^2</m>, <m>t</m> and <m>F</m> distributions popping up all over the place when you start trying to do your data analysis.</p>
+
+<figure xml:id="fig-tdist">
+  <caption>The t distribution with various degrees of freedom, compared to the normal distribution.</caption>
+  <image source="images/tdist.png"/>
+</figure>
+<figure xml:id="fig-chisqdist">
+  <caption>Chi-squared distributions with varying degrees of freedom.</caption>
+  <image source="images/chisqdist.png"/>
+</figure>
+<figure xml:id="fig-Fdist">
+  <caption>The F distribution with various parameters.</caption>
+  <image source="images/Fdist.png"/>
+</figure>
+<figure xml:id="fig-variaterelations">
+  <caption>Sampling distributions obtained by simulation. Each panel shows a histogram of the values obtained from the simulation, overlaid with the theoretical distribution.</caption>
+  <image source="images/variaterelations.png"/>
+</figure>
 </section>
 <section>
 <title>Summary</title>

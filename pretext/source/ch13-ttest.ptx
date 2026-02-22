@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch13-ttest">
+<chapter xml:id="ttest">
   <title>Comparing two means</title>
   <program language="r">
     <input>
@@ -1720,4 +1720,13 @@
       </li>
     </ul>
   </section>
+<table xml:id="table-cohensdinterpretation">
+  <title>A (very) rough guide to interpreting Cohen's d. Note: these are just rough guidelines; what counts as a large or small effect depends on context.</title>
+  <tabular halign="left">
+    <row header="yes"><cell>d value</cell><cell>Rough interpretation</cell></row>
+    <row><cell>about 0.2</cell><cell>Small effect</cell></row>
+    <row><cell>about 0.5</cell><cell>Medium effect</cell></row>
+    <row><cell>about 0.8</cell><cell>Large effect</cell></row>
+  </tabular>
+</table>
 </chapter>

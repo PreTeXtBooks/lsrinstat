@@ -473,7 +473,16 @@ knitr::include_graphics(file.path(projecthome, "img","factorialanova","maineffec
 
         <p>The ANOVA model that we've been talking about so far covers a range of different patterns that we might observe in our data. For instance, in a two-way ANOVA design, there are four possibilities: (a) only Factor A matters, (b) only Factor B matters, (c) both A and B matter, and (d) neither A nor B matters. An example of each of these four possibilities is plotted in Figure <xref ref="fig-maineffects"/>.</p>
     </subsection>
-  </section>
+  
+  <figure xml:id="fig-moodgain">
+    <caption>Bar graph showing mean mood gain as a function of therapy type and drug condition.</caption>
+    <image source="images/moodgain.png"/>
+  </figure>
+  <figure xml:id="fig-maineffects">
+    <caption>Plots of main effects for therapy and drug, averaging over the other factor.</caption>
+    <image source="images/maineffects.png"/>
+  </figure>
+</section>
   <section xml:id="interactions">
     <title>Factorial ANOVA 2: balanced designs, interactions allowed</title>
 
@@ -633,7 +642,20 @@ df_{A:B} &=& (R\times C - 1) - (R - 1) - (C -1 ) \\
         <p>Here's what I mean. Again, let's stick with a clinical example. Suppose that we had a <m>2 \times 2</m> design comparing two different treatments for phobias (e.g., systematic desensitisation vs flooding), and two different anxiety reducing drugs (e.g., Anxifree vs Joyzepam). Now suppose what we found was that Anxifree had no effect when desensitisation was the treatment, and Joyzepam had no effect when flooding was the treatment. But both were pretty effective for the other treatment. This is a classic crossover interaction, and what we'd find when running the ANOVA is that there is no main effect of drug, but a significant interaction. Now, what does it actually <em>mean</em> to say that there's no main effect? Wel, it means that, if we average over the two different psychological treatments, then the <em>average</em> effect of Anxifree and Joyzepam is the same. But why would anyone care about that? When treating someone for phobias, it is never the case that a person can be treated using an "average" of flooding and desensitisation: that doesn't make a lot of sense. You either get one or the other. For one treatment, one drug is effective; and for the other treatment, the other drug is effective. The interaction is the important thing; the main effect is kind of irrelevant.</p>
         <p>This sort of thing happens a lot: the main effect are tests of marginal means, and when an interaction is present we often find ourselves not being terribly interested in marginal means, because they imply averaging over things that the interaction tells us shouldn't be averaged! Of course, it's not always the case that a main effect is meaningless when an interaction is present. Often you can get a big main effect and a very small interaction, in which case you can still say things like "drug A is generally more effective than drug B" (because there was a big effect of drug), but you'd need to modify it a bit by adding that "the difference in effectiveness was different for different psychological treatments". In any case, the main point here is that whenever you get a significant interaction you should stop and <em>think</em> about what the main effect actually means in this context. Don't automatically assume that the main effect is interesting.</p>
     </subsection>
-  </section>
+  
+  <figure xml:id="fig-interaction">
+    <caption>Interaction plot showing how the effect of one factor depends on the level of the other factor.</caption>
+    <image source="images/interaction.png"/>
+  </figure>
+  <figure xml:id="fig-interactiona">
+    <caption>Interaction plot illustrating a crossover interaction where neither main effect is significant.</caption>
+    <image source="images/interactiona.png"/>
+  </figure>
+  <figure xml:id="fig-interactionplot">
+    <caption>Interaction plot from the R output showing the pattern of means across cells.</caption>
+    <image source="images/interactionplot.png"/>
+  </figure>
+</section>
   <section xml:id="effectsizefactorialanova">
     <title>Effect size, estimated means, and confidence intervals</title>
 

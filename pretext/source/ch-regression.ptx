@@ -63,7 +63,28 @@ colour <- TRUE
     <p>This is not highly surprising: the line that I've drawn in Figure <xref ref="fig-regression1b"/> doesn't "fit" the data very well, so it doesn't make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let's start with a refresher of some high school maths. The formula for a straight line is usually written like this: <me>y = mx + c</me> Or, at least, that's what it was when I went to high school all those years ago. The two <em>variables</em> are <m>x</m> and <m>y</m>, and we have two <em>coefficients</em>, <m>m</m> and <m>c</m>. The coefficient <m>m</m> represents the <em>slope</em> of the line, and the coefficient <m>c</m> represents the <em><m>y</m>-intercept</em> of the line. Digging further back into our decaying memories of high school (sorry, for some of us high school was a long time ago), we remember that the intercept is interpreted as "the value of <m>y</m> that you get when <m>x=0</m>". Similarly, a slope of <m>m</m> means that if you increase the <m>x</m>-value by 1 unit, then the <m>y</m>-value goes up by <m>m</m> units; a negative slope means that the <m>y</m>-value would go down rather than up. Ah yes, it's all coming back to me now.</p>
     <p>Now that we've remembered that, it should come as no surprise to discover that we use the exact same formula to describe a regression line. If <m>Y</m> is the outcome variable (the DV) and <m>X</m> is the predictor variable (the IV), then the formula that describes our regression is written like this: <me>\hat{Y_i} = b_1 X_i + b_0</me> Hm. Looks like the same formula, but there's some extra frilly bits in this version. Let's make sure we understand them. Firstly, notice that I've written <m>X_i</m> and <m>Y_i</m> rather than just plain old <m>X</m> and <m>Y</m>. This is because we want to remember that we're dealing with actual data. In this equation, <m>X_i</m> is the value of predictor variable for the <m>i</m>th observation (i.e., the number of hours of sleep that I got on day <m>i</m> of my little study), and <m>Y_i</m> is the corresponding value of the outcome variable (i.e., my grumpiness on that day). And although I haven't said so explicitly in the equation, what we're assuming is that this formula works for all observations in the data set (i.e., for all <m>i</m>). Secondly, notice that I wrote <m>\hat{Y}_i</m> and not <m>Y_i</m>. This is because we want to make the distinction between the <em>actual data</em> <m>Y_i</m>, and the <em>estimate</em> <m>\hat{Y}_i</m> (i.e., the prediction that our regression line is making). Thirdly, I changed the letters used to describe the coefficients from <m>m</m> and <m>c</m> to <m>b_1</m> and <m>b_0</m>. That's just the way that statisticians like to refer to the coefficients in a regression model. I've no idea why they chose <m>b</m>, but that's what they did. In any case <m>b_0</m> always refers to the intercept term, and <m>b_1</m> refers to the slope.</p>
     <p>Excellent, excellent. Next, I can't help but notice that -- regardless of whether we're talking about the good regression line or the bad one -- the data don't fall perfectly on the line. Or, to say it another way, the data <m>Y_i</m> are not identical to the predictions of the regression model <m>\hat{Y_i}</m>. Since statisticians love to attach letters, names and numbers to everything, let's refer to the difference between the model prediction and that actual data point as a <em>residual</em>, and we'll refer to it as <m>\epsilon_i</m>.<fn>The <m>\epsilon</m> symbol is the Greek letter epsilon. It's traditional to use <m>\epsilon_i</m> or <m>e_i</m> to denote a residual.</fn> Written using mathematics, the residuals are defined as: <me>\epsilon_i = Y_i - \hat{Y}_i</me> which in turn means that we can write down the complete linear regression model as: <me>Y_i = b_1 X_i + b_0 + \epsilon_i</me></p>
-  </section>
+  
+  <figure xml:id="fig-regression0">
+    <caption>Scatterplot showing the relationship between Dan's sleep and Dan's grumpiness.</caption>
+    <image source="images/regression0.png"/>
+  </figure>
+  <figure xml:id="fig-regression1a">
+    <caption>The best-fitting regression line through the scatterplot of sleep vs grumpiness.</caption>
+    <image source="images/regression1a.png"/>
+  </figure>
+  <figure xml:id="fig-regression1b">
+    <caption>A poorly-fitting regression line through the scatterplot of sleep vs grumpiness.</caption>
+    <image source="images/regression1b.png"/>
+  </figure>
+  <figure xml:id="fig-regression3a">
+    <caption>Illustration of residuals with a good regression fit.</caption>
+    <image source="images/regression3a.png"/>
+  </figure>
+  <figure xml:id="fig-regression3b">
+    <caption>Illustration of residuals with a poor regression fit.</caption>
+    <image source="images/regression3b.png"/>
+  </figure>
+</section>
   <section xml:id="regressionestimation">
     <title>Estimating a linear regression model</title>
 
@@ -186,7 +207,12 @@ print( regression.2 )
 
     <p>The equation that I gave above shows you what a multiple regression model looks like when you include two predictors. Not surprisingly, then, if you want more than two predictors all you have to do is add more <m>X</m> terms and more <m>b</m> coefficients. In other words, if you have <m>K</m> predictor variables in the model then the regression equation looks like this: <me>Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i</me></p>
     </subsection>
-  </section>
+  
+  <figure xml:id="fig-multipleregression">
+    <caption>3D scatterplot illustrating multiple regression with two predictors.</caption>
+    <image source="images/multipleregression.png"/>
+  </figure>
+</section>
   <section xml:id="r2">
     <title>Quantifying the fit of the regression model</title>
 
@@ -1036,7 +1062,52 @@ vif( regression.3 )
     </console>
     <p>Yep, that's some mighty fine collinearity you've got there.</p>
     </subsection>
-  </section>
+  
+  <figure xml:id="fig-outlier">
+    <caption>Illustration of an outlier in regression: an observation with an unusually large residual.</caption>
+    <image source="images/outlier.png"/>
+  </figure>
+  <figure xml:id="fig-leverage">
+    <caption>Illustration of high leverage: an observation far from others on the predictor variable.</caption>
+    <image source="images/leverage.png"/>
+  </figure>
+  <figure xml:id="fig-influence">
+    <caption>Illustration of high influence: an observation that is both an outlier and has high leverage.</caption>
+    <image source="images/influence.png"/>
+  </figure>
+  <figure xml:id="fig-residhist">
+    <caption>Histogram of standardised residuals from the regression model, with normal distribution overlay.</caption>
+    <image source="images/residhist.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot1">
+    <caption>Fitted values vs residuals plot for checking linearity assumptions.</caption>
+    <image source="images/regressionplot1.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot2">
+    <caption>Normal Q-Q plot of standardised residuals from the regression model.</caption>
+    <image source="images/regressionplot2.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot3">
+    <caption>Scale-location plot for checking homogeneity of variance.</caption>
+    <image source="images/regressionplot3.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot4">
+    <caption>Cook's distance plot for identifying influential observations.</caption>
+    <image source="images/regressionplot4.png"/>
+  </figure>
+  <figure xml:id="fig-regressionplot5">
+    <caption>Residuals vs leverage plot for the regression model.</caption>
+    <image source="images/regressionplot5.png"/>
+  </figure>
+  <figure xml:id="fig-residualPlots">
+    <caption>Residual plots from the car package's residualPlots() function.</caption>
+    <image source="images/residualPlots.png"/>
+  </figure>
+  <figure xml:id="fig-regressionlinearity">
+    <caption>Plot of fitted values vs observed values for checking linearity.</caption>
+    <image source="images/regressionlinearity.png"/>
+  </figure>
+</section>
   <section xml:id="modelselreg">
     <title>Model selection</title>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<chapter xml:id="ch7-data-handling">
+<chapter xml:id="datahandling">
   <title>Pragmatic matters</title>
   <blockquote>
     <p><em>The garden of life never seems to confine itself to the plots philosophers have laid out for its convenience. Maybe a few more tractors would do the trick.</em></p>
@@ -3756,4 +3756,78 @@
       There are a number of books out there that extend this discussion. A couple of my favourites are @Spector2008 "Data Manipulation with R" and @Teetor2011 "R Cookbook".
     </p>
   </section>
+
+<figure xml:id="fig-booksales2csv">
+  <caption>A CSV file with non-standard formatting, showing an alternative data file for the booksales data set.</caption>
+  <image source="images/booksales2csv.jpg"/>
+</figure>
+
+<figure xml:id="fig-envs">
+  <caption>The environment panel in RStudio showing loaded packages and their environments, with a dropdown to switch from Global Environment to package environments.</caption>
+  <image source="images/environments.png"/>
+</figure>
+<table xml:id="table-mathfunctab">
+  <title>Some useful mathematical functions available in R.</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Function</cell><cell>Description</cell></row>
+    <row><cell>abs(x)</cell><cell>Absolute value</cell></row>
+    <row><cell>ceiling(x)</cell><cell>Round up to nearest integer</cell></row>
+    <row><cell>floor(x)</cell><cell>Round down to nearest integer</cell></row>
+    <row><cell>round(x, digits)</cell><cell>Round to specified number of digits</cell></row>
+    <row><cell>sqrt(x)</cell><cell>Square root</cell></row>
+    <row><cell>exp(x)</cell><cell>Exponential function</cell></row>
+    <row><cell>log(x)</cell><cell>Natural logarithm</cell></row>
+    <row><cell>log10(x)</cell><cell>Base-10 logarithm</cell></row>
+    <row><cell>log2(x)</cell><cell>Base-2 logarithm</cell></row>
+    <row><cell>max(x)</cell><cell>Largest element of x</cell></row>
+    <row><cell>min(x)</cell><cell>Smallest element of x</cell></row>
+    <row><cell>sum(x)</cell><cell>Sum of all elements of x</cell></row>
+    <row><cell>cumsum(x)</cell><cell>Cumulative sum of elements</cell></row>
+    <row><cell>prod(x)</cell><cell>Product of all elements</cell></row>
+    <row><cell>cummax(x)</cell><cell>Cumulative maximum</cell></row>
+    <row><cell>cummin(x)</cell><cell>Cumulative minimum</cell></row>
+  </tabular>
+</table>
+<table xml:id="table-asciiorder">
+  <title>Ordering of selected characters in R (based on ASCII/UTF-8 order).</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Character</cell><cell>Type</cell></row>
+    <row><cell>space</cell><cell>Punctuation/whitespace</cell></row>
+    <row><cell>! " # $ % &amp; ' ( ) *</cell><cell>Punctuation</cell></row>
+    <row><cell>+ , - . /</cell><cell>Punctuation</cell></row>
+    <row><cell>0 1 2 3 4 5 6 7 8 9</cell><cell>Digits</cell></row>
+    <row><cell>: ; &lt; = &gt; ? @</cell><cell>Punctuation</cell></row>
+    <row><cell>A B C ... Z</cell><cell>Uppercase letters</cell></row>
+    <row><cell>[ \ ] ^ _ `</cell><cell>Punctuation</cell></row>
+    <row><cell>a b c ... z</cell><cell>Lowercase letters</cell></row>
+  </tabular>
+</table>
+<table xml:id="table-textescape">
+  <title>Standard escape sequences recognized by R.</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Escape sequence</cell><cell>Meaning</cell></row>
+    <row><cell>\n</cell><cell>Newline (line feed)</cell></row>
+    <row><cell>\t</cell><cell>Tab</cell></row>
+    <row><cell>\r</cell><cell>Carriage return</cell></row>
+    <row><cell>\\</cell><cell>Backslash</cell></row>
+    <row><cell>\"</cell><cell>Double quote</cell></row>
+    <row><cell>\'</cell><cell>Single quote</cell></row>
+    <row><cell>\a</cell><cell>Bell (alert)</cell></row>
+    <row><cell>\b</cell><cell>Backspace</cell></row>
+    <row><cell>\f</cell><cell>Form feed</cell></row>
+    <row><cell>\v</cell><cell>Vertical tab</cell></row>
+  </tabular>
+</table>
+<table xml:id="table-matrixindex">
+  <title>Indexing a matrix in R using single-index notation versus row and column notation.</title>
+  <tabular halign="left">
+    <row header="yes"><cell>Single index</cell><cell>Row, column notation</cell><cell>Meaning</cell></row>
+    <row><cell>M[1]</cell><cell>M[1,1]</cell><cell>Row 1, Column 1</cell></row>
+    <row><cell>M[2]</cell><cell>M[2,1]</cell><cell>Row 2, Column 1</cell></row>
+    <row><cell>M[3]</cell><cell>M[3,1]</cell><cell>Row 3, Column 1</cell></row>
+    <row><cell>M[4]</cell><cell>M[1,2]</cell><cell>Row 1, Column 2</cell></row>
+    <row><cell>M[5]</cell><cell>M[2,2]</cell><cell>Row 2, Column 2</cell></row>
+    <row><cell>M[6]</cell><cell>M[3,2]</cell><cell>Row 3, Column 2</cell></row>
+  </tabular>
+</table>
 </chapter>
