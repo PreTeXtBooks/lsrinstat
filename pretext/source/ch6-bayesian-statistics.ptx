@@ -416,6 +416,8 @@
 
     <p>Time to change gears. Up to this point I've been talking about what Bayesian inference is and why you might consider using it. I now want to briefly describe how to do Bayesian versions of various statistical tests. The discussions in the next few sections are not as detailed as I'd like, but I hope they're enough to help you get started. So let's begin.</p>
     <p>The first kind of statistical inference problem I discussed in this book appeared in Chapter <xref ref="chisquare"/>, in which we discussed categorical data analysis problems. In that chapter I talked about several different statistical problems that you might be interested in, but the one that appears most often in real life is the analysis of  <em>contingency tables</em>. In this kind of data analysis situation, we have a cross-tabulation of one variable against another one, and the goal is to find out if there is some <em>association</em> between these variables. The data set I used to illustrate this problem is found in the <c>chapek9.Rdata</c> file, and it contains a single data frame <c>chapek9</c></p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 load(file.path(projecthome, "data","chapek9.Rdata"))
@@ -433,7 +435,10 @@ head(chapek9)
 ## 6   human flower
 ]]></output>
     </console>
+    </remark>
     <p>In this data set, we supposedly sampled 180 beings and measured two things. First, we checked whether they were humans or robots, as captured by the <c>species</c> variable. Second, we asked them to nominate whether they most preferred flowers, puppies, or data. When we produce the cross-tabulation, we get this as the results:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 crosstab <- xtabs( ~ species + choice, chapek9 )
@@ -448,11 +453,14 @@ crosstab
 ##   human    15     13   65
 ]]></output>
     </console>
+    </remark>
     <p>Surprisingly, the humans seemed to show a much stronger preference for data than the robots did. At the time we speculated that this might have been because the questioner was a large robot carrying a gun, and the humans might have been scared.</p>
     <subsection>
       <title>The orthodox text</title>
 
     <p>Just to refresh your memory, here's how we analysed these data back in Chapter@refch:chisquare. Because we want to determine if there is some <em>association</em> between <c>species</c> and <c>choice</c>, we used the <c>associationTest()</c> function in the <c>lsr</c> package to run a chi-square test of association. The results looked like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library(lsr)
@@ -492,6 +500,7 @@ associationTest( ~species + choice, chapek9 )
 ##    estimated effect size (Cramer's v):  0.244
 ]]></output>
     </console>
+    </remark>
     <p>Because we found a small <m>p</m> value (in this case <m><![CDATA[p<.01]]></m>), we concluded that the data are inconsistent with the null hypothesis of no association, and we rejected it.</p>
     </subsection>
     <subsection>
@@ -499,12 +508,15 @@ associationTest( ~species + choice, chapek9 )
 
     <p>How do we run an equivalent test as a Bayesian? Well, like every other bloody thing in statistics, there's a lot of different ways you <em>could</em> do it. However, for the sake of everyone's sanity, throughout this chapter I've decided to rely on one R package to do the work. Specifically, I'm going to use the <c>BayesFactor</c> package written by Jeff Rouder and Rich Morey, which as of this writing is in version 0.9.10.</p>
     <p>For the analysis of contingency tables, the <c>BayesFactor</c> package contains a function called <c>contingencyTableBF()</c>. The data that you need to give to this function is the contingency table itself (i.e., the <c>crosstab</c> variable above), so you might be expecting to use a command like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library( BayesFactor )           # ...because we have to load the package
 contingencyTableBF( crosstab )   # ...because that makes sense, right?
 ]]></input>
     </program>
+    </remark>
     <p>However, if you try this you'll get an error message. This is because the <c>contingencyTestBF()</c> function needs one other piece of information from you: it needs to know what <em>sampling plan</em> you used to run your experiment. You can specify the sampling plan using the <c>sampleType</c> argument. So I should probably tell you what your options are! The <c>contingencyTableBF()</c> function distinguishes between four different types of experiment:</p>
     <ul>
       <li><p><em>Fixed sample size</em>. Suppose that in our <c>chapek9</c> example, our experiment was designed like this: we deliberately set out to test 180 people, but we didn't try to control the number of humans or robots, nor did we try to control the choices they made. In this design, the total number of observations <m>N</m> is fixed, but everything else is random. This is referred to as "joint multinomial" sampling, and if that's what you did you should specify <c>sampleType = "jointMulti"</c>. In the case of the <c>chapek9</c> data, that's actually what I had in mind when I invented the data set.</p></li>
@@ -513,6 +525,8 @@ contingencyTableBF( crosstab )   # ...because that makes sense, right?
       <li><p><em>Nothing is fixed</em>. Finally, it might be the case that <em>nothing</em> is fixed. Not the row columns, not the column totals, and not the total sample size either. For instance, in the <c>chapek9</c> scenario, suppose what I'd done is run the study for a fixed length of <em>time</em>. By chance, it turned out that I got 180 people to turn up to study, but it could easily have been something else. This is referred to as "Poisson" sampling, and if that's what you've done you should specify <c>sampleType="poisson"</c>.</p></li>
     </ul>
     <p>Okay, so now we have enough knowledge to actually run a test. For the <c>chapek9</c> data, I implied that we designed the study such that the total sample size <m>N</m> was fixed, so we should set <c>sampleType = "jointMulti"</c>. The command that we need is,</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library( BayesFactor )
@@ -531,6 +545,7 @@ contingencyTableBF( crosstab, sampleType = "jointMulti" )
 ## Bayes factor type: BFcontingencyTable, joint multinomial
 ]]></output>
     </console>
+    </remark>
     <p>As with most R commands, the output initially looks suspiciously similar to utter gibberish. Fortunately, it's actually pretty simple once you get past the initial impression. Firstly, note that the stuff at the top and bottom are irrelevant fluff. You already know that you're doing a Bayes factor analysis. You already know that you're analysing a contingency table, and you already know that you specified a joint multinomial sampling plan. So let's strip that out and take a look at what's left over:</p>
     <console>
       <output><![CDATA[
@@ -575,6 +590,8 @@ Against denominator:
       <title>Other sampling plans</title>
 
     <p>Up to this point all I've shown you is how to use the <c>contingencyTableBF()</c> function for the joint multinomial sampling plan (i.e., when the total sample size <m>N</m> is fixed, but nothing else is). For the Poisson sampling plan (i.e., nothing fixed), the command you need is identical except for the <c>sampleType</c> argument:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 contingencyTableBF(crosstab, sampleType = "poisson" )
@@ -592,8 +609,11 @@ contingencyTableBF(crosstab, sampleType = "poisson" )
 ## Bayes factor type: BFcontingencyTable, poisson
 ]]></output>
     </console>
+    </remark>
     <p>Notice that the Bayes factor of 28:1 here is <em>not</em> the identical to the Bayes factor of 16:1 that we obtained from the last test. The sampling plan actually does matter.</p>
     <p>What about the design in which the row columns (or column totals) are fixed? As I mentioned earlier, this corresponds to the "independent multinomial" sampling plan. Again, you need to specify the <c>sampleType</c> argument, but this time you need to specify whether you fixed the rows or the columns. For example, suppose I deliberately sampled 87 humans and 93 robots, then I would need to indicate that the <c>fixedMargin</c> of the contingency table is the <c>"rows"</c>. So the command I would use is:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 contingencyTableBF(crosstab, sampleType = "indepMulti", fixedMargin="rows")
@@ -611,8 +631,11 @@ contingencyTableBF(crosstab, sampleType = "indepMulti", fixedMargin="rows")
 ## Bayes factor type: BFcontingencyTable, independent multinomial
 ]]></output>
     </console>
+    </remark>
     <p>Again, the Bayes factor is different, with the evidence for the alternative dropping to a mere 9:1. As you might expect, the answers would be diffrent again if it were the columns of the contingency table that the experimental design fixed.</p>
     <p>Finally, if we turn to hypergeometric sampling in which everything is fixed, we get...</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 contingencyTableBF(crosstab, sampleType = "hypergeom")
@@ -620,7 +643,10 @@ contingencyTableBF(crosstab, sampleType = "hypergeom")
 #  hypergeometric contingency tables restricted to 2 x 2 tables; see help for contingencyTableBF()
 ]]></input>
     </program>
+    </remark>
     <p>... an error message. Okay, some quick reading through the help files hints that support for larger contingency tables is coming, but it's not been implemented yet. In the meantime, let's imagine we have data from the "toy labelling" experiment I described earlier in this section. Specifically, let's say our data look like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 toys <- data.frame(stringsAsFactors=FALSE,
@@ -631,7 +657,10 @@ toys <- data.frame(stringsAsFactors=FALSE,
 
 ]]></input>
     </program>
+    </remark>
     <p>The Bayesian test with hypergeometric sampling gives us this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 contingencyTableBF(toys, sampleType = "hypergeom")
@@ -647,6 +676,7 @@ contingencyTableBF(toys, sampleType = "hypergeom")
 
 ]]></input>
     </program>
+    </remark>
     <p>The Bayes factor of 8:1 provides modest evidence that the labels were being assigned in a way that correlates gender with colour, but it's not conclusive.</p>
     </subsection>
   </section>
@@ -658,6 +688,8 @@ contingencyTableBF(toys, sampleType = "hypergeom")
       <title>Independent samples <m>t</m>-test</title>
 
     <p>The most common type of <m>t</m>-test is the independent samples <m>t</m>-test, and it arises when you have data that look something like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 load(file.path(projecthome, "data","harpo.Rdata"))
@@ -675,7 +707,10 @@ head(harpo)
 ## 6    71 Bernadette
 ]]></output>
     </console>
+    </remark>
     <p>In this data set, we have two groups of students, those who received lessons from Anastasia and those who took their classes with Bernadette. The question we want to answer is whether there's any difference in the grades received by these two groups of student. Back in Chapter@refch:ttest I suggested you could analyse this kind of data using the <c>independentSamplesTTest()</c> function in the <c>lsr</c> package. For example, if you want to run a Student's <m>t</m>-test, you'd use a command like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 independentSamplesTTest(
@@ -712,9 +747,12 @@ independentSamplesTTest(
 ##    estimated effect size (Cohen's d):  0.74
 ]]></output>
     </console>
+    </remark>
     <p>Like most of the functions that I wrote for this book, the <c>independentSamplesTTest()</c> is very wordy. It prints out a bunch of descriptive statistics and a reminder of what the null and alternative hypotheses are, before finally getting to the test results. I wrote it that way deliberately, in order to help make things a little clearer for people who are new to statistics.</p>
     <p>Again, we obtain a <m>p</m>-value less than 0.05, so we reject the null hypothesis.</p>
     <p>What does the Bayesian version of the <m>t</m>-test look like? Using the <c>ttestBF()</c> function, we can obtain a Bayesian analog of Student's independent samples <m>t</m>-test using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 ttestBF( formula = grade ~ tutor, data = harpo )
@@ -732,6 +770,7 @@ ttestBF( formula = grade ~ tutor, data = harpo )
 ## Bayes factor type: BFindepSample, JZS
 ]]></output>
     </console>
+    </remark>
     <p>Notice that format of this command is pretty standard. As usual we have a <c>formula</c> argument in which we specify the outcome variable on the left hand side and the grouping variable on the right. The <c>data</c> argument is used to specify the data frame containing the variables. However, notice that there's no analog of the <c>var.equal</c> argument. This is because the <c>BayesFactor</c> package does not include an analog of the Welch test, only the Student test.<fn>Apparently this omission is deliberate. I have this vague recollection that I spoke to Jeff Rouder about this once, and his opinion was that when homogeneity of variance is violated the results of a <m>t</m>-test are uninterpretable. I can see the argument for this, but I've never really held a strong opinion myself. (Jeff, if you never said that, I'm sorry)</fn> In any case, when you run this command you get this as the output:</p>
     <p>So what does all this mean? Just as we saw with the <c>contingencyTableBF()</c> function, the output is pretty dense. But, just like last time, there's not a lot of information here that you actually need to process. Firstly, let's examine the bottom line. The <c>BFindepSample</c> part just tells you that you ran an independent samples <m>t</m>-test, and the <c>JZS</c> part is technical information that is a little beyond the scope of this book.<fn>Just in case you're interested: the "JZS" part of the output relates to how the Bayesian test expresses the prior uncertainty about the variance <m>\sigma^2</m>, and it's short for the names of three people: "Jeffreys Zellner Siow". See <xref ref="biblio-Rouder2009">Rouder et al. (2009)</xref> for details.</fn> Clearly, there's nothing to worry about in that part. In the line above, the text <c>Null, mu1-mu2 = 0</c> is just telling you that the null hypothesis is that there are no differences between means. But you already knew that. So the only part that really matters is this line here:</p>
     <console>
@@ -746,6 +785,8 @@ ttestBF( formula = grade ~ tutor, data = harpo )
       <title>Paired samples <m>t</m>-test</title>
 
     <p>Back in Section <xref ref="pairedsamplesttest"/> I discussed the <c>chico</c> data frame in which students grades were measured on two tests, and we were interested in finding out whether grades went up from test 1 to test 2. Because every student did both tests, the tool we used to analyse the data was a paired samples <m>t</m>-test. To remind you of what the data look like, here's the first few cases:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 load(file.path(projecthome, "data","chico.Rdata"))
@@ -763,7 +804,10 @@ head(chico)
 ## 6 student6        58.0        59.3
 ]]></output>
     </console>
+    </remark>
     <p>We originally analysed the data using the <c>pairedSamplesTTest()</c> function in the <c>lsr</c> package, but this time we'll use the <c>ttestBF()</c> function from the <c>BayesFactor</c> package to do the same thing. The easiest way to do it with this data set is to use the <c>x</c> argument to specify one variable and the <c>y</c> argument to specify the other. All we need to do then is specify <c>paired=TRUE</c> to tell R that this is a paired samples test. So here's our command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 ttestBF(
@@ -785,6 +829,7 @@ ttestBF(
 ## Bayes factor type: BFoneSample, JZS
 ]]></output>
     </console>
+    </remark>
     <p>At this point, I hope you can read this output without any difficulty. The data provide evidence of about 6000:1 in favour of the alternative. We could probably reject the null with some confidence!</p>
     </subsection>
   </section>
@@ -796,6 +841,8 @@ ttestBF(
       <title>A quick refresher</title>
 
     <p>In Chapter <xref ref="regression"/> I used the <c>parenthood</c> data to illustrate the basic ideas behind regression. To remind you of what that data set looks like, here's the first six observations:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 load(file.path(projecthome, "data","parenthood.Rdata"))
@@ -813,7 +860,10 @@ head(parenthood)
 ## 6      5.99       5.04        72   6
 ]]></output>
     </console>
+    </remark>
     <p>Back in Chapter <xref ref="regression"/> I proposed a theory in which my grumpiness (<c>dan.grump</c>) on any given day is related to the amount of sleep I got the night before (<c>dan.sleep</c>), and possibly to the amount of sleep our baby got (<c>baby.sleep</c>), though probably not to the <c>day</c> on which we took the measurement. We tested this using a regression model. In order to estimate the regression model we used the <c>lm()</c> function, like so:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 model <- lm( 
@@ -822,7 +872,10 @@ model <- lm(
 )
 ]]></input>
     </program>
+    </remark>
     <p>The hypothesis tests for each of the terms in the regression model were extracted using the <c>summary()</c> function as shown below:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 summary(model)
@@ -852,12 +905,15 @@ summary(model)
 ## F-statistic: 142.2 on 3 and 96 DF,  p-value: < 2.2e-16
 ]]></output>
     </console>
+    </remark>
     <p>When interpreting the results, each row in this table corresponds to one of the possible predictors. The <c>(Intercept)</c> term isn't usually interesting, though it is highly significant. The important thing for our purposes is the fact that <c>dan.sleep</c> is significant at <m><![CDATA[p<.001]]></m> and neither of the other variables are.</p>
     </subsection>
     <subsection>
       <title>The Bayesian version</title>
 
     <p>Okay, so how do we do the same thing using the <c>BayesFactor</c> package? The easiest way is to use the <c>regressionBF()</c> function instead of <c>lm()</c>. As before, we use <c>formula</c> to indicate what the full regression model looks like, and the <c>data</c> argument to specify the data frame. So the command is:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 regressionBF(
@@ -887,6 +943,7 @@ regressionBF(
   |=================================================================| 100%
 ]]></output>
     </console>
+    </remark>
     <p>So that's pretty straightforward: it's exactly what we've been doing throughout the book. The output, however, is a little different from what you get from <c>lm()</c>. The format of this is pretty familiar. At the bottom we have some techical rubbish, and at the top we have some information about the Bayes factors. What's new is the fact that we seem to have <em>lots</em> of Bayes factors here. What's all this about?</p>
     <p>The trick to understanding this output is to recognise that if we're interested in working out which of the 3 predictor variables are related to <c>dan.grump</c>, there are actually 8 possible regression models that could be considered. One possibility is the <em>intercept only model</em>, in which none of the three variables have an effect. At the other end of the spectrum is the <em>full model</em> in which all three variables matter. So what <c>regressionBF()</c> does is treat the <em>intercept only</em> model as the null hypothesis, and print out the Bayes factors for all other models when compared against that null. For example, if we look at line 4 in the table, we see that the evidence is about <m>10^{33}</m> to 1 in favour of the claim that a model that includes both <c>dan.sleep</c> and <c>day</c> is better than the intercept only model. Or if we look at line 1, we can see that the odds are about <m>1.6 \times 10^{34}</m> that a model containing the <c>dan.sleep</c> variable (but no others) is better than the intercept only model.</p>
     </subsection>
@@ -894,6 +951,8 @@ regressionBF(
       <title>Finding the best model</title>
 
     <p>In practice, this isn't super helpful. In most situations the intercept only model is one that you don't really care about at all. What I find helpful is to start out by working out which model is the <em>best</em> one, and then seeing how well all the alternatives compare to it. Here's how you do that. In this case, it's easy enough to see that the best model is actually the one that contains <c>dan.sleep</c> only (line 1), because it has the largest Bayes factor. However, if you've got a lot of possible models in the output, it's handy to know that you can use the <c>head()</c> function to pick out the best few models. First, we have to go back and save the Bayes factor information to a variable:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 models <- regressionBF(
@@ -923,7 +982,10 @@ models <- regressionBF(
   |=================================================================| 100%
 ]]></output>
     </console>
+    </remark>
     <p>Let's say I want to see the best three models. To do this, I use the <c>head()</c> function specifying <c>n=3</c>, and here's what I get as the result:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 head( models, n = 3)
@@ -943,7 +1005,10 @@ head( models, n = 3)
 ## Bayes factor type: BFlinearModel, JZS
 ]]></output>
     </console>
+    </remark>
     <p>This is telling us that the model in line 1 (i.e., <c>dan.grump ~ dan.sleep</c>) is the best one. That's <em>almost</em> what I'm looking for, but it's still comparing all the models against the intercept only model. That seems silly. What I'd like to know is how big the difference is between the best model and the other good models. For that, there's this trick:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 head( models/max(models), n = 3)
@@ -963,7 +1028,10 @@ head( models/max(models), n = 3)
 ## Bayes factor type: BFlinearModel, JZS
 ]]></output>
     </console>
+    </remark>
     <p>Notice the bit at the bottom showing that the "denominator" has changed. What that means is that the Bayes factors are now comparing each of those 3 models listed against the <c>dan.grump ~ dan.sleep</c> model. Obviously, the Bayes factor in the first line is exactly 1, since that's just comparing the best model to itself. More to the point, the other two Bayes factors are both less than 1, indicating that they're all worse than that model. The Bayes factors of 0.06 to 1 imply that the odds for the best model over the second best model are about 16:1. You can work this out by simple arithmetic (i.e., <m>0.06 / 1 \approx 16</m>), but the other way to do it is to directly compare the models. To see what I mean, here's the original output:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 models
@@ -990,7 +1058,10 @@ models
   |=================================================================| 100%
 ]]></output>
     </console>
+    </remark>
     <p>The best model corresponds to row 1 in this table, and the second best model corresponds to row 4. All you have to do to compare these two models is this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 models[1] / models[4]
@@ -1014,6 +1085,7 @@ models[1] / models[4]
 ## Bayes factor type: BFlinearModel, JZS
 ]]></output>
     </console>
+    </remark>
     <p>And there you have it. You've found the regression model with the highest Bayes factor (i.e., <c>dan.grump ~ dan.sleep</c>), and you know that the evidence for that model over the next best alternative (i.e., <c>dan.grump ~ dan.sleep + day</c>) is about 16:1.</p>
     </subsection>
     <subsection>
@@ -1021,6 +1093,8 @@ models[1] / models[4]
 
     <p>Okay, let's say you've settled on a specific regression model. What Bayes factors should you report? In this example, I'm going to pretend that you decided that <c>dan.grump ~ dan.sleep + baby.sleep</c> is the model you think is best. Sometimes it's sensible to do this, even when it's not the one with the highest Bayes factor. Usually this happens because you have a substantive theoretical reason to prefer one model over the other. However, in this case I'm doing it because I want to use a model with more than one predictor as my example!</p>
     <p>Having figured out which model you prefer, it can be really useful to call the <c>regressionBF()</c> function and specifying  <c>whichModels="top"</c>. You use your "preferred" model as the <c>formula</c> argument, and then the output will show you the Bayes factors that result when you try to drop predictors from this model:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 regressionBF( 
@@ -1043,6 +1117,7 @@ regressionBF(
   |=================================================================| 100%
 ]]></output>
     </console>
+    </remark>
     <p>Okay, so now you can see the results a bit more clearly. The Bayes factor when you try to drop the <c>dan.sleep</c> predictor is about <m>10^{-26}</m>, which is very strong evidence that you <em>shouldn't</em> drop it. On the other hand, the Bayes factor actually goes up to 17 if you drop <c>baby.sleep</c>, so you'd usually say that's pretty strong evidence for dropping that one.</p>
     </subsection>
   </section>
@@ -1054,6 +1129,8 @@ regressionBF(
       <title>A quick refresher</title>
 
     <p>As with the other examples, I think it's useful to start with a reminder of how I discussed ANOVA earlier in the book. First, let's remind ourselves of what the data were. The example I used originally is the <c>clin.trial</c> data frame, which looks like this</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 load(file.path(projecthome, "data","clinicaltrial.Rdata"))
@@ -1071,7 +1148,10 @@ head(clin.trial)
 ## 6 anxifree no.therapy       0.2
 ]]></output>
     </console>
+    </remark>
     <p>To run our orthodox analysis in earlier chapters we used the <c>aov()</c> function to do all the heavy lifting. In Chapter <xref ref="anova2"/> I recommended using the <c>Anova()</c> function from the <c>car</c> package to produce the ANOVA table, because it uses Type II tests by default. If you've forgotten what "Type II tests" are, it might be a good idea to re-read Section <xref ref="unbalancedanova"/>, because it will become relevant again in a moment. In any case, here's what our analysis looked like:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library(car)
@@ -1093,12 +1173,15 @@ Anova(model)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ]]></output>
     </console>
+    </remark>
     <p>That's pretty clearly showing us evidence for a main effect of <c>drug</c> at <m><![CDATA[p<.001]]></m>, an effect of <c>therapy</c> at <m><![CDATA[p<.05]]></m> and no interaction.</p>
     </subsection>
     <subsection>
       <title>The Bayesian version</title>
 
     <p>How do we do the same thing using Bayesian methods? The <c>BayesFactor</c> package contains a function called <c>anovaBF()</c> that does this for you. It uses a pretty standard <c>formula</c> and <c>data</c> structure, so the command should look really familiar. Just like we did with regression, it will be useful to save the output to a variable:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 models <- anovaBF( 
@@ -1125,6 +1208,7 @@ models <- anovaBF(
 ## Bayes factor type: BFlinearModel, JZS
 ]]></output>
     </console>
+    </remark>
     <p>The output is quite different to the traditional ANOVA, but it's not too bad once you understand what you're looking for. Let's take a look:</p>
     <console>
       <output><![CDATA[
@@ -1132,6 +1216,8 @@ models
 ]]></output>
     </console>
     <p>This looks very similar to the output we obtained from the <c>regressionBF()</c> function, and with good reason. Remember what I said back in Section <xref ref="anovalm"/>: under the hood, ANOVA is no different to regression, and both are just different examples of a linear model. Becasue of this, the  <c>anovaBF()</c> reports the output in much the same way. For instance, if we want to identify the best model we could use the same commands that we used in the last section. One variant that I find quite useful is this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 models/max(models)
@@ -1151,6 +1237,7 @@ models/max(models)
 ## Bayes factor type: BFlinearModel, JZS
 ]]></output>
     </console>
+    </remark>
     <p>By "dividing" the <c>models</c> output by the best model (i.e., <c>max(models)</c>), what R is doing is using the best model (which in this case is <c>drugs + therapy</c>) as the denominator, which gives you a pretty good sense of how close the competitors are. For instance, the model that contains the interaction term is almost as good as the model without the interaction, since the Bayes factor is 0.98. In other words, the data do not clearly indicate whether there is or is not an interaction.</p>
     </subsection>
     <subsection>
@@ -1196,6 +1283,8 @@ models/max(models)
     </table>
     <p>If we look those two models up in the table, we see that this comparison is between the models on lines 3 and 4 of the table. The odds of 0.98 to 1 imply that these two models are fairly evenly matched.</p>
     <p>You might be thinking that this is all pretty laborious, and I'll concede that's true. At some stage I might consider adding a function to the <c>lsr</c> package that would automate this process and construct something like a "Bayesian Type II ANOVA table" from the output of the <c>anovaBF()</c> function. However, I haven't had time to do this yet, nor have I made up my mind about whether it's really a good idea to do this. In the meantime, I thought I should show you the trick for how I do this in practice. The command that I use when I want to grab the right Bayes factors for a Type II ANOVA is this one:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 max(models)/models
@@ -1219,6 +1308,7 @@ max(models)/models
 ## Bayes factor type: BFlinearModel, JZS
 ]]></output>
     </console>
+    </remark>
     <p>The output isn't quite so pretty as the last one, but the nice thing is that you can read off everything you need. The best model is <c>drug + therapy</c>, so all the other models are being compared to that. What's the Bayes factor <em>for</em> the main effect of <c>drug</c>? The relevant null hypothesis is the one that contains only <c>therapy</c>, and the Bayes factor in question is 954:1. The main effect of <c>therapy</c> is weaker, and the evidence here is only 2.8:1. Finally, the evidence <em>against</em> an interaction is very weak, at 1.01:1.</p>
     <p>Reading the results off this table is sort of counterintuitive, because you have to read off the answers from the "wrong" part of the table. For instance, the evidence for an effect of <c>drug</c> can be read from the column labelled <c>therapy</c>, which is pretty damned weird. To be fair to the authors of the package, I don't think they ever intended for the <c>anovaBF()</c> function to be used this way. My understanding<fn>Again, guys, sorry if I've misread you.</fn> is that their view is simply that you should find the best model and report that model: there's no inherent reason why a Bayesian ANOVA should try to follow the exact same design as an orthodox ANOVA.<fn>I don't even disagree with them: it's <em>not</em> at all obvious why a Bayesian ANOVA should reproduce (say) the same set of model comparisons that the Type II testing strategy uses. It's precisely because of the fact that I haven't really come to any strong conclusions that I haven't added anything to the <c>lsr</c> package to make Bayesian Type II tests easier to produce.</fn></p>
     <p>In any case, if you know what you're looking for, you can look at this table and then report the results of the Bayesian analysis in a way that is pretty closely analogous to how you'd report a regular Type II ANOVA. As I mentioned earlier, there's still no convention on how to do that, but I usually go for something like this:</p>
