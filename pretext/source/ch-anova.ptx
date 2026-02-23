@@ -108,7 +108,7 @@ plotmeans(  formula = mood.gain ~ drug,  # plot mood.gain by drug
  )]]></input>
 </program>
   <figure xml:id="fig-moodgain">
-    <caption>Average mood gain as a function of drug administered. Error bars depict 95% confidence
+    <caption>Average mood gain as a function of drug administered. Error bars depict 95% confidence
 intervals associated with each of the group means.</caption>
     <image source="images/moodgain.png"/>
   </figure>
