@@ -1560,12 +1560,7 @@
       <p>
         As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <m>A</m> against every observation in group <m>B</m>. Whenever the group <m>A</m> datum is larger, we place a check mark in the table:
       </p>
-      <program language="r">
-        <input>
-          knitr::include_graphics(file.path(projecthome, "img/ttest2/wilcox1.png"))
-          
-        </input>
-      </program>
+      
       <p>
         We then count up the number of checkmarks. This is our test statistic, <m>W</m>.<fn>Actually, there are two different versions of the test statistic; they differ from each other by a constant value. The version that I've described is the one that R calculates.</fn> The actual sampling distribution for <m>W</m> is somewhat complicated, and I'll skip the details. For our purposes, it's sufficient to note that the interpretation of <m>W</m> is qualitatively the same as the interpretation of <m>t</m> or <m>z</m>. That is, if we want a two-sided test, then we reject the null hypothesis when <m>W</m> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.
       </p>
@@ -1648,12 +1643,7 @@
       <p>
         What I've measured here is the happiness of each student <c>before</c> taking the class and <c>after</c> taking the class; the <c>change</c> score is the difference between the two. Just like we saw with the <m>t</m>-test, there's no fundamental difference between doing a paired-samples test using <c>before</c> and <c>after</c>, versus doing a one-sample test using the <c>change</c> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:
       </p>
-      <program language="r">
-        <input>
-          knitr::include_graphics(file.path(projecthome, "img/ttest2/wilcox2.png"))
-          
-        </input>
-      </program>
+      
       <p>
         Counting up the tick marks this time, we get a test statistic of <m>V = 7</m>. As before, if our test is two sided, then we reject the null hypothesis when <m>V</m> is very large or very small. As far of running it in R goes, it's pretty much what you'd expect. For the one-sample version, the command you would use is
       </p>

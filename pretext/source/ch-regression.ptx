@@ -163,12 +163,10 @@ print( regression.1 )
 
     <p>The simple linear regression model that we've discussed up to this point assumes that there's a single predictor variable that you're interested in, in this case <c>dan.sleep</c>. In fact, up to this point, <em>every</em> statistical tool that we've talked about has assumed that your analysis uses one predictor variable and one outcome variable. However, in many (perhaps most) research projects you actually have multiple predictors that you want to examine. If so, it would be nice to be able to extend the linear regression framework to be able to include multiple predictors. Perhaps some kind of <em>multiple regression</em> model would be in order?</p>
     <p>Multiple regression is conceptually very simple. All we do is add more terms to our regression equation. Let's suppose that we've got two variables that we're interested in; perhaps we want to use both <c>dan.sleep</c> and <c>baby.sleep</c> to predict the <c>dan.grump</c> variable. As before, we let <m>Y_i</m> refer to my grumpiness on the <m>i</m>-th day. But now we have two <m>X</m> variables: the first corresponding to the amount of sleep I got and the second corresponding to the amount of sleep my son got. So we'll let <m>X_{i1}</m> refer to the hours I slept on the <m>i</m>-th day, and <m>X_{i2}</m> refers to the hours that the baby slept on that day. If so, then we can write our regression model like this: <me>Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i</me> As before, <m>\epsilon_i</m> is the residual associated with the <m>i</m>-th observation, <m>\epsilon_i = {Y}_i - \hat{Y}_i</m>. In this model, we now have three coefficients that need to be estimated: <m>b_0</m> is the intercept, <m>b_1</m> is the coefficient associated with my sleep, and <m>b_2</m> is the coefficient associated with my son's sleep. However, although the number of coefficients that need to be estimated has changed, the basic idea of how the estimation works is unchanged: our estimated coefficients <m>\hat{b}_0</m>, <m>\hat{b}_1</m> and <m>\hat{b}_2</m> are those that minimise the sum squared residuals.</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::include_graphics(file.path(projecthome, "img","regression2","scatter3d_1.png"))
-
-]]></input>
-    </program>
+    <figure xml:id="fig-scatter3d">
+      <caption>3D scatter plot of grumpiness as a function of both Dan's sleep and baby's sleep, illustrating a multiple regression model with two predictors.</caption>
+      <image source="generated/scatter3d_full1.png"/>
+    </figure>
     <subsection>
       <title>Doing it in R</title>
 
@@ -727,12 +725,10 @@ rstudent( model = regression.2 )
 
     <p>One danger that you can run into with linear regression models is that your analysis might be disproportionately sensitive to a smallish number of "unusual" or "anomalous" observations. I discussed this idea previously in Section <xref ref="boxplotoutliers"/> in the context of discussing the outliers that get automatically identified by the <c>boxplot()</c> function, but this time we need to be much more precise. In the context of linear regression, there are three conceptually distinct ways in which an observation might be called "anomalous". All three are interesting, but they have rather different implications for your analysis.</p>
     <p>The first kind of unusual observation is an <em>outlier</em>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in Figure <xref ref="fig-outlier"/>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <m>\epsilon_i^*</m>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data -- e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case, and try to find out why it's so different.</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::include_graphics(file.path(projecthome, "img","regression2","unusual_outlier.png"))
-
-]]></input>
-    </program>
+    <figure xml:id="fig-outlier">
+      <caption>Illustration of an outlier in regression: an observation with an unusually large residual.</caption>
+      <image source="images/outlier.png"/>
+    </figure>
     <p>The second way in which an observation can be unusual is if it has high <em>leverage</em>: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in Figure <xref ref="fig-leverage"/>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <m>h_i</m>. The formula for the hat value is rather complicated<fn>Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix <m>H</m> that converts the vector of observed values <m>y</m> into a vector of fitted values <m>\hat{y}</m>, such that <m>\hat{y} = H y</m>. The name comes from the fact that this is the matrix that "puts a hat on <m>y</m>". The  hat <em>value</em> of the <m>i</m>-th observation is the <m>i</m>-th diagonal element of this matrix (so technically I should be writing it as <m>h_{ii}</m> rather than <m>h_{i}</m>). Oh, and in case you care, here's how it's calculated: <m>H = X(X^TX)^{-1} X^T</m>. Pretty, isn't it?</fn> but its interpretation is not: <m>h_i</m> is a measure of the extent to which the <m>i</m>-th observation is "in control" of where the regression line ends up going. You can extract the hat values using the following command:</p>
     <program language="r">
       <input><![CDATA[
@@ -777,20 +773,16 @@ hatvalues( model = regression.2 )
 ## 0.01817919 0.03811718 0.01945603 0.01373394
 ]]></output>
     </console>
-    <program language="r">
-      <input><![CDATA[
-knitr::include_graphics(file.path(projecthome, "img","regression2", "unusual_leverage.png"))
-
-]]></input>
-    </program>
+    <figure xml:id="fig-leverage">
+      <caption>Illustration of high leverage: an observation far from others on the predictor variable.</caption>
+      <image source="images/leverage.png"/>
+    </figure>
     <p>In general, if an observation lies far away from the other ones in terms of the predictor variables, it will have a large hat value (as a rough guide, high leverage is when the hat value is more than 2-3 times the average; and note that the sum of the hat values is constrained to be equal to <m>K+1</m>). High leverage points are also worth looking at in more detail, but they're much less likely to be a cause for concern unless they are also outliers.  % guide from Venables and Ripley.</p>
     <p>This brings us to our third measure of unusualness, the <em>influence</em> of an observation. A high influence observation is an outlier that has high leverage. That is, it is an observation that is very different to all the other ones in some respect, and also lies a long way from the regression line. This is illustrated in Figure <xref ref="fig-influence"/>. Notice the contrast to the previous two figures: outliers don't move the regression line much, and neither do high leverage points. But something that is an outlier and has high leverage... that has a big effect on the regression line.</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::include_graphics(file.path(projecthome, "img","regression2","unusual_influence.png"))
-
-]]></input>
-    </program>
+    <figure xml:id="fig-influence">
+      <caption>Illustration of high influence: an observation that is both an outlier and has high leverage.</caption>
+      <image source="images/influence.png"/>
+    </figure>
     <p>That's why we call these points high influence; and it's why they're the biggest worry. We operationalise influence in terms of a measure known as <em>Cook's distance</em>, <me>D_i = \frac{{\epsilon_i^*}^2 }{K+1} \times \frac{h_i}{1-h_i}</me> Notice that this is a multiplication of something that measures the outlier-ness of the observation (the bit on the left), and something that measures the leverage of the observation (the bit on the right). In other words, in order to have a large Cook's distance, an observation must be a fairly substantial outlier <em>and</em> have high leverage. In a stunning turn of events, you can obtain these values using the following command:</p>
     <program language="r">
       <input><![CDATA[
@@ -891,12 +883,10 @@ lm( formula = dan.grump ~ dan.sleep + baby.sleep,  # same formula
 ]]></input>
     </program>
     <p>The resulting plot is shown in Figure <xref ref="fig-residhist"/>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so.</p>
-    <program language="r">
-      <input><![CDATA[
-knitr::include_graphics(file.path(projecthome, "img","regression2","residhist.png"))
-
-]]></input>
-    </program>
+    <figure xml:id="fig-residhist">
+      <caption>Histogram of standardised residuals from the regression model, with normal distribution overlay.</caption>
+      <image source="images/residhist.png"/>
+    </figure>
     <p>I could also run a Shapiro-Wilk test  to check, using the <c>shapiro.test()</c> function; the <m>W</m> value of .99, at this sample size, is non-significant (<m>p=.84</m>), again suggesting that the normality assumption isn't in any danger here. As a third measure, we might also want to draw a QQ-plot using the <c>qqnorm()</c> function. The QQ plot is an excellent one to draw, and so you might not be surprised to discover that it's one of the regression plots that we can produce using the <c>plot()</c> function:</p>
     <program language="r">
       <input><![CDATA[
@@ -1062,23 +1052,6 @@ vif( regression.3 )
     </console>
     <p>Yep, that's some mighty fine collinearity you've got there.</p>
     </subsection>
-  
-  <figure xml:id="fig-outlier">
-    <caption>Illustration of an outlier in regression: an observation with an unusually large residual.</caption>
-    <image source="images/outlier.png"/>
-  </figure>
-  <figure xml:id="fig-leverage">
-    <caption>Illustration of high leverage: an observation far from others on the predictor variable.</caption>
-    <image source="images/leverage.png"/>
-  </figure>
-  <figure xml:id="fig-influence">
-    <caption>Illustration of high influence: an observation that is both an outlier and has high leverage.</caption>
-    <image source="images/influence.png"/>
-  </figure>
-  <figure xml:id="fig-residhist">
-    <caption>Histogram of standardised residuals from the regression model, with normal distribution overlay.</caption>
-    <image source="images/residhist.png"/>
-  </figure>
   <figure xml:id="fig-regressionplot1">
     <caption>Fitted values vs residuals plot for checking linearity assumptions.</caption>
     <image source="images/regressionplot1.png"/>
