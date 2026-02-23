@@ -152,7 +152,7 @@ H_0 &:& \mbox{it is true that } \mu_P = \mu_A = \mu_J
 \end{array}]]></me>
     <p>As a consequence, our alternative hypothesis is that at least one of the three different treatments is different from the others. It's a little trickier to write this mathematically, because (as we'll discuss) there are quite a few different ways in which the null hypothesis can be false. So for now we'll just write the alternative hypothesis like this:</p>
     <me><![CDATA[\begin{array}{rcl}
-H_1 &:& \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
+H_1 &:& \mbox{it is \textit{not} true that } \mu_P = \mu_A = \mu_J
 \end{array}]]></me>
     <p>This null hypothesis is a lot trickier to test than any of the ones we've seen previously. How shall we do it? A sensible guess would be to "do an ANOVA", since that's the title of the chapter, but it's not particularly clear why an "analysis of <em>variances</em>" will help us learn anything useful about the <em>means</em>. In fact, this is one of the biggest conceptual difficulties that people have when first encountering ANOVA. To see how this works, I find it most helpful to start by talking about variances. In fact, what I'm going to do is start by playing some mathematical games with the formula that describes the variance. That is, we'll start out by playing around with variances, and it will turn out that this gives us a useful tool for investigating means.</p>
   <subsection>

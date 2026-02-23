@@ -296,6 +296,14 @@
       Matloff, N. (2011). <em>The Art of R Programming: A Tour of Statistical Software Design</em>. No Starch Press.
     </biblio>
 
+    <biblio type="raw" xml:id="biblio-Cochran1954">
+      Cochran, W. G. (1954). The χ² test of goodness of fit. <em>The Annals of Mathematical Statistics</em>, 23, 315-345.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Larntz1978">
+      Larntz, K. (1978). Small-sample comparisons of exact levels for chi-squared goodness-of-fit statistics. <em>Journal of the American Statistical Association</em>, 73, 253-263.
+    </biblio>
+
   </references>
 
   <index>

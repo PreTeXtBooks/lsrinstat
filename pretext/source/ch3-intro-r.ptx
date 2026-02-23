@@ -764,7 +764,7 @@
     <subsection>
       <title>Rules and conventions for naming variables</title>
       <p>
-        In the examples that we've seen so far, my variable names (<c>sales</c> and <c>revenue</c>) have just been English-language words written using lowercase letters. However, R allows a lot more flexibility when it comes to naming your variables, as the following list of rules<fn>Actually, you can override any of these rules if you want to, and quite easily. All you have to do is add quote marks or backticks around your non-standard variable name. For instance <c>`my sales` &lt;- 350</c> would work just fine, but it's almost never a good idea to do this.</fn> illustrates:
+        In the examples that we've seen so far, my variable names (<c>sales</c> and <c>revenue</c>) have just been English-language words written using lowercase letters. However, R allows a lot more flexibility when it comes to naming your variables, as the following list of rules<fn>Actually, you can override any of these rules if you want to, and quite easily. All you have to do is add quote marks or backticks around your non-standard variable name. For instance <c><c>my sales</c> &lt;- 350</c> would work just fine, but it's almost never a good idea to do this.</fn> illustrates:
       </p>
       <ul>
         <li>

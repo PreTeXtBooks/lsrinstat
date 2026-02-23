@@ -3016,7 +3016,7 @@ BLAH BLAH BLAH
         and I want to enter this as a string. Neither the <c>'</c> or <c>"</c> delimiters will solve the problem here, since this string contains both a single quote character and a double quote character. To encode strings like this one, we have to do something a little bit clever.
       </p>
             <table xml:id="table-textescape">
-        <title>Standard escape characters that are evaluated by some text processing commands, including `cat()`. This convention dates back to the development of the C programming language in the 1970s, and as a consequence a lot of these characters make most sense if you pretend that R is actually a typewriter, as explained in the main text. Type `?Quotes` for the corresponding R help file.</title>
+        <title>Standard escape characters that are evaluated by some text processing commands, including <c>cat()</c>. This convention dates back to the development of the C programming language in the 1970s, and as a consequence a lot of these characters make most sense if you pretend that R is actually a typewriter, as explained in the main text. Type <c>?Quotes</c> for the corresponding R help file.</title>
         <tabular halign="center">
           <row header="yes" bottom="minor">
             <cell halign="left">Escape sequence</cell>
