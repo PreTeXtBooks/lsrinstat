@@ -313,7 +313,7 @@ probability of a correct response is <m>\theta = 0.5</m>, the sampling distribut
 <cell>Rejected</cell></row>
 
     <row><cell>p &lt; .01</cell>
-<cell>**</cell
+<cell>**</cell>
 <cell>The test was significant at <m>\alpha = 0.05</m> and <m>\alpha = 0.01</m>, but not at <m>\alpha = 0.001</m></cell>
 <cell>Rejected</cell></row>
 
@@ -450,9 +450,9 @@ probability of a correct response is <m>\theta = 0.5</m>, the sampling distribut
 </blockquote>
 <p>The plot shown in <xref ref="fig-powerfunction"/> captures a fairly basic point about hypothesis testing. If the true state of the world is very different from what the null hypothesis predicts, then your power will be very high; but if the true state of the world is similar to the null (but not identical) then the power of the test is going to be very low. Therefore, it's useful to be able to have some way of quantifying how "similar" the true state of the world is to the null hypothesis. A statistic that does this is called a measure of <em>effect size</em> (e.g. <xref ref="biblio-Cohen1988">Cohen, 1988</xref>; <xref ref="biblio-Ellis2010">Ellis, 2010</xref>). Effect size is defined slightly differently in different contexts,<fn>There's an R package called <c>compute.es</c> that can be used for calculating a very broad range of effect size measures; but for the purposes of the current book we won't need it: all of the effect size measures that I'll talk about here have functions in the <c>lsr</c> package</fn> (and so this section just talks in general terms) but the qualitative idea that it tries to capture is always the same: how big is the difference between the <em>true</em> population parameters, and the parameter values that are assumed by the null hypothesis? In our ESP example, if we let <m>\theta_0 = 0.5</m> denote the value assumed by the null hypothesis, and let <m>\theta</m> denote the true value, then a simple measure of effect size could be something like the difference between the true value and null (i.e., <m>\theta - \theta_0</m>), or possibly just the magnitude of this difference,  <m>\mbox{abs}(\theta - \theta_0)</m>.</p>
 <table xml:id="table-ht-effectsize">
-  <title>A crude guide to understanding the relationship between statistical signicance and effect
-sizes. Basically, if you don't have a signicant result, then the effect size is pretty meaningless; because
-you don't have any evidence that it's even real. On the other hand, if you do have a signicant effect but
+  <title>A crude guide to understanding the relationship between statistical significance and effect
+sizes. Basically, if you don't have a significant result, then the effect size is pretty meaningless; because
+you don't have any evidence that it's even real. On the other hand, if you do have a significant effect but
 your effect size is small, then there's a pretty good chance that your result (although real) isn't all that
 interesting. However, this guide is very crude: it depends a lot on what exactly you're studying. Small
 effects can be of massive practical importance in some situations. So don't take this table too seriously.

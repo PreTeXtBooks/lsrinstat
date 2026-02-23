@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- This is the main file of the pretext template book provided -->
-<!-- by the `pretext new book` command.  The main.ptx here always-->
+<!-- by the <c>pretext new book</c> command.  The main.ptx here always-->
 <!-- starts with <pretext> tags.  In this example, the main file -->
 <!-- just imports other .ptx files which contain content. Open   -->
 <!-- those files to see more pretext features                    -->
@@ -122,7 +122,7 @@
     <!-- <xi:include href="./ch_features.ptx" /> -->
   
     <!-- This chapter includes several features that require pregeneration   -->
-    <!-- of assets with `pretext generate` or similar. Some features require -->
+    <!-- of assets with <c>pretext generate</c> or similar. Some features require -->
     <!-- internet access; others require local installs not automatically    -->
     <!-- provided by the CLI. Uncomment to view this chapter, and comment    -->
     <!-- features you don't wish to generate.                                -->

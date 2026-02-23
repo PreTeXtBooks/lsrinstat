@@ -35,7 +35,7 @@
   </exercise>
   
   <!-- For an example of WeBWorK, uncomment the next -->
-  <!-- exercise and run `pretext build html -w`.     -->
+  <!-- exercise and run <c>pretext build html -w</c>.     -->
   <!-- <exercise>
     <webwork xml:id="ex_first-webwork-add-numbers">
       <description>

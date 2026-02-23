@@ -256,6 +256,54 @@
       Lee, M. D., &amp; Wagenmakers, E.-J. (2014). <em>Bayesian Cognitive Modeling: A Practical Course</em>. Cambridge University Press.
     </biblio>
 
+    <biblio type="raw" xml:id="biblio-Evans2000">
+      Evans, M., Hastings, N., &amp; Peacock, B. (2000). <em>Statistical Distributions</em> (3rd ed.). Wiley.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Stigler1986">
+      Stigler, S. M. (1986). <em>The History of Statistics</em>. Harvard University Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Keynes1923">
+      Keynes, J. M. (1923). <em>A Tract on Monetary Reform</em>. Macmillan and Company.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Sokal1994">
+      Sokal, R. R., &amp; Rohlf, F. J. (1994). <em>Biometry: The Principles and Practice of Statistics in Biological Research</em> (3rd ed.). Freeman.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Ellman2002">
+      Ellman, M. (2002). Soviet repression statistics: Some comments. <em>Europe-Asia Studies</em>, 54(7), 1151-1172.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Wilkinson2006">
+      Wilkinson, L., Wills, D., Rope, D., Norton, A., &amp; Dubbs, R. (2006). <em>The Grammar of Graphics</em>. Springer.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Spector2008">
+      Spector, P. (2008). <em>Data Manipulation with R</em>. Springer.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Teetor2011">
+      Teetor, P. (2011). <em>R Cookbook</em>. O'Reilly.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Braun2007">
+      Braun, J., &amp; Murdoch, D. J. (2007). <em>A First Course in Statistical Programming with R</em>. Cambridge University Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Matloff2011">
+      Matloff, N. (2011). <em>The Art of R Programming: A Tour of Statistical Software Design</em>. No Starch Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Cochran1954">
+      Cochran, W. G. (1954). The χ² test of goodness of fit. <em>The Annals of Mathematical Statistics</em>, 23, 315-345.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Larntz1978">
+      Larntz, K. (1978). Small-sample comparisons of exact levels for chi-squared goodness-of-fit statistics. <em>Journal of the American Statistical Association</em>, 73, 253-263.
+    </biblio>
+
   </references>
 
   <index>
