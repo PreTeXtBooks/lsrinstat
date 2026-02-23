@@ -5,6 +5,8 @@
   <p>
     Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what <term>descriptive statistics</term> (as opposed to inferential statistics) is all about. In fact, to many people the term "statistics" is synonymous with descriptive statistics. It is this topic that we'll consider in this chapter, but before going into any details, let's take a moment to get a sense of why we need descriptive statistics. To do this, let's load the <c>aflsmall.Rdata</c> file, and use the <c>who()</c> function in the <c>lsr</c> package to see what variables are stored in the file:
   </p>
+  <remark>
+    <title>R Code</title>
   <program language="r">
     <input>
       load( "./data/aflsmall.Rdata" )
@@ -19,9 +21,12 @@
 ##    afl.margins            numeric         176
 ]]></output>
     </console>
+  </remark>
   <p>
     There are two variables here, <c>afl.finalists</c> and <c>afl.margins</c>. We'll focus a bit on these two variables in this chapter, so I'd better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <fn>Note for non-Australians: the AFL is an Australian rules football competition. You don't need to know anything about Australian rules in order to follow this section.</fn> The <c>afl.margins</c> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <c>afl.finalists</c> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let's have a look at the <c>afl.margins</c> variable:
   </p>
+  <remark>
+    <title>R Code</title>
   <program language="r">
     <input>
       print(afl.margins)
@@ -42,6 +47,7 @@
 ## [171]   3  28  38  29  10  10
 ]]></output>
     </console>
+  </remark>
   <p>
     This output doesn't make it easy to get a sense of what the data are actually saying. Just "looking at the data" isn't a terribly effective way of understanding data. In order to get some idea about what's going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (<xref ref="ch6-graphics"/>. Since the descriptive statistics are the easier of the two topics, I'll start with those, but nevertheless I'll show you a histogram of the <c>afl.margins</c> data, since it should help you get a sense of what the data we're trying to describe actually look like. But for what it's worth, this histogram <mdash /> which is shown in <xref ref="fig-histogram1" /> <mdash /> was generated using the <c>hist()</c> function. We'll talk a lot more about how to draw histograms in <xref ref="hist" />. For now, it's enough to look at the histogram and note that it provides a fairly interpretable representation of the <c>afl.margins</c> data.
   </p>
@@ -108,6 +114,8 @@
       <p>
         Okay that's the maths, how do we get the magic computing box to do the work for us? If you really wanted to, you could do this calculation directly in R. For the first 5 AFL scores, do this just by typing it in as if R were a calculator...
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           (56 + 31 + 56 + 8 + 32) / 5
@@ -119,9 +127,12 @@
 ## [1] 36.6
 ]]></output>
     </console>
+      </remark>
       <p>
         ... in which case R outputs the answer 36.6, just as if it were a calculator. However, that's not the only way to do the calculations, and when the number of observations starts to become large, it's easily the most tedious. Besides, in almost every real world scenario, you've already got the actual numbers stored in a variable of some kind, just like we have with the <c>afl.margins</c> variable. Under those circumstances, what you want is a function that will just add up all the values stored in a numeric vector. That's what the <c>sum()</c> function does. If we want to add up all 176 winning margins in the data set, we can do so using the following command:<fn>Note that, just as we saw with the combine function <c>c()</c> and the remove function <c>rm()</c>, the <c>sum()</c> function has unnamed arguments. I'll talk about unnamed arguments later in Section \@ref(dotsargument), but for now let's just ignore this detail.</fn>
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sum( afl.margins )
@@ -133,9 +144,12 @@
 ## [1] 6213
 ]]></output>
     </console>
+      </remark>
       <p>
         If we only want the sum of the first five observations, then we can use square brackets to pull out only the first five elements of the vector. So the command would now be:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sum( afl.margins[1:5] )
@@ -146,9 +160,12 @@
 ## [1] 183
 ]]></output>
     </console>
+      </remark>
       <p>
         To calculate the mean, we now tell R to divide the output of this summation by five, so the command that we need to type now becomes the following:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sum( afl.margins[1:5] ) / 5
@@ -160,9 +177,12 @@
 ## [1] 36.6
 ]]></output>
     </console>
+      </remark>
       <p>
         Although it's pretty easy to calculate the mean using the <c>sum()</c> function, we can do it in an even easier way, since R also provides us with the <c>mean()</c> function. To calculate the mean for all 176 games, we would use the following command:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( x = afl.margins )
@@ -173,9 +193,12 @@
 ## [1] 35.30114
 ]]></output>
     </console>
+      </remark>
       <p>
         However, since <c>x</c> is the first argument to the function, I could have omitted the argument name. In any case, just to show you that there's nothing funny going on, here's what we would do to calculate the mean for the first five observations:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( afl.margins[1:5] )
@@ -186,6 +209,7 @@
 ## [1] 36.6
 ]]></output>
     </console>
+      </remark>
       <p>
         As you can see, this gives exactly the same answers as the previous calculations.
       </p>
@@ -195,6 +219,8 @@
       <p>
         The second measure of central tendency that people use a lot is the <term>median</term>, and it's even easier to describe than the mean. The median of a set of observations is just the middle value. As before let's imagine we were interested only in the first 5 AFL winning margins: 56, 31, 56, 8 and 32. To figure out the median, we sort these numbers into ascending order: <me> 8, 31, \mathbf{32}, 56, 56 </me> From inspection, it's obvious that the median value of these 5 observations is 32, since that's the middle one in the sorted list (I've put it in bold to make it even more obvious). Easy stuff. But what should we do if we were interested in the first 6 games rather than the first 5? Since the sixth game in the season had a winning margin of 14 points, our sorted list is now <me> 8, 14, \mathbf{31}, \mathbf{32}, 56, 56 </me> and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it's very tedious to do this by hand when you've got lots of numbers. To illustrate this, here's what happens when you use R to sort all 176 winning margins. First, I'll use the <c>sort()</c> function (discussed in <xref ref="ch7-data-handling"/>) to display the winning margins in increasing numerical order:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sort( x = afl.margins )
@@ -215,9 +241,12 @@
 ## [171]  95  98 101 104 108 116
 ]]></output>
     </console>
+      </remark>
       <p>
         The middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           median( x = afl.margins )
@@ -228,6 +257,7 @@
 ## [1] 30.5
 ]]></output>
     </console>
+      </remark>
       <p>
         which outputs the median value of 30.5.
       </p>
@@ -303,14 +333,19 @@
       <p>
         For our toy example above, we have 10 observations, and so a 10% trimmed mean is calculated by ignoring the largest value (i.e., <c>12</c>) and the smallest value (i.e., <c>-15</c>) and taking the mean of the remaining values. First, let's enter the data
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           dataset &lt;- c( -15,2,3,4,5,6,7,8,9,12 )
         </input>
       </program>
+      </remark>
       <p>
         Next, let's calculate means and medians:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( x = dataset )
@@ -325,9 +360,12 @@
 ## [1] 5.5
 ]]></output>
     </console>
+      </remark>
       <p>
         That's a fairly substantial difference, but I'm tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <m>-15</m> one. So let's just try trimming the mean a bit. If I take a 10% trimmed mean, we'll drop the extreme values on either side, and take the mean of the rest:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( x = dataset, trim = .1)
@@ -339,9 +377,12 @@
 ## [1] 5.5
 ]]></output>
     </console>
+      </remark>
       <p>
         which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <c>trim = .1</c>, not <c>trim = 10</c>. In any case, let's finish up by calculating the 5% trimmed mean for the <c>afl.margins</c> data,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( x = afl.margins, trim = .05)
@@ -353,12 +394,15 @@
 ## [1] 33.75
 ]]></output>
     </console>
+      </remark>
     </subsection>
     <subsection xml:id="mode">
       <title>Mode</title>
       <p>
         The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let's examine a different aspect to the data set. Who has played in the most finals? The <c>afl.finalists</c> variable is a factor that contains the name of every team that played in any AFL final from 1987-2010, so let's have a look at it. To do this we will use the <c>head()</c> command. <c>head()</c> is useful when you're working with a data.frame with a lot of rows since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl.finalists using <c>print(afl.finalists)</c> will just fill us the screen. The command below tells R we just want the first 25 rows of the data.frame.
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head(afl.finalists, 25)
@@ -374,9 +418,12 @@
 ## 17 Levels: Adelaide Brisbane Carlton Collingwood Essendon ... Western Bulldogs
 ]]></output>
     </console>
+      </remark>
       <p>
         There are actually 400 entries (aren't you glad we didn't print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <term>frequency table</term>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let's use the <c>table()</c> function (discussed in more detail in <xref ref="freqtables" />) to do this task for us:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           table( afl.finalists )
@@ -397,9 +444,12 @@
 ##               24
 ]]></output>
     </console>
+      </remark>
       <p>
         Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the <c>finalists</c> data is <c>"Geelong"</c>. The core packages in R don't have a function for calculating the mode<fn>As we saw earlier, it <em>does</em> have a function called <c>mode()</c>, but it does something completely different.</fn>. However, I've included a function in the <c>lsr</c> package that does this. The function is called <c>modeOf()</c>, and here's how you use it:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           modeOf( x = afl.finalists )
@@ -411,9 +461,12 @@
 ## [1] "Geelong"
 ]]></output>
     </console>
+      </remark>
       <p>
         There's also a function called <c>maxFreq()</c> that tells you what the modal frequency is. If we apply this function to our finalists data, we obtain the following:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           maxFreq( x = afl.finalists )
@@ -425,12 +478,15 @@
 ## [1] 39
 ]]></output>
     </console>
+      </remark>
       <p>
         Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.
       </p>
       <p>
         One last point to make with respect to the mode. While it's generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let's go back to thinking about our <c>afl.margins</c> variable. This variable is clearly ratio scale (if it's not clear to you, it may help to re-read <xref ref="scales" />), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario... a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don't, you lose $1. There are no consolation prizes for "almost" getting the right answer. You have to guess exactly the right margin<fn>This is called a "0-1 loss function", meaning that you either win (1) or you lose (0), with no middle ground.</fn> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           modeOf( x = afl.margins )
@@ -445,6 +501,7 @@
 ## [1] 8
 ]]></output>
     </console>
+      </remark>
       <p>
         So the 2010 data suggest you should bet on a 3 point margin, and since this was observed in 8 of the 176 game (4.5% of games) the odds are firmly in your favour.
       </p>
@@ -460,15 +517,20 @@
       <p>
         The <term>range</term> of a variable is very simple: it's the biggest value minus the smallest value. For the AFL winning margins data, the maximum value is 116, and the minimum value is 0. We can calculate these values in R using the <c>max()</c> and <c>min()</c> functions:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           max( afl.margins )
           min( afl.margins )
         </input>
       </program>
+      </remark>
       <p>
         where I've omitted the output because it's not interesting. The other possibility is to use the <c>range()</c> function; which outputs both the minimum value and the maximum value in a vector, like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           range( afl.margins )
@@ -480,6 +542,7 @@
 ## [1]   0 116
 ]]></output>
     </console>
+      </remark>
       <p>
         Although the range is the simplest way to quantify the notion of "variability", it's one of the worst. Recall from our discussion of the mean that we want our summary measure to be robust. If the data set has one or two extremely bad values in it, we'd like our statistics not to be unduly influenced by these cases. If we look once again at our toy example of a data set containing very extreme outliers... <me> -100,2,3,4,5,6,7,8,9,10 </me> ... it is clear that the range is not robust, since this has a range of 110, but if the outlier were removed we would have a range of only 8.
       </p>
@@ -489,6 +552,8 @@
       <p>
         The <term>interquartile range</term> (IQR) is like the range, but instead of calculating the difference between the biggest and smallest value, it calculates the difference between the 25th quantile and the 75th quantile. Probably you already know what a <term>quantile</term> is (they're more commonly called percentiles), but if not: the 10th percentile of a data set is the smallest number <m>x</m> such that 10% of the data is less than <m>x</m>. In fact, we've already come across the idea: the median of a data set is its 50th quantile / percentile! R actually provides you with a way of calculating quantiles, using the (surprise, surprise) <c>quantile()</c> function. Let's use it to calculate the median AFL winning margin:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           quantile( x = afl.margins, probs = .5)
@@ -500,9 +565,12 @@
 ## 30.5
 ]]></output>
     </console>
+      </remark>
       <p>
         And not surprisingly, this agrees with the answer that we saw earlier with the <c>median()</c> function. Now, we can actually input lots of quantiles at once, by specifying a vector for the <c>probs</c> argument. So lets do that, and get the 25th and 75th percentile:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           quantile( x = afl.margins, probs = c(.25,.75) )
@@ -514,9 +582,12 @@
 ## 12.75 50.50
 ]]></output>
     </console>
+      </remark>
       <p>
         And, by noting that <m>50.5 - 12.75 = 37.75</m>, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so R has a built in function called <c>IQR()</c> that we can use:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           IQR( x = afl.margins )
@@ -527,6 +598,7 @@
 ## [1] 37.75
 ]]></output>
     </console>
+      </remark>
       <p>
         While it's obvious how to interpret the range, it's a little less obvious how to interpret the IQR. The simplest way to think about it is like this: the interquartile range is the range spanned by the "middle half" of the data. That is, one quarter of the data falls below the 25th percentile, one quarter of the data is above the 75th percentile, leaving the "middle half" of the data lying in between the two. And the IQR is the range covered by that middle half.
       </p>
@@ -601,6 +673,8 @@
       <p>
         The last thing we need to talk about is how to calculate AAD in R. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that's pretty tedious. You'd end up with a series of commands that might look like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           X &lt;- c(56, 31,56,8,32)   # enter the data
@@ -616,9 +690,12 @@
 ## [1] 15.52
 ]]></output>
     </console>
+      </remark>
       <p>
         Each of those commands is pretty simple, but there's just too many of them. And because I find that to be too much typing, the <c>lsr</c> package has a very simple function called <c>aad()</c> that does the calculations for you. If we apply the <c>aad()</c> function to our data, we get this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           library(lsr)
@@ -631,6 +708,7 @@
 ## [1] 15.52
 ]]></output>
     </console>
+      </remark>
       <p>
         No suprises there.
       </p>
@@ -693,6 +771,8 @@
       <p>
         That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into R by hand...
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           ( 376.36 + 31.36 + 376.36 + 817.96 + 21.16 ) / 5
@@ -704,12 +784,15 @@
 ## [1] 324.64
 ]]></output>
     </console>
+      </remark>
       <p>
         ... we end up with a variance of 324.64. Exciting, isn't it? For the moment, let's ignore the burning question that you're all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in R, because this will reveal something very weird.
       </p>
       <p>
         As always, we want to avoid having to type in a whole lot of numbers ourselves. And as it happens, we have the vector <c>X</c> lying around, which we created in the previous section. With this in mind, we can calculate the variance of <c>X</c> by using the following command,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( (X - mean(X) )^2)
@@ -721,9 +804,12 @@
 ## [1] 324.64
 ]]></output>
     </console>
+      </remark>
       <p>
         and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, R has a built in function called <c>var()</c> which does calculate variances. So we could also do this...
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           var(X)
@@ -735,12 +821,15 @@
 ## [1] 405.8
 ]]></output>
     </console>
+      </remark>
       <p>
         and you get the same... no, wait... you get a completely <em>different</em> answer. That's just weird. Is R broken? Is this a typo? Is Dan an idiot?
       </p>
       <p>
         As it happens, the answer is no.<fn>With the possible exception of the third question.</fn> It's not a typo, and R is not making a mistake. To get a feel for what's happening, let's stop using the tiny data set containing only 5 data points, and switch to the full set of 176 games that we've got stored in our  <c>afl.margins</c> vector. First, let's calculate the variance by using the formula that I described above:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( (afl.margins - mean(afl.margins) )^2)
@@ -752,9 +841,12 @@
 ## [1] 675.9718
 ]]></output>
     </console>
+      </remark>
       <p>
         Now let's use the <c>var()</c> function:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           var( afl.margins )
@@ -766,9 +858,12 @@
 ## [1] 679.8345
 ]]></output>
     </console>
+      </remark>
       <p>
         Hm. These two numbers are very similar this time. That seems like too much of a coincidence to be a mistake. And of course it isn't a mistake. In fact, it's very simple to explain what R is doing here, but slightly trickier to explain <em>why</em> R is doing it. So let's start with the "what". What R is doing is evaluating a slightly different formula to the one I showed you above. Instead of averaging the squared deviations, which requires you to divide by the number of data points <m>N</m>, R has chosen to divide by <m>N-1</m>. In other words, the formula that R is using is this one <me> \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 </me> It's easy enough to verify that this is what's happening, as the following command illustrates:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sum( (X-mean(X))^2 ) / 4
@@ -780,6 +875,7 @@
 ## [1] 405.8
 ]]></output>
     </console>
+      </remark>
       <p>
         This is the same answer that R gave us originally when we calculated <c>var(X)</c> originally. So that's the <em>what</em>. The real question is <em>why</em> R is dividing by <m>N-1</m> and not by <m>N</m>. After all, the variance is supposed to be the <em>mean</em> squared deviation, right? So shouldn't we be dividing by <m>N</m>, the actual number of observations in the sample? Well, yes, we should. However, as we'll discuss in <xref ref="estimation" />, there's a subtle distinction between "describing a sample" and "making guesses about the population from which the sample came". Up to this point, it's been a distinction without a difference. Regardless of whether you're describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <m>N</m>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you're not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you're actually starting to move away from calculating a "sample statistic", and towards the idea of estimating a "population parameter". However, I'm getting ahead of myself. For now, let's just take it on faith that R knows what it's doing, and we'll revisit the question later on when we talk about estimation in <xref ref="estimation" />.
       </p>
@@ -792,6 +888,8 @@
       <p>
         Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven't talked about, but <mdash /> since you're a human and not a robot <mdash /> you'd like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <term>standard deviation</term>, also called the "root mean squared deviation", or RMSD. This solves out problem fairly neatly: while nobody has a clue what "a variance of 324.68 points-squared" really means, it's much easier to understand "a standard deviation of 18.01 points", since it's expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <m>s</m>, though 	"sd" and "std dev." are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won't be surprised to see that the formula is: <me> s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 } </me> and the R function that we use to calculate it is <c>sd()</c>. However, as you might have guessed from our discussion of the variance, what R actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what R calculates is a version that divides by <m>N-1</m> rather than <m>N</m>. For reasons that will make sense when we return to this topic in Chapter@refch:estimation I'll refer to this new quantity as <m>\hat\sigma</m> (read as: "sigma hat"), and the formula for this is <me> \hat\sigma = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 } </me> With that in mind, calculating standard deviations in R is simple:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sd( afl.margins )
@@ -803,6 +901,7 @@
 ## [1] 26.07364
 ]]></output>
     </console>
+      </remark>
       <p>
         Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn't have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it's not exact: it's actually calculated based on an <em>assumption</em> that the histogram is symmetric and "bell shaped".<fn>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we'll discuss more in Chapter \@ref(probability), and will turn up over and over again later in the book.</fn> As you can tell from looking at the AFL winning margins histogram in <xref ref="fig-histogram1" />, this isn't exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <xref ref="fig-aflsd" />.
       </p>
@@ -816,6 +915,8 @@
       <p>
         The last measure of variability that I want to talk about is the <term>median absolute deviation</term> (MAD). The basic idea behind MAD is very simple, and is pretty much identical to the idea behind the mean absolute deviation (<xref ref="aad" />). The difference is that you use the median everywhere. If we were to frame this idea as a pair of R commands, they would look like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           # mean absolute deviation from the mean:
@@ -832,6 +933,7 @@
 ## [1] 19.5
 ]]></output>
     </console>
+      </remark>
       <p>
         This has a straightforward interpretation: every observation in the data set lies some distance away from the typical value (the median). So the MAD is an attempt to describe a <em>typical deviation from a typical value</em> in the data set. It wouldn't be unreasonable to interpret the MAD value of 19.5 for our AFL data by saying something like this:
       </p>
@@ -841,6 +943,8 @@
       <p>
         As you'd expect, R has a built in function for calculating MAD, and you will be shocked no doubt to hear that it's called <c>mad()</c>. However, it's a little bit more complicated than the functions that we've been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself <c>x</c>, and a <c>constant</c> that I'll explain in a moment. For our purposes, the constant is 1, so our command becomes
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mad( x = afl.margins, constant = 1 )
@@ -852,12 +956,15 @@
 ## [1] 19.5
 ]]></output>
     </console>
+      </remark>
       <p>
         Apart from the weirdness of having to type that <c>constant = 1</c> part, this is pretty straightforward.
       </p>
       <p>
         Okay, so what exactly is this <c>constant = 1</c> argument? I won't go into all the details here, but here's the gist. Although the "raw" MAD value that I've described above is completely interpretable on its own terms, that's not actually how it's used in a lot of real world contexts. Instead, what happens a lot is that the researcher <em>actually</em> wants to calculate the standard deviation. However, in the same way that the mean is very sensitive to extreme values, the standard deviation is vulnerable to the exact same issue. So, in much the same way that people sometimes use the median as a "robust" way of calculating "something that is like the mean", it's not uncommon to use MAD as a method for calculating "something that is like the standard deviation". Unfortunately, the <em>raw</em> MAD value doesn't do this. Our raw MAD value is 19.5, and our standard deviation was 26.07. However, what some clever person has shown is that, under certain assumptions<fn>The assumption again being that the data are normally-distributed!</fn>, you can multiply the raw MAD value by 1.4826 and obtain a number that is directly comparable to the standard deviation. As a consequence, the default value of <c>constant</c> is 1.4826, and so when you use the <c>mad()</c> command without manually setting a value, here's what you get:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mad( afl.margins )
@@ -869,6 +976,7 @@
 ## [1] 28.9107
 ]]></output>
     </console>
+      </remark>
       <p>
         I should point out, though, that if you want to use this "corrected" MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are "supposed to be" in some sense) symmetric and basically shaped like a bell curve. That's really <em>not</em> true for our <c>afl.margins</c> data, so in this case I wouldn't try to use the MAD value this way.
       </p>
@@ -915,14 +1023,19 @@
     <p>
       Since it's the more interesting of the two, let's start by talking about the <term>skewness</term>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As <xref ref="fig-skewness" /> illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is "longer" than the upper tail) and not so many extremely large values (left panel), then we say that the data are *negatively skewed*. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are *positively skewed*. That's the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows <me> \mbox{skewness}(X) = \frac{1}{N \hat{\sigma}^3} \sum_{i=1}^N (X_i - \bar{X})^3 </me> where <m>N</m> is the number of observations, <m>\bar{X}</m> is the sample mean, and <m>\hat{\sigma}</m> is the standard deviation (the "divide by <m>N-1</m>" version, that is). Perhaps more helpfully, it might be useful to point out that the <c>psych</c> package contains a <c>skew()</c> function that you can use to calculate skewness. So if we wanted to use this function to calculate the skewness of the <c>afl.margins</c> data, we'd first need to load the package
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         library( psych )
       </input>
     </program>
+    </remark>
     <p>
       which now makes it possible to use the following command:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         skew( x = afl.margins )
@@ -933,6 +1046,7 @@
 ## [1] 0.7671555
 ]]></output>
     </console>
+    </remark>
     <p>
       Not surprisingly, it turns out that the AFL winning margins data is fairly skewed.
     </p>
@@ -973,6 +1087,8 @@
     <p>
       The equation for kurtosis is pretty similar in spirit to the formulas we've seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:<fn>The "<m>-3</m>" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.</fn> <me> \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3 </me> I know, it's not terribly interesting to me either. More to the point, the <c>psych</c> package has a function called <c>kurtosi()</c> that you can use to calculate the kurtosis of your data. For instance, if we were to do this for the AFL margins,
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         kurtosi( x = afl.margins )
@@ -984,6 +1100,7 @@
 ## [1] 0.02962633
 ]]></output>
     </console>
+    </remark>
     <p>
       we discover that the AFL winning margins data are just pointy enough.
     </p>
@@ -998,6 +1115,8 @@
       <p>
         The <c>summary()</c> function is an easy thing to use, but a tricky thing to understand in full, since it's a generic function (see <xref ref="generics" />. The basic idea behind the <c>summary()</c> function is that it prints out some useful information about whatever object (i.e., variable, as far as we're concerned) you specify as the <c>object</c> argument. As a consequence, the behaviour of the <c>summary()</c> function differs quite dramatically depending on the class of the object that you give it. Let's start by giving it a <em>numeric</em> object:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           summary( object = afl.margins )
@@ -1009,12 +1128,15 @@
 ##    0.00   12.75   30.50   35.30   50.50  116.00
 ]]></output>
     </console>
+      </remark>
       <p>
         For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.
       </p>
       <p>
         Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout (see <xref ref="ch2-research-statistics"/>) as a game in which the winning margin exceeds 50 points. Let's create a logical variable <c>blowouts</c> in which the <m>i</m>-th element is <c>TRUE</c> if that game was a blowout according to my definition,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           blowouts &lt;-  afl.margins &gt; 50
@@ -1041,9 +1163,12 @@
 ## [166] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ]]></output>
     </console>
+      </remark>
       <p>
         So that's what the <c>blowouts</c> variable looks like. Now let's ask R for a <c>summary()</c>
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           summary( object = blowouts )
@@ -1056,12 +1181,15 @@
 ## logical     132      44
 ]]></output>
     </console>
+      </remark>
       <p>
         In this context, the <c>summary()</c> function gives us a count of the number of <c>TRUE</c> values, the number of <c>FALSE</c> values, and the number of missing values (i.e., the <c>NA</c>s). Pretty reasonable behaviour.
       </p>
       <p>
         Next, let's try to give it a factor. If you recall, I've defined the <c>afl.finalists</c> vector as a factor, so let's use that:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           summary( object = afl.finalists )
@@ -1081,9 +1209,12 @@
 ##               24
 ]]></output>
     </console>
+      </remark>
       <p>
         For factors, we get a frequency table, just like we got when we used the <c>table()</c> function. Interestingly, however, if we convert this to a character vector using the <c>as.character()</c> function (see <xref ref="coercion" />, we don't get the same results:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           f2 &lt;- as.character( afl.finalists )
@@ -1096,6 +1227,7 @@
 ##       400 character character
 ]]></output>
     </console>
+      </remark>
       <p>
         This is one of those situations I was referring to in <xref ref="factors" />, in which it is helpful to declare your nominal scale variable as a factor rather than a character vector. Because I've defined <c>afl.finalists</c> as a factor, R <em>knows</em> that it should treat it as a nominal scale variable, and so it gives you a much more detailed (and helpful) summary than it would have if I'd left it as a character vector.
       </p>
@@ -1105,6 +1237,8 @@
       <p>
         Okay what about data frames? When you pass a data frame to the <c>summary()</c> function, it produces a slightly condensed summary of each variable inside the data frame. To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the <c>clinicaltrial.Rdata</c> file, and we'll use it a lot in <xref ref="anova" /> (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load( "./data/clinicaltrial.Rdata" )
@@ -1121,9 +1255,12 @@
 ##     $mood.gain   numeric       18
 ]]></output>
     </console>
+      </remark>
       <p>
         There's a single data frame called <c>clin.trial</c> which contains three variables, <c>drug</c>, <c>therapy</c> and <c>mood.gain</c>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the <c>summary()</c> function sheds a little more light on this situation:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           summary( clin.trial )
@@ -1140,6 +1277,7 @@
 ##                              Max.   :1.8000
 ]]></output>
     </console>
+      </remark>
       <p>
         Evidently there were three drugs: a placebo, something called "anxifree" and something called "joyzepam"; and there were 6 people administered each drug. There were 9 people treated using cognitive behavioural therapy (CBT) and 9 people who received no psychological treatment. And we can see from looking at the summary of the <c>mood.gain</c> variable that most people did show a mood gain (mean <m>=.88</m>), though without knowing what the scale is here it's hard to say much more than that. Still, that's not too bad. Overall, I feel that I learned something from that.
       </p>
@@ -1196,6 +1334,8 @@
       <p>
         With those caveats in mind, let's use the <c>describe()</c> function to have a look at the <c>clin.trial</c> data frame. Here's what we get:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           describe( x = clin.trial )
@@ -1214,6 +1354,7 @@
 ## mood.gain    -1.44 0.13
 ]]></output>
     </console>
+      </remark>
       <p>
         As you can see, the output for the asterisked variables is pretty meaningless, and should be ignored. However, for the <c>mood.gain</c> variable, there's a lot of useful information.
       </p>
@@ -1224,6 +1365,8 @@
     <p>
       It is very commonly the case that you find yourself needing to look at descriptive statistics, broken down by some grouping variable. This is pretty easy to do in R, and there are three functions in particular that are worth knowing about: <c>by()</c>, <c>describeBy()</c> and <c>aggregate()</c>. Let's start with the <c>describeBy()</c> function, which is part of the <c>psych</c> package. The <c>describeBy()</c> function is very similar to the <c>describe()</c> function, except that it has an additional argument called <c>group</c> which specifies a grouping variable. For instance, let's  say, I want to look at the descriptive statistics for the <c>clin.trial</c> data, broken down separately by <c>therapy</c> type. The command I would use here is:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         describeBy( x=clin.trial, group=clin.trial$therapy )
@@ -1254,20 +1397,26 @@
 ## mood.gain    -1.12 0.15
 ]]></output>
     </console>
+    </remark>
     <p>
       As you can see, the output is essentially identical to the output that the <c>describe()</c> function produce, except that the output now gives you means, standard deviations etc separately for the <c>CBT</c> group and the <c>no.therapy</c> group. Notice that, as before, the output displays asterisks for factor variables, in order to draw your attention to the fact that the descriptive statistics that it has calculated won't be very meaningful for those variables. Nevertheless, this command has given us some really useful descriptive statistics <c>mood.gain</c> variable, broken down as a function of <c>therapy</c>.
     </p>
     <p>
       A somewhat more general solution is offered by the <c>by()</c> function. There are three arguments that you need to specify when using this function: the <c>data</c> argument specifies the data set, the <c>INDICES</c> argument specifies the grouping variable, and the <c>FUN</c> argument specifies the name of a function that you want to apply separately to each group. To give a sense of how powerful this is, you can reproduce the <c>describeBy()</c> function by using a command like this:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         by( data=clin.trial, INDICES=clin.trial$therapy, FUN=describe )
       </input>
     </program>
+    </remark>
     <p>
       This will produce the exact same output as the command shown earlier. However, there's nothing special about the <c>describe()</c> function. You could just as easily use the <c>by()</c> function in conjunction with the <c>summary()</c> function. For example:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         by( data=clin.trial, INDICES=clin.trial$therapy, FUN=summary )
@@ -1294,12 +1443,15 @@
 ##                              Max.   :1.800
 ]]></output>
     </console>
+    </remark>
     <p>
       Again, this output is pretty easy to interpret. It's the output of the <c>summary()</c> function, applied separately to <c>CBT</c> group and the <c>no.therapy</c> group. For the two factors (<c>drug</c> and <c>therapy</c>) it prints out a frequency table, whereas for the numeric variable (<c>mood.gain</c>) it prints out the range, interquartile range, mean and median.
     </p>
     <p>
       What if you have multiple grouping variables? Suppose, for example, you would like to look at the average mood gain separately for all possible combinations of drug and therapy. It is actually possible to do this using the <c>by()</c> and <c>describeBy()</c> functions, but I usually find it more convenient to use the <c>aggregate()</c> function in this situation. There are again three arguments that you need to specify. The <c>formula</c> argument is used to indicate which variable you want to analyse, and which variables are used to specify the groups. For instance, if you want to look at <c>mood.gain</c> separately for each possible combination of <c>drug</c> and <c>therapy</c>, the formula you want is <c>mood.gain ~ drug + therapy</c>. The <c>data</c> argument is used to specify the data frame containing all the data, and the <c>FUN</c> argument is used to indicate what function you want to calculate for each group (e.g., the <c>mean</c>). So, to obtain group means, use this command:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
          aggregate( formula = mood.gain ~ drug + therapy,  # mood.gain by drug/therapy combination
@@ -1319,9 +1471,12 @@
 ## 6 joyzepam        CBT  1.500000
 ]]></output>
     </console>
+    </remark>
     <p>
       or, alternatively, if you want to calculate the standard deviations for each group, you would use the following command (argument names omitted this time):
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         aggregate( mood.gain ~ drug + therapy, clin.trial, sd )
@@ -1338,6 +1493,7 @@
 ## 6 joyzepam        CBT 0.2645751
 ]]></output>
     </console>
+    </remark>
   </section>
   <section xml:id="zscore">
     <title>Standard scores</title>
@@ -1350,6 +1506,8 @@
     <p>
       However, all is not lost. A different approach is to convert my grumpiness score into a <term>standard score</term>, also referred to as a <m>z</m>-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in "pseudo-maths" the standard score is calculated like this: <me> \mbox{standard score} = \frac{\mbox{raw score} - \mbox{mean}}{\mbox{standard deviation}} </me> In actual maths, the equation for the <m>z</m>-score is <me> z_i = \frac{X_i - \bar{X}}{\hat\sigma} </me> So, going back to the grumpiness data, we can now transform Dan's raw grumpiness into a standardised grumpiness score.<fn>I haven't discussed how to compute <m>z</m>-scores, explicitly, but you can probably guess. For a variable <c>X</c>, the simplest way is to use a command like <c>(X - mean(X)) / sd(X)</c>. There's also a fancier function called <c>scale()</c> that you can use, but it relies on somewhat more complicated R concepts that I haven't explained yet.</fn> If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be<fn>Technically, because I'm calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I'm actually doing is <em>estimating</em> a <m>z</m> score. However, since we haven't talked about estimation yet (see Chapter \@ref(estimation)) I think it's best to ignore this subtlety, especially as it makes very little difference to our calculations.</fn> <me> z = \frac{35 - 17}{5} = 3.6 </me> To interpret this value, recall the rough heuristic that I provided in <xref ref="sd" />, in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a <m>z</m> score of 3.6 indicates that I'm very grumpy indeed. Later on, in <xref ref="normal" />, I'll introduce a function called <c>pnorm()</c> that allows us to be a bit more precise than this. Specifically, it allows us to calculate a theoretical percentile rank for my grumpiness, as follows:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         pnorm( 3.6 )
@@ -1361,6 +1519,7 @@
 ## [1] 0.9998409
 ]]></output>
     </console>
+    </remark>
     <p>
       At this stage, this command doesn't make too much sense, but don't worry too much about it. It's not important for now. But the output is fairly straightforward: it suggests that I'm grumpier than 99.98% of people. Sounds about right.
     </p>
@@ -1381,6 +1540,8 @@
       <p>
         After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called <c>parenthood.Rdata</c>. If we load the data...
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load( "./data/parenthood.Rdata" )
@@ -1398,9 +1559,12 @@
 ##     $day          integer       100
 ]]></output>
     </console>
+      </remark>
       <p>
         ... we see that the file contains a single data frame called <c>parenthood</c>, which contains four variables <c>dan.sleep</c>, <c>baby.sleep</c>, <c>dan.grump</c> and <c>day</c>. If we peek at the data using <c>head()</c> out the data, here's what we get:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head(parenthood,10)
@@ -1421,9 +1585,12 @@
 ## 10      6.58       7.09        71  10
 ]]></output>
     </console>
+      </remark>
       <p>
         Next, I'll calculate some basic descriptive statistics:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           describe( parenthood )
@@ -1443,6 +1610,7 @@
 ## day         0.00    -1.24 2.90
 ]]></output>
     </console>
+      </remark>
       <p>
         Finally, to give a graphical depiction of what each of the three interesting variables looks like, <xref ref="fig-parenthood" /> plots histograms.
       </p>
@@ -1496,6 +1664,8 @@
       <p>
         Calculating correlations in R can be done using the <c>cor()</c> command. The simplest way to use the command is to specify two input arguments <c>x</c> and <c>y</c>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function:<fn>If you are reading this after having already completed Chapter \@ref(hypothesistesting) you might be wondering about hypothesis tests for correlations. R has a function called <c>cor.test()</c> that runs a hypothesis test for a single correlation, and the <c>psych</c> package contains a version called <c>corr.test()</c> that can run tests for every correlation in a correlation matrix; hypothesis tests for correlations are discussed in more detail in Section \@ref(corrhyp).</fn>
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cor( x = parenthood$dan.sleep, y = parenthood$dan.grump )
@@ -1507,9 +1677,12 @@
 ## [1] -0.903384
 ]]></output>
     </console>
+      </remark>
       <p>
         However, the <c>cor()</c> function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:<fn>An alternative usage of <c>cor()</c> is to correlate one set of variables with another subset of variables. If <c>X</c> and <c>Y</c> are both data frames with the same number of rows, then <c>cor(x = X, y = Y)</c> will produce a correlation matrix that correlates all variables in <c>X</c> with all variables in <c>Y</c>.</fn>
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           # correlate all pairs of variables in "parenthood":
@@ -1526,6 +1699,7 @@
 ## day        -0.09840768 -0.01043394  0.07647926  1.00000000
 ]]></output>
     </console>
+      </remark>
     </subsection>
     <subsection xml:id="interpretingcorrelations">
       <title>Interpreting a correlation</title>
@@ -1595,6 +1769,8 @@
       <p>
         However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet" <xref ref="biblio-Anscombe1973">(Anscombe, 1973)</xref>, which is a collection of four data sets. Each data set has two variables, an <m>X</m> and a <m>Y</m>. For all four data sets the mean value for <m>X</m> is 9 and the mean for <m>Y</m> is 7.5. The, standard deviations for all <m>X</m> variables are almost identical, as are those for the the <m>Y</m> variables. And in each case the correlation between <m>X</m> and <m>Y</m> is <m>r = 0.816</m>. You can verify this yourself, since the dataset comes distributed with R. The commands would be:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cor( anscombe$x1, anscombe$y1 )
@@ -1607,6 +1783,7 @@
 ## [1] 0.8164205
 ]]></output>
     </console>
+      </remark>
       <p>
         and so on.
       </p>
@@ -1636,6 +1813,8 @@
       <p>
         To illustrate, consider the data plotted in <xref ref="fig-rankcorrpic" />, showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this <mdash /> highly fictitious <mdash /> data set is that increasing your effort <em>always</em> increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in <c>effort.Rdata</c>:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; load( "effort.Rdata" )
@@ -1646,9 +1825,12 @@
               $grade      numeric       10
         </input>
       </program>
+      </remark>
       <p>
         The raw data look like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; effort
@@ -1665,15 +1847,19 @@
           10    68    88
         </input>
       </program>
+      </remark>
       <p>
         If we run a standard Pearson correlation, it shows a strong relationship between hours worked and grade received,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor( effort$hours, effort$grade )
           [1] 0.909402
         </input>
       </program>
+      </remark>
       <p>
         but this doesn't actually capture the observation that increasing hours worked <em>always</em> increases the grade. There's a sense here in which we want to be able to say that the correlation is <em>perfect</em> but for a somewhat different notion of what a "relationship" is. What we're looking for is something that captures the fact that there is a perfect <term>ordinal relationship</term> here. That is, if student 1 works more hours than student 2, then we can guarantee that student 1 will get the better grade. That's not what a correlation of <m>r = .91</m> says at all.
       </p>
@@ -1757,30 +1943,39 @@
       <p>
         Hm. These are <em>identical</em>. The student who put in the most effort got the best grade, the student with the least effort got the worst grade, etc. We can get R to construct these rankings using the <c>rank()</c> function, like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; hours.rank &lt;- rank( effort$hours )   # rank students by hours worked
           &gt; grade.rank &lt;- rank( effort$grade )   # rank students by grade received
         </input>
       </program>
+      </remark>
       <p>
         As the table above shows, these two rankings are identical, so if we now correlate them we get a perfect relationship:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor( hours.rank, grade.rank )
           [1] 1
         </input>
       </program>
+      </remark>
       <p>
         What we've just re-invented is <term>Spearman's rank order correlation</term>, usually denoted <m>\rho</m> to distinguish it from the Pearson correlation <m>r</m>. We can calculate Spearman's <m>\rho</m> using R in two different ways. Firstly we could do it the way I just showed, using the <c>rank()</c> function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the <c>method</c> argument of the <c>cor()</c> function.
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor( effort$hours, effort$grade, method = "spearman")
           [1] 1
         </input>
       </program>
+      </remark>
       <p>
         The default value of the <c>method</c> argument is <c>"pearson"</c>, which is why we didn't have to specify it earlier on when we were doing Pearson correlations.
       </p>
@@ -1793,6 +1988,8 @@
       <p>
         Here's what I mean. Suppose you were keeping track of how many <c>hours</c> you worked in any given day, and counted how many <c>tasks</c> you completed. If you were doing the tasks for money, you might also want to keep track of how much <c>pay</c> you got for each job. It would also be sensible to keep track of the <c>weekday</c> on which you actually did the work: most of us don't work as much on Saturdays or Sundays. If you did this for 7 weeks, you might end up with a data set that looks like this one:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; load("work.Rdata")
@@ -1818,27 +2015,36 @@
           6   3.0     7  12   6    Sunday    1  weekend
         </input>
       </program>
+      </remark>
       <p>
         Obviously, I'd like to know something about how all these variables correlate with one another. I could correlate <c>hours</c> with <c>pay</c> quite using <c>cor()</c>, like so:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor(work$hours,work$pay)
           [1] 0.7604283
         </input>
       </program>
+      </remark>
       <p>
         But what if I wanted a quick and easy way to calculate all pairwise correlations between the numeric variables? I can't just input the <c>work</c> data frame, because it contains two factor variables, <c>weekday</c> and <c>day.type</c>. If I try this, I get an error:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor(work)
           Error in cor(work) : 'x' must be numeric
         </input>
       </program>
+      </remark>
       <p>
         It order to get the correlations that I want using the <c>cor()</c> function, is create a new data frame that doesn't contain the factor variables, and then feed that new data frame into the <c>cor()</c> function. It's not actually very hard to do that, and I'll talk about how to do it properly in <xref ref="subsetdataframe" />. But it would be nice to have some function that is smart enough to just ignore the factor variables. That's where the <c>correlate()</c> function in the <c>lsr</c> package can be handy. If you feed it a data frame that contains factors, it knows to ignore them, and returns the pairwise correlations only between the numeric variables:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; correlate(work)
@@ -1858,9 +2064,12 @@
           day.type      .      .     .      .       .      .        .
         </input>
       </program>
+      </remark>
       <p>
         The output here shows a <c>.</c> whenever one of the variables is non-numeric. It also shows a <c>.</c> whenever a variable is correlated with itself (it's not a meaningful thing to do). The <c>correlate()</c> function can also do Spearman correlations, by specifying the <c>corr.method</c> to use:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; correlate( work, corr.method="spearman" )
@@ -1880,6 +2089,7 @@
           day.type      .      .     .      .       .      .        .
         </input>
       </program>
+      </remark>
       <p>
         Obviously, there's no new functionality in the <c>correlate()</c> function, and any advanced R user would be perfectly capable of using the <c>cor()</c> function to get these numbers out. But if you're not yet comfortable with extracting a subset of a data frame, the <c>correlate()</c> function is for you.
       </p>
@@ -1895,20 +2105,26 @@
       <p>
         Let's start with the simplest case, in which you're trying to calculate descriptive statistics for a single variable which has missing data. In R, this means that there will be <c>NA</c> values in your data vector. Let's create a variable like that:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; partial &lt;- c(10, 20, NA, 30)
         </input>
       </program>
+      </remark>
       <p>
         Let's assume that you want to calculate the mean of this variable. By default, R assumes that you want to calculate the mean using all four elements of this vector, which is probably the safest thing for a dumb automaton to do, but it's rarely what you actually want. Why not? Well, remember that the basic interpretation of <c>NA</c> is "I don't know what this number is". This means that <c>1 + NA = NA</c>: if I add 1 to some number that I don't know (i.e., the <c>NA</c>) then the answer is <em>also</em> a number that I don't know. As a consequence, if you don't explicitly tell R to ignore the <c>NA</c> values, and the data set does have missing values, then the output will itself be a missing value. If I try to calculate the mean of the <c>partial</c> vector, without doing anything about the missing value, here's what happens:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; mean( x = partial )
           [1] NA
         </input>
       </program>
+      </remark>
       <p>
         Technically correct, but deeply unhelpful.
       </p>
@@ -1918,12 +2134,15 @@
       <p>
         When calculating sums and means when missing data are present (i.e., when there are <c>NA</c> values) there's actually an additional argument to the function that you should be aware of. This argument is called <c>na.rm</c>, and is a logical value indicating whether R should ignore (or "remove") the missing data for the purposes of doing the calculations. By default, R assumes that you want to keep the missing values, so unless you say otherwise it will set <c>na.rm = FALSE</c>. However, R assumes that <c>1 + NA = NA</c>: if I add 1 to some number that I don't know (i.e., the <c>NA</c>) then the answer is <em>also</em> a number that I don't know. As a consequence, if you don't explicitly tell R to ignore the <c>NA</c> values, and the data set does have missing values, then the output will itself be a missing value. This is illustrated in the following extract:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; mean( x = partial, na.rm = TRUE )
           [1] 20
         </input>
       </program>
+      </remark>
       <p>
         Notice that the mean is <c>20</c>  (i.e., <c>60 / 3</c>) and <em>not</em> <c>15</c>. When R ignores a <c>NA</c> value, it genuinely ignores it. In effect, the calculation above is identical to what you'd get if you asked for the mean of the three-element vector <c>c(10, 20, 30)</c>.
       </p>
@@ -1936,6 +2155,8 @@
       <p>
         I mentioned earlier that the <c>cor()</c> function is a special case. It doesn't have an <c>na.rm</c> argument, because the story becomes a lot more complicated when more than one variable is involved. What it does have is an argument called <c>use</c> which does roughly the same thing, but you need to think  little more carefully about what you want this time. To illustrate the issues, let's open up a data set that has missing values, <c>parenthood2.Rdata</c>. This file contains the same data as the original parenthood data, but with some values deleted. It contains a single data frame, <c>parenthood2</c>:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; load( "parenthood2.Rdata" )
@@ -1950,9 +2171,12 @@
           BLAH BLAH BLAH
         </input>
       </program>
+      </remark>
       <p>
         If I calculate my descriptive statistics using the <c>describe()</c> function
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; describe( parenthood2 )
@@ -1963,9 +2187,12 @@
           day          4 100 50.50 29.01  50.50   50.50 37.06  1.00 100.00    BLAH
         </input>
       </program>
+      </remark>
       <p>
         we can see from the <c>n</c> column that there are 9 missing values for <c>dan.sleep</c>, 11 missing values for <c>baby.sleep</c> and 8 missing values for <c>dan.grump</c>.<fn>It's worth noting that, even though we have missing data for each of these variables, the output doesn't contain any <c>NA</c> values. This is because, while <c>describe()</c> also has an <c>na.rm</c> argument, the default value for this function is <c>na.rm = TRUE</c>.</fn> Suppose what I would like is a correlation matrix. And let's also suppose that I don't bother to tell R how to handle those missing values. Here's what happens:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor( parenthood2 )
@@ -1976,12 +2203,15 @@
           day               NA         NA        NA   1
         </input>
       </program>
+      </remark>
       <p>
         Annoying, but it kind of makes sense. If I don't <em>know</em> what some of the values of <c>dan.sleep</c> and <c>baby.sleep</c> actually are, then I can't possibly <em>know</em> what the correlation between these two variables is either, since the formula for the correlation coefficient makes use of every single observation in the data set. Once again, it makes sense: it's just not particularly <em>helpful</em>.
       </p>
       <p>
         To make R behave more sensibly in this situation, you need to specify the <c>use</c> argument to the <c>cor()</c> function. There are several different values that you can specify for this, but the two that we care most about in practice tend to be <c>"complete.obs"</c> and <c>"pairwise.complete.obs"</c>. If we specify <c>use = "complete.obs"</c>, R will completely ignore all cases (i.e., all rows in our <c>parenthood2</c> data frame) that have any missing values at all. So, for instance, if you look back at the extract earlier when I used the <c>head()</c> function, notice that observation 1 (i.e., day 1) of the <c>parenthood2</c> data set is missing the value for <c>baby.sleep</c>, but is otherwise complete? Well, if you choose <c>use = "complete.obs"</c> R will ignore that row completely: that is, even when it's trying to calculate the correlation between <c>dan.sleep</c> and <c>dan.grump</c>, observation 1 will be ignored, because the value of <c>baby.sleep</c> is missing for that observation. Here's what we get:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor(parenthood2, use = "complete.obs")
@@ -1992,9 +2222,12 @@
           day         0.06132891  0.1455581 -0.06816586  1.00000000
         </input>
       </program>
+      </remark>
       <p>
         The other possibility that we care about, and the one that tends to get used more often in practice, is to set <c>use = "pairwise.complete.obs"</c>. When we do that, R only looks at the variables that it's trying to correlate when determining what to drop. So, for instance, since the only missing value for observation 1 of <c>parenthood2</c> is for <c>baby.sleep</c> R will only drop observation 1 when <c>baby.sleep</c> is one of the variables involved: and so R keeps observation 1 when trying to correlate  <c>dan.sleep</c> and <c>dan.grump</c>. When we do it this way, here's what we get:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; cor(parenthood2, use = "pairwise.complete.obs")
@@ -2005,9 +2238,12 @@
           day        -0.07679667  0.05830949  0.005833399  1.000000000
         </input>
       </program>
+      </remark>
       <p>
         Similar, but not quite the same. It's also worth noting that the <c>correlate()</c> function (in the <c>lsr</c> package) automatically uses the "pairwise complete" method:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; correlate(parenthood2)
@@ -2024,6 +2260,7 @@
           day           -0.077      0.058     0.006      .
         </input>
       </program>
+      </remark>
       <p>
         The two approaches have different strengths and weaknesses. The "pairwise complete" approach has the advantage that it keeps more observations, so you're making use of more of your data and (as we'll discuss in tedious detail in <xref ref="estimation" /> and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you've got.
       </p>

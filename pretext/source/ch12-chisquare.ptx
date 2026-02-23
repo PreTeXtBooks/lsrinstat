@@ -18,6 +18,8 @@
       <p>
         Over the years, there have been a lot of studies showing that humans have a lot of difficulties in simulating randomness. Try as we might to "act" random, we <em>think</em> in terms of patterns and structure, and so when asked to "do something at random", what people actually do is anything but random. As a consequence, the study of human randomness (or non-randomness, as the case may be) opens up a lot of deep psychological questions about how we think about the world. With this in mind, let's consider a very simple study. Suppose I asked people to imagine a shuffled deck of cards, and mentally pick one card from this imaginary deck "at random". After they've chosen one card, I ask them to mentally select a second one. For both choices, what we're going to look at is the suit (hearts, clubs, spades or diamonds) that people chose. After asking, say, <m>N=200</m> people to do this, I'd like to look at the data and figure out whether or not the cards that people pretended to select were really random. The data are contained in the <c>randomness.Rdata</c> file, which contains a single data frame called <c>cards</c>. Let's take a look:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           library( lsr )
@@ -33,9 +35,12 @@
 ##  $ choice_2: Factor w/ 4 levels "clubs","diamonds",..: 1 1 1 1 4 3 2 1 1 4 ...
 ]]></output>
     </console>
+      </remark>
       <p>
         As you can see, the <c>cards</c> data frame contains three variables, an <c>id</c> variable that assigns a unique identifier to each participant, and the two variables <c>choice_1</c> and <c>choice_2</c> that indicate the card suits that people chose. Here's the first few entries in the data frame:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head( cards )
@@ -52,9 +57,12 @@
 ## 6 subj6    clubs   hearts
 ]]></output>
     </console>
+      </remark>
       <p>
         For the moment, let's just focus on the first choice that people made. We'll use the <c>table()</c> function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called <c>observed</c>, for reasons that will become clear very soon:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           observed &lt;- table( cards$choice_1 )
@@ -68,6 +76,7 @@
 ##       35       51       64       50
 ]]></output>
     </console>
+      </remark>
       <p>
         That little frequency table is quite helpful. Looking at it, there's a bit of a hint that people <em>might</em> be more likely to select hearts than clubs, but it's not completely obvious just from looking at it whether that's really true, or if this is just due to chance. So we'll probably have to do some kind of statistical analysis to find out, which is what I'm going to talk about in the next section.
       </p>
@@ -181,18 +190,23 @@
       <p>
         Conveniently, the mathematical version of the hypotheses looks quite similar to an R command defining a vector. So maybe what I should do is store the <m>P</m> vector in R as well,  since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this R vector <c>probabilities</c>,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           probabilities &lt;- c(clubs = .25, diamonds = .25, hearts = .25, spades = .25)
           probabilities
         </input>
       </program>
+      </remark>
     </subsection>
     <subsection>
       <title>The "goodness of fit" test statistic</title>
       <p>
         At this point, we have our observed frequencies <m>O</m> and a collection of probabilities <m>P</m> corresponding the null hypothesis that we want to test. We've stored these in R as the corresponding variables <c>observed</c> and <c>probabilities</c>. What we now want to do is construct a test of the null hypothesis. As always, if we want to test <m>H_0</m> against <m>H_1</m>, we're going to need a test statistic. The basic trick that a goodness of fit test uses is to construct a test statistic that measures how "close" the data are to the null hypothesis. If the data don't resemble what you'd "expect" to see if the null hypothesis were true, then it probably isn't true. Okay, if the null hypothesis were true, what would we expect to see? Or, to use the correct terminology, what are the <term>expected frequencies</term>. There are <m>N=200</m> observations, and (if the null is true) the probability of any one of them choosing a heart is <m>P_3 = .25</m>, so I guess we're expecting <m>200 \times .25 = 50</m> hearts, right? Or, more specifically, if we let <m>E_i</m> refer  to "the number of category <m>i</m> responses that we're expecting if the null is true", then <me> E_i = N \times P_i </me> This is pretty easy to calculate in R:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           N &lt;- 200  # sample size
@@ -200,6 +214,7 @@
           expected
         </input>
       </program>
+      </remark>
       <p>
         None of which is very surprising: if there are 200 observation that can fall into four categories, and we think that all four categories are equally likely, then on average we'd expect to see 50 observations in each category, right?
       </p>
@@ -252,6 +267,8 @@
       <p>
         The same calculations can be done in R, using our <c>expected</c> and <c>observed</c> variables:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           observed - expected
@@ -264,9 +281,12 @@
 ##      -15        1       14        0
 ]]></output>
     </console>
+      </remark>
       <p>
         Regardless of whether we do the calculations by hand or whether we do them in R, it's clear that people chose more hearts and fewer clubs than the null hypothesis predicted. However, a moment's thought suggests that these raw differences aren't quite what we're looking for. Intuitively, it feels like it's just as bad when the null hypothesis predicts too few observations (which is what happened with hearts) as it is when it predicts too many (which is what happened with clubs). So it's a bit weird that we have a negative number for clubs and a positive number for heards. One easy way to fix this is to square everything, so that we now calculate the squared differences, <m>(E_i - O_i)^2</m>. As before, we could do this by hand, but it's easier to do it in R...
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           (observed - expected)^2
@@ -279,9 +299,12 @@
 ##      -15        1       14        0
 ]]></output>
     </console>
+      </remark>
       <p>
         Now we're making progress. What we've got now is a collection of numbers that are big whenever the null hypothesis makes a bad prediction (clubs and hearts), but are small whenever it makes a good one (diamonds and spades). Next, for some technical reasons that I'll explain in a moment, let's also divide all these numbers by the expected frequency <m>E_i</m>, so we're actually calculating <m>\frac{(E_i-O_i)^2}{E_i}</m>. Since <m>E_i = 50</m> for all categories in our example, it's not a very interesting calculation, but let's do it anyway. The R command becomes:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           (observed - expected)^2 / expected
@@ -294,9 +317,12 @@
 ##      -15        1       14        0
 ]]></output>
     </console>
+      </remark>
       <p>
         In effect, what we've got here are four different "error" scores, each one telling us how big a "mistake" the null hypothesis made when we tried to use it to predict our observed frequencies. So, in order to convert this into a useful test statistic, one thing we could do is just add these numbers up. The result is called the <term>goodness of fit</term> statistic, conventionally referred to either as <m>X^2</m> or GOF. We can calculate it using this command in R
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sum( (observed - expected)^2 / expected )
@@ -309,6 +335,7 @@
 ##      -15        1       14        0
 ]]></output>
     </console>
+      </remark>
       <p>
         The formula for this statistic looks remarkably similar to the R command. If we let <m>k</m> refer to the total number of categories (i.e., <m>k=4</m> for our cards data), then the <m>X^2</m> statistic is given by: <me> X^2 = \sum_{i=1}^k \frac{(O_i - E_i)^2}{E_i} </me> Intuitively, it's clear that if <m>X^2</m> is small, then the observed data <m>O_i</m> are very close to what the null hypothesis predicted <m>E_i</m>, so we're going to need a large <m>X^2</m> statistic in order to reject the null. As we've seen from our calculations, in our cards data set we've got a value of <m>X^2 = 8.44</m>. So now the question becomes, is this a big enough value to reject the null?
       </p>
@@ -350,6 +377,8 @@
       <p>
         Ah, but <mdash /> I hear you ask <mdash /> how do I calculate the 95th percentile of a chi-squared distribution with <m>k-1</m> degrees of freedom? If only R had some function, called... oh, I don't know, <c>qchisq()</c> ... that would let you calculate this percentile (see <xref ref="probability" /> if you've forgotten). Like this...
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           qchisq( p = .95, df = 3 )
@@ -360,9 +389,12 @@
 ## [1] 7.814728
 ]]></output>
     </console>
+      </remark>
       <p>
         So if our <m>X^2</m> statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., <m>X^2 = 8.44</m>) we can reject the null. If we want an exact <m>p</m>-value, we can calculate it using the <c>pchisq()</c> function:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           pchisq( q = 8.44, df = 3, lower.tail = FALSE )
@@ -373,9 +405,12 @@
 ## [1] 0.03774185
 ]]></output>
     </console>
+      </remark>
       <p>
         This is hopefully pretty straightforward, as long as you recall that the "<c>p</c>" form of the probability distribution functions in R always calculates the probability of getting a value of <em>less</em> than the value you entered (in this case 8.44). We want the opposite: the probability of getting a value of 8.44 or *more*. That's why I told R to use the upper tail, not the lower tail. That said, it's usually easier to calculate the <m>p</m>-value this way:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           1-pchisq( q = 8.44, df = 3 )
@@ -386,6 +421,7 @@
 ## [1] 0.03774185
 ]]></output>
     </console>
+      </remark>
       <p>
         So, in this case we would reject the null hypothesis, since <m>p &lt; .05</m>.  And that's it, basically. You now know "Pearson's <m>\chi^2</m> test for the goodness of fit". Lucky you.
       </p>
@@ -395,6 +431,8 @@
       <p>
         Gosh darn it. Although we did manage to do everything in R as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I <em>hate</em> typing. Not surprisingly, R provides a function that will do all of these calculations for you. In fact, there are several different ways of doing it. The one that most people use is the <c>chisq.test()</c> function, which comes with every installation of R. I'll show you how to use the <c>chisq.test()</c> function later on (in <xref ref="chisq.test" />, but to start out with I'm going to show you the <c>goodnessOfFitTest()</c> function in the <c>lsr</c> package, because it produces output that I think is easier for beginners to understand. It's pretty straightforward: our raw data are stored in the variable <c>cards$choice_1</c>, right? If you want to test the null hypothesis that all four suits are equally likely, then (assuming you have the <c>lsr</c> package loaded) all you have to do is type this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           goodnessOfFitTest( cards$choice_1 )
@@ -424,9 +462,12 @@
 ##    p-value:  0.038
 ]]></output>
     </console>
+      </remark>
       <p>
         R then runs the test, and prints several lines of text. I'll go through the output line by line, so that you can make sure that you understand what you're looking at. The first two lines are just telling you things you already know:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
                Chi-square test against specified probabilities
@@ -434,9 +475,12 @@
           Data variable:   cards$choice_1
         </input>
       </program>
+      </remark>
       <p>
         The first line tells us what kind of hypothesis test we ran, and the second line tells us the name of the variable that we ran it on. After that comes a statement of what the null and alternative hypotheses are:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Hypotheses:
@@ -444,12 +488,15 @@
              alternative: true probabilities differ from those specified
         </input>
       </program>
+      </remark>
       <p>
         For a beginner, it's kind of handy to have this as part of the output: it's a nice reminder of what your null and alternative hypotheses are. Don't get used to seeing this though. The vast majority of hypothesis tests in R aren't so kind to novices. Most R functions are written on the assumption that you already understand the statistical tool that you're using, so they don't bother to include an explicit statement of the null and alternative hypothesis. The only reason that <c>goodnessOfFitTest()</c> actually does give you this is that I wrote it with novices in mind.
       </p>
       <p>
         The next part of the output shows you the comparison between the observed frequencies and the expected frequencies:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Descriptives:
@@ -467,12 +514,15 @@
 ##       35       51       64       50
 ]]></output>
     </console>
+      </remark>
       <p>
         The first column shows what the observed frequencies were, the second column shows the expected frequencies according to the null hypothesis, and the third column shows you what the probabilities actually were according to the null. For novice users, I think this is helpful: you can look at this part of the output and check that it makes sense: if it doesn't you might have typed something incorrecrtly.
       </p>
       <p>
         The last part of the output is the "important" stuff: it's the result of the hypothesis test itself. There are three key numbers that need to be reported: the value of the <m>X^2</m> statistic, the degrees of freedom, and the <m>p</m>-value:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Test results:
@@ -481,6 +531,7 @@
              p-value:  0.038
         </input>
       </program>
+      </remark>
       <p>
         Notice that these are the same numbers that we came up with when doing the calculations the long way.
       </p>
@@ -490,15 +541,20 @@
       <p>
         At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is <em>not</em> that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60\% of the time, and black cards 40\% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30\% of the choices to be hearts, 30\% to be diamonds, 20\% to be spades and 20\% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           nullProbs &lt;- c(clubs = .2, diamonds = .3, hearts = .3, spades = .2)
           nullProbs
         </input>
       </program>
+      </remark>
       <p>
         Now that we have an explicitly specified null hypothesis, we include it in our command. This time round I'll use the argument names properly. The data variable corresponds to the argument <c>x</c>, and the probabilities according to the null hypothesis correspond to the argument <c>p</c>. So our command is:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           goodnessOfFitTest( x = cards$choice_1, p = nullProbs )
@@ -528,6 +584,7 @@
 ##    p-value:  0.192
 ]]></output>
     </console>
+      </remark>
       <p>
         As you can see the null hypothesis and the expected frequencies are different to what they were last time. As a consequence our <m>X^2</m> test statistic is different, and our <m>p</m>-value is different too. Annoyingly, the <m>p</m>-value is .192, so we can't reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don't provide enough evidence against it.
       </p>
@@ -624,6 +681,8 @@
     <p>
       The other day I was watching an animated documentary examining the quaint customs of the natives of the planet *Chapek 9*. Apparently, in order to gain access to their capital city, a visitor must prove that they're a robot, not a human. In order to determine whether or not visitor is human, they ask whether the visitor prefers puppies, flowers or large, properly formatted data files. "Pretty clever," I thought to myself "but what if humans and robots have the same preferences? That probably wouldn't be a very good test then, would it?" As it happens, I got my hands on the testing data that the civil authorities of <em>Chapek 9</em> used to check this. It turns out that what they did was very simple... they found a bunch of robots and a bunch of humans and asked them what they preferred. I saved their data in a file called <c>chapek9.Rdata</c>, which I can now load and have a quick look at:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         load( file.path(projecthome, "data/chapek9.Rdata" ))
@@ -637,9 +696,12 @@
 ##  $ choice : Factor w/ 3 levels "puppy","flower",..: 2 3 3 3 3 2 3 3 1 2 ...
 ]]></output>
     </console>
+    </remark>
     <p>
       Okay, so we have a single data frame called <c>chapek9</c>, which contains two factors, <c>species</c> and <c>choice</c>. As always, it's nice to have a quick look at the data,
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         head(chapek9)
@@ -656,9 +718,12 @@
 ## 6   human flower
 ]]></output>
     </console>
+    </remark>
     <p>
       and then take a <c>summary()</c>,
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         summary(chapek9)
@@ -672,9 +737,12 @@
 ##             data  :109
 ]]></output>
     </console>
+    </remark>
     <p>
       In total there are 180 entries in the data frame, one for each person (counting both robots and humans as "people") who was asked to make a choice. Specifically, there's 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don't address the question we're interested in. To do that, we need a more detailed description of the data. What we want to do is look at the <c>choices</c> broken down <em>by</em> <c>species</c>. That is, we need to cross-tabulate the data (see <xref ref="freqtables" />). There's quite a few ways to do this, as we've seen, but since our data are stored in a data frame, it's convenient to use the <c>xtabs()</c> function.
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chapekFrequencies &lt;- xtabs( ~ choice + species, data = chapek9)
@@ -690,6 +758,7 @@
 ##   data      44    65
 ]]></output>
     </console>
+    </remark>
     <p>
       That's more or less what we're after. So, if we add the row and column totals (which is convenient for the purposes of explaining the statistical tests), we would have a table like this,
     </p>
@@ -814,6 +883,8 @@
       <p>
         Okay, now that we know how the test works, let's have a look at how it's done in R. As tempting as it is to lead you through the tedious calculations so that you're forced to learn it the long way, I figure there's no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn't conceptually any different, you won't learn anything new by doing it the long way. So instead, I'll go straight to showing you the easy way. As always, R lets you do it multiple ways. There's the <c>chisq.test()</c> function, which I'll talk about in <xref ref="chisq.test" />, but first I want to use the <c>associationTest()</c> function in the <c>lsr</c> package, which I think is easier on beginners. It works in the exact same way as the <c>xtabs()</c> function. Recall that, in order to produce the contingency table, we used this command:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           xtabs( formula = ~choice+species, data = chapek9 )
@@ -828,9 +899,12 @@
 ##   data      44    65
 ]]></output>
     </console>
+      </remark>
       <p>
         The <c>associationTest()</c> function has exactly the same structure: it needs a <c>formula</c> that specifies which variables you're cross-tabulating, and the name of a <c>data</c> frame that contains those variables. So the command is just this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           associationTest( formula = ~choice+species, data = chapek9 )
@@ -870,9 +944,12 @@
 ##    estimated effect size (Cramer's v):  0.244
 ]]></output>
     </console>
+      </remark>
       <p>
         Just like we did with the goodness of fit test, I'll go through it line by line. The first two lines are, once again, just reminding you what kind of test you ran and what variables were used:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
                Chi-square test of categorical association
@@ -880,9 +957,12 @@
           Variables:   choice, species
         </input>
       </program>
+      </remark>
       <p>
         Next, it tells you what the null and alternative hypotheses are (and again, I want to remind you not to get used to seeing these hypotheses written out so explicitly):
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Hypotheses:
@@ -890,9 +970,12 @@
              alternative: some contingency exists between variables
         </input>
       </program>
+      </remark>
       <p>
         Next, it shows you the observed contingency table that is being tested:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Observed contingency table:
@@ -903,9 +986,12 @@
             data      44    65
         </input>
       </program>
+      </remark>
       <p>
         and it also shows you what the expected frequencies would be if the null hypothesis were true:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Expected contingency table under the null hypothesis:
@@ -916,9 +1002,12 @@
             data    52.7  56.3
         </input>
       </program>
+      </remark>
       <p>
         The next part describes the results of the hypothesis test itself:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Test results:
@@ -927,15 +1016,19 @@
              p-value:  0.005
         </input>
       </program>
+      </remark>
       <p>
         And finally, it reports a measure of effect size:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           Other information:
              estimated effect size (Cramer's v):  0.244
         </input>
       </program>
+      </remark>
       <p>
         You can ignore this bit for now. I'll talk about it in just a moment.
       </p>
@@ -982,6 +1075,8 @@
     <p>
       Calculating <m>V</m> or <m>\phi</m> is obviously pretty straightforward. So much so that the core packages in R don't seem to have functions to do it, though other packages do. To save you the time and effort of finding one, I've included one in the <c>lsr</c> package, called <c>cramersV()</c>. It takes a contingency table as input, and prints out the measure of effect size:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         cramersV( chapekFrequencies )
@@ -992,6 +1087,7 @@
 ## [1] 0.244058
 ]]></output>
     </console>
+    </remark>
     <p>
       However, if you're using the <c>associationTest()</c> function to do your analysis, then you won't actually need to use this at all, because it reports the Cram\'er's  <m>V</m> statistic as part of the output.
     </p>
@@ -1021,6 +1117,8 @@
     <p>
       For this reason, the basic <c>chisq.test()</c> function in R is a lot more terse in its output, and because the mathematics that underpin the goodness of fit test and the test of independence is basically the same in each case, it can run either test depending on what kind of input it is given. First, here's the goodness of fit test. Suppose you have the frequency table <c>observed</c> that we used earlier,
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         observed
@@ -1033,9 +1131,12 @@
 ##       35       51       64       50
 ]]></output>
     </console>
+    </remark>
     <p>
       If you want to run the goodness of fit test against the hypothesis that all four suits are equally likely to appear, then all you need to do is input this frequenct table to the <c>chisq.test()</c> function:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chisq.test( x = observed )
@@ -1048,9 +1149,12 @@
 ##       35       51       64       50
 ]]></output>
     </console>
+    </remark>
     <p>
       Notice that the output is very compressed in comparison to the <c>goodnessOfFitTest()</c> function. It doesn't bother to give you any descriptive statistics, it doesn't tell you what null hypothesis is being tested, and so on. And as long as you already understand the test, that's not a problem. Once you start getting familiar with R and with statistics, you'll probably find that you prefer this simple output rather than the rather lengthy output that  <c>goodnessOfFitTest()</c> produces. Anyway, if you want to change the null hypothesis, it's exactly the same as before, just specify the probabilities using the <c>p</c> argument. For instance:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chisq.test( x = observed, p = c(.2, .3, .3, .2) )
@@ -1063,12 +1167,15 @@
 ##       35       51       64       50
 ]]></output>
     </console>
+    </remark>
     <p>
       Again, these are the same numbers that the <c>goodnessOfFitTest()</c> function reports at the end of the output. It just hasn't included any of the other details.
     </p>
     <p>
       What about a test of independence? As it turns out, the <c>chisq.test()</c> function is pretty clever.<fn>Not really.</fn> If you input a <em>cross-tabulation</em> rather than a simple frequency table, it realises that you're asking for a test of independence and not a goodness of fit test. Recall that we already have this cross-tabulation stored as the <c>chapekFrequencies</c> variable:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chapekFrequencies
@@ -1083,9 +1190,12 @@
 ##   data      44    65
 ]]></output>
     </console>
+    </remark>
     <p>
       To get the test of independence, all we have to do is feed this frequency table into the <c>chisq.test()</c> function like so:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chisq.test( chapekFrequencies )
@@ -1100,6 +1210,7 @@
 ##   data      44    65
 ]]></output>
     </console>
+    </remark>
     <p>
       Again, the numbers are the same as last time, it's just that the output is very terse and doesn't really explain what's going on in the rather tedious way that <c>associationTest()</c> does. As before, my intuition is that when you're just getting started it's easier to use something like <c>associationTest()</c> because it shows you more detail about what's going on, but later on you'll probably find that <c>chisq.test()</c> is more convenient.
     </p>
@@ -1109,6 +1220,8 @@
     <p>
       What should you do if your cell counts are too small, but you'd still like to test the null hypothesis that the two variables are independent? One answer would be "collect more data", but that's far too glib: there are a lot of situations in which it would be either infeasible or unethical do that. If so, statisticians have a kind of moral obligation to provide scientists with better tests. In this instance, Fisher (1922) kindly provided the right answer to the question. To illustrate the basic idea, let's suppose that we're analysing data from a field experiment, looking at the emotional status of people who have been accused of witchcraft; some of whom are currently being burned at the stake.<fn>This example is based on a joke article published in the *Journal of Irreproducible Results*.</fn> Unfortunately for the scientist (but rather fortunately for the general populace), it's actually quite hard to find people in the process of being set on fire, so the cell counts are awfully small in some cases. The <c>salem.Rdata</c> file illustrates the point:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         load( file.path(projecthome, "data/salem.Rdata"))
@@ -1117,9 +1230,12 @@
         print( salem.tabs )
       </input>
     </program>
+    </remark>
     <p>
       Looking at this data, you'd be hard pressed not to suspect that people not on fire are more likely to be happy than people on fire. However, the chi-square test makes this very hard to test because of the small sample size. If I try to do so, R gives me a warning message:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chisq.test( salem.tabs )
@@ -1131,6 +1247,7 @@
 ## incorrect
 ]]></output>
     </console>
+    </remark>
     <p>
       Speaking as someone who doesn't want to be set on fire, I'd <em>really</em> like to be able to get a better answer than this. This is where <term>Fisher's exact test</term> \cite{Fisher1922} comes in very handy.
     </p>
@@ -1171,6 +1288,8 @@
     <p>
       The implementation of the test in R is via the <c>fisher.test()</c> function. Here's how it is used:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         fisher.test( salem.tabs )
@@ -1191,6 +1310,7 @@
 ##          0
 ]]></output>
     </console>
+    </remark>
     <p>
       This is a bit more output than we got from some of our earlier tests. The main thing we're interested in here is the <m>p</m>-value, which in this case is small enough (<m>p=.036</m>) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire.
     </p>
@@ -1301,6 +1421,8 @@
       <p>
         Now that you know what the McNemar test is all about, lets actually run one. The <c>agpp.Rdata</c> file contains the raw data that I discussed previously, so let's have a look at it:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load(file.path(projecthome, "data/agpp.Rdata"))
@@ -1315,9 +1437,12 @@
 ##  $ response_after : Factor w/ 2 levels "no","yes": 2 1 1 1 1 1 1 2 1 1 ...
 ]]></output>
     </console>
+      </remark>
       <p>
         The <c>agpp</c> data frame contains three variables, an <c>id</c> variable that labels each participant in the data set (we'll see why that's useful in a moment), a <c>response_before</c> variable that records the person's answer when they were asked the question the first time, and a <c>response_after</c> variable that shows the answer that they gave when asked the same question a second time. As usual, here's the first 6 entries:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head(agpp)
@@ -1334,9 +1459,12 @@
 ## 6 subj.6              no             no
 ]]></output>
     </console>
+      </remark>
       <p>
         and here's a summary:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           summary(agpp)
@@ -1354,18 +1482,24 @@
 ##  (Other) :94
 ]]></output>
     </console>
+      </remark>
       <p>
         Notice that each participant appears only once in this data frame. When we tabulate this data frame using <c>xtabs()</c>, we get the appropriate table:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           right.table &lt;- xtabs( ~ response_before + response_after, data = agpp)
           print( right.table )
         </input>
       </program>
+      </remark>
       <p>
         and from there, we can run the McNemar test by using the <c>mcnemar.test()</c> function:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mcnemar.test( right.table )
@@ -1380,6 +1514,7 @@
 ## McNemar's chi-squared = 12.033, df = 1, p-value = 0.0005226
 ]]></output>
     </console>
+      </remark>
       <p>
         And we're done. We've just run a McNemar's test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant (<m>\chi^2(1) = 12.04, p &lt; .001</m>), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.
       </p>
@@ -1390,15 +1525,20 @@
     <p>
       Let's go all the way back to the beginning of the chapter, and look at the <c>cards</c> data set again. If you recall, the actual experimental design that I described involved people making <em>two</em> choices. Because we have information about the first choice and the second choice that everyone made, we can construct the following contingency table that cross-tabulates the first choice against the second choice.
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         cardChoices &lt;- xtabs( ~ choice_1 + choice_2, data = cards )
         cardChoices
       </input>
     </program>
+    </remark>
     <p>
       Suppose I wanted to know whether the choice you make the second time is dependent on the choice you made the first time. This is where a test of independence is useful, and what we're trying to do is see if there's some relationship between the rows and columns of this table. Here's the result:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         chisq.test( cardChoices )
@@ -1413,9 +1553,12 @@
 ## X-squared = 29.237, df = 9, p-value = 0.0005909
 ]]></output>
     </console>
+    </remark>
     <p>
       Alternatively, suppose I wanted to know if *on average*, the frequencies of suit choices were different the second time than the first time. In that situation, what I'm really trying to see if the row totals in <c>cardChoices</c> (i.e., the frequencies for <c>choice_1</c>) are different from the column totals (i.e., the frequencies for <c>choice_2</c>). That's when you use the McNemar test:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         mcnemar.test( cardChoices )
@@ -1430,6 +1573,7 @@
 ## McNemar's chi-squared = 16.033, df = 6, p-value = 0.01358
 ]]></output>
     </console>
+    </remark>
     <p>
       Notice that the results are different! These aren't the same test.
     </p>

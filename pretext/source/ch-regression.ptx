@@ -7,6 +7,8 @@
   <section xml:id="introregression">
     <title>What is a linear regression model?</title>
 
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 regressionImg <- list()
@@ -41,6 +43,9 @@ colour <- TRUE
 	drawBasicScatterplot( "black", "")
 ]]></input>
     </program>
+    </remark>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
   # good regression ine
@@ -51,6 +56,9 @@ colour <- TRUE
 
 ]]></input>
     </program>
+    </remark>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 
@@ -59,6 +67,7 @@ colour <- TRUE
 	abline( bad.coef, col=ifelse(colour,emphCol,"black"), lwd=3 )
 ]]></input>
     </program>
+    </remark>
     <p>Since the basic ideas in regression are closely tied to correlation, we'll return to the <c>parenthood.Rdata</c> file that we were using to illustrate how correlations work. Recall that, in this data set, we were trying to find out why Dan is so very grumpy all the time, and our working hypothesis was that I'm not getting enough sleep. We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day. The actual scatterplot that we draw is the one shown in Figure <xref ref="fig-regression0"/>, and as we saw previously this corresponds to a correlation of <m>r=-.90</m>, but what we find ourselves secretly imagining is something that looks closer to Figure <xref ref="fig-regression1a"/>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a <em>regression line</em>. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in Figure <xref ref="fig-regression1b"/>.</p>
     <p>This is not highly surprising: the line that I've drawn in Figure <xref ref="fig-regression1b"/> doesn't "fit" the data very well, so it doesn't make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let's start with a refresher of some high school maths. The formula for a straight line is usually written like this: <me>y = mx + c</me> Or, at least, that's what it was when I went to high school all those years ago. The two <em>variables</em> are <m>x</m> and <m>y</m>, and we have two <em>coefficients</em>, <m>m</m> and <m>c</m>. The coefficient <m>m</m> represents the <em>slope</em> of the line, and the coefficient <m>c</m> represents the <em><m>y</m>-intercept</em> of the line. Digging further back into our decaying memories of high school (sorry, for some of us high school was a long time ago), we remember that the intercept is interpreted as "the value of <m>y</m> that you get when <m>x=0</m>". Similarly, a slope of <m>m</m> means that if you increase the <m>x</m>-value by 1 unit, then the <m>y</m>-value goes up by <m>m</m> units; a negative slope means that the <m>y</m>-value would go down rather than up. Ah yes, it's all coming back to me now.</p>
     <p>Now that we've remembered that, it should come as no surprise to discover that we use the exact same formula to describe a regression line. If <m>Y</m> is the outcome variable (the DV) and <m>X</m> is the predictor variable (the IV), then the formula that describes our regression is written like this: <me>\hat{Y_i} = b_1 X_i + b_0</me> Hm. Looks like the same formula, but there's some extra frilly bits in this version. Let's make sure we understand them. Firstly, notice that I've written <m>X_i</m> and <m>Y_i</m> rather than just plain old <m>X</m> and <m>Y</m>. This is because we want to remember that we're dealing with actual data. In this equation, <m>X_i</m> is the value of predictor variable for the <m>i</m>th observation (i.e., the number of hours of sleep that I got on day <m>i</m> of my little study), and <m>Y_i</m> is the corresponding value of the outcome variable (i.e., my grumpiness on that day). And although I haven't said so explicitly in the equation, what we're assuming is that this formula works for all observations in the data set (i.e., for all <m>i</m>). Secondly, notice that I wrote <m>\hat{Y}_i</m> and not <m>Y_i</m>. This is because we want to make the distinction between the <em>actual data</em> <m>Y_i</m>, and the <em>estimate</em> <m>\hat{Y}_i</m> (i.e., the prediction that our regression line is making). Thirdly, I changed the letters used to describe the coefficients from <m>m</m> and <m>c</m> to <m>b_1</m> and <m>b_0</m>. That's just the way that statisticians like to refer to the coefficients in a regression model. I've no idea why they chose <m>b</m>, but that's what they did. In any case <m>b_0</m> always refers to the intercept term, and <m>b_1</m> refers to the slope.</p>
@@ -88,6 +97,8 @@ colour <- TRUE
   <section xml:id="regressionestimation">
     <title>Estimating a linear regression model</title>
 
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 	drawBasicScatterplot( emphGrey, "Regression Line Close to the Data" )
@@ -99,6 +110,9 @@ colour <- TRUE
 	}
 ]]></input>
     </program>
+    </remark>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 
@@ -112,6 +126,7 @@ colour <- TRUE
 
 ]]></input>
     </program>
+    </remark>
     <p>Okay, now let's redraw our pictures, but this time I'll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in Figure <xref ref="fig-regression3a"/>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at Figure <xref ref="fig-regression3b"/>. Hm. Maybe what we "want" in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I'll go so far as to say that the "best fitting" regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that ...</p>
     <blockquote>
       <p>The estimated regression coefficients, <m>\hat{b}_0</m> and <m>\hat{b}_1</m> are those that minimise the sum of the squared residuals, which we could either write as <m>\sum_i (Y_i - \hat{Y}_i)^2</m> or as <m>\sum_i {\epsilon_i}^2</m>.</p>
@@ -127,13 +142,18 @@ colour <- TRUE
       <li><p><c>data</c>. The data frame containing the variables.</p></li>
     </ul>
     <p>As we saw with <c>aov()</c> in Chapter <xref ref="anova"/>, the output of the <c>lm()</c> function is a fairly complicated object, with quite a lot of technical information buried under the hood. Because this technical information is used by other functions, it's generally a good idea to create a variable that stores the results of your regression. With this in mind, to run my linear regression, the command I want to use is this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 regression.1 <- lm( formula = dan.grump ~ dan.sleep,  
                     data = parenthood )  
 ]]></input>
     </program>
+    </remark>
     <p>Note that I used <c>dan.grump ~ dan.sleep</c> as the formula: in the model that I'm trying to estimate, <c>dan.grump</c> is the <em>outcome</em> variable, and <c>dan.sleep</c> is the predictor variable. It's always a good idea to remember which one is which! Anyway, what this does is create an "<c>lm</c> object" (i.e., a variable whose class is <c>"lm"</c>) called <c>regression.1</c>. Let's have a look at what happens when we <c>print()</c> it out:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 print( regression.1 )
@@ -150,6 +170,7 @@ print( regression.1 )
 ##     125.956       -8.937
 ]]></output>
     </console>
+    </remark>
     <p>This looks promising. There's two separate pieces of information here. Firstly, R is politely reminding us what the command was that we used to specify the model in the first place, which can be helpful. More importantly from our perspective, however, is the second part, in which R gives us the intercept <m>\hat{b}_0 = 125.96</m> and the slope <m>\hat{b}_1 = -8.94</m>. In other words, the best-fitting regression line that I plotted in Figure <xref ref="fig-regression1a"/> has this formula: <me>\hat{Y}_i = -8.94 \ X_i + 125.96</me></p>
     </subsection>
     <subsection>
@@ -175,13 +196,18 @@ print( regression.1 )
                     dan.grump ~ dan.sleep + baby.sleep
 ]]></pre>
     <p>Notice that, just like last time, I haven't explicitly included any reference to the intercept term in this formula; only the two predictor variables and the outcome. By default, the <c>lm()</c> function assumes that the model should include an intercept (though you can get rid of it if you want). In any case, I can create a new regression model -- which I'll call <c>regression.2</c> -- using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 regression.2 <- lm( formula = dan.grump ~ dan.sleep + baby.sleep,  
                      data = parenthood )
 ]]></input>
     </program>
+    </remark>
     <p>And just like last time, if we <c>print()</c> out this regression model we can see what the estimated regression coefficients are:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 print( regression.2 )
@@ -198,6 +224,7 @@ print( regression.2 )
 ##   125.96557     -8.95025      0.01052
 ]]></output>
     </console>
+    </remark>
     <p>The coefficient associated with <c>dan.sleep</c> is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for <c>baby.sleep</c> is very small, suggesting that it doesn't really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep <em>I</em> get. To get a sense of what this multiple regression model looks like, Figure <xref ref="fig-multipleregression"/> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
     </subsection>
     <subsection>
@@ -219,19 +246,27 @@ print( regression.2 )
       <title>The <m>R^2</m> value</title>
 
     <p>Once again, let's wrap a little bit of mathematics around this. Firstly, we've got the sum of the squared residuals: <me>\mbox{SS}_{res} = \sum_i (Y_i - \hat{Y}_i)^2</me> which we would hope to be pretty small. Specifically, what we'd like is for it to be very small in comparison to the total variability in the outcome variable, <me>\mbox{SS}_{tot} = \sum_i (Y_i - \bar{Y})^2</me> While we're here, let's calculate these values in R. Firstly, in order to make my R commands look a bit more similar to the mathematical equations, I'll create variables <c>X</c> and <c>Y</c>:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 X <- parenthood$dan.sleep  # the predictor
 Y <- parenthood$dan.grump  # the outcome
 ]]></input>
     </program>
+    </remark>
     <p>Now that we've done this, let's calculate the <m>\hat{Y}</m> values and store them in a variable called <c>Y.pred</c>. For the simple model that uses only a single predictor, <c>regression.1</c>, we would do the following:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 Y.pred <- -8.94 * X  +  125.97
 ]]></input>
     </program>
+    </remark>
     <p>Okay, now that we've got a variable which stores the regression model predictions for how grumpy I will be on any given day, let's calculate our sum of squared residuals. We would do that using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 SS.resid <- sum( (Y - Y.pred)^2 )
@@ -243,7 +278,10 @@ print( SS.resid )
 ## [1] 1838.722
 ]]></output>
     </console>
+    </remark>
     <p>Wonderful. A big number that doesn't mean very much. Still, let's forge boldly onwards anyway, and calculate the total sum of squares as well. That's also pretty simple:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 SS.tot <- sum( (Y - mean(Y))^2 )
@@ -255,8 +293,11 @@ print( SS.tot )
 ## [1] 9998.59
 ]]></output>
     </console>
+    </remark>
     <p>Hm. Well, it's a much bigger number than the last one, so this does suggest that our regression model was making good predictions. But it's not very interpretable.</p>
     <p>Perhaps we can fix this. What we'd like to do is to convert these two fairly meaningless numbers into one number. A nice, interpretable number, which for no particular reason we'll call <m>R^2</m>. What we would like is for the value of <m>R^2</m> to be equal to 1 if the regression model makes no errors in predicting the data. In other words, if it turns out that the residual errors are zero -- that is, if <m>\mbox{SS}_{res} = 0</m> -- then we expect <m>R^2 = 1</m>. Similarly, if the model is completely useless, we would like <m>R^2</m> to be equal to 0. What do I mean by "useless"? Tempting as it is demand that the regression model move out of the house, cut its hair and get a real job, I'm probably going to have to pick a more practical definition: in this case, all I mean is that the residual sum of squares is no smaller than the total sum of squares, <m>\mbox{SS}_{res} = \mbox{SS}_{tot}</m>. Wait, why don't we do exactly that? The formula that provides us with out <m>R^2</m> value is pretty simple to write down, <me>R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}</me> and equally simple to calculate in R:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 R.squared <- 1 - (SS.resid / SS.tot)
@@ -268,6 +309,7 @@ print( R.squared )
 ## [1] 0.8161018
 ]]></output>
     </console>
+    </remark>
     <p>The <m>R^2</m> value, sometimes called the <em>coefficient of determination</em><fn>And by "sometimes" I mean "almost never". In practice everyone just calls it "<m>R</m>-squared".</fn> has a simple interpretation: it is the <em>proportion</em> of the variance in the outcome variable that can be accounted for by the predictor. So in this case, the fact that we have obtained <m>R^2 = .816</m> means that the predictor (<c>my.sleep</c>) explains 81.6\% of the variance in the outcome (<c>my.grump</c>).</p>
     <p>Naturally, you don't actually need to type in all these commands yourself if you want to obtain the <m>R^2</m> value for your regression model. As we'll see later on in Section <xref ref="regressionsummary"/>, all you need to do is use the <c>summary()</c> function. However, let's put that to one side for the moment. There's another property of <m>R^2</m> that I want to point out.</p>
     </subsection>
@@ -275,6 +317,8 @@ print( R.squared )
       <title>The relationship between regression and correlation</title>
 
     <p>At this point we can revisit my earlier claim that regression, in this very simple form that I've discussed so far, is basically the same thing as a correlation. Previously, we used the symbol <m>r</m> to denote a Pearson correlation. Might there be some relationship between the value of the correlation coefficient <m>r</m> and the <m>R^2</m> value from linear regression? Of course there is: the squared correlation <m>r^2</m> is identical to the <m>R^2</m> value for a linear regression with only a single predictor. To illustrate this, here's the squared correlation:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 r <- cor(X, Y)  # calculate the correlation
@@ -286,6 +330,7 @@ print( r^2 )    # print the squared correlation
 ## [1] 0.8161027
 ]]></output>
     </console>
+    </remark>
     <p>Yep, same number. In other words, running a Pearson correlation is more or less equivalent to running a linear regression model that uses only one predictor variable.</p>
     </subsection>
     <subsection>
@@ -312,6 +357,8 @@ print( r^2 )    # print the squared correlation
       <title>Tests for individual coefficients</title>
 
     <p>The <m>F</m>-test that we've just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn't produce a significant result for the <m>F</m>-test then you probably don't have a very good regression model (or, quite possibly, you don't have very good data). However, while failing this test is a pretty strong indicator that the model has problems, <em>passing</em> the test (i.e., rejecting the null) doesn't imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the <c>regression.2</c> model:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 print( regression.2 ) 
@@ -328,6 +375,7 @@ print( regression.2 )
 ##   125.96557     -8.95025      0.01052
 ]]></output>
     </console>
+    </remark>
     <p>I can't help but notice that the estimated regression coefficient for the <c>baby.sleep</c> variable is tiny (0.01), relative to the value that we get for <c>dan.sleep</c> (-8.95). Given that these two variables are absolutely on the same scale (they're both measured in "hours slept"), I find this suspicious. In fact, I'm beginning to suspect that it's really only the amount of sleep that <em>I</em> get that matters in order to predict my grumpiness.</p>
     <p>Once again, we can reuse a hypothesis test that we discussed earlier, this time the <m>t</m>-test. The test that we're interested has a null hypothesis that the true regression coefficient is zero (<m>b = 0</m>), which is to be tested against the alternative hypothesis that it isn't (<m>b \neq 0</m>). That is: <me><![CDATA[\begin{array}{rl} H_0: & b = 0 \\ H_1: & b \neq 0 \end{array}]]></me> How can we test this? Well, if the central limit theorem is kind to us, we might be able to guess that the sampling distribution of <m>\hat{b}</m>, the estimated regression coefficient, is a normal distribution with mean centred on <m>b</m>. What that would mean is that if the null hypothesis were true, then the sampling distribution of <m>\hat{b}</m> has mean zero and unknown standard deviation. Assuming that we can come up with a good estimate for the standard error of the regression coefficient, <m>\mbox{SE}({\hat{b}})</m>, then we're in luck. That's <em>exactly</em> the situation for which we introduced the one-sample <m>t</m> way back in Chapter <xref ref="ttest"/>. So let's define a <m>t</m>-statistic like this, <me>t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}</me> I'll skip over the reasons why, but our degrees of freedom in this case are <m>df = N- K- 1</m>. Irritatingly, the estimate of the standard error of the regression coefficient, <m>\mbox{SE}({\hat{b}})</m>, is not as easy to calculate as the standard error of the mean that we used for the simpler <m>t</m>-tests in Chapter <xref ref="ttest"/>. In fact, the formula is somewhat ugly, and not terribly helpful to look at. For our purposes it's sufficient to point out that the standard error of the  estimated regression coefficient depends on both the predictor and outcome variables, and is somewhat sensitive to violations of the homogeneity of variance assumption (discussed shortly).</p>
     <p>In any case, this <m>t</m>-statistic can be interpreted in the same way as the <m>t</m>-statistics that we discussed in Chapter <xref ref="ttest"/>. Assuming that you have a two-sided alternative (i.e., you don't really care if <m><![CDATA[b >0]]></m> or <m><![CDATA[b < 0]]></m>), then it's the extreme values of <m>t</m> (i.e., a lot less than zero or a lot greater than zero) that suggest that you should reject the null hypothesis.</p>
@@ -336,6 +384,8 @@ print( regression.2 )
       <title>Running the hypothesis tests in R</title>
 
     <p>To compute all of the quantities that we have talked about so far, all you need to do is ask for a <c>summary()</c> of your regression model. Since I've been using <c>regression.2</c> as my example, let's do that:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 summary( regression.2 )
@@ -364,6 +414,7 @@ summary( regression.2 )
 ## F-statistic: 215.2 on 2 and 97 DF,  p-value: < 2.2e-16
 ]]></output>
     </console>
+    </remark>
     <p>The output that this command produces is pretty dense, but we've already discussed everything of interest in it, so what I'll do is go through it line by line. The first line reminds us of what the actual regression model is:</p>
     <pre><![CDATA[
 Call:
@@ -405,6 +456,8 @@ F-statistic: 215.2 on 2 and 97 DF,  p-value: < 2.2e-16
       <title>Hypothesis tests for a single correlation</title>
 
     <p>I don't want to spend too much time on this, but it's worth very briefly returning to the point I made earlier, that Pearson correlations are basically the same thing as linear regressions with only a single predictor added to the model. What this means is that the hypothesis tests that I just described in a regression context can also be applied to correlation coefficients. To see this, let's take a <c>summary()</c> of the <c>regression.1</c> model:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 summary( regression.1 )
@@ -432,7 +485,10 @@ summary( regression.1 )
 ## F-statistic: 434.9 on 1 and 98 DF,  p-value: < 2.2e-16
 ]]></output>
     </console>
+    </remark>
     <p>The important thing to note here is the <m>t</m> test associated with the predictor, in which we get a result of <m>t(98) = -20.85</m>, <m><![CDATA[p<.001]]></m>. Now let's compare this to the output of a different function, which goes by the name of <c>cor.test()</c>. As you might expect, this function runs a hypothesis test to see if the observed correlation between two variables is significantly different from 0. Let's have a look:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 cor.test( x = parenthood$dan.sleep, y = parenthood$dan.grump )
@@ -453,6 +509,7 @@ cor.test( x = parenthood$dan.sleep, y = parenthood$dan.grump )
 ## -0.903384
 ]]></output>
     </console>
+    </remark>
     <p>Again, the key thing to note is the line that reports the hypothesis test itself, which seems to be saying that <m>t(98) = -20.85</m>, <m><![CDATA[p<.001]]></m>. Hm. Looks like it's exactly the same test, doesn't it? And that's exactly what it is. The test for the significance of a correlation is identical to the <m>t</m> test that we run on a coefficient in a regression model.</p>
     </subsection>
     <subsection xml:id="corrhyp2">
@@ -461,6 +518,8 @@ cor.test( x = parenthood$dan.sleep, y = parenthood$dan.grump )
     <p>Okay, one more digression before I return to regression properly. In the previous section I talked about the <c>cor.test()</c> function, which lets you run a hypothesis test on a single correlation. The <c>cor.test()</c> function is (obviously) an extension of the <c>cor()</c> function, which we talked about in Section <xref ref="correl"/>. However, the <c>cor()</c> function isn't restricted to computing a single correlation: you can use it to compute <em>all</em> pairwise correlations among the variables in your data set. This leads people to the natural question: can the <c>cor.test()</c> function do the same thing? Can we use <c>cor.test()</c> to run hypothesis tests for all possible parwise correlations among the variables in a data frame?</p>
     <p>The answer is no, and there's a very good reason for this. Testing a single correlation is fine: if you've got some reason to be asking "is A related to B?", then you should absolutely run a test to see if there's a significant correlation. But if you've got variables A, B, C, D and E and you're thinking about testing the correlations among all possible pairs of these, a statistician would want to ask: what's your hypothesis? If you're in the position of wanting to test all possible pairs of variables, then you're pretty clearly on a fishing expedition, hunting around in search of significant effects when you don't actually have a clear research hypothesis in mind. This is <em>dangerous</em>, and the authors of <c>cor.test()</c> obviously felt that they didn't want to support that kind of behaviour.</p>
     <p>On the other hand... a somewhat less hardline view might be to argue we've encountered this situation before, back in Section <xref ref="posthoc"/> when we talked about <em>post hoc tests</em> in ANOVA. When running post hoc tests, we didn't have any specific comparisons in mind, so what we did was apply a correction (e.g., Bonferroni, Holm, etc) in order to avoid the possibility of an inflated Type I error rate. From this perspective, it's okay to run hypothesis tests on all your pairwise correlations, but you must treat them as post hoc analyses, and if so you need to apply a correction for multiple comparisons. That's what the <c>correlate()</c> function in the <c>lsr</c> package does. When we use the <c>correlate()</c> function in Section <xref ref="correl"/> all it did was print out the correlation matrix. But you can get it to output the results of all the pairwise tests as well by specifying <c>test=TRUE</c>. Here's what happens with the <c>parenthood</c> data:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library(lsr)
@@ -508,6 +567,7 @@ correlate(parenthood, test=TRUE)
 ## day              100        100       100 100
 ]]></output>
     </console>
+    </remark>
     <p>The output here contains three matrices. First it prints out the correlation matrix. Second it prints out a matrix of <m>p</m>-values, using the Holm method<fn>You can change the kind of correction it applies by specifying the <c>p.adjust.method</c> argument.</fn> to correct for multiple comparisons. Finally, it prints out a matrix indicating the sample size (number of pairwise complete cases) that contributed to each correlation.</p>
     <p>So there you have it. If you really desperately want to do pairwise hypothesis tests on your correlations, the <c>correlate()</c> function will let you do it. But please, <em>please</em> be careful. I can't count the number of times I've had a student panicking in my office because they've run these pairwise correlation tests, and they get one or two significant results that don't make any sense. For some reason, the moment people see those little significance stars appear, they feel compelled to throw away all common sense and assume that the results must correspond to something real that requires an explanation. In most such cases, my experience has been that the right answer is "it's a Type I error".</p>
     </subsection>
@@ -526,6 +586,8 @@ correlate(parenthood, test=TRUE)
       <li><p><c>level</c>. A number indicating the confidence level that should be used. As is usually the case, the default value is 0.95, so you wouldn't usually need to specify this argument.</p></li>
     </ul>
     <p>So, suppose I want 99\% confidence intervals for the coefficients in the <c>regression.2</c> model. I could do this using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 confint( object = regression.2,
@@ -540,6 +602,7 @@ confint( object = regression.2,
 ## baby.sleep   -0.7016868   0.7227357
 ]]></output>
     </console>
+    </remark>
     <p>Simple enough.</p>
     </subsection>
     <subsection>
@@ -548,6 +611,8 @@ confint( object = regression.2,
     <p>One more thing that you might want to do is to calculate "standardised" regression coefficients, often denoted <m>\beta</m>. The rationale behind standardised coefficients goes like this. In a lot of situations, your variables are on fundamentally different scales. Suppose, for example, my regression model aims to predict people's IQ scores, using their educational attainment (number of years of education) and their income as predictors. Obviously, educational attainment and income are not on the same scales: the number of years of schooling can only vary by 10s of years, whereas income would vary by 10,000s of dollars (or more). The units of measurement have a big influence on the regression coefficients: the <m>b</m> coefficients only make sense when interpreted in light of the units, both of the predictor variables and the outcome variable. This makes it very difficult to compare the coefficients of different predictors. Yet there are situations where you really do want to make comparisons between different coefficients. Specifically, you might want some kind of standard measure of which predictors have the strongest relationship to the outcome. This is what <em>standardised coefficients</em> aim to do.</p>
     <p>The basic idea is quite simple: the standardised coefficients are the coefficients that you would have obtained if you'd converted all the variables to <m>z</m>-scores before running the regression.<fn>Strictly, you standardise all the <em>regressors</em>: that is, every "thing" that has a regression coefficient associated with it in the model. For the regression models that I've talked about so far, each predictor variable maps onto exactly one regressor, and vice versa. However, that's not actually true in general: we'll see some examples of this in Chapter <xref ref="anova2"/>. But for now, we don't need to care too much about this distinction.</fn>  The idea here is that, by converting all the predictors to <m>z</m>-scores, they all go into the regression on the same scale, thereby removing the problem of having variables on different scales. Regardless of what the original variables were, a <m>\beta</m> value of 1 means that an increase in the predictor of 1 standard deviation will produce a corresponding 1 standard deviation increase in the outcome variable. Therefore, if variable A has a larger absolute value of <m>\beta</m> than variable B, it is deemed to have a stronger relationship with the outcome. Or at least that's the idea: it's worth being a little cautious here, since this does rely very heavily on the assumption that "a 1 standard deviation change" is fundamentally the same kind of thing for all variables. It's not always obvious that this is true.</p>
     <p>Leaving aside the interpretation issues, let's look at how it's calculated. What you could do is standardise all the variables yourself and then run a regression, but there's a much simpler way to do it. As it turns out, the <m>\beta</m> coefficient for a predictor <m>X</m> and outcome <m>Y</m> has a very simple formula, namely <me>\beta_X = b_X \times \frac{\sigma_X}{\sigma_Y}</me> where <m>\sigma_X</m> is the standard deviation of the predictor, and <m>\sigma_Y</m> is the standard deviation of the outcome variable <m>Y</m>. This makes matters a lot simpler. To make things even simpler, the <c>lsr</c> package includes a function <c>standardCoefs()</c> that computes the <m>\beta</m> coefficients.</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 standardCoefs( regression.2 )
@@ -560,6 +625,7 @@ standardCoefs( regression.2 )
 ## baby.sleep  0.01052447  0.00217223
 ]]></output>
     </console>
+    </remark>
     <p>This clearly shows that the <c>dan.sleep</c> variable has a much stronger effect than the <c>baby.sleep</c> variable. However, this is a perfect example of a situation where it would probably make sense to use the original coefficients <m>b</m> rather than the standardised coefficients <m>\beta</m>. After all, my sleep and the baby's sleep are <em>already</em> on the same scale: number of hours slept. Why complicate matters by converting these to <m>z</m>-scores?</p>
     </subsection>
   </section>
@@ -586,6 +652,8 @@ standardCoefs( regression.2 )
 
     <p>The majority of regression diagnostics revolve around looking at the residuals, and by now you've probably formed a sufficiently pessimistic theory of statistics to be able to guess that -- precisely <em>because</em> of the fact that we care a lot about the residuals -- there are several different kinds of  residual that we might consider. In particular, the following three kinds of residual are referred to in this section: "ordinary residuals", "standardised residuals", and "Studentised residuals". There is a fourth kind that you'll see referred to in some of the Figures, and that's the "Pearson residual": however, for the models that we're talking about in this chapter, the Pearson residual is identical to the ordinary residual.</p>
     <p>The first and simplest kind of residuals that we care about are <em>ordinary residuals</em>. These are the actual, raw residuals that I've been talking about throughout this chapter. The ordinary residual is just the difference between the fitted value <m>\hat{Y}_i</m> and the observed value <m>Y_i</m>. I've been using the notation <m>\epsilon_i</m> to refer to the <m>i</m>-th ordinary residual, and by gum I'm going to stick to it. With this in mind, we have the very simple equation <me>\epsilon_i = Y_i - \hat{Y}_i</me> This is of course what we saw earlier, and unless I specifically refer to some other kind of residual, this is the one I'm talking about. So there's nothing new here: I just wanted to repeat myself. In any case, you can get R to output a vector of ordinary residuals, you can use a command like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 residuals( object = regression.2 )
@@ -629,7 +697,10 @@ residuals( object = regression.2 )
 ##  -5.5249495   4.1134221  -8.2038533   5.6800859
 ]]></output>
     </console>
+    </remark>
     <p>One drawback to using ordinary residuals is that they're always on a different scale, depending on what the outcome variable is and how good the regression model is. That is, Unless you've decided to run a regression model without an intercept term, the ordinary residuals will have mean 0; but the variance is different for every regression. In a lot of contexts, especially where you're only interested in the <em>pattern</em> of the residuals and not their actual values, it's convenient to estimate the <em>standardised residuals</em>, which are normalised in such a way as to have standard deviation 1. The way we calculate these is to divide the ordinary residual by an estimate of the (population) standard deviation of these residuals. For technical reasons, mumble mumble, the formula for this is: <me>\epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}</me> where <m>\hat\sigma</m> in this context is the estimated population standard deviation of the ordinary residuals, and <m>h_i</m> is the "hat value" of the <m>i</m>th observation. I haven't explained hat values to you yet (but have no fear,<fn>Or have no hope, as the case may be.</fn> it's coming shortly), so this won't make a lot of sense. For now, it's enough to interpret the standardised residuals as if we'd converted the ordinary residuals to <m>z</m>-scores. In fact, that is more or less the truth, it's just that we're being a bit fancier. To get the standardised residuals, the command you want is this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 rstandard( model = regression.2 )
@@ -673,8 +744,11 @@ rstandard( model = regression.2 )
 ## -1.28069115  0.96332849 -1.90290258  1.31368144
 ]]></output>
     </console>
+    </remark>
     <p>Note that this function uses a different name for the input argument, but it's still just a linear regression object that the function wants to take as its input here.</p>
     <p>The third kind of residuals are <em>Studentised residuals</em> (also called "jackknifed residuals") and they're even fancier than standardised residuals. Again, the idea is to take the ordinary residual and divide it by some quantity in order to estimate some standardised notion of the residual, but the formula for doing the calculations this time is subtly different: <me>\epsilon_{i}^* = \frac{\epsilon_i}{\hat{\sigma}_{(-i)} \sqrt{1-h_i}}</me> Notice that our estimate of the standard deviation here is written <m>\hat{\sigma}_{(-i)}</m>. What this corresponds to is the estimate of the residual standard deviation that you <em>would have obtained</em>, if you just deleted the <m>i</m>th observation from the data set. This sounds like the sort of thing that would be a nightmare to calculate, since it seems to be saying that you have to run <m>N</m> new regression models (even a modern computer might grumble a bit at that, especially if you've got a large data set). Fortunately, some terribly clever person has shown that this standard deviation estimate is actually given by the following equation: <me>\hat\sigma_{(-i)} = \hat{\sigma} \ \sqrt{\frac{N-K-1 - {\epsilon_{i}^\prime}^2}{N-K-2}}</me> Isn't that a pip? Anyway, the command that you would use if you wanted to pull out the Studentised residuals for our regression model is</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 rstudent( model = regression.2 )
@@ -718,6 +792,7 @@ rstudent( model = regression.2 )
 ## -1.28498273  0.96296745 -1.92942389  1.31867548
 ]]></output>
     </console>
+    </remark>
     <p>Before moving on, I should point out that you don't often need to manually extract these residuals yourself, even though they are at the heart of almost all regression diagnostics. That is, the <c>residuals()</c>, <c>rstandard()</c> and <c>rstudent()</c> functions are all useful to <em>know</em> about, but most of the time the various functions that run the diagnostics will take care of these calculations for you. Even so, it's always nice to know how to actually get hold of these things yourself in case you ever need to do something non-standard.</p>
     </subsection>
     <subsection xml:id="regressionoutliers">
@@ -730,6 +805,8 @@ rstudent( model = regression.2 )
       <image source="images/outlier.png"/>
     </figure>
     <p>The second way in which an observation can be unusual is if it has high <em>leverage</em>: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in Figure <xref ref="fig-leverage"/>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <m>h_i</m>. The formula for the hat value is rather complicated<fn>Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix <m>H</m> that converts the vector of observed values <m>y</m> into a vector of fitted values <m>\hat{y}</m>, such that <m>\hat{y} = H y</m>. The name comes from the fact that this is the matrix that "puts a hat on <m>y</m>". The  hat <em>value</em> of the <m>i</m>-th observation is the <m>i</m>-th diagonal element of this matrix (so technically I should be writing it as <m>h_{ii}</m> rather than <m>h_{i}</m>). Oh, and in case you care, here's how it's calculated: <m>H = X(X^TX)^{-1} X^T</m>. Pretty, isn't it?</fn> but its interpretation is not: <m>h_i</m> is a measure of the extent to which the <m>i</m>-th observation is "in control" of where the regression line ends up going. You can extract the hat values using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 hatvalues( model = regression.2 )
@@ -773,6 +850,7 @@ hatvalues( model = regression.2 )
 ## 0.01817919 0.03811718 0.01945603 0.01373394
 ]]></output>
     </console>
+    </remark>
     <figure xml:id="fig-leverage">
       <caption>Illustration of high leverage: an observation far from others on the predictor variable.</caption>
       <image source="images/leverage.png"/>
@@ -784,6 +862,8 @@ hatvalues( model = regression.2 )
       <image source="images/influence.png"/>
     </figure>
     <p>That's why we call these points high influence; and it's why they're the biggest worry. We operationalise influence in terms of a measure known as <em>Cook's distance</em>, <me>D_i = \frac{{\epsilon_i^*}^2 }{K+1} \times \frac{h_i}{1-h_i}</me> Notice that this is a multiplication of something that measures the outlier-ness of the observation (the bit on the left), and something that measures the leverage of the observation (the bit on the right). In other words, in order to have a large Cook's distance, an observation must be a fairly substantial outlier <em>and</em> have high leverage. In a stunning turn of events, you can obtain these values using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 cooks.distance( model = regression.2 )
@@ -833,19 +913,28 @@ cooks.distance( model = regression.2 )
 ## 1.732793e-04 1.012302e-02 1.225818e-02 2.394964e-02 8.010508e-03
 ]]></output>
     </console>
+    </remark>
     <p>As a rough guide, Cook's distance greater than 1 is often considered large (that's what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <m>4/N</m> has also been suggested as a possible rule of thumb.</p>
     <p>As hinted above, you don't usually need to make use of these functions, since you can have R automatically draw the critical plots.<fn>Though special mention should be made of the <c>influenceIndexPlot()</c> and <c>influencePlot()</c> functions in the <c>car</c> package. These produce somewhat more detailed pictures than the default plots that I've shown here. There's also an <c>outlierTest()</c> function that tests to see if any of the Studentised residuals are significantly larger than would  be expected by chance.</fn> For the <c>regression.2</c> model, these are the plots showing Cook's distance (Figure <xref ref="fig-regressionplot4"/>) and the more detailed breakdown showing the scatter plot of the Studentised residual against leverage (Figure <xref ref="fig-regressionplot5"/>). To draw these, we can use the <c>plot()</c> function. When the main argument <c>x</c> to this function is a linear model object, it will draw one of six different plots, each of which is quite useful for doing regression diagnostics. You specify which one you want using the <c>which</c> argument (a number between 1 and 6). If you don't do this then R will draw all six. The two plots of interest to us in this context are generated using the following commands:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 4)
 ]]></input>
     </program>
+    </remark>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 5)
 ]]></input>
     </program>
+    </remark>
     <p>An obvious question to ask next is, if you do have large values of Cook's distance, what should you do? As always, there's no hard and fast rules. Probably the first thing to do is to try running the regression with that point excluded and see what happens to the model performance and to the regression coefficients. If they really are substantially different, it's time to start digging into your data set and your notes that you no doubt were scribbling as your ran your study; try to figure out <em>why</em> the point is so different. If you start to become convinced that this one data point is badly distorting your results, you might consider excluding it, but that's less than ideal unless you have a solid explanation for why this particular case is qualitatively different from the others and therefore deserves to be handled separately.<fn>An alternative is to run a "robust regression"; I'll discuss robust regression in a later version of this book.</fn> To give an example, let's delete the observation from day 64, the observation with the largest Cook's distance for the <c>regression.2</c> model. We can do this using the <c>subset</c> argument:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 lm( formula = dan.grump ~ dan.sleep + baby.sleep,  # same formula
@@ -867,12 +956,15 @@ lm( formula = dan.grump ~ dan.sleep + baby.sleep,  # same formula
 ##    126.3553      -8.8283      -0.1319
 ]]></output>
     </console>
+    </remark>
     <p>As you can see, those regression coefficients have barely changed in comparison to the values we got earlier. In other words, we really don't have any problem as far as anomalous data are concerned.</p>
     </subsection>
     <subsection xml:id="regressionnormality">
       <title>Checking the normality of the residuals</title>
 
     <p>Like many of the statistical tools we've discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren't fundamentally different to those that we discussed earlier in Section <xref ref="shapiro"/>. Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The command I use might be something like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
  hist( x = residuals( regression.2 ),   # data are the residuals
@@ -882,22 +974,28 @@ lm( formula = dan.grump ~ dan.sleep + baby.sleep,  # same formula
  )
 ]]></input>
     </program>
+    </remark>
     <p>The resulting plot is shown in Figure <xref ref="fig-residhist"/>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so.</p>
     <figure xml:id="fig-residhist">
       <caption>Histogram of standardised residuals from the regression model, with normal distribution overlay.</caption>
       <image source="images/residhist.png"/>
     </figure>
     <p>I could also run a Shapiro-Wilk test  to check, using the <c>shapiro.test()</c> function; the <m>W</m> value of .99, at this sample size, is non-significant (<m>p=.84</m>), again suggesting that the normality assumption isn't in any danger here. As a third measure, we might also want to draw a QQ-plot using the <c>qqnorm()</c> function. The QQ plot is an excellent one to draw, and so you might not be surprised to discover that it's one of the regression plots that we can produce using the <c>plot()</c> function:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
 ]]></input>
     </program>
+    </remark>
     <p>The output is shown in Figure <xref ref="fig-regressionplot2"/>, showing the standardised residuals plotted as a function of their theoretical quantiles according to the regression model. The fact that the output appends the model specification to the picture is nice.</p>
     </subsection>
     <subsection xml:id="regressionlinearity">
       <title>Checking the linearity of the relationship</title>
 
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
  yhat.2 <- fitted.values( object = regression.2 )
@@ -909,7 +1007,10 @@ plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
 
 ]]></input>
     </program>
+    </remark>
     <p>The third thing we might want to test is the linearity of the relationships between the predictors and the outcomes. There's a few different things that you might want to do in order to check this. Firstly, it never hurts to just plot the relationship between the fitted values <m>\hat{Y}_i</m> and the observed values <m>Y_i</m> for the outcome variable, as illustrated in Figure <xref ref="fig-regressionlinearity"/>. To draw this we could use the <c>fitted.values()</c> function to extract the <m>\hat{Y_i}</m> values in much the same way that we used the <c>residuals()</c> function to extract the <m>\epsilon_i</m> values. So the commands to draw this figure might look like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
  yhat.2 <- fitted.values( object = regression.2 )
@@ -920,31 +1021,44 @@ plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
  )
 ]]></input>
     </program>
+    </remark>
     <p>One of the reasons I like to draw these plots is that they give you a kind of "big picture view". If this plot looks approximately linear, then we're probably not doing too badly (though that's not to say that there aren't problems). However, if you can see big departures from linearity here, then it strongly suggests that you need to make some changes.</p>
     <p>In any case, in order to get a more detailed picture it's often more informative to look at the relationship between the fitted values and the residuals themselves. Again, we could draw this plot using low level commands, but there's an easier way. Just <c>plot()</c> the regression model, and select <c>which = 1</c>:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 1)
 ]]></input>
     </program>
+    </remark>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 1)   # Figure @ref{fig:regressionplot1}
 ]]></input>
     </program>
+    </remark>
     <p>The output is shown in Figure <xref ref="fig-regressionplot1"/>. As you can see, not only does it draw the scatterplot showing the fitted value against the residuals, it also plots a line through the data that shows the relationship between the two. Ideally, this should be a straight, perfectly horizontal line. There's some hint of curvature here, but it's not clear whether or not we be concerned.</p>
     <p>A somewhat more advanced version of the same plot is produced by the <c>residualPlots()</c> function in the <c>car</c> package. This function not only draws plots comparing the fitted values to the residuals, it does so for each individual predictor. The command is and the resulting plots are shown in Figure <xref ref="fig-residualPlots"/>.</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 residualPlots( model = regression.2 ) 
 ]]></input>
     </program>
+    </remark>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library(car)
 residualPlots( model = regression.2 )   # Figure @ref{fig:residualPlots}
 ]]></input>
     </program>
+    </remark>
     <p>Note that this function also reports the results of a bunch of <em>curvature tests</em>. For a predictor variable <m>X</m> in some regression model, this test is equivalent to adding a new predictor to the model corresponding to <m>X^2</m>, and running the <m>t</m>-test on the <m>b</m> coefficient associated with this new predictor. If it comes up significant, it implies that there is some nonlinear relationship between the variable and the residuals.</p>
     <p>The third line here is the <em>Tukey test</em>, which is basically the same test, except that instead of squaring one of the predictors and adding it to the model, you square the fitted-value. In any case, the fact that the curvature tests have come up significant is hinting that the curvature that we can see in Figures <xref ref="fig-regressionplot1"/> and <xref ref="fig-residualPlots"/> is genuine;<fn>And, if you take the time to check the <c>residualPlots()</c> for <c>regression.1</c>, it's pretty clear that this isn't some wacky distortion being caused by the fact that <c>baby.sleep</c> is a useless predictor variable. It's an actual nonlinearity in the relationship between <c>dan.sleep</c> and <c>dan.grump</c>.</fn> although it still bears remembering that the pattern in Figure <xref ref="fig-regressionlinearity"/> is pretty damn straight: in other words the deviations from linearity are pretty small, and probably not worth worrying about.</p>
     <p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We discussed the basics of variable transformation in Sections <xref ref="transform"/> and \ref(mathfunc), but I do want to make special note of one additional possibility that I didn't mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it's very widely used <me>f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}</me> for all values of <m>\lambda</m> except <m>\lambda = 0</m>. When <m>\lambda = 0</m> we just take the natural logarithm (i.e., <m>\ln(x)</m>). You can calculate it using the <c>boxCox()</c> function in the <c>car</c> package. Better yet, if what you're trying to do is convert a data to normal, or as normal as possible, there's the <c>powerTransform()</c> function in the <c>car</c> package that can estimate the best value of <m>\lambda</m>. Variable transformation is another topic that deserves a fairly detailed treatment, but (again) due to deadline constraints, it will have to wait until a future version of this book.</p>
@@ -953,18 +1067,26 @@ residualPlots( model = regression.2 )   # Figure @ref{fig:residualPlots}
       <title>Checking the homogeneity of variance</title>
 
     <p>The regression models that we've talked about all make a homogeneity of variance assumption: the variance of the residuals is assumed to be constant. The "default" plot that R provides to help with doing this (<c>which = 3</c> when using <c>plot()</c>) shows a plot of the square root of the size of the residual <m>\sqrt{|\epsilon_i|}</m>, as a function of the fitted value <m>\hat{Y}_i</m>. We can produce the plot using the following command,</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 3)
 ]]></input>
     </program>
+    </remark>
     <p>and the resulting plot is shown in Figure <xref ref="fig-regressionplot3"/>. Note that this plot actually uses the standardised residuals (i.e., converted to <m>z</m> scores) rather than the raw ones, but it's immaterial from our point of view. What we're looking to see here is a straight, horizontal line running through the middle of the plot.</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 plot(x = regression.2, which = 3)
 ]]></input>
     </program>
+    </remark>
     <p>A slightly more formal approach is to run hypothesis tests. The <c>car</c> package provides a function called <c>ncvTest()</c> (<em>non-constant variance test</em>) that can be used for this purpose (<xref ref="biblio-Cook1983">Cook &amp; Weisberg, 1983</xref>). I won't explain the details of how it works, other than to say that the idea is that what you do is run a regression to see if there is a relationship between the squared residuals <m>\epsilon_i</m> and the fitted values <m>\hat{Y}_i</m>, or possibly to run a regression using all of the original predictors instead of just <m>\hat{Y}_i</m>.<fn>Note that the underlying mechanics of the test aren't the same as the ones I've described for regressions; the goodness of fit is assessed using what's known as a score-test not an <m>F</m>-test, and the test statistic is (approximately) <m>\chi^2</m> distributed if there's no relationship</fn> Using the default settings, the <c>ncvTest()</c> looks for a relationship between <m>\hat{Y}_i</m> and the variance of the residuals, making it a straightforward analogue of Figure <xref ref="fig-regressionplot3"/>. So if we run it for our model,</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 ncvTest( regression.2 )
@@ -977,8 +1099,11 @@ ncvTest( regression.2 )
 ## Chisquare = 0.09317511, Df = 1, p = 0.76018
 ]]></output>
     </console>
+    </remark>
     <p>We see that our original impression was right: there's no violations of homogeneity of variance in this data.</p>
     <p>It's a bit beyond the scope of this chapter to talk too much about how to deal with violations of homogeneity of variance, but I'll give you a quick sense of what you need to consider. The <em>main</em> thing to worry about, if homogeneity of variance is violated, is that the standard error estimates associated with the regression coefficients are no longer entirely reliable, and so your <m>t</m> tests for the coefficients aren't quite right either. A simple fix to the problem is to make use of a "heteroscedasticity corrected covariance matrix" when estimating the standard errors. These are often called <em>sandwich estimators</em>, for reasons that only make sense if you understand the maths at a low level<fn>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm... I love the smell of matrix computations in the morning; smells like... nerd). In these estimators, the covariance matrix for <m>b</m> is given by <m>(X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}</m>. See, it's a "sandwich"? Assuming you think that  <m>(X^T X)^{-1} = \mbox{"bread"}</m> and  <m>X^T \Sigma X = \mbox{"filling"}</m>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <m>\Sigma = \hat\sigma^2 I</m>. The corrected version that I learned originally uses <m>\Sigma = \mbox{diag}(\epsilon_i^2)</m> (<xref ref="biblio-White1980">White, 1980</xref>). However, the version that <xref ref="biblio-Fox2011">Fox &amp; Weisberg (2011)</xref> have implemented as the default in the <c>hccm()</c> function is a tweak on this, proposed by <xref ref="biblio-Long2000">Long &amp; Ervin (2000)</xref>. This version uses <m>\Sigma = \mbox{diag}(\epsilon_i^2/(1-h_i^2))</m>, where <m>h_i</m> is the <m>i</m>th hat value. Gosh, regression is <em>fun</em>, isn't it?</fn> You don't need to understand what this means (not for an introductory class), but it might help to note that there's a <c>hccm()</c> function in the <c>car()</c> package that does it. Better yet, you don't even need to use it. You can use the <c>coeftest()</c> function in the <c>lmtest</c> package, but you need the <c>car</c> package loaded:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library(lmtest)
@@ -999,12 +1124,15 @@ coeftest( regression.2, vcov= hccm )
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ]]></output>
     </console>
+    </remark>
     <p>Not surprisingly, these <m>t</m> tests are pretty much identical to the ones that we saw when we used the <c>summary(regression.2)</c> command earlier; because the homogeneity of variance assumption wasn't violated. But if it had been, we might have seen some more substantial differences.</p>
     </subsection>
     <subsection xml:id="regressioncollinearity">
       <title>Checking for collinearity</title>
 
     <p>The last kind of regression diagnostic that I'm going to discuss in this chapter is the use of <em>variance inflation factors</em> (VIFs), which are useful for determining whether or not the predictors in your regression model are too highly correlated with each other. There is a variance inflation factor associated with each predictor <m>X_k</m> in the model, and the formula for the <m>k</m>-th VIF is: <me>\mbox{VIF}_k = \frac{1}{1-{R^2_{(-k)}}}</me> where <m>R^2_{(-k)}</m> refers to <m>R</m>-squared value you would get if you ran a regression using <m>X_k</m> as the outcome variable, and all the other <m>X</m> variables as the predictors. The idea here is that <m>R^2_{(-k)}</m> is a very good measure of the extent to which <m>X_k</m> is correlated with all the other variables in the model. Better yet, the square root of the VIF is pretty interpretable: it tells you how much wider the confidence interval for the corresponding coefficient <m>b_k</m> is, relative to what you would have expected if the predictors are all nice and uncorrelated with one another. If you've only got two predictors, the VIF values are always going to be the same, as we can see if we use the <c>vif()</c> function (<c>car</c> package)...</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 vif( mod = regression.2 )
@@ -1016,8 +1144,11 @@ vif( mod = regression.2 )
 ##   1.651038   1.651038
 ]]></output>
     </console>
+    </remark>
     <p>And since the square root of 1.65 is 1.28, we see that the correlation between our two predictors isn't causing much of a problem.</p>
     <p>To give a sense of how we could end up with a model that has bigger collinearity problems, suppose I were to run a much less interesting regression model, in which I tried to predict the <c>day</c> on which the data were collected, as a function of all the other variables in the data set. To see why this would be a bit of a problem, let's have a look at the correlation matrix for all four variables:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 cor( parenthood )
@@ -1032,13 +1163,19 @@ cor( parenthood )
 ## day        -0.09840768 -0.01043394  0.07647926  1.00000000
 ]]></output>
     </console>
+    </remark>
     <p>We have some fairly large correlations between some of our predictor variables! When we run the regression model and look at the VIF values, we see that the collinearity is causing a lot of uncertainty about the coefficients. First, run the regression...</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 regression.3 <- lm( day ~ baby.sleep + dan.sleep + dan.grump, parenthood )
 ]]></input>
     </program>
+    </remark>
     <p>and second, look at the VIFs...</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 vif( regression.3 )
@@ -1050,6 +1187,7 @@ vif( regression.3 )
 ##   1.651064   6.102337   5.437903
 ]]></output>
     </console>
+    </remark>
     <p>Yep, that's some mighty fine collinearity you've got there.</p>
     </subsection>
   <figure xml:id="fig-regressionplot1">
@@ -1095,6 +1233,8 @@ vif( regression.3 )
       <title>Backward elimination</title>
 
     <p>Okay, let's have a look at the <c>step()</c> function at work. In this example I'll keep it simple and use only the basic <em>backward elimination</em> approach. That is, start with the complete regression model, including all possible predictors. Then, at each "step" we try all possible ways of removing one of the variables, and whichever of these is best (in terms of lowest AIC value) is accepted. This becomes our new regression model; and we then try all possible deletions from the new model, again choosing the option with lowest AIC. This process continues until we end up with a model that has a lower AIC value than any of the other possible models that you could produce by deleting one of its predictors. Let's see this in action. First, I need to define the model from which the process starts.</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 full.model <- lm( formula = dan.grump ~ dan.sleep + baby.sleep + day,  
@@ -1102,7 +1242,10 @@ full.model <- lm( formula = dan.grump ~ dan.sleep + baby.sleep + day,
  )
 ]]></input>
     </program>
+    </remark>
     <p>That's nothing terribly new: yet another regression. Booooring. Still, we do need to do it: the <c>object</c> argument to the <c>step()</c> function will be this regression model. With this in mind, I would call the <c>step()</c> function using the following command:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
  step( object = full.model,     # start at the full model
@@ -1137,6 +1280,7 @@ full.model <- lm( formula = dan.grump ~ dan.sleep + baby.sleep + day,
 ## - dan.sleep  1    8159.9 9998.6 462.50
 ]]></output>
     </console>
+    </remark>
     <p>although in practice I didn't need to specify <c>direction</c> because <c>"backward"</c> is the default. The output is somewhat lengthy, so I'll go through it slowly. Firstly, the output reports the AIC value for the current best model:</p>
     <pre><![CDATA[
 Start:  AIC=299.08
@@ -1184,6 +1328,8 @@ Coefficients:
       <title>Forward selection</title>
 
     <p>As an alternative, you can also try <em>forward selection</em>. This time around we start with the smallest possible model as our start point, and only consider the possible additions to the model. However, there's one complication: you also need to tell <c>step()</c> what the largest possible model you're willing to entertain is, using the <c>scope</c> argument. The simplest usage is like this:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
  null.model <- lm( dan.grump ~ 1, parenthood )   # intercept only.
@@ -1213,6 +1359,7 @@ Coefficients:
 ## + baby.sleep  1   0.02858 1838.7 297.16
 ]]></output>
     </console>
+    </remark>
     <p>If I do this, the output takes on a similar form, but now it only considers addition (<c>+</c>) moves rather than deletion (<c>-</c>) moves:</p>
     <pre><![CDATA[
 Start:  AIC=462.5
@@ -1252,13 +1399,18 @@ Coefficients:
       <title>Comparing two regression models</title>
 
     <p>An alternative to using automated model selection procedures is for the researcher to explicitly select two or more regression models to compare to each other. You can do this in a few different ways, depending on what research question you're trying to answer. Suppose we want to know whether or not the amount of sleep that my son got has any relationship to my grumpiness, over and above what we might expect from the amount of sleep that I got. We also want to make sure that the day on which we took the measurement has no influence on the relationship. That is, we're interested in the relationship between <c>baby.sleep</c> and <c>dan.grump</c>, and from that perspective <c>dan.sleep</c> and <c>day</c> are nuisance variable or <em>covariates</em> that we want to control for. In this situation, what we would like to know is whether <c>dan.grump ~ dan.sleep + day + baby.sleep</c> (which I'll call Model 1, or <c>M1</c>) is a better regression model for these data than <c>dan.grump ~ dan.sleep + day</c> (which I'll call Model 0, or <c>M0</c>). There are two different ways we can compare these two models, one based on a model selection criterion like AIC, and the other based on an explicit hypothesis test. I'll show you the AIC based approach first because it's simpler, and follows naturally from the <c>step()</c> function that we saw in the last section. The first thing I need to do is actually run the regressions:</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 M0 <- lm( dan.grump ~ dan.sleep + day, parenthood )
 M1 <- lm( dan.grump ~ dan.sleep + day + baby.sleep, parenthood )
 ]]></input>
     </program>
+    </remark>
     <p>Now that I have my regression models, I could use the <c>summary()</c> function to run various hypothesis tests and other useful statistics, just as we have discussed throughout this chapter. However, since the current focus on model comparison, I'll skip this step and go straight to the AIC calculations. Conveniently, the <c>AIC()</c> function in R lets you input several regression models, and it will spit out the AIC values for each of them:<fn>While I'm on this topic I should point out that there is also a function called <c>BIC()</c> which computes the Bayesian information criterion (BIC) for the models. So you could type <c>BIC(M0,M1)</c> and get a very similar output. In fact, while I'm not particularly impressed with either AIC or BIC as model selection methods, if you do find yourself using one of these two, the empirical evidence suggests that BIC is the better criterion of the two. In most simulation studies that I've seen, BIC does a much better job of selecting the correct model.</fn></p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 AIC( M0, M1 )
@@ -1271,9 +1423,12 @@ AIC( M0, M1 )
 ## M1  5 584.8646
 ]]></output>
     </console>
+    </remark>
     <p>Since Model 0 has the smaller AIC value, it is judged to be the better model for these data.</p>
     <p>A somewhat different approach to the problem comes out of the hypothesis testing framework. Suppose you have two regression models, where one of them (Model 0) contains a <em>subset</em> of the predictors from the other one (Model 1). That is, Model 1 contains all of the predictors included in Model 0, plus one or more additional predictors. When this happens we say that Model 0 is <em>nested</em> within Model 1, or possibly that Model 0 is a <em>submodel</em> of Model 1. Regardless of the terminology what this means is that we can think of Model 0 as a null hypothesis and Model 1 as an alternative hypothesis. And in fact we can construct an <m>F</m> test for this in a fairly straightforward fashion. We can fit both models to the data and obtain a residual sum of squares for both models. I'll denote these as SS<m>_{res}^{(0)}</m> and SS<m>_{res}^{(1)}</m> respectively. The superscripting here just indicates which model we're talking about.  Then our <m>F</m> statistic is <me>F = \frac{(\mbox{SS}_{res}^{(0)} - \mbox{SS}_{res}^{(1)})/k}{(\mbox{SS}_{res}^{(1)})/(N-p-1)}</me> where <m>N</m> is the number of observations, <m>p</m> is the number of predictors in the full model (not including the intercept), and <m>k</m> is the difference in the number of parameters between the two models.<fn>It's worth noting in passing that this same <m>F</m> statistic can be used to test a much broader range of hypotheses than those that I'm mentioning here. Very briefly: notice that the nested model M0 corresponds to the full model M1 when we constrain some of the regression coefficients to zero. It is sometimes useful to construct submodels by placing other kinds of constraints on the regression coefficients. For instance, maybe two different coefficients might have to sum to zero, or something like that. You can construct hypothesis tests for those kind of constraints too, but it is somewhat more complicated and the sampling distribution for <m>F</m> can end up being something known as the non-central <m>F</m> distribution, which is waaaaay beyond the scope of this book! All I want to do is alert you to this possibility.</fn> The degrees of freedom here are <m>k</m> and <m>N-p-1</m>. Note that it's often more convenient to think about the difference between those two SS values as a sum of squares in its own right. That is: <me>\mbox{SS}_\Delta = \mbox{SS}_{res}^{(0)} - \mbox{SS}_{res}^{(1)}</me> The reason why this his helpful is that we can express <m>\mbox{SS}_\Delta</m> a measure of the extent to which the two models make different predictions about the the outcome variable. Specifically: <me>\mbox{SS}_\Delta  = \sum_{i} \left( \hat{y}_i^{(1)} - \hat{y}_i^{(0)} \right)^2</me> where <m>\hat{y}_i^{(0)}</m> is the fitted value for <m>y_i</m> according to model <m>M_0</m> and  <m>\hat{y}_i^{(1)}</m> is the is the fitted value for <m>y_i</m> according to model <m>M_1</m>.</p>
     <p>Okay, so that's the hypothesis test that we use to compare two regression models to one another. Now, how do we do it in R? The answer is to use the <c>anova()</c> function. All we have to do is input the two models that we want to compare (null model first):</p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 anova( M0, M1 )
@@ -1290,6 +1445,7 @@ anova( M0, M1 )
 ## 2     96 1837.1  1  0.063688 0.0033 0.9541
 ]]></output>
     </console>
+    </remark>
     <p>Note that, just like we saw with the output from the <c>step()</c> function, R has used the acronym <c>RSS</c> to refer to the residual sum of squares from each model. That is, RSS in this output corresponds to SS<m>_{res}</m> in the formula above.  Since we have <m><![CDATA[p>.05]]></m> we retain the null hypothesis (<c>M0</c>).  This approach to regression, in which we add all of our covariates into a null model, and then <em>add</em> the variables of interest into an alternative model, and then compare the two models in hypothesis testing framework, is often referred to as <em>hierarchical regression</em>.</p>
     </subsection>
   </section>

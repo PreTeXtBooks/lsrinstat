@@ -329,6 +329,8 @@ colour <- TRUE
 <section>
 <title>Running the hypothesis test in practice</title>
 <p>At this point some of you might be wondering if this is a "real" hypothesis test, or just a toy example that I made up. It's real. In the previous discussion I built the test from first principles, thinking that it was the simplest possible problem that you might ever encounter in real life. However, this test already exists: it's called the <em>binomial test</em>, and it's implemented by an R function called <c>binom.test()</c>. To test the null hypothesis that the response probability is one-half <c>p = .5</c>,<fn>Note that the <c>p</c> here has nothing to do with a <m>p</m> value. The <c>p</c> argument in the <c>binom.test()</c> function corresponds to the probability of making a correct response, according to the null hypothesis. In other words, it's the <m>\theta</m> value.</fn> using data in which <c>x = 62</c> of <c>n = 100</c> people made the correct response, here's how to do it in R:</p>
+<remark>
+  <title>R Code</title>
 <program language="r">
 <input><![CDATA[binom.test( x=62, n=100, p=.5 )]]></input>
 </program>
@@ -348,6 +350,7 @@ colour <- TRUE
 ##                   0.62
 ]]></output>
     </console>
+</remark>
 <p>Right now, this output looks pretty unfamiliar to you, but you can see that it's telling you more or less the right things. Specifically, the <m>p</m>-value of 0.02 is less than the usual choice of <m>\alpha = .05</m>, so you can reject the null. We'll talk a lot more about how to read this sort of output as we go along; and after a while you'll hopefully find it quite easy to read and understand. For now, however, I just wanted to make the point that R contains a whole lot of functions corresponding to different kinds of hypothesis test. And while I'll usually spend quite a lot of time explaining the logic behind how the tests are built, every time I discuss a hypothesis test the discussion will end with me showing you a fairly simple R command that you can use to run the test in practice.</p>
 </section>
 <section xml:id="effectsize">

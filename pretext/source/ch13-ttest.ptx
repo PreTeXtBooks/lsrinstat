@@ -2,6 +2,8 @@
 
 <chapter xml:id="ttest">
   <title>Comparing two means</title>
+  <remark>
+    <title>R Code</title>
   <program language="r">
     <input>
       library(lsr)
@@ -33,6 +35,7 @@
 ##    estimated effect size (Cohen's d):  0.504
 ]]></output>
     </console>
+  </remark>
   <p>
     In the previous chapter we covered the situation when your outcome variable is nominal scale and your predictor variable<fn>We won't cover multiple predictors until Chapter \@ref(regression)</fn> is also nominal scale. Lots of real world situations have that character, and so you'll find that chi-square tests in particular are quite widely used. However, you're much more likely to find yourself in a situation where your outcome variable is interval scale or higher, and what you're interested in is whether the average value of the outcome variable is higher in one group or another. For instance, a psychologist might want to know if anxiety levels are higher among parents than non-parents, or if working memory capacity is reduced by listening to music (relative to not listening to music). In a medical context, we might want to know if a new drug increases or decreases blood pressure. An agricultural scientist might want to know whether adding phosphorus to Australian native plants will kill them.<fn>Informal experimentation in my garden suggests that yes, it does. Australian natives are adapted to low phosphorus levels relative to everywhere else on Earth, apparently, so if you've bought a house with a bunch of exotics and you want to plant natives, don't follow my example: keep them separate. Nutrients to European plants are poison to Australian ones. There's probably a joke in that, but I can't figure out what it is.</fn> In all these situations, our outcome variable is a fairly continuous, interval or ratio scale variable; and our predictor is a binary "grouping" variable. In other words, we want to compare the means of the two groups.
   </p>
@@ -49,6 +52,8 @@
       <p>
         To introduce the idea behind the <m>z</m>-test, let's use a simple example. A friend of mine, Dr Zeppo, grades his introductory statistics class on a curve. Let's suppose that the average grade in his class is 67.5, and the standard deviation is 9.5. Of his many hundreds of students, it turns out that 20 of them also take psychology classes. Out of curiosity, I find myself wondering: do the psychology students tend to get the same grades as everyone else (i.e., mean 67.5) or do they tend to score higher or lower? He emails me the <c>zeppo.Rdata</c> file, which I use to pull up the <c>grades</c> of those students,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load( file.path(projecthome, "data/zeppo.Rdata" ))
@@ -60,9 +65,12 @@
 ##  [1] 50 60 60 64 66 66 67 69 70 74 76 76 77 79 79 79 81 82 82 89
 ]]></output>
     </console>
+      </remark>
       <p>
         and calculate the mean:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mean( grades )
@@ -73,6 +81,7 @@
 ## [1] 72.3
 ]]></output>
     </console>
+      </remark>
       <p>
         Hm. It <em>might</em> be that the psychology students are scoring a bit higher than normal: that sample mean of <m>\bar{X} = 72.3</m> is a fair bit higher than the hypothesised population mean of <m>\mu = 67.5</m>, but on the other hand, a sample size of <m>N = 20</m> isn't all that big. Maybe it's pure chance.
       </p>
@@ -158,6 +167,8 @@
       <p>
         Now, as I mentioned earlier, the <m>z</m>-test is almost never used in practice. It's so rarely used in real life that the basic installation of R doesn't have a built in function for it. However, the test is so incredibly simple that it's really easy to do one manually. Let's go back to the data from Dr Zeppo's class. Having loaded the <c>grades</c> data, the first thing I need to do is calculate the sample mean:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sample.mean &lt;- mean( grades )
@@ -169,42 +180,55 @@
 ## [1] 72.3
 ]]></output>
     </console>
+      </remark>
       <p>
         Then, I create variables corresponding to known population standard deviation (<m>\sigma = 9.5</m>), and the value of the population mean that the null hypothesis specifies (<m>\mu_0 = 67.5</m>):
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           mu.null &lt;- 67.5
           sd.true &lt;- 9.5
         </input>
       </program>
+      </remark>
       <p>
         Let's also create a variable for the sample size. We could count up the number of observations ourselves, and type <c>N &lt;- 20</c> at the command prompt, but counting is tedious and repetitive. Let's get R to do the tedious repetitive bit by using the <c>length()</c> function, which tells us how many elements there are in a vector:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           N &lt;- length( grades )
           print( N )
         </input>
       </program>
+      </remark>
       <p>
         Next, let's calculate the (true) standard error of the mean:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           sem.true &lt;- sd.true / sqrt(N)
           print(sem.true)
         </input>
       </program>
+      </remark>
       <p>
         And finally, we calculate our <m>z</m>-score:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           z.score &lt;- (sample.mean - mu.null) / sem.true
           print( z.score )
         </input>
       </program>
+      </remark>
       <p>
         At this point, we would traditionally look up the value 2.26 in our table of critical values. Our original hypothesis was two-sided (we didn't really have any theory about whether psych students would be better or worse at statistics than other students) so our hypothesis test is two-sided (or two-tailed) also. Looking at the little table that I showed earlier, we can see that 2.26 is bigger than the critical value of 1.96 that would be required to be significant at <m>\alpha = .05</m>, but smaller than the value of 2.58 that would be required to be significant at a level of <m>\alpha = .01</m>. Therefore, we can conclude that we have a significant effect, which we might write up by saying something like this:
       </p>
@@ -214,30 +238,39 @@
       <p>
         However, what if want an exact <m>p</m>-value? Well, back in the day, the tables of critical values were huge, and so you could look up your actual <m>z</m>-value, and find the smallest value of <m>\alpha</m> for which your data would be significant (which, as discussed earlier, is the very definition of a <m>p</m>-value). However, looking things up in books is tedious, and typing things into computers is awesome. So let's do it using R instead. Now, notice that the <m>\alpha</m> level of a <m>z</m>-test (or any other test, for that matter) defines the total area "under the curve" for the critical region, right? That is, if we set <m>\alpha = .05</m> for a two-sided test, then the critical region is set up such that the area under the curve for the critical region is <m>.05</m>. And, for the <m>z</m>-test, the critical value of 1.96 is chosen that way because the area in the lower tail (i.e., below <m>-1.96</m>) is exactly <m>.025</m> and the area under the upper tail (i.e., above <m>1.96</m>) is exactly <m>.025</m>. So, since our observed <m>z</m>-statistic is <m>2.26</m>, why not calculate the area under the curve below <m>-2.26</m> or above <m>2.26</m>? In R we can calculate this using the <c>pnorm()</c> function. For the upper tail:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           upper.area &lt;- pnorm( q = z.score, lower.tail = FALSE )
           print( upper.area )
         </input>
       </program>
+      </remark>
       <p>
         The <c>lower.tail = FALSE</c>  is me telling R to calculate the area under the curve from 2.26 *and upwards*. If I'd told it that <c>lower.tail = TRUE</c>, then R would calculate the area from 2.26 *and below*, and it would give me an answer 0.9880771. Alternatively, to calculate the area from <m>-2.26</m> and below, we get
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           lower.area &lt;- pnorm( q = -z.score, lower.tail = TRUE )
           print( lower.area )
         </input>
       </program>
+      </remark>
       <p>
         Thus we get our <m>p</m>-value:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           p.value &lt;- lower.area + upper.area
           print( p.value )
         </input>
       </program>
+      </remark>
     </subsection>
     <subsection xml:id="zassumptions">
       <title>Assumptions of the <m>z</m>-test</title>
@@ -265,6 +298,8 @@
     <p>
       After some thought, I decided that it might not be safe to assume that the psychology student grades necessarily have the same standard deviation as the other students in Dr Zeppo's class. After all, if I'm entertaining the hypothesis that they don't have the same mean, then why should I believe that they absolutely have the same standard deviation? In view of this, I should really stop assuming that I know the true value of <m>\sigma</m>. This violates the assumptions of my <m>z</m>-test, so in one sense I'm back to square one. However, it's not like I'm completely bereft of options. After all, I've still got my raw data, and those raw data give me an <em>estimate</em> of the population standard deviation:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         sd( grades )
@@ -275,6 +310,7 @@
 ## [1] 9.520615
 ]]></output>
     </console>
+    </remark>
     <p>
       In other words, while I can't say that I know that <m>\sigma = 9.5</m>, I <em>can</em> say that <m>\hat\sigma = 9.52</m>.
     </p>
@@ -303,6 +339,8 @@
       <p>
         The situation with <m>t</m>-tests is very similar to the one we encountered with chi-squared tests in <xref ref="chisquare"/>. R comes with one function called <c>t.test()</c> that is very flexible (it can run lots of different kinds of <m>t</m>-tests) and is somewhat terse (the output is quite compressed). Later on in the chapter I'll show you how to use the <c>t.test()</c> function (<xref ref="ttestfunction" />), but to start out with I'm going to rely on some simpler functions in the <c>lsr</c> package. Just like last time, what I've done is written a few simpler functions, each of which does only one thing. So, if you want to run a one-sample <m>t</m>-test, use the <c>oneSampleTTest()</c> function! It's pretty straightforward to use: all you need to do is specify <c>x</c>, the variable containing the data, and <c>mu</c>, the true population mean according to the null hypothesis. All you need to type is this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           library(lsr)
@@ -336,9 +374,12 @@
 ##    estimated effect size (Cohen's d):  0.504
 ]]></output>
     </console>
+      </remark>
       <p>
         Easy enough. Now lets go through the output. Just like we saw in the last chapter, I've written the functions so that the output is pretty verbose. It tries to describe in a lot of detail what its actually done:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
              One sample t-test
@@ -364,6 +405,7 @@
              estimated effect size (Cohen's d):  0.504
         </input>
       </program>
+      </remark>
       <p>
         Reading this output from top to bottom, you can see it's trying to lead you through the data analysis process. The first two lines tell you what kind of test was run and what data were used. It then gives you some basic information about the sample: specifically, the sample mean and standard deviation of the data. It then moves towards the inferential statistics part. It starts by telling you what the null and alternative hypotheses were, and then it reports the results of the test: the <m>t</m>-statistic, the degrees of freedom, and the <m>p</m>-value. Finally, it reports two other things you might care about: the confidence interval for the mean, and a measure of effect size (we'll talk more about effect sizes later).
       </p>
@@ -411,6 +453,8 @@
       <p>
         Suppose we have 33 students taking Dr Harpo's statistics lectures, and Dr Harpo doesn't grade to a curve. Actually, Dr Harpo's grading is a bit of a mystery, so we don't really know anything about what the average grade is for the class as a whole. There are two tutors for the class, Anastasia and Bernadette. There are <m>N_1 = 15</m> students in Anastasia's tutorials, and <m>N_2 = 18</m> in Bernadette's tutorials. The research question I'm interested in is whether Anastasia or Bernadette is a better tutor, or if it doesn't make much of a difference. Dr Harpo emails me the course grades, in the <c>harpo.Rdata</c> file. As usual, I'll load the file and have a look at what variables it contains:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load (file.path(projecthome, "data/harpo.Rdata" ))
@@ -424,9 +468,12 @@
 ##  $ tutor: Factor w/ 2 levels "Anastasia","Bernadette": 1 2 2 1 1 2 2 2 2 2 ...
 ]]></output>
     </console>
+      </remark>
       <p>
         As we can see, there's a single data frame with two variables, <c>grade</c> and <c>tutor</c>. The <c>grade</c> variable is a numeric vector, containing the grades for all <m>N = 33</m> students taking Dr Harpo's class; the <c>tutor</c> variable is a factor that indicates who each student's tutor was. The first six observations in this data set are shown below:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head( harpo )
@@ -443,6 +490,7 @@
 ## 6    71 Bernadette
 ]]></output>
     </console>
+      </remark>
       <p>
         We can calculate means and standard deviations, using the <c>mean()</c> and <c>sd()</c> functions. Rather than show the R output, here's a nice little summary table:
       </p>
@@ -526,6 +574,8 @@
       <p>
         Not surprisingly, you can run an independent samples <m>t</m>-test using the <c>t.test()</c> function (<xref ref="ttestfunction" />), but once again I'm going to start with a somewhat simpler function in the <c>lsr</c> package. That function is unimaginatively called <c>independentSamplesTTest()</c>. First, recall that our data look like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head( harpo )
@@ -542,9 +592,12 @@
 ## 6    71 Bernadette
 ]]></output>
     </console>
+      </remark>
       <p>
         The outcome variable for our test is the student <c>grade</c>, and the groups are defined in terms of the <c>tutor</c> for each class. So you probably won't be too surprised to see that we're going to describe the test that we want in terms of an R formula that reads like this <c>grade ~ tutor</c>. The specific command that we need is:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           independentSamplesTTest(
@@ -581,6 +634,7 @@
 ##    estimated effect size (Cohen's d):  0.74
 ]]></output>
     </console>
+      </remark>
       <p>
         The first two arguments should be familiar to you. The first one is the formula that tells R what variables to use and the second one tells R the name of the data frame that stores those variables. The third argument is not so obvious. By saying <c>var.equal = TRUE</c>, what we're really doing is telling R to use the <em>Student</em> independent samples <m>t</m>-test. More on this later. For now, lets ignore that bit and look at the output:
       </p>
@@ -665,6 +719,8 @@
       <p>
         To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student's <m>t</m>-test and drop the <c>var.equal = TRUE</c> bit. So the command for a Welch test becomes:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           independentSamplesTTest(
@@ -700,6 +756,7 @@
 ##    estimated effect size (Cohen's d):  0.724
 ]]></output>
     </console>
+      </remark>
       <p>
         Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too:
       </p>
@@ -727,6 +784,8 @@
       <p>
         The data set that we'll use this time comes from Dr Chico's class.<fn>At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.</fn> In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the <c>chico.Rdata</c> file:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load( file.path(projecthome, "data/chico.Rdata" ))
@@ -741,9 +800,12 @@
 ##  $ grade_test2: num  44.6 54 72.3 53.4 63.8 59.3 60.8 51.6 64.3 63.2 ...
 ]]></output>
     </console>
+      </remark>
       <p>
         The data frame <c>chico</c> contains three variables: an <c>id</c> variable that identifies each student in the class, the <c>grade_test1</c> variable that records the student grade for the first test, and the <c>grade_test2</c> variable that has the grades for the second test. Here's the first six students:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head( chico )
@@ -760,9 +822,12 @@
 ## 6 student6        58.0        59.3
 ]]></output>
     </console>
+      </remark>
       <p>
         At a glance, it does seem like the class is a hard one (most grades are between 50\% and 60\%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           library( psych )
@@ -781,6 +846,7 @@
 ## grade_test2    -0.39 1.43
 ]]></output>
     </console>
+      </remark>
       <p>
         we see that this impression seems to be supported. Across all 20 students<fn>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I've</em> never taught an intro stats class with less than 350 students.</fn> the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <xref ref="fig-pairedta" />. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the <c>describe()</c> function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
       </p>
@@ -798,14 +864,19 @@
       <p>
         In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 (<m>x</m> co-ordinate) equals their grade for test 2 (<m>y</m> co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students <em>do</em> seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the <em>improvement</em> made by each student from one test to the next, and treating that as our raw data. To do this, we'll need to create a new variable for the <c>improvement</c> that each student makes, and add it to the <c>chico</c> data frame. The easiest way to do this is as follows:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           chico$improvement &lt;- chico$grade_test2 - chico$grade_test1
         </input>
       </program>
+      </remark>
       <p>
         Notice that I assigned the output to a variable called <c>chico$improvement</c>. That has the effect of creating a new variable called <c>improvement</c> inside the <c>chico</c> data frame. So now when I look at the <c>chico</c> data frame, I get an output that looks like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           head( chico )
@@ -822,6 +893,7 @@
 ## 6 student6        58.0        59.3
 ]]></output>
     </console>
+      </remark>
       <p>
         Now that we've created and stored this <c>improvement</c> variable, we can draw a histogram showing the distribution of these improvement scores (using the <c>hist()</c> function), shown in <xref ref="fig-pairedtc" />.
       </p>
@@ -832,6 +904,8 @@
       <p>
         When we look at histogram, it's very clear that there <em>is</em> a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use <c>ciMean()</c> to compute a confidence interval for the population mean of this new variable,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           ciMean( x = chico$improvement )
@@ -843,6 +917,7 @@
 ## [1,] 0.9508686 1.859131
 ]]></output>
     </console>
+      </remark>
       <p>
         we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so).
       </p>
@@ -861,6 +936,8 @@
       <p>
         How do you do a paired samples <m>t</m>-test in R. One possibility is to follow the process I outlined above: create a "difference" variable and then run a one sample <m>t</m>-test on that. Since we've already created a variable called <c>chico$improvement</c>, let's do that:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           oneSampleTTest( chico$improvement, mu=0 )
@@ -892,12 +969,15 @@
 ##    estimated effect size (Cohen's d):  1.448
 ]]></output>
     </console>
+      </remark>
       <p>
         The output here is (obviously) formatted exactly the same was as it was the last time we used the <c>oneSampleTTest()</c> function (<xref ref="onesamplettest" />), and it confirms our intuition. There's an average improvement of 1.4\% from test 1 to test 2, and this is significantly different from 0 (<m>t(19)=6.48, p&lt;.001</m>).
       </p>
       <p>
         However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. If so, you can use the <c>pairedSamplesTTest()</c> function, also in the <c>lsr</c> package. Let's assume that your data organised like they are in the <c>chico</c> data frame, where there are two separate variables, one for each measurement. The way to run the test is to input a <em>one-sided</em> formula, just like you did when running a test of association using the <c>associationTest()</c> function in <xref ref="chisquare"/>. For the <c>chico</c> data frame, the formula that you need would be <c>~ grade_time2 + grade_time1</c>. As usual, you'll also need to input the name of the data frame too. So the command just looks like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           pairedSamplesTTest(
@@ -932,6 +1012,7 @@
 ##    estimated effect size (Cohen's d):  1.448
 ]]></output>
     </console>
+      </remark>
       <p>
         The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples <m>t</m>-test is just a one sample test under the hood. However, the output is a bit more detailed:
       </p>
@@ -947,27 +1028,35 @@
       <p>
         As you make the transition from a novice user to an advanced one, you're going to have to get comfortable with long form data, and switching between the two forms. To that end, I want to show you how to apply the <c>pairedSamplesTTest()</c> function to long form data. First, let's use the <c>wideToLong()</c> function to create a long form version of the <c>chico</c> data frame. If you've forgotten how the  <c>wideToLong()</c> function works, it might be worth your while quickly re-reading <xref ref="reshape" />. Assuming that you've done so, or that you're already comfortable with data reshaping, I'll use it to create a new data frame called <c>chico2</c>:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           chico2 &lt;- wideToLong( chico, within="time" )
           head( chico2 )
         </input>
       </program>
+      </remark>
       <p>
         As you can see, this has created a new data frame containing three variables: an <c>id</c> variable indicating which person provided the data, a <c>time</c> variable indicating which test the data refers to (i.e., test 1 or test 2), and a <c>grade</c> variable that records what score the person got on that test. Notice that this data frame is in long form: every row corresponds to a unique *measurement*. Because every person provides two observations (test 1 and test 2), there are two rows for every person. To see this a little more clearly, I'll use the <c>sortFrame()</c> function to sort the rows of <c>chico2</c> by <c>id</c> variable (see <xref ref="sortframe" />).
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           chico2 &lt;- sortFrame( chico2, id )
           head( chico2 )
         </input>
       </program>
+      </remark>
       <p>
         As you can see, there are two rows for "student1": one showing their grade on the first test, the other showing their grade on the second test.<fn>The <c>sortFrame()</c> function sorts factor variables like <c>id</c> in alphabetical order, which is why it jumps from "student1" to "student10"</fn>
       </p>
       <p>
         Okay, suppose that we were given the <c>chico2</c> data frame to analyse. How would we run our paired samples <m>t</m>-test now? One possibility would be to use the <c>longToWide()</c> function (<xref ref="reshape" />) to force the data back into wide form, and do the same thing that we did previously. But that's sort of defeating the point, and besides, there's an easier way. Let's think about what how the <c>chico2</c> data frame is structured: there are three variables here, and they all matter. The outcome measure is stored as the <c>grade</c>, and we effectively have two "groups" of measurements (test 1 and test 2) that are defined by the <c>time</c> points at which a test is given. Finally, because we want to keep track of which measurements should be paired together, we need to know which student obtained each grade, which is what the <c>id</c> variable gives us. So, when your data are presented to you in long form, we would want specify a <em>two-sided</em> formula and a data frame, in the same way that we do for an independent samples <m>t</m>-test: the formula specifies the outcome variable and the groups, so in this case it would be <c>grade ~ time</c>, and the data frame is <c>chico2</c>. However, we also need to tell it the id variable, which in this case is boringly called <c>id</c>. So our command is:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           pairedSamplesTTest(
@@ -1005,6 +1094,7 @@
 ##    estimated effect size (Cohen's d):  1.448
 ]]></output>
     </console>
+      </remark>
       <p>
         Note that the name of the id variable is <c>"id"</c> and not <c>id</c>. Note that the <c>id</c> variable must be a factor. As of the current writing, you do need to include the quote marks, because the <c>pairedSamplesTTest()</c> function is expecting a <em>character string</em> that specifies the name of a variable. If I ever find the time I'll try to relax this constraint.
       </p>
@@ -1014,14 +1104,19 @@
       <p>
         One final comment about the <c>pairedSamplesTTest()</c> function. One of the reasons I designed it to be able handle long form and wide form data is that I want you to be get comfortable thinking about repeated measures data in both formats, and also to become familiar with the different ways in which R functions tend to specify models and tests for repeated measures data. With that last point in mind, I want to highlight a slightly different way of thinking about what the paired samples <m>t</m>-test is doing. There's a sense in which what you're really trying to do is look at how the outcome variable (<c>grade</c>) is related to the grouping variable (<c>time</c>), after taking account of the fact that there are individual differences between people (<c>id</c>). So there's a sense in which <c>id</c> is actually a <em>second</em> predictor: you're trying to predict the <c>grade</c> on the basis of the <c>time</c> and the <c>id</c>. With that in mind, the <c>pairedSamplesTTest()</c> function lets you specify a formula like this one
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           grade ~ time + (id)
         </input>
       </program>
+      </remark>
       <p>
         This formula tells R everything it needs to know: the variable on the left (<c>grade</c>) is the outcome variable, the bracketed term on the right (<c>id</c>) is the id variable, and the other term on the right is the grouping variable (<c>time</c>). If you specify your formula that way, then you only need to specify the <c>formula</c> and the <c>data</c> frame, and so you can get away with using a command as simple as this one:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           pairedSamplesTTest(
@@ -1030,14 +1125,18 @@
             )
         </input>
       </program>
+      </remark>
       <p>
         or you can drop the argument names and just do this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           &gt; pairedSamplesTTest( grade ~ time + (id), chico2 )
         </input>
       </program>
+      </remark>
       <p>
         These commands will produce the same output as the last one, I personally find this format a lot more elegant. That being said, the main reason for allowing you to write your formulas that way is that they're quite similar to the way that mixed models (fancy pants repeated measures analyses) are specified in the <c>lme4</c> package. This book doesn't talk about mixed models (yet!), but if you go on to learn more statistics you'll find them pretty hard to avoid, so I've tried to lay a little bit of the groundwork here.
       </p>
@@ -1048,6 +1147,8 @@
     <p>
       When introducing the theory of null hypothesis tests, I mentioned that there are some situations when it's appropriate to specify a <em>one-sided</em> test (see <xref ref="onesidedtests" />). So far, all of the <m>t</m>-tests have been two-sided tests. For instance, when we specified a one sample <m>t</m>-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The <c>oneSampleTTest()</c> function lets you do this, by specifying the <c>one.sided</c> argument. If you set <c>one.sided="greater"</c>, it means that you're testing to see if the true mean is larger than <c>mu</c>. If you set <c>one.sided="less"</c>, then you're testing to see if the true mean is smaller than <c>mu</c>. Here's how it would work for Dr Zeppo's class:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         oneSampleTTest( x=grades, mu=67.5, one.sided="greater" )
@@ -1079,12 +1180,15 @@
 ##    estimated effect size (Cohen's d):  0.504
 ]]></output>
     </console>
+    </remark>
     <p>
       Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the <m>t</m>-statistic and degrees of freedom have not changed, the <m>p</m>-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you've forgotten why this is and what it means, you may find it helpful to read back over <xref ref="hypothesistesting" />, and <xref ref="onesidedtests" /> in particular. The third thing to note is that the confidence interval is different too: it now reports a "one-sided" confidence interval rather than a two-sided one. In a two-sided confidence interval, we're trying to find numbers <m>a</m> and <m>b</m> such that we're 95\% confident that the true mean lies <em>between</em> <m>a</m> and <m>b</m>. In a one-sided confidence interval, we're trying to find a single number <m>a</m> such that we're 95\% confident that the true mean is <em>greater than</em> <m>a</m> (or less than <m>a</m> if you set <c>one.sided="less"</c>).
     </p>
     <p>
       So that's how to do a one-sided one sample <m>t</m>-test. However, all versions of the <m>t</m>-test can be one-sided. For an independent samples <m>t</m> test, you could have a one-sided test if you're only interestd in testing to see if group A has <em>higher</em> scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The <c>independentSamplesTTest()</c> function lets you do this, again by specifying the <c>one.sided</c> argument. However, this time around you need to specify the name of the group that you're expecting to have the higher score. In our case, we'd write <c>one.sided = "Anastasia"</c>. So the command would be:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         independentSamplesTTest(
@@ -1121,12 +1225,15 @@
 ##    estimated effect size (Cohen's d):  0.724
 ]]></output>
     </console>
+    </remark>
     <p>
       Again, the output changes in a predictable way. The definition of the null and alternative hypotheses has changed, the <m>p</m>-value has changed, and it now reports a one-sided confidence interval rather than a two-sided one.
     </p>
     <p>
       What about the paired samples <m>t</m>-test? Suppose we wanted to test the hypothesis that grades go <em>up</em> from test 1 to test 2 in Dr Zeppo's class, and are not prepared to consider the idea that the grades go down. Again, we can use the <c>one.sided</c> argument to specify the one-sided test, and it works the same way it does for the independent samples <m>t</m>-test. You need to specify the name of the group whose scores are expected to be larger under the alternative hypothesis. If your data are in wide form, as they are in the <c>chico</c> data frame, you'd use this command:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         pairedSamplesTTest(
@@ -1162,9 +1269,12 @@
 ##    estimated effect size (Cohen's d):  1.448
 ]]></output>
     </console>
+    </remark>
     <p>
       Yet again, the output changes in a predictable way. The hypotheses have changed, the <m>p</m>-value has changed, and the confidence interval is now one-sided. If your data are in long form, as they are in the <c>chico2</c> data frame, it still works the same way. Either of the following commands would work,
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         &gt; pairedSamplesTTest(
@@ -1181,6 +1291,7 @@
           )
       </input>
     </program>
+    </remark>
     <p>
       and would produce the same answer as the output shown above.
     </p>
@@ -1193,6 +1304,8 @@
     <p>
       However, once you've started to become familiar with <m>t</m>-tests and with using R, you might find it easier to use the <c>t.test()</c> function. It's one function, but it can run all four of the different <m>t</m>-tests that we've talked about. Here's how it works.  Firstly, suppose you want to run a one sample <m>t</m>-test. To run the test on the <c>grades</c> data from Dr Zeppo's class (<xref ref="onesamplettest" />), we'd use a command like this:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         t.test( x = grades, mu = 67.5 )
@@ -1213,6 +1326,7 @@
 ##      72.3
 ]]></output>
     </console>
+    </remark>
     <p>
       The input is the same as for the <c>oneSampleTTest()</c>: we specify the sample data using the argument <c>x</c>, and the value against which it is to be tested using the argument <c>mu</c>. The output is a lot more compressed.
     </p>
@@ -1222,6 +1336,8 @@
     <p>
       What about independent samples <m>t</m>-tests? As it happens, the <c>t.test()</c> function can be used in much the same way as the <c>independentSamplesTTest()</c> function, by specifying a formula, a data frame, and using <c>var.equal</c> to indicate whether you want a Student test or a Welch test. If you want to run the Welch test from <xref ref="welchttest" />, then you'd use this command:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         t.test( formula = grade ~ tutor, data = harpo )
@@ -1242,12 +1358,15 @@
 ##                 74.53333                 69.05556
 ]]></output>
     </console>
+    </remark>
     <p>
       If you want to do the Student test, it's exactly the same except that you need to add an additional argument indicating that <c>var.equal = TRUE</c>. This is no different to how it worked in the <c>independentSamplesTTest()</c> function.
     </p>
     <p>
       Finally, we come to the paired samples <m>t</m>-test. Somewhat surprisingly, given that most R functions for dealing with repeated measures data require data to be in long form, the <c>t.test()</c> function isn't really set up to handle data in long form. Instead it expects to be given two separate variables, <c>x</c> and <c>y</c>, and you need to specify <c>paired=TRUE</c>. And on top of that, you'd better make sure that the first element of <c>x</c> and the first element of <c>y</c> actually correspond to the same person! Because it doesn't ask for an "id" variable. I don't know why. So, in order to run the paired samples <m>t</m> test on the data from Dr Chico's class, we'd use this command:
     </p>
+    <remark>
+      <title>R Code</title>
     <program language="r">
       <input>
         t.test( x = chico$grade_test2,   # variable 1 is the "test2" scores
@@ -1271,6 +1390,7 @@
 ##                   1.405
 ]]></output>
     </console>
+    </remark>
     <p>
       Yet again, these are the same numbers that we saw in <xref ref="pairedsamplesttest" />. Feel free to check.
     </p>
@@ -1320,6 +1440,8 @@
       <p>
         We don't need to specify what <c>method</c> to use, because there's only one version of <m>d</m> that makes sense in this context. So, in order to compute an effect size for the data from Dr Zeppo's class (<xref ref="onesamplettest" />), we'd type something like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cohensD( x = grades,    # data are stored in the grades vector
@@ -1332,9 +1454,12 @@
 ## [1] 0.5041691
 ]]></output>
     </console>
+      </remark>
       <p>
         and, just so that you can see that there's nothing fancy going on, the command below shows you how to calculate it if there weren't no fancypants <c>cohensD()</c> function available:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           ( mean(grades) - 67.5 ) / sd(grades)
@@ -1345,6 +1470,7 @@
 ## [1] 0.5041691
 ]]></output>
     </console>
+      </remark>
       <p>
         Yep, same number. Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3\%) that are about .5 standard deviations higher than the level that you'd expect (67.5\%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
       </p>
@@ -1360,6 +1486,8 @@
       <p>
         In any case, ignoring all those variations that you could make use of if you wanted, let's have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo's class (the <c>harpo</c> data frame). The command that we want to use is very similar to the relevant <c>t.test()</c> command, but also specifies a <c>method</c>
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cohensD( formula = grade ~ tutor,  # outcome ~ group
@@ -1373,6 +1501,7 @@
 ## [1] 0.7395614
 ]]></output>
     </console>
+      </remark>
       <p>
         This is the version of Cohen's <m>d</m> that gets reported by the <c>independentSamplesTTest()</c> function whenever it runs a Student <m>t</m>-test.
       </p>
@@ -1382,6 +1511,8 @@
       <p>
         Suppose the situation you're in is more like the Welch test: you still have two independent samples, but you no longer believe that the corresponding populations have equal variances. When this happens, we have to redefine what we mean by the population effect size. I'll refer to this new measure as <m>\delta^\prime</m>, so as to keep it distinct from the measure <m>\delta</m> which we defined previously. What <xref ref="biblio-Cohen1988">Cohen (1988)</xref> suggests is that we could define our new population effect size by averaging the two population variances. What this means is that we get: <me> \delta^\prime = \frac{\mu_1 - \mu_2}{\sigma^\prime} </me> where <me> \sigma^\prime = \sqrt{\displaystyle{\frac{ {\sigma_1}^2 + {\sigma_2}^2}{2}}} </me> This seems quite reasonable, but notice that none of the measures that we've discussed so far are attempting to estimate this new quantity. It might just be my own ignorance of the topic, but I'm only aware of one version of Cohen's <m>d</m> that actually estimates the unequal-variance effect size <m>\delta^\prime</m> rather than the equal-variance effect size <m>\delta</m>. All we do to calculate <m>d</m> for this version (<c>method = "unequal"</c>) is substitute the sample means <m>\bar{X}_1</m> and <m>\bar{X}_2</m> and the corrected sample standard deviations <m>\hat{\sigma}_1</m> and <m>\hat{\sigma}_2</m> into the equation for <m>\delta^\prime</m>. This gives us the following equation for <m>d</m>, <me> d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {\hat\sigma_2}^2}{2}}}} </me> as our estimate of the effect size. There's nothing particularly difficult about calculating this version in R, since all we have to do is change the <c>method</c> argument:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cohensD( formula = grade ~ tutor,
@@ -1395,6 +1526,7 @@
 ## [1] 0.7244995
 ]]></output>
     </console>
+      </remark>
       <p>
         This is the version of Cohen's <m>d</m> that gets reported by the <c>independentSamplesTTest()</c> function whenever it runs a Welch <m>t</m>-test.
       </p>
@@ -1404,6 +1536,8 @@
       <p>
         Finally, what should we do for a paired samples <m>t</m>-test? In this case, the answer depends on what it is you're trying to do. <em>If</em> you want to measure your effect sizes relative to the distribution of difference scores, the measure of <m>d</m> that you calculate is just (<c>method = "paired"</c>) <me> d = \frac{\bar{D}}{\hat{\sigma}_D} </me> where <m>\hat{\sigma}_D</m> is the estimate of the standard deviation of the differences. The calculation here is pretty straightforward
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cohensD( x = chico$grade_test2,
@@ -1417,9 +1551,12 @@
 ## [1] 1.447952
 ]]></output>
     </console>
+      </remark>
       <p>
         This is the version of Cohen's <m>d</m> that gets reported by the <c>pairedSamplesTTest()</c> function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1\% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's <m>d</m> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class,
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           cohensD( x = chico$grade_test2,
@@ -1433,6 +1570,7 @@
 ## [1] 0.2157646
 ]]></output>
     </console>
+      </remark>
       <p>
         what we see is that the overall effect size is quite small, when assessed on the scale of the original variables.
       </p>
@@ -1481,6 +1619,8 @@
       <p>
         One way to check whether a sample violates the normality assumption is to draw a <term>"quantile-quantile" plot</term> (QQ plot). This allows you to visually check whether you're seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function <c>qqnorm()</c>. The <c>qqnorm()</c> function has a few arguments, but the only one we really need to care about here is <c>y</c>, a vector specifying the data whose normality we're interested in checking. Here's the R commands:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           normal.data &lt;- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
@@ -1488,6 +1628,7 @@
           qqnorm( y = normal.data )        # draw the QQ plot
         </input>
       </program>
+      </remark>
     </subsection>
     <subsection>
       <title>Shapiro-Wilk tests</title>
@@ -1504,6 +1645,8 @@
       <p>
         To run the test in R, we use the <c>shapiro.test()</c> function. It has only a single argument <c>x</c>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <c>normal.data</c>, we get the following:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           shapiro.test( x = normal.data )
@@ -1518,6 +1661,7 @@
 ## W = 0.98654, p-value = 0.4076
 ]]></output>
     </console>
+      </remark>
       <p>
         So, not surprisingly, we have no evidence that these data depart from normality. When reporting the results for a Shapiro-Wilk test, you should (as usual) make sure to include the test statistic <m>W</m> and the <m>p</m> value, though given that the sampling distribution depends so heavily on <m>N</m> it would probably be a politeness to include <m>N</m> as well.
       </p>
@@ -1536,6 +1680,8 @@
       <p>
         I'll start by describing the <term>two sample Wilcoxon test</term> (also known as the Mann-Whitney test), since it's actually simpler than the one sample version. Suppose we're looking at the scores of 10 people on some test. Since my imagination has now failed me completely, let's pretend it's a "test of awesomeness", and there are two groups of people, "A" and "B". I'm curious to know which group is more awesome. The data are included in the file <c>awesome.Rdata</c>, and like many of the data sets I've been using, it contains only a single data frame, in this case called <c>awesome</c>. Here's the data:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load(file.path(projecthome, "data/awesome.Rdata"))
@@ -1557,6 +1703,7 @@
 ## 10   13.0     B
 ]]></output>
     </console>
+      </remark>
       <p>
         As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <m>A</m> against every observation in group <m>B</m>. Whenever the group <m>A</m> datum is larger, we place a check mark in the table:
       </p>
@@ -1567,6 +1714,8 @@
       <p>
         The structure of the <c>wilcox.test()</c> function should feel very familiar to you by now. When you have your data organised in terms of an outcome variable and a grouping variable, then you use the <c>formula</c> and <c>data</c> arguments, so your command looks like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           wilcox.test( formula = scores ~ group, data = awesome)
@@ -1582,9 +1731,12 @@
 ## alternative hypothesis: true location shift is not equal to 0
 ]]></output>
     </console>
+      </remark>
       <p>
         Just like we saw with the <c>t.test()</c> function, there is an <c>alternative</c> argument that you can use to switch between two-sided tests and one-sided tests, plus a few other arguments that we don't need to worry too much about at an introductory level. Similarly, the <c>wilcox.test()</c> function allows you to use the  <c>x</c> and <c>y</c> arguments when you have your data stored separately for each group. For instance, suppose we use the data from the <c>awesome2.Rdata</c> file:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load( file.path(projecthome, "data/awesome2.Rdata" ))
@@ -1597,9 +1749,12 @@
 ## [1]  6.4 10.7 11.9  7.3 10.0
 ]]></output>
     </console>
+      </remark>
       <p>
         When your data are organised like this, then you would use a command like this:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           wilcox.test( x = score.A, y = score.B )
@@ -1610,6 +1765,7 @@
 ## [1] 14.5 10.4 12.9 11.7 13.0
 ]]></output>
     </console>
+      </remark>
       <p>
         The output that R produces is pretty much the same as last time.
       </p>
@@ -1619,6 +1775,8 @@
       <p>
         What about the <term>one sample Wilcoxon test</term> (or equivalently, the paired samples Wilcoxon test)? Suppose I'm interested in finding out whether taking a statistics class has any effect on the happiness of students. Here's my data:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           load( file.path(projecthome, "data/happy.Rdata" ))
@@ -1640,6 +1798,7 @@
 ## 10     16    21      5
 ]]></output>
     </console>
+      </remark>
       <p>
         What I've measured here is the happiness of each student <c>before</c> taking the class and <c>after</c> taking the class; the <c>change</c> score is the difference between the two. Just like we saw with the <m>t</m>-test, there's no fundamental difference between doing a paired-samples test using <c>before</c> and <c>after</c>, versus doing a one-sample test using the <c>change</c> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:
       </p>
@@ -1647,6 +1806,8 @@
       <p>
         Counting up the tick marks this time, we get a test statistic of <m>V = 7</m>. As before, if our test is two sided, then we reject the null hypothesis when <m>V</m> is very large or very small. As far of running it in R goes, it's pretty much what you'd expect. For the one-sample version, the command you would use is
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           wilcox.test( x = happiness$change,
@@ -1664,9 +1825,12 @@
 ## alternative hypothesis: true location is not equal to 0
 ]]></output>
     </console>
+      </remark>
       <p>
         As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness. Switching to a paired samples version of the test won't give us different answers, of course; but here's the command to do it:
       </p>
+      <remark>
+        <title>R Code</title>
       <program language="r">
         <input>
           wilcox.test( x = happiness$after,
@@ -1685,6 +1849,7 @@
 ## alternative hypothesis: true location shift is not equal to 0
 ]]></output>
     </console>
+      </remark>
     </subsection>
   </section>
   <section>
