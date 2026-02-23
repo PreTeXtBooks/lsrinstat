@@ -2,16 +2,8 @@
 
 <chapter xml:id="anova">
   <title>Comparing several means (one-way ANOVA)</title>
-
-    <remark>
-      <title>R Code</title>
-    <program language="r">
-  <input><![CDATA[
-library(lsr)]]></input>
-</program>
-    </remark>
     <p>This chapter introduces one of the most widely used tools in statistics, known as "the analysis of variance", which is usually referred to as ANOVA. The basic technique was developed by Sir Ronald Fisher in the early 20th century, and it is to him that we owe the rather unfortunate terminology. The term ANOVA is a little misleading, in two respects. Firstly, although the name of the technique refers to variances, ANOVA is concerned with investigating differences in means. Secondly, there are several different things out there that are all referred to as ANOVAs, some of which have only a very tenuous connection to one another. Later on in the book we'll encounter a range of different ANOVA methods that apply in quite different situations, but for the purposes of this chapter we'll only consider the simplest form of ANOVA, in which we have several different groups of observations, and we're interested in finding out whether those groups differ in terms of some outcome variable of interest. This is the question that is addressed by a <em>one-way ANOVA</em>.</p>
-    <p>The structure of this chapter is as follows: In Section <xref ref="anxifree"/> I'll introduce a fictitious data set that we'll use as a running example throughout the chapter. After introducing the data, I'll describe the mechanics of how a one-way ANOVA actually works (Section <xref ref="anovaintro"/>) and then focus on how you can run one in R (Section <xref ref="introduceaov"/>). These two sections are the core of the chapter. The remainder of the chapter discusses a range of important topics that inevitably arise when running an ANOVA, namely how to calculate effect sizes (Section <xref ref="etasquared"/>), post hoc tests and corrections for multiple comparisons (Section <xref ref="posthoc"/>) and the assumptions that ANOVA relies upon (Section <xref ref="anovaassumptions"/>). We'll also talk about how to check those assumptions and some of the things you can do if the assumptions are violated (Sections <xref ref="levene"/> to <xref ref="kruskalwallis"/>). At the end of the chapter we'll talk a little about the relationship between ANOVA and other statistical tools (Section <xref ref="anovaandt"/>).</p>
+    <p>The structure of this chapter is as follows: In <xref ref="anxifree"/> I'll introduce a fictitious data set that we'll use as a running example throughout the chapter. After introducing the data, I'll describe the mechanics of how a one-way ANOVA actually works (<xref ref="anovaintro"/>) and then focus on how you can run one in R (<xref ref="introduceaov"/>). These two sections are the core of the chapter. The remainder of the chapter discusses a range of important topics that inevitably arise when running an ANOVA, namely how to calculate effect sizes (<xref ref="etasquared"/>), post hoc tests and corrections for multiple comparisons (<xref ref="posthoc"/>) and the assumptions that ANOVA relies upon (<xref ref="anovaassumptions"/>). We'll also talk about how to check those assumptions and some of the things you can do if the assumptions are violated (<xref ref="levene"/> to <xref ref="kruskalwallis"/>). At the end of the chapter we'll talk a little about the relationship between ANOVA and other statistical tools (<xref ref="anovaandt"/>).</p>
   <section xml:id="anxifree">
     <title>An illustrative data set</title>
 
@@ -21,7 +13,7 @@ library(lsr)]]></input>
       <title>R Code</title>
     <program language="r">
   <input><![CDATA[
-load(file.path(projecthome, "data", "clinicaltrial.Rdata")) # load data
+load("clinicaltrial.Rdata") # load data
 str(clin.trial)]]></input>
 </program>
     <console>
@@ -64,7 +56,7 @@ print( clin.trial )]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>For the purposes of this chapter, what we're really interested in is the effect of <c>drug</c> on <c>mood.gain</c>. The first thing to do is calculate some descriptive statistics and draw some graphs. In Chapter <xref ref="descriptives"/> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <c>xtabs()</c> function to see how many people we have in each group:</p>
+    <p>For the purposes of this chapter, what we're really interested in is the effect of <c>drug</c> on <c>mood.gain</c>. The first thing to do is calculate some descriptive statistics and draw some graphs. In <xref ref="descriptives"/> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <c>xtabs()</c> function to see how many people we have in each group:</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -94,6 +86,11 @@ aggregate( mood.gain ~ drug, clin.trial, sd )]]></input>
 ## 1  placebo 0.4500000
 ## 2 anxifree 0.7166667
 ## 3 joyzepam 1.4833333
+
+##       drug mood.gain
+## 1  placebo 0.2810694
+## 2 anxifree 0.3920034
+## 3 joyzepam 0.2136976
 ]]></output>
     </console>
     </remark>
@@ -110,8 +107,13 @@ plotmeans(  formula = mood.gain ~ drug,  # plot mood.gain by drug
              n.label = FALSE              # don't display sample size
  )]]></input>
 </program>
+  <figure xml:id="fig-moodgain">
+    <caption>Average mood gain as a function of drug administered. Error bars depict 95% confidence
+intervals associated with each of the group means.</caption>
+    <image source="images/moodgain.png"/>
+  </figure>
     </remark>
-    <p>The results are shown in Figure <xref ref="fig-moodgain"/>, which plots the average mood gain for all three conditions; error bars show 95\% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn't as large.</p>
+    <p>The results are shown in <xref ref="fig-moodgain"/>, which plots the average mood gain for all three conditions; error bars show 95\% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn't as large.</p>
     <p>The question that we want to answer is: are these difference "real", or are they just due to chance?</p>
     <remark>
       <title>R Code</title>
@@ -137,16 +139,13 @@ colour <- TRUE
 </program>
     </remark>
   
-  <figure xml:id="fig-moodgain">
-    <caption>Bar graph showing mean mood gain as a function of drug condition, with 95% confidence interval error bars.</caption>
-    <image source="images/moodgain.png"/>
-  </figure>
+
 </section>
   <section xml:id="anovaintro">
     <title>How ANOVA works</title>
 
     <p>In order to answer the question posed by our clinical trial data, we're going to run a one-way ANOVA. As usual, I'm going to start by showing you how to do it the hard way, building the statistical tool from the ground up and showing you how you could do it in R if you didn't have access to any of the cool built-in ANOVA functions. And, as always, I hope you'll read it carefully, try to do it the long way once or twice to make sure you really understand how ANOVA works, and then -- once you've grasped the concept -- never <em>ever</em> do it this way again.</p>
-    <p>The experimental design that I described in the previous section strongly suggests that we're interested in comparing the average mood change for the three different drugs. In that sense, we're talking about an analysis similar to the <m><![CDATA[t]]></m>-test (Chapter <xref ref="ttest"/>, but involving more than two groups. If we let <m><![CDATA[\mu_P]]></m> denote the population mean for the mood change induced by the placebo, and let <m><![CDATA[\mu_A]]></m> and <m><![CDATA[\mu_J]]></m> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
+    <p>The experimental design that I described in the previous section strongly suggests that we're interested in comparing the average mood change for the three different drugs. In that sense, we're talking about an analysis similar to the <m><![CDATA[t]]></m>-test (<xref ref="ttest"/>, but involving more than two groups. If we let <m><![CDATA[\mu_P]]></m> denote the population mean for the mood change induced by the placebo, and let <m><![CDATA[\mu_A]]></m> and <m><![CDATA[\mu_J]]></m> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
     <me><![CDATA[\begin{array}{rcl}
 H_0 &:& \mbox{it is true that } \mu_P = \mu_A = \mu_J
 \end{array}]]></me>
@@ -159,9 +158,9 @@ H_1 &:& \mbox{it is \textit{not} true that } \mu_P = \mu_A = \mu_J
     <title>Two formulas for the variance of <m><![CDATA[Y]]></m></title>
 
     <p>Firstly, let's start by introducing some notation. We'll use <m><![CDATA[G]]></m> to refer to the total number of groups. For our data set, there are three drugs, so there are <m><![CDATA[G=3]]></m> groups. Next, we'll use <m><![CDATA[N]]></m> to refer to the total sample size: there are a total of <m><![CDATA[N=18]]></m> people in our data set. Similarly, let's use <m><![CDATA[N_k]]></m> to denote the number of people in the <m><![CDATA[k]]></m>-th group. In our fake clinical trial, the sample size is <m><![CDATA[N_k = 6]]></m> for all three groups.<fn>When all groups have the same number of observations, the experimental design is said to be "balanced". Balance isn't such a big deal for one-way ANOVA, which is the topic of this chapter. It becomes more important when you start doing more complicated ANOVAs.</fn> Finally, we'll use <m><![CDATA[Y]]></m> to denote the outcome variable: in our case, <m><![CDATA[Y]]></m> refers to mood change. Specifically, we'll use <m><![CDATA[Y_{ik}]]></m> to refer to the mood change experienced by the <m><![CDATA[i]]></m>-th member of the <m><![CDATA[k]]></m>-th group. Similarly, we'll use <m><![CDATA[\bar{Y}]]></m> to be the average mood change, taken across all 18 people in the experiment, and <m><![CDATA[\bar{Y}_k]]></m> to refer to the average mood change experienced by the 6 people in group <m><![CDATA[k]]></m>.</p>
-    <p>Excellent. Now that we've got our notation sorted out, we can start writing down formulas. To start with, let's recall the formula for the variance that we used in Section <xref ref="var"/>, way back in those kinder days when we were just doing descriptive statistics. The sample variance of <m><![CDATA[Y]]></m> is defined as follows:</p>
+    <p>Excellent. Now that we've got our notation sorted out, we can start writing down formulas. To start with, let's recall the formula for the variance that we used in <xref ref="var"/>, way back in those kinder days when we were just doing descriptive statistics. The sample variance of <m><![CDATA[Y]]></m> is defined as follows:</p>
     <me><![CDATA[\mbox{Var}(Y) = \frac{1}{N} \sum_{k=1}^G \sum_{i=1}^{N_k} \left(Y_{ik} - \bar{Y} \right)^2]]></me>
-    <p>This formula looks pretty much identical to the formula for the variance in Section <xref ref="var"/>. The only difference is that this time around I've got two summations here: I'm summing over groups (i.e., values for <m><![CDATA[k]]></m>) and over the people within the groups (i.e., values for <m><![CDATA[i]]></m>). This is purely a cosmetic detail: if I'd instead used the notation <m><![CDATA[Y_p]]></m> to refer to the value of the outcome variable for person <m><![CDATA[p]]></m> in the sample, then I'd only have a single summation. The only reason that we have a double summation here is that I've classified people into groups, and then assigned numbers to people within groups.</p>
+    <p>This formula looks pretty much identical to the formula for the variance in <xref ref="var"/>. The only difference is that this time around I've got two summations here: I'm summing over groups (i.e., values for <m><![CDATA[k]]></m>) and over the people within the groups (i.e., values for <m><![CDATA[i]]></m>). This is purely a cosmetic detail: if I'd instead used the notation <m><![CDATA[Y_p]]></m> to refer to the value of the outcome variable for person <m><![CDATA[p]]></m> in the sample, then I'd only have a single summation. The only reason that we have a double summation here is that I've classified people into groups, and then assigned numbers to people within groups.</p>
     <p>A concrete example might be useful here. Let's consider this table, in which we have a total of <m><![CDATA[N=5]]></m> people sorted into <m><![CDATA[G=2]]></m> groups. Arbitrarily, let's say that the "cool" people are group 1, and the "uncool" people are group 2, and it turns out that we have three cool people (<m><![CDATA[N_1 = 3]]></m>) and two uncool people (<m><![CDATA[N_2 = 2]]></m>).</p>
         <table xml:id="table-chanova-44">
       <tabular halign="center">
@@ -369,8 +368,8 @@ width <- 7
     <p>Finally, we calculate the <m><![CDATA[F]]></m>-ratio by dividing the between-groups MS by the within-groups MS:</p>
     <me><![CDATA[F = \frac{\mbox{MS}_b }{ \mbox{MS}_w }]]></me>
     <p>At a very general level, the intuition behind the <m><![CDATA[F]]></m> statistic is straightforward: bigger values of <m><![CDATA[F]]></m> means that the between-groups variation is large, relative to the within-groups variation. As a consequence, the larger the value of <m><![CDATA[F]]></m>, the more evidence we have against the null hypothesis. But how large does <m><![CDATA[F]]></m> have to be in order to actually <em>reject</em> <m><![CDATA[H_0]]></m>? In order to understand this, you need a slightly deeper understanding of what ANOVA is and what the mean squares values actually are.</p>
-    <p>The next section discusses that in a bit of detail, but for readers that aren't interested in the details of what the test is actually measuring, I'll cut to the chase. In order to complete our hypothesis test, we need to know the sampling distribution for <m><![CDATA[F]]></m> if the null hypothesis is true. Not surprisingly, the sampling distribution for the <m><![CDATA[F]]></m> <em>statistic</em> under the null hypothesis is an <m><![CDATA[F]]></m> <em>distribution</em>. If you recall back to our discussion of the <m><![CDATA[F]]></m> distribution in <xref ref="probability"/>, the <m><![CDATA[F]]></m> distribution has two parameters, corresponding to the two degrees of freedom involved: the first one df<m><![CDATA[_1]]></m> is the between groups degrees of freedom df<m><![CDATA[_b]]></m>, and the second one df<m><![CDATA[_2]]></m> is the within groups degrees of freedom df<m><![CDATA[_w]]></m>.</p>
-    <p>A summary of all the key quantities involved in a one-way ANOVA, including the formulas showing how they are calculated, is shown in Table <xref ref="tab-anovatable"/>.</p>
+    <p>The next section discusses that in a bit of detail, but for readers that aren't interested in the details of what the test is actually measuring, I'll cut to the chase. In order to complete our hypothesis test, we need to know the sampling distribution for <m><![CDATA[F]]></m> if the null hypothesis is true. Not surprisingly, the sampling distribution for the <m><![CDATA[F]]></m> <em>statistic</em> under the null hypothesis is an <m><![CDATA[F]]></m> <em>distribution</em>. If you recall back to our discussion of the <m><![CDATA[F]]></m> distribution in Chapter \@ref(probability, the <m><![CDATA[F]]></m> distribution has two parameters, corresponding to the two degrees of freedom involved: the first one df<m><![CDATA[_1]]></m> is the between groups degrees of freedom df<m><![CDATA[_b]]></m>, and the second one df<m><![CDATA[_2]]></m> is the within groups degrees of freedom df<m><![CDATA[_w]]></m>.</p>
+    <p>A summary of all the key quantities involved in a one-way ANOVA, including the formulas showing how they are calculated, is shown in <xref ref="tab-anovatable"/>.</p>
         <table xml:id="table-chanova-43">
       <title>All of the key quantities involved in an ANOVA, organised into a "standard" ANOVA table. The formulas for all quantities (except the <m>p</m>-value, which has a very ugly formula and would be nightmarishly hard to calculate without a computer) are shown.</title>
       <tabular halign="center">
@@ -402,20 +401,20 @@ width <- 7
     </table>
     </subsection>
   <subsection xml:id="anovamodel">
-    <title>The model for the data and the meaning of <m><![CDATA[F]]></m> (advanced)</title>
+    <title>The model for the data and the meaning of <m>F</m></title>
 
     <p>At a fundamental level, ANOVA is a competition between two different statistical models, <m><![CDATA[H_0]]></m> and <m><![CDATA[H_1]]></m>. When I described the null and alternative hypotheses at the start of the section, I was a little imprecise about what these models actually are. I'll remedy that now, though you probably won't like me for doing so. If you recall, our null hypothesis was that all of the group means are identical to one another. If so, then a natural way to think about the outcome variable <m><![CDATA[Y_{ik}]]></m> is to describe individual scores in terms of a single population mean <m><![CDATA[\mu]]></m>, plus the deviation from that population mean. This deviation is usually denoted <m><![CDATA[\epsilon_{ik}]]></m> and is traditionally called the <em>error</em> or <em>residual</em> associated with that observation. Be careful though: just like we saw with the word "significant", the word "error" has a technical meaning in statistics that isn't quite the same as its everyday English definition. In everyday language, "error" implies a mistake of some kind; in statistics, it doesn't (or at least, not necessarily). With that in mind, the word "residual" is a better term than the word "error". In statistics, both words mean "leftover variability": that is, "stuff" that the model can't explain. In any case, here's what the null hypothesis looks like when we write it as a statistical model:</p>
     <me><![CDATA[Y_{ik} = \mu + \epsilon_{ik}]]></me>
-    <p>where we make the <em>assumption</em> (discussed later) that the residual values <m><![CDATA[\epsilon_{ik}]]></m> are normally distributed, with mean 0 and a standard deviation <m><![CDATA[\sigma]]></m> that is the same for all groups. To use the notation that we introduced in Chapter <xref ref="probability"/> we would write this assumption like this:</p>
+    <p>where we make the <em>assumption</em> (discussed later) that the residual values <m><![CDATA[\epsilon_{ik}]]></m> are normally distributed, with mean 0 and a standard deviation <m><![CDATA[\sigma]]></m> that is the same for all groups. To use the notation that we introduced in <xref ref="probability"/> we would write this assumption like this:</p>
     <me><![CDATA[\epsilon_{ik} \sim \mbox{Normal}(0, \sigma^2)]]></me>
     <p>What about the alternative hypothesis, <m><![CDATA[H_1]]></m>? The only difference between the null hypothesis and the alternative hypothesis is that we allow each group to have a different population mean. So, if we let <m><![CDATA[\mu_k]]></m> denote the population mean for the <m><![CDATA[k]]></m>-th group in our experiment, then the statistical model corresponding to <m><![CDATA[H_1]]></m> is:</p>
     <me><![CDATA[Y_{ik} = \mu_k + \epsilon_{ik}]]></me>
     <p>where, once again, we assume that the error terms are normally distributed with mean 0 and standard deviation <m><![CDATA[\sigma]]></m>. That is, the alternative hypothesis also assumes that</p>
     <me><![CDATA[\epsilon \sim \mbox{Normal}(0, \sigma^2)]]></me>
-    <p>Okay, now that we've described the statistical models underpinning <m><![CDATA[H_0]]></m> and <m><![CDATA[H_1]]></m> in more detail, it's now pretty straightforward to say what the mean square values are measuring, and what this means for the interpretation of <m><![CDATA[F]]></m>. I won't bore you with the proof of this, but it turns out that the within-groups mean square, <m><![CDATA[\mbox{MS}_w]]></m>, can be viewed as an estimator (in the technical sense: Chapter <xref ref="estimation"/>) of the error variance <m><![CDATA[\sigma^2]]></m>. The between-groups mean square <m><![CDATA[\mbox{MS}_b]]></m> is also an estimator; but what it estimates is the error variance <em>plus</em> a quantity that depends on the true differences among the group means. If we call this quantity <m><![CDATA[Q]]></m>, then we can see that the <m><![CDATA[F]]></m>-statistic is basically<fn>In a later versions I'm intending to expand on this. But because I'm writing in a rush, and am already over my deadlines, I'll just briefly note that if you read ahead to Chapter <xref ref="anova2"/> and look at how the "treatment effect" at level <m><![CDATA[k]]></m> of a factor is defined in terms of the <m><![CDATA[\alpha_k]]></m> values (see Section <xref ref="interactions"/>), it turns out that <m><![CDATA[Q]]></m> refers to a weighted mean of the squared treatment effects, <m><![CDATA[Q=(\sum_{k=1}^G N_k\alpha_k^2)/(G-1)]]></m>.</fn></p>
+    <p>Okay, now that we've described the statistical models underpinning <m><![CDATA[H_0]]></m> and <m><![CDATA[H_1]]></m> in more detail, it's now pretty straightforward to say what the mean square values are measuring, and what this means for the interpretation of <m><![CDATA[F]]></m>. I won't bore you with the proof of this, but it turns out that the within-groups mean square, <m><![CDATA[\mbox{MS}_w]]></m>, can be viewed as an estimator (in the technical sense: <xref ref="estimation"/>) of the error variance <m><![CDATA[\sigma^2]]></m>. The between-groups mean square <m><![CDATA[\mbox{MS}_b]]></m> is also an estimator; but what it estimates is the error variance <em>plus</em> a quantity that depends on the true differences among the group means. If we call this quantity <m><![CDATA[Q]]></m>, then we can see that the <m><![CDATA[F]]></m>-statistic is basically<fn>In a later versions I'm intending to expand on this. But because I'm writing in a rush, and am already over my deadlines, I'll just briefly note that if you read ahead to <xref ref="anova2"/> and look at how the "treatment effect" at level <m><![CDATA[k]]></m> of a factor is defined in terms of the <m><![CDATA[\alpha_k]]></m> values (see <xref ref="interactions"/>), it turns out that <m><![CDATA[Q]]></m> refers to a weighted mean of the squared treatment effects, <m><![CDATA[Q=(\sum_{k=1}^G N_k\alpha_k^2)/(G-1)]]></m>.</fn></p>
     <me><![CDATA[F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}]]></me>
     <p>where the true value <m><![CDATA[Q=0]]></m> if the null hypothesis is true, and <m><![CDATA[Q > 0]]></m> if the alternative hypothesis is true (e.g. ch. 10 <xref ref="biblio-Hays1994">Hays, 1994</xref>). Therefore, at a bare minimum <em>the <m><![CDATA[F]]></m> value must be larger than 1</em> to have any chance of rejecting the null hypothesis. Note that this <em>doesn't</em> mean that it's impossible to get an <m><![CDATA[F]]></m>-value less than 1. What it means is that, if the null hypothesis is true the sampling distribution of the <m><![CDATA[F]]></m> ratio has a mean of 1,<fn>Or, if we want to be sticklers for accuracy, <m><![CDATA[1 + \frac{2}{df_2 - 2}]]></m>.</fn> and so we need to see <m><![CDATA[F]]></m>-values larger than 1 in order to safely reject the null.</p>
-    <p>To be a bit more precise about the sampling distribution, notice that if the null hypothesis is true, both MS<m><![CDATA[_b]]></m> and MS<m><![CDATA[_w]]></m> are estimators of the variance of the residuals <m><![CDATA[\epsilon_{ik}]]></m>. If those residuals are normally distributed, then you might suspect that the estimate of the variance of <m><![CDATA[\epsilon_{ik}]]></m> is chi-square distributed... because (as discussed in Section <xref ref="otherdists"/> that's what a chi-square distribution <em>is</em>: it's what you get when you square a bunch of normally-distributed things and add them up. And since the <m><![CDATA[F]]></m> distribution is (again, by definition) what you get when you take the ratio between two things that are <m><![CDATA[\chi^2]]></m> distributed... we have our sampling distribution. Obviously, I'm glossing over a whole lot of stuff when I say this, but in broad terms, this really is where our sampling distribution comes from.</p>
+    <p>To be a bit more precise about the sampling distribution, notice that if the null hypothesis is true, both MS<m><![CDATA[_b]]></m> and MS<m><![CDATA[_w]]></m> are estimators of the variance of the residuals <m><![CDATA[\epsilon_{ik}]]></m>. If those residuals are normally distributed, then you might suspect that the estimate of the variance of <m><![CDATA[\epsilon_{ik}]]></m> is chi-square distributed... because (as discussed in <xref ref="otherdists"/> that's what a chi-square distribution <em>is</em>: it's what you get when you square a bunch of normally-distributed things and add them up. And since the <m><![CDATA[F]]></m> distribution is (again, by definition) what you get when you take the ratio between two things that are <m><![CDATA[\chi^2]]></m> distributed... we have our sampling distribution. Obviously, I'm glossing over a whole lot of stuff when I say this, but in broad terms, this really is where our sampling distribution comes from.</p>
     </subsection>
   <subsection xml:id="anovacalc">
     <title>A worked example</title>
@@ -728,7 +727,7 @@ print( SSb )]]></input>
 \end{array}]]></me>
     <p>We're almost done. The mean square values can be used to calculate the <m><![CDATA[F]]></m>-value, which is the test statistic that we're interested in. We do this by dividing the between-groups MS value by the and within-groups MS value.</p>
     <me><![CDATA[F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6]]></me>
-    <p>Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in Chapter <xref ref="hypothesistesting"/>, what we really <em>ought</em> to do is choose an <m><![CDATA[\alpha]]></m> level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it's just easier to directly calculate the <m><![CDATA[p]]></m>-value. Back in the "old days", what we'd do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table... that's how we'd "compute" our <m><![CDATA[p]]></m>-value, because it's too much effort to do it any other way. However, since we have access to R, I'll use the <c>pf()</c> function to do it instead. Now, remember that I explained earlier that the <m><![CDATA[F]]></m>-test is always one sided? And that we only reject the null hypothesis for very large <m><![CDATA[F]]></m>-values? That means we're only interested in the <em>upper tail</em> of the <m><![CDATA[F]]></m>-distribution. The command that you'd use here would be this...</p>
+    <p>Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in <xref ref="hypothesistesting"/>, what we really <em>ought</em> to do is choose an <m><![CDATA[\alpha]]></m> level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it's just easier to directly calculate the <m><![CDATA[p]]></m>-value. Back in the "old days", what we'd do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table... that's how we'd "compute" our <m><![CDATA[p]]></m>-value, because it's too much effort to do it any other way. However, since we have access to R, I'll use the <c>pf()</c> function to do it instead. Now, remember that I explained earlier that the <m><![CDATA[F]]></m>-test is always one sided? And that we only reject the null hypothesis for very large <m><![CDATA[F]]></m>-values? That means we're only interested in the <em>upper tail</em> of the <m><![CDATA[F]]></m>-distribution. The command that you'd use here would be this...</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -742,7 +741,7 @@ pf( 18.6, df1 = 2, df2 = 15, lower.tail = FALSE)]]></input>
     </console>
     </remark>
     <p>Therefore, our <m><![CDATA[p]]></m>-value comes to 0.0000867, or <m><![CDATA[8.67 \times 10^{-5}]]></m> in scientific notation. So, unless we're being <em>extremely</em> conservative about our Type I error rate, we're pretty much guaranteed to reject the null hypothesis.</p>
-    <p>At this point, we're basically done. Having completed our calculations, it's traditional to organise all these numbers into an ANOVA table like the one in Table@reftab:anovatable. For our clinical trial data, the ANOVA table would look like this:</p>
+    <p>At this point, we're basically done. Having completed our calculations, it's traditional to organise all these numbers into an ANOVA table like the one in <xref ref = "table-chanova-43"/>. For our clinical trial data, the ANOVA table would look like this:</p>
         <table xml:id="table-chanova-37">
       <tabular halign="center">
         <row header="yes" bottom="minor">
@@ -777,16 +776,6 @@ pf( 18.6, df1 = 2, df2 = 15, lower.tail = FALSE)]]></input>
     </blockquote>
     <p>Sigh. So much work for one short sentence.</p>
     </subsection>
-  
-  <table xml:id="tab-anovatable">
-    <title>ANOVA summary table</title>
-    <tabular>
-      <row header="yes"><cell>Source</cell><cell>SS</cell><cell>df</cell><cell>MS</cell><cell>F</cell></row>
-      <row><cell>Between groups</cell><cell>SS_b</cell><cell>K-1</cell><cell>SS_b/(K-1)</cell><cell>MS_b/MS_w</cell></row>
-      <row><cell>Within groups</cell><cell>SS_w</cell><cell>N-K</cell><cell>SS_w/(N-K)</cell><cell></cell></row>
-      <row><cell>Total</cell><cell>SS_tot</cell><cell>N-1</cell><cell></cell><cell></cell></row>
-    </tabular>
-  </table>
 </section>
   <section xml:id="introduceaov">
     <title>Running an ANOVA in R</title>
@@ -845,7 +834,7 @@ class( my.anova )]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>... we discover that <c>my.anova</c> actually has <em>two</em> classes! The first class tells us that it's an <c>aov</c> (analysis of variance) object, but the second tells us that it's <em>also</em> an <c>lm</c> (linear model) object. Later on, we'll see that this reflects a pretty deep statistical relationship between ANOVA and regression (Chapter <xref ref="regression"/> and it means that any function that exists in R for dealing with regressions can also be applied to <c>aov</c> objects, which is neat; but I'm getting ahead of myself. For now, I want to note that what we've created is an <c>aov</c> object, and to also make the point that <c>aov</c> objects are actually rather complicated beasts. I <em>won't</em> be trying to explain everything about them, since it's way beyond the scope of an introductory statistics subject, but to give you a tiny hint of some of the stuff that R stores inside an <c>aov</c> object, let's ask it to print out the <c>names()</c> of all the stored quantities...</p>
+    <p>... we discover that <c>my.anova</c> actually has <em>two</em> classes! The first class tells us that it's an <c>aov</c> (analysis of variance) object, but the second tells us that it's <em>also</em> an <c>lm</c> (linear model) object. Later on, we'll see that this reflects a pretty deep statistical relationship between ANOVA and regression (<xref ref="regression"/> and it means that any function that exists in R for dealing with regressions can also be applied to <c>aov</c> objects, which is neat; but I'm getting ahead of myself. For now, I want to note that what we've created is an <c>aov</c> object, and to also make the point that <c>aov</c> objects are actually rather complicated beasts. I <em>won't</em> be trying to explain everything about them, since it's way beyond the scope of an introductory statistics subject, but to give you a tiny hint of some of the stuff that R stores inside an <c>aov</c> object, let's ask it to print out the <c>names()</c> of all the stored quantities...</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -884,7 +873,7 @@ print( my.anova )]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>Specificially, it prints out a reminder of the command that you used when you called <c>aov()</c> in the first place, shows you the sums of squares values, the degrees of freedom, and a couple of other quantities that we're not really interested in right now. Notice, however, that R doesn't use the names "between-group" and "within-group". Instead, it tries to assign more meaningful names: in our particular example, the <em>between groups</em> variance corresponds to the effect that the <c>drug</c> has on the outcome variable; and the <em>within groups</em> variance is corresponds to the "leftover" variability, so it calls that the <em>residuals</em>. If we compare these numbers to the numbers that I calculated by hand in Section <xref ref="anovacalc"/>, you can see that they're identical... the between groups sums of squares is <m><![CDATA[\mbox{SS}_b = 3.45]]></m>, the within groups sums of squares is <m><![CDATA[\mbox{SS}_w = 1.39]]></m>, and the degrees of freedom are 2 and 15 repectively.</p>
+    <p>Specificially, it prints out a reminder of the command that you used when you called <c>aov()</c> in the first place, shows you the sums of squares values, the degrees of freedom, and a couple of other quantities that we're not really interested in right now. Notice, however, that R doesn't use the names "between-group" and "within-group". Instead, it tries to assign more meaningful names: in our particular example, the <em>between groups</em> variance corresponds to the effect that the <c>drug</c> has on the outcome variable; and the <em>within groups</em> variance is corresponds to the "leftover" variability, so it calls that the <em>residuals</em>. If we compare these numbers to the numbers that I calculated by hand in <xref ref="anovacalc"/>, you can see that they're identical... the between groups sums of squares is <m><![CDATA[\mbox{SS}_b = 3.45]]></m>, the within groups sums of squares is <m><![CDATA[\mbox{SS}_w = 1.39]]></m>, and the degrees of freedom are 2 and 15 repectively.</p>
     </subsection>
   <subsection>
     <title>Running the hypothesis tests for the ANOVA</title>
@@ -906,7 +895,7 @@ summary( my.anova )]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>... we get all of the key numbers that we calculated earlier. We get the sums of squares, the degrees of freedom, the mean squares, the <m><![CDATA[F]]></m>-statistic, and the <m><![CDATA[p]]></m>-value itself. These are all identical to the numbers that we calculated ourselves when doing it the long and tedious way, and it's even organised into the same kind of ANOVA table that I showed in Table <xref ref="tab-anovatable"/>, and then filled out by hand in Section <xref ref="anovacalc"/>. The only things that are even slightly different is that some of the row and column names are a bit different.</p>
+    <p>... we get all of the key numbers that we calculated earlier. We get the sums of squares, the degrees of freedom, the mean squares, the <m><![CDATA[F]]></m>-statistic, and the <m><![CDATA[p]]></m>-value itself. These are all identical to the numbers that we calculated ourselves when doing it the long and tedious way, and it's even organised into the same kind of ANOVA table that I showed in <xref ref="tab-anovatable"/>, and then filled out by hand in <xref ref="anovacalc"/>. The only things that are even slightly different is that some of the row and column names are a bit different.</p>
     </subsection>
   </section>
   <section xml:id="etasquared">
@@ -934,7 +923,7 @@ print( eta.squared )]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>However, since it can be tedious to do this the long way (especially when we start running more complicated ANOVAs, such as those in Chapter <xref ref="anova2"/> I've included an <c>etaSquared()</c> function in the <c>lsr</c> package which will do it for you. For now, the only argument you need to care about is <c>x</c>, which should be the <c>aov</c> object corresponding to your ANOVA. When we do this, what we get as output is this:</p>
+    <p>However, since it can be tedious to do this the long way (especially when we start running more complicated ANOVAs, such as those in <xref ref="anova2"/> I've included an <c>etaSquared()</c> function in the <c>lsr</c> package which will do it for you. For now, the only argument you need to care about is <c>x</c>, which should be the <c>aov</c> object corresponding to your ANOVA. When we do this, what we get as output is this:</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -1028,9 +1017,9 @@ etaSquared( x = my.anova )]]></input>
         </row>
       </tabular>
     </table>
-    <p>By rejecting the null hypothesis, we've decided that we <em>don't</em> believe that \#1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in Figure <xref ref="fig-moodgain"/>, it's tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there's no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
+    <p>By rejecting the null hypothesis, we've decided that we <em>don't</em> believe that \#1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <xref ref="fig-moodgain"/>, it's tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there's no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
   <subsection>
-    <title>Running "pairwise" <m><![CDATA[t]]></m>-tests</title>
+    <title>Running "pairwise" <m>t</m>-tests</title>
 
     <p>How might we go about solving our problem? Given that we've got three separate pairs of means (placebo versus Anxifree, placebo versus Joyzepam, and Anxifree versus Joyzepam) to compare, what we could do is run three separate <m><![CDATA[t]]></m>-tests and see what happens. There's a couple of ways that we could do this. One method would be to construct new variables corresponding the groups you want to compare (e.g., <c>anxifree</c>, <c>placebo</c> and <c>joyzepam</c>), and then run a <m><![CDATA[t]]></m>-test on these new variables:</p>
     <remark>
@@ -1055,7 +1044,7 @@ t.test( formula = mood.gain ~ drug,
 )]]></input>
 </program>
     </remark>
-    <p>See Chapter <xref ref="datahandling"/> if you've forgotten how the <c>%in%</c> operator works. Regardless of which version we do, R will print out the results of the <m><![CDATA[t]]></m>-test, though I haven't included that output here. If we go on to do this for all possible pairs of variables, we can look to see which (if any) pairs of groups are significantly different to each other. This "lots of <m><![CDATA[t]]></m>-tests idea" isn't a bad strategy, though as we'll see later on there are some problems with it. However, for the moment our bigger problem is that it's a <em>pain</em> to have to type in such a long command over and over again: for instance, if your experiment has 10 groups, then you have to run 45 <m><![CDATA[t]]></m>-tests. That's way too much typing.</p>
+    <p>See <xref ref="datahandling"/> if you've forgotten how the <c>%in%</c> operator works. Regardless of which version we do, R will print out the results of the <m><![CDATA[t]]></m>-test, though I haven't included that output here. If we go on to do this for all possible pairs of variables, we can look to see which (if any) pairs of groups are significantly different to each other. This "lots of <m><![CDATA[t]]></m>-tests idea" isn't a bad strategy, though as we'll see later on there are some problems with it. However, for the moment our bigger problem is that it's a <em>pain</em> to have to type in such a long command over and over again: for instance, if your experiment has 10 groups, then you have to run 45 <m><![CDATA[t]]></m>-tests. That's way too much typing.</p>
     <p>To help keep the typing to a minimum, R provides a function called <c>pairwise.t.test()</c> that automatically runs all of the <m><![CDATA[t]]></m>-tests for you. There are three arguments that you need to specify, the outcome variable <c>x</c>, the group variable <c>g</c>, and the <c>p.adjust.method</c> argument, which "adjusts" the <m><![CDATA[p]]></m>-value in one way or another. I'll explain <m><![CDATA[p]]></m>-value adjustment in a moment, but for now we can just set <c>p.adjust.method = "none"</c> since we're not doing any adjustments. For our example, here's what we do:</p>
     <remark>
       <title>R Code</title>
@@ -1081,7 +1070,7 @@ t.test( formula = mood.gain ~ drug,
 ]]></output>
     </console>
     </remark>
-    <p>One thing that bugs me slightly about the <c>pairwise.t.test()</c> function is that you can't just give it an <c>aov</c> object, and have it produce this output. After all, I went to all that trouble earlier of getting R to create the <c>my.anova</c> variable and -- as we saw in Section <xref ref="aovobjects"/> -- R has actually stored enough information inside it that I should just be able to get it to run all the pairwise tests using <c>my.anova</c> as an input. To that end, I've included a <c>posthocPairwiseT()</c> function in the <c>lsr</c> package that lets you do this. The idea behind this function is that you can just input the <c>aov</c> object itself,<fn>I should point out that there are other functions in R for running multiple comparisons, and at least one of them works this way: the <c>TukeyHSD()</c> function takes an <c>aov</c> object as its input, and outputs Tukey's "honestly significant difference" tests. I talk about Tukey's HSD in Chapter <xref ref="anova2"/>.</fn> and then get the pairwise tests as an output. As of the current writing, <c>posthocPairwiseT()</c> is actually just a simple way of calling <c>pairwise.t.test()</c> function, but you should be aware that I intend to make some changes to it later on. Here's an example:</p>
+    <p>One thing that bugs me slightly about the <c>pairwise.t.test()</c> function is that you can't just give it an <c>aov</c> object, and have it produce this output. After all, I went to all that trouble earlier of getting R to create the <c>my.anova</c> variable and -- as we saw in <xref ref="aovobjects"/> -- R has actually stored enough information inside it that I should just be able to get it to run all the pairwise tests using <c>my.anova</c> as an input. To that end, I've included a <c>posthocPairwiseT()</c> function in the <c>lsr</c> package that lets you do this. The idea behind this function is that you can just input the <c>aov</c> object itself,<fn>I should point out that there are other functions in R for running multiple comparisons, and at least one of them works this way: the <c>TukeyHSD()</c> function takes an <c>aov</c> object as its input, and outputs Tukey's "honestly significant difference" tests. I talk about Tukey's HSD in <xref ref="anova2"/>.</fn> and then get the pairwise tests as an output. As of the current writing, <c>posthocPairwiseT()</c> is actually just a simple way of calling <c>pairwise.t.test()</c> function, but you should be aware that I intend to make some changes to it later on. Here's an example:</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -1125,14 +1114,13 @@ posthocPairwiseT( my.anova )]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>and R will output the test results. Much more convenient, I think.</p>
     </subsection>
   <subsection>
     <title>Corrections for multiple testing</title>
 
-    <p>In the previous section I hinted that there's a problem with just running lots and lots of <m><![CDATA[t]]></m>-tests. The concern is that when running these analyses, what we're doing is going on a "fishing expedition": we're running lots and lots of tests without much theoretical guidance, in the hope that some of them come up significant. This kind of theory-free search for group differences is referred to as <em>post hoc analysis</em> ("post hoc" being Latin for "after this").<fn>If you <em>do</em> have some theoretical basis for wanting to investigate some comparisons but not others, it's a different story. In those circumstances you're not really running "post hoc" analyses at all: you're making "planned comparisons". I do talk about this situation later in the book (Section <xref ref="plannedcomparisons"/>), but for now I want to keep things simple.</fn></p>
-    <p>It's okay to run post hoc analyses, but a lot of care is required. For instance, the analysis that I ran in the previous section is actually pretty dangerous: each <em>individual</em> <m><![CDATA[t]]></m>-test is designed to have a 5\% Type I error rate (i.e., <m><![CDATA[\alpha = .05]]></m>), and I ran three of these tests. Imagine what would have happened if my ANOVA involved 10 different groups, and I had decided to run 45 "post hoc" <m><![CDATA[t]]></m>-tests to try to find out which ones were significantly different from each other, you'd expect 2 or 3 of them to come up significant <em>by chance alone</em>. As we saw in Chapter <xref ref="hypothesistesting"/>, the central organising principle behind null hypothesis testing is that we seek to control our Type I error rate, but now that I'm running lots of <m><![CDATA[t]]></m>-tests at once, in order to determine the source of my ANOVA results, my actual Type I error rate across this whole <em>family</em> of tests has gotten completely out of control.</p>
-    <p>The usual solution to this problem is to introduce an adjustment to the <m><![CDATA[p]]></m>-value, which aims to control the total error rate across the family of tests (see <xref ref="biblio-Shaffer1995">Shaffer, 1995</xref>). An adjustment of this form, which is usually (but not always) applied because one is doing post hoc analysis, is often referred to as a <em>correction for multiple comparisons</em>, though it is sometimes referred to as "simultaneous inference". In any case, there are quite a few different ways of doing this adjustment. I'll discuss a few of them in this section and in Section <xref ref="posthoc2"/>, but you should be aware that there are many other methods out there (see, e.g., <xref ref="biblio-Hsu1996">Hsu, 1996</xref>).</p>
+    <p>In the previous section I hinted that there's a problem with just running lots and lots of <m><![CDATA[t]]></m>-tests. The concern is that when running these analyses, what we're doing is going on a "fishing expedition": we're running lots and lots of tests without much theoretical guidance, in the hope that some of them come up significant. This kind of theory-free search for group differences is referred to as <em>post hoc analysis</em> ("post hoc" being Latin for "after this").<fn>If you <em>do</em> have some theoretical basis for wanting to investigate some comparisons but not others, it's a different story. In those circumstances you're not really running "post hoc" analyses at all: you're making "planned comparisons". I do talk about this situation later in the book (<xref ref="plannedcomparisons"/>), but for now I want to keep things simple.</fn></p>
+    <p>It's okay to run post hoc analyses, but a lot of care is required. For instance, the analysis that I ran in the previous section is actually pretty dangerous: each <em>individual</em> <m><![CDATA[t]]></m>-test is designed to have a 5\% Type I error rate (i.e., <m><![CDATA[\alpha = .05]]></m>), and I ran three of these tests. Imagine what would have happened if my ANOVA involved 10 different groups, and I had decided to run 45 "post hoc" <m><![CDATA[t]]></m>-tests to try to find out which ones were significantly different from each other, you'd expect 2 or 3 of them to come up significant <em>by chance alone</em>. As we saw in <xref ref="hypothesistesting"/>, the central organising principle behind null hypothesis testing is that we seek to control our Type I error rate, but now that I'm running lots of <m><![CDATA[t]]></m>-tests at once, in order to determine the source of my ANOVA results, my actual Type I error rate across this whole <em>family</em> of tests has gotten completely out of control.</p>
+    <p>The usual solution to this problem is to introduce an adjustment to the <m><![CDATA[p]]></m>-value, which aims to control the total error rate across the family of tests (see <xref ref="biblio-Shaffer1995">Shaffer, 1995</xref>). An adjustment of this form, which is usually (but not always) applied because one is doing post hoc analysis, is often referred to as a <em>correction for multiple comparisons</em>, though it is sometimes referred to as "simultaneous inference". In any case, there are quite a few different ways of doing this adjustment. I'll discuss a few of them in this section and in <xref ref="posthoc2"/>, but you should be aware that there are many other methods out there (see, e.g., <xref ref="biblio-Hsu1996">Hsu, 1996</xref>).</p>
     </subsection>
   <subsection>
     <title>Bonferroni corrections</title>
@@ -1253,7 +1241,7 @@ posthocPairwiseT( my.anova )]]></input>
   <section xml:id="anovaassumptions">
     <title>Assumptions of one-way ANOVA</title>
 
-    <p>Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: <em>normality</em>, <em>homogeneity of variance</em> and <em>independence</em>. If you remember back to Section <xref ref="anovamodel"/> -- which I hope you at least skimmed even if you didn't read the whole thing -- I described the statistical models underpinning ANOVA, which I wrote down like this:</p>
+    <p>Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: <em>normality</em>, <em>homogeneity of variance</em> and <em>independence</em>. If you remember back to <xref ref="anovamodel"/> -- which I hope you at least skimmed even if you didn't read the whole thing -- I described the statistical models underpinning ANOVA, which I wrote down like this:</p>
     <me><![CDATA[\begin{array}{lrcl}
 H_0: & Y_{ik} &=& \mu + \epsilon_{ik} \\
 H_1: & Y_{ik} &=& \mu_k + \epsilon_{ik} 
@@ -1263,8 +1251,8 @@ H_1: & Y_{ik} &=& \mu_k + \epsilon_{ik}
     <p>None of the maths works properly without this bit. Or, to be precise, you can still do all the calculations, and you'll end up with an <m><![CDATA[F]]></m>-statistic, but you have no guarantee that this <m><![CDATA[F]]></m>-statistic actually measures what you think it's measuring, and so any conclusions that you might draw on the basis of the <m><![CDATA[F]]></m> test might be wrong.</p>
     <p>So, how do we check whether this assumption about the residuals is accurate? Well, as I indicated above, there are three distinct claims buried in this one statement, and we'll consider them separately.</p>
     <ul>
-      <li><p><em>Normality</em>. The residuals are assumed to be normally distributed. As we saw in Section <xref ref="shapiro"/>, we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I'll talk about this in an ANOVA context in Section <xref ref="anovanormality"/>.</p></li>
-      <li><p><em>Homogeneity of variance</em>. Notice that we've only got the one value for the population standard deviation (i.e., <m><![CDATA[\sigma]]></m>), rather than allowing each group to have it's own value (i.e., <m><![CDATA[\sigma_k]]></m>). This is referred to as the homogeneity of variance (sometimes called homoscedasticity) assumption. ANOVA assumes that the population standard deviation is the same for all groups. We'll talk about this extensively in Section <xref ref="levene"/>.</p></li>
+      <li><p><em>Normality</em>. The residuals are assumed to be normally distributed. As we saw in <xref ref="shapiro"/>, we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I'll talk about this in an ANOVA context in <xref ref="anovanormality"/>.</p></li>
+      <li><p><em>Homogeneity of variance</em>. Notice that we've only got the one value for the population standard deviation (i.e., <m><![CDATA[\sigma]]></m>), rather than allowing each group to have it's own value (i.e., <m><![CDATA[\sigma_k]]></m>). This is referred to as the homogeneity of variance (sometimes called homoscedasticity) assumption. ANOVA assumes that the population standard deviation is the same for all groups. We'll talk about this extensively in <xref ref="levene"/>.</p></li>
       <li><p><em>Independence</em>. The independence assumption is a little trickier. What it basically means is that, knowing one residual tells you nothing about any other residual. All of the <m><![CDATA[\epsilon_{ik}]]></m> values are assumed to have been generated without any "regard for" or "relationship to" any of the other ones. There's not an obvious or simple way to test for this, but there are some situations that are clear violations of this: for instance, if you have a repeated-measures design, where each participant in your study appears in more than one condition, then independence doesn't hold; there's a special relationship between some observations... namely those that correspond to the same person! When that happens, you need to use something like repeated measures ANOVA. I don't currently talk about repeated measures ANOVA in this book, but it will be included in later versions.</p></li>
     </ul>
   <subsection>
@@ -1352,13 +1340,6 @@ Ybar <- gp.mean[G]             # group mean associated with each obs
 Z <- abs(Y - Ybar)             # the transformed variable, Z
 summary( aov(Z ~ G) )          # run the ANOVA]]></input>
 </program>
-    <console>
-      <output><![CDATA[
-##             Df Sum Sq Mean Sq F value Pr(>F)
-## G            2 0.0616 0.03080    1.45  0.266
-## Residuals   15 0.3187 0.02125
-]]></output>
-    </console>
     </remark>
     <p>That said, I don't imagine that many people will care about this. Nevertheless, it's nice to know that you could do it this way if you wanted to. And for those of you who do try it, I think it helps to demystify the test a little bit when you can see -- with your own eyes -- the way in which Levene's test relates to ANOVA.</p>
     </subsection>
@@ -1389,7 +1370,7 @@ oneway.test(mood.gain ~ drug, data = clin.trial)]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>To understand what's happening here, let's compare these numbers to what we got earlier in Section <xref ref="introduceaov"/> when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again, this time calculated by setting <c>var.equal = TRUE</c> for the <c>oneway.test()</c> function:</p>
+    <p>To understand what's happening here, let's compare these numbers to what we got earlier in <xref ref="introduceaov"/> when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again, this time calculated by setting <c>var.equal = TRUE</c> for the <c>oneway.test()</c> function:</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -1411,7 +1392,7 @@ oneway.test(mood.gain ~ drug, data = clin.trial, var.equal = TRUE)]]></input>
   <section xml:id="anovanormality">
     <title>Checking the normality assumption</title>
 
-    <p>Testing the normality assumption is relatively straightforward. We covered most of what you need to know in Section <xref ref="shapiro"/>. The only thing we really need to know how to do is pull out the residuals (i.e., the <m><![CDATA[\epsilon_{ik}]]></m> values) so that we can draw our QQ plot and run our Shapiro-Wilk test. First, let's extract the residuals. R provides a function called <c>residuals()</c> that will do this for us. If we pass our <c>my.anova</c> to this function, it will return the residuals.  So let's do that:</p>
+    <p>Testing the normality assumption is relatively straightforward. We covered most of what you need to know in <xref ref="shapiro"/>. The only thing we really need to know how to do is pull out the residuals (i.e., the <m><![CDATA[\epsilon_{ik}]]></m> values) so that we can draw our QQ plot and run our Shapiro-Wilk test. First, let's extract the residuals. R provides a function called <c>residuals()</c> that will do this for us. If we pass our <c>my.anova</c> to this function, it will return the residuals.  So let's do that:</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -1438,12 +1419,12 @@ shapiro.test( x = my.anova.residuals )   # run Shapiro-Wilk test]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>The histogram and QQ plot are both look pretty normal to me.<fn>Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from Chapter <xref ref="graphics"/> to help you draw cleaner looking images.</fn> This is supported by the results of our Shapiro-Wilk test (<m><![CDATA[W = .96]]></m>, <m><![CDATA[p = .61]]></m>) which finds no indication that normality is violated.</p>
+    <p>The histogram and QQ plot are both look pretty normal to me.<fn>Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from <xref ref="graphics"/> to help you draw cleaner looking images.</fn> This is supported by the results of our Shapiro-Wilk test (<m><![CDATA[W = .96]]></m>, <m><![CDATA[p = .61]]></m>) which finds no indication that normality is violated.</p>
   </section>
   <section xml:id="kruskalwallis">
     <title>Removing the normality assumption</title>
 
-    <p>Now that we've seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn't rely on any particular assumption about the kind of distribution involved). We've seen non-parametric tests before, in Chapter <xref ref="ttest"/>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you've got three or more groups, you can use the <em>Kruskal-Wallis rank sum test</em> (<xref ref="biblio-KruskalWallis1952">Kruskal &amp; Wallis, 1952</xref>). So that's the test we'll talk about next.</p>
+    <p>Now that we've seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn't rely on any particular assumption about the kind of distribution involved). We've seen non-parametric tests before, in <xref ref="ttest"/>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you've got three or more groups, you can use the <em>Kruskal-Wallis rank sum test</em> (<xref ref="biblio-KruskalWallis1952">Kruskal &amp; Wallis, 1952</xref>). So that's the test we'll talk about next.</p>
   <subsection>
     <title>The logic behind the Kruskal-Wallis test</title>
 
@@ -1515,15 +1496,6 @@ kruskal.test(mood.gain ~ drug, data = clin.trial)]]></input>
   <input><![CDATA[
 kruskal.test(x = clin.trial$mood.gain, g = clin.trial$drug)]]></input>
 </program>
-    <console>
-      <output><![CDATA[
-## 
-##  Kruskal-Wallis rank sum test
-## 
-## data:  clin.trial$mood.gain and clin.trial$drug
-## Kruskal-Wallis chi-squared = 12.076, df = 2, p-value = 0.002386
-]]></output>
-    </console>
     </remark>
     <p>This isn't very interesting, since it's just plain easier to specify a formula. However, sometimes it can be useful to specify <c>x</c> as a list. What I mean is this. Suppose you actually had data as three separate variables, <c>placebo</c>, <c>anxifree</c> and <c>joyzepam</c>. If that's the format that your data are in, then it's convenient to know that you can bundle all three together as a list:</p>
     <remark>
@@ -1555,7 +1527,7 @@ summary( aov( mood.gain ~ therapy, data = clin.trial ))]]></input>
 ]]></output>
     </console>
     </remark>
-    <p>Overall, it looks like there's no significant effect here at all but, as we'll see in Chapter <xref ref="anova2"/>, this is actually a misleading  answer! In any case, it's irrelevant to our current goals: our interest here is in the <m><![CDATA[F]]></m>-statistic, which is <m><![CDATA[F(1,16) = 1.71]]></m>, and the <m><![CDATA[p]]></m>-value, which is .21. Since we only have two groups, I didn't actually need to resort to an ANOVA, I could have just decided to run a Student <m><![CDATA[t]]></m>-test. So let's see what happens when I do that:</p>
+    <p>Overall, it looks like there's no significant effect here at all but, as we'll see in <xref ref="anova2"/>, this is actually a misleading  answer! In any case, it's irrelevant to our current goals: our interest here is in the <m><![CDATA[F]]></m>-statistic, which is <m><![CDATA[F(1,16) = 1.71]]></m>, and the <m><![CDATA[p]]></m>-value, which is .21. Since we only have two groups, I didn't actually need to resort to an ANOVA, I could have just decided to run a Student <m><![CDATA[t]]></m>-test. So let's see what happens when I do that:</p>
     <remark>
       <title>R Code</title>
     <program language="r">
@@ -1596,14 +1568,14 @@ t.test( mood.gain ~ therapy, data = clin.trial, var.equal = TRUE )]]></input>
   <section>
     <title>Summary</title>
 
-    <p>There's a fair bit covered in this chapter, but there's still a lot missing. Most obviously, I haven't yet discussed any analog of the paired samples <m><![CDATA[t]]></m>-test for more than two groups. There is a way of doing this, known as <em>repeated measures ANOVA</em>, which will appear in a later version of this book. I also haven't discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in Chapter <xref ref="anova2"/>. In terms of what we have discussed, the key topics were:</p>
+    <p>There's a fair bit covered in this chapter, but there's still a lot missing. Most obviously, I haven't yet discussed any analog of the paired samples <m><![CDATA[t]]></m>-test for more than two groups. There is a way of doing this, known as <em>repeated measures ANOVA</em>, which will appear in a later version of this book. I also haven't discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in <xref ref="anova2"/>. In terms of what we have discussed, the key topics were:</p>
     <ul>
-      <li><p>The basic logic behind how ANOVA works (Section <xref ref="anovaintro"/>) and how to run one in R (Section <xref ref="introduceaov"/>).</p></li>
-      <li><p>How to compute an effect size for an ANOVA (Section <xref ref="etasquared"/>)</p></li>
-      <li><p>Post hoc analysis and corrections for multiple testing (Section <xref ref="posthoc"/>).</p></li>
-      <li><p>The assumptions made by ANOVA (Section <xref ref="anovaassumptions"/>).</p></li>
-      <li><p>How to check the homogeneity of variance assumption (Section <xref ref="levene"/>) and what to do if it is violated (Section <xref ref="welchoneway"/>).</p></li>
-      <li><p>How to check the normality assumption (Section <xref ref="anovanormality"/> and what to do if it is violated (Section <xref ref="kruskalwallis"/>).</p></li>
+      <li><p>The basic logic behind how ANOVA works (<xref ref="anovaintro"/>) and how to run one in R (<xref ref="introduceaov"/>).</p></li>
+      <li><p>How to compute an effect size for an ANOVA (<xref ref="etasquared"/>)</p></li>
+      <li><p>Post hoc analysis and corrections for multiple testing (<xref ref="posthoc"/>).</p></li>
+      <li><p>The assumptions made by ANOVA (<xref ref="anovaassumptions"/>).</p></li>
+      <li><p>How to check the homogeneity of variance assumption (<xref ref="levene"/>) and what to do if it is violated (<xref ref="welchoneway"/>).</p></li>
+      <li><p>How to check the normality assumption (<xref ref="anovanormality"/> and what to do if it is violated (<xref ref="kruskalwallis"/>).</p></li>
     </ul>
     <p>As with all of the chapters in this book, there are quite a few different sources that I've relied upon, but the one stand-out text that I've been most heavily influenced by is <xref ref="biblio-Sahai2000">Sahai &amp; Ageel (2000)</xref>. It's not a good book for beginners, but it's an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
   </section>
