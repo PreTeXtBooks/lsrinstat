@@ -501,7 +501,7 @@ Normal = c("$p(X | \\mu, \\sigma) = \\displaystyle\\frac{1}{\\sqrt{2\\pi}\\sigma
 
 <figure xml:id="fig-binomial1">
   <caption>The binomial distribution with size parameter N=20 and probability parameter theta=1/3.
-Each vertical bar depicts the probability of one specic outcome (i.e., one possible value of
+Each vertical bar depicts the probability of one specific outcome (i.e., one possible value of
 X). Because this is a probability distribution, each of the probabilities must be a number between 0 and
 1, and the heights of the bars must sum to 1 as well.</caption>
   <image source="images/binomial1.png"/>
@@ -660,8 +660,7 @@ par(mfrow=c(1,1))]]></output>
   <caption>A <m>t</m> distribution with 3 degrees of freedom (solid line). It looks similar to a normal distribution,
 but it's not quite the same. For comparison purposes, I've plotted a standard normal distribution
 as the dashed line. Note that the "tails" of the <m>t</m> distribution are "heavier" (i.e., extend further outwards)
-than the tails of the normal distribution? That's the important di
-erence between the two.</caption>
+than the tails of the normal distribution? That's the important difference between the two.</caption>
   <image source="images/tdist.png"/>
 </figure>
 <ul>
