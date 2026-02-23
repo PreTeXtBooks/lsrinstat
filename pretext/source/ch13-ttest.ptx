@@ -1592,7 +1592,7 @@
       <figure xml:id="fig-qq1a">
         <caption>Histogram of <c>normal.data</c>, a normally distributed sample with 100 observations.
 The Shapiro-Wilk statistic associated with these data is W = 0.99, indicating
-that no signicant departures from normality were detected (p = 0.73).</caption>
+that no significant departures from normality were detected (p = 0.73).</caption>
         <image source="generated/qqNormalHist.png"/>
       </figure>
       <figure xml:id="fig-qq1b">
