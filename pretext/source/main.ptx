@@ -66,6 +66,9 @@
     <part xml:id="part-iv-statistical-theory">
       <title>Statistical theory</title>
 
+      <!-- Prelude to Part IV -->
+      <xi:include href="./part4-intro.ptx" />
+
       <!-- Probability -->
       <xi:include href="./ch-probability.ptx" />
 
