@@ -2,40 +2,6 @@
 
 <chapter xml:id="ttest">
   <title>Comparing two means</title>
-  <remark>
-    <title>R Code</title>
-  <program language="r">
-    <input>
-      library(lsr)
-    </input>
-  </program>
-    <console>
-      <output><![CDATA[
-## 
-##    One sample t-test 
-## 
-## Data variable:   grades 
-## 
-## Descriptive statistics: 
-##             grades
-##    mean     72.300
-##    std dev.  9.521
-## 
-## Hypotheses: 
-##    null:        population mean equals 67.5 
-##    alternative: population mean not equal to 67.5 
-## 
-## Test results: 
-##    t-statistic:  2.255 
-##    degrees of freedom:  19 
-##    p-value:  0.036 
-## 
-## Other information: 
-##    two-sided 95% confidence interval:  [67.844, 76.756] 
-##    estimated effect size (Cohen's d):  0.504
-]]></output>
-    </console>
-  </remark>
   <p>
     In the previous chapter we covered the situation when your outcome variable is nominal scale and your predictor variable<fn>We won't cover multiple predictors until Chapter \@ref(regression)</fn> is also nominal scale. Lots of real world situations have that character, and so you'll find that chi-square tests in particular are quite widely used. However, you're much more likely to find yourself in a situation where your outcome variable is interval scale or higher, and what you're interested in is whether the average value of the outcome variable is higher in one group or another. For instance, a psychologist might want to know if anxiety levels are higher among parents than non-parents, or if working memory capacity is reduced by listening to music (relative to not listening to music). In a medical context, we might want to know if a new drug increases or decreases blood pressure. An agricultural scientist might want to know whether adding phosphorus to Australian native plants will kill them.<fn>Informal experimentation in my garden suggests that yes, it does. Australian natives are adapted to low phosphorus levels relative to everywhere else on Earth, apparently, so if you've bought a house with a bunch of exotics and you want to plant natives, don't follow my example: keep them separate. Nutrients to European plants are poison to Australian ones. There's probably a joke in that, but I can't figure out what it is.</fn> In all these situations, our outcome variable is a fairly continuous, interval or ratio scale variable; and our predictor is a binary "grouping" variable. In other words, we want to compare the means of the two groups.
   </p>
@@ -56,7 +22,7 @@
         <title>R Code</title>
       <program language="r">
         <input>
-          load( file.path(projecthome, "data/zeppo.Rdata" ))
+          load( "zeppo.Rdata" )
           print( grades )
         </input>
       </program>
@@ -99,10 +65,11 @@
     <subsection>
       <title>Constructing the hypothesis test</title>
       <p>
-        The first step in constructing a hypothesis test is to be clear about what the null and alternative hypotheses are. This isn't too hard to do. Our null hypothesis, <m>H_0</m>, is that the true population mean <m>\mu</m> for psychology student grades is 67.5\%; and our alternative hypothesis is that the population mean <em>isn't</em> 67.5\%. If we write this in mathematical notation, these hypotheses become, <me> \begin{array}{ll} H_0: &amp; \mu = 67.5 \\ H_1: &amp; \mu \neq 67.5 \end{array} </me> though to be honest this notation doesn't add much to our understanding of the problem, it's just a compact way of writing down what we're trying to learn from the data. The null hypotheses <m>H_0</m> and the alternative hypothesis <m>H_1</m> for our test are both illustrated in <xref ref="fig-ztesthyp" />. In addition to providing us with these hypotheses, the scenario outlined above provides us with a fair amount of background knowledge that might be useful. Specifically, there are two special pieces of information that we can add:
+        The first step in constructing a hypothesis test is to be clear about what the null and alternative hypotheses are. This isn't too hard to do. Our null hypothesis, <m>H_0</m>, is that the true population mean <m>\mu</m> for psychology student grades is 67.5%; and our alternative hypothesis is that the population mean <em>isn't</em> 67.5%. If we write this in mathematical notation, these hypotheses become, <me> \begin{array}{ll} H_0: &amp; \mu = 67.5 \\ H_1: &amp; \mu \neq 67.5 \end{array} </me> though to be honest this notation doesn't add much to our understanding of the problem, it's just a compact way of writing down what we're trying to learn from the data. The null hypotheses <m>H_0</m> and the alternative hypothesis <m>H_1</m> for our test are both illustrated in <xref ref="fig-ztesthyp" />. In addition to providing us with these hypotheses, the scenario outlined above provides us with a fair amount of background knowledge that might be useful. Specifically, there are two special pieces of information that we can add:
       </p>
       <p>
-        1 The psychology grades are normally distributed. 1 The true standard deviation of these scores <m>\sigma</m> is known to be 9.5.
+        1. The psychology grades are normally distributed. </p>
+       <p>2. The true standard deviation of these scores <m>\sigma</m> is known to be 9.5.
       </p>
       <p>
         For the moment, we'll act as if these are absolutely trustworthy facts. In real life, this kind of absolutely trustworthy background knowledge doesn't exist, and so if we want to rely on these facts we'll just have make the <em>assumption</em> that these things are true. However, since these assumptions may or may not be warranted, we might need to check them. For now though, we'll keep things simple.
@@ -118,7 +85,7 @@
         To figure that out, we need to be a bit more sneaky, and we'll need to rely on those two pieces of background knowledge that I wrote down previously, namely that the raw data are normally distributed, and we know the value of the population standard deviation <m>\sigma</m>. If the null hypothesis is actually true, and the true mean is <m>\mu_0</m>, then these facts together mean that we know the complete population distribution of the data: a normal distribution with mean <m>\mu_0</m> and standard deviation <m>\sigma</m>. Adopting the notation from <xref ref="normal" />, a statistician might write this as: <me> X \sim \mbox{Normal}(\mu_0,\sigma^2) </me>
       </p>
       <p>
-        Okay, if that's true, then what can we say about the distribution of <m>\bar{X}</m>? Well, as we discussed earlier (see <xref ref="clt" />), the sampling distribution of the mean <m>\bar{X}</m> is also normal, and has mean <m>\mu</m>. But the standard deviation of this sampling distribution <m>\mbox{SE}({\bar{X}})</m>, which is called the *standard error of the mean*, is <me> \mbox{SE}({\bar{X}}) = \frac{\sigma}{\sqrt{N}} </me> In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows: <me> \bar{X} \sim \mbox{Normal}(\mu_0,\mbox{SE}({\bar{X}})) </me> Now comes the trick. What we can do is convert the sample mean <m>\bar{X}</m> into a standard score (<xref ref="zscore" />). This is conventionally written as <m>z</m>, but for now I'm going to refer to it as <m>z_{\bar{X}}</m>. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, <em>not</em> a standardised version of a single observation, which is what a <m>z</m>-score usually refers to). When we do so, the <m>z</m>-score for our sample mean is <me> z_{\bar{X}} = \frac{\bar{X} - \mu_0}{\mbox{SE}({\bar{X}})} </me> or, equivalently <me> z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}} </me> This <m>z</m>-score is our test statistic. The nice thing about using this as our test statistic is that like all <m>z</m>-scores, it has a standard normal distribution: <me> z_{\bar{X}} \sim \mbox{Normal}(0,1) </me> (again, see <xref ref="zscore" /> if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the <m>z</m>-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean <m>\bar{X}</m> from the population mean <m>\mu_0</m> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for <m>z</m>-test are always the same, as illustrated in Figures <xref ref="fig-ztest1" /> and <xref ref="fig-ztest2" />. And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:
+        Okay, if that's true, then what can we say about the distribution of <m>\bar{X}</m>? Well, as we discussed earlier (see <xref ref="clt" />), the sampling distribution of the mean <m>\bar{X}</m> is also normal, and has mean <m>\mu</m>. But the standard deviation of this sampling distribution <m>\mbox{SE}({\bar{X}})</m>, which is called the *standard error of the mean*, is <me> \mbox{SE}({\bar{X}}) = \frac{\sigma}{\sqrt{N}} </me> In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows: <me> \bar{X} \sim \mbox{Normal}(\mu_0,\mbox{SE}({\bar{X}})) </me> Now comes the trick. What we can do is convert the sample mean <m>\bar{X}</m> into a standard score (<xref ref="zscore" />). This is conventionally written as <m>z</m>, but for now I'm going to refer to it as <m>z_{\bar{X}}</m>. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, <em>not</em> a standardised version of a single observation, which is what a <m>z</m>-score usually refers to). When we do so, the <m>z</m>-score for our sample mean is <me> z_{\bar{X}} = \frac{\bar{X} - \mu_0}{\mbox{SE}({\bar{X}})} </me> or, equivalently <me> z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}} </me> This <m>z</m>-score is our test statistic. The nice thing about using this as our test statistic is that like all <m>z</m>-scores, it has a standard normal distribution: <me> z_{\bar{X}} \sim \mbox{Normal}(0,1) </me> (again, see <xref ref="zscore" /> if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the <m>z</m>-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean <m>\bar{X}</m> from the population mean <m>\mu_0</m> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5% critical regions for <m>z</m>-test are always the same, as illustrated in Figures <xref ref="fig-ztest1" /> and <xref ref="fig-ztest2" />. And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:
       </p>
       <table>
         <title>Critical <m>z</m> values</title>
@@ -204,6 +171,11 @@
           print( N )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 20
+]]></output>
+    </console>
       </remark>
       <p>
         Next, let's calculate the (true) standard error of the mean:
@@ -216,6 +188,11 @@
           print(sem.true)
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 2.124265
+]]></output>
+    </console>
       </remark>
       <p>
         And finally, we calculate our <m>z</m>-score:
@@ -228,6 +205,11 @@
           print( z.score )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 2.259606
+]]></output>
+    </console>
       </remark>
       <p>
         At this point, we would traditionally look up the value 2.26 in our table of critical values. Our original hypothesis was two-sided (we didn't really have any theory about whether psych students would be better or worse at statistics than other students) so our hypothesis test is two-sided (or two-tailed) also. Looking at the little table that I showed earlier, we can see that 2.26 is bigger than the critical value of 1.96 that would be required to be significant at <m>\alpha = .05</m>, but smaller than the value of 2.58 that would be required to be significant at a level of <m>\alpha = .01</m>. Therefore, we can conclude that we have a significant effect, which we might write up by saying something like this:
@@ -246,6 +228,11 @@
           print( upper.area )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 0.01192287
+]]></output>
+    </console>
       </remark>
       <p>
         The <c>lower.tail = FALSE</c>  is me telling R to calculate the area under the curve from 2.26 *and upwards*. If I'd told it that <c>lower.tail = TRUE</c>, then R would calculate the area from 2.26 *and below*, and it would give me an answer 0.9880771. Alternatively, to calculate the area from <m>-2.26</m> and below, we get
@@ -258,6 +245,11 @@
           print( lower.area )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 0.01192287
+]]></output>
+    </console>
       </remark>
       <p>
         Thus we get our <m>p</m>-value:
@@ -270,6 +262,11 @@
           print( p.value )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##  [1] 0.02384574
+]]></output>
+    </console>
       </remark>
     </subsection>
     <subsection xml:id="zassumptions">
@@ -348,32 +345,6 @@
           oneSampleTTest( x=grades, mu=67.5 )
         </input>
       </program>
-    <console>
-      <output><![CDATA[
-## 
-##    One sample t-test 
-## 
-## Data variable:   grades 
-## 
-## Descriptive statistics: 
-##             grades
-##    mean     72.300
-##    std dev.  9.521
-## 
-## Hypotheses: 
-##    null:        population mean equals 67.5 
-##    alternative: population mean not equal to 67.5 
-## 
-## Test results: 
-##    t-statistic:  2.255 
-##    degrees of freedom:  19 
-##    p-value:  0.036 
-## 
-## Other information: 
-##    two-sided 95% confidence interval:  [67.844, 76.756] 
-##    estimated effect size (Cohen's d):  0.504
-]]></output>
-    </console>
       </remark>
       <p>
         Easy enough. Now lets go through the output. Just like we saw in the last chapter, I've written the functions so that the output is pretty verbose. It tries to describe in a lot of detail what its actually done:
@@ -413,7 +384,7 @@
         So that seems straightforward enough. Now what do we <em>do</em> with this output? Well, since we're pretending that we actually care about my toy example, we're overjoyed to discover that the result is statistically significant (i.e. <m>p</m> value below .05). We could report the result by saying something like this:
       </p>
       <blockquote>
-        <p>With a mean grade of 72.3, the psychology students scored slightly higher than the average grade of 67.5 (<m>t(19) = 2.25</m>, <m>p&lt;.05</m>); the 95\% confidence interval is [67.8, 76.8].</p>
+        <p>With a mean grade of 72.3, the psychology students scored slightly higher than the average grade of 67.5 (<m>t(19) = 2.25</m>, <m>p&lt;.05</m>); the 95% confidence interval is [67.8, 76.8].</p>
       </blockquote>
       <p>
         where <m>t(19)</m> is shorthand notation for a <m>t</m>-statistic that has 19 degrees of freedom. That said, it's often the case that people don't report the confidence interval, or do so using a much more compressed form than I've done here. For instance, it's not uncommon to see the confidence interval included as part of the stat block, like this:
@@ -642,13 +613,13 @@
         The output has a very familiar form. First, it tells you what test was run, and it tells you the names of the variables that you used. The second part of the output reports the sample means and standard deviations for both groups (i.e., both tutorial groups). The third section of the output states the null hypothesis and the alternative hypothesis in a fairly explicit form. It then reports the test results: just like last time, the test results consist of a <m>t</m>-statistic, the degrees of freedom, and the <m>p</m>-value. The final section reports two things: it gives you a confidence interval, and an effect size. I'll talk about effect sizes later. The confidence interval, however, I should talk about now.
       </p>
       <p>
-        It's pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the <em>difference</em> between the group means. In our example, Anastasia's students had an average grade of 74.5, and Bernadette's students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the <c>independentSamplesTTest()</c> function tells you that there's a 95\% chance that the true difference between means lies between 0.2 and 10.8.
+        It's pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the <em>difference</em> between the group means. In our example, Anastasia's students had an average grade of 74.5, and Bernadette's students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the <c>independentSamplesTTest()</c> function tells you that there's a 95% chance that the true difference between means lies between 0.2 and 10.8.
       </p>
       <p>
         In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:
       </p>
       <blockquote>
-        <p>The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples <m>t</m>-test showed that this 5.4\% difference was significant (<m>t(31) = 2.1</m>, <m>p&lt;.05</m>, <m>CI_{95} = [0.2, 10.8]</m>, <m>d = .74</m>), suggesting that a genuine difference in learning outcomes has occurred.</p>
+        <p>The mean grade in Anastasia's class was 74.5% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1% (std dev = 5.8). A Student's independent samples <m>t</m>-test showed that this 5.4% difference was significant (<m>t(31) = 2.1</m>, <m>p&lt;.05</m>, <m>CI_{95} = [0.2, 10.8]</m>, <m>d = .74</m>), suggesting that a genuine difference in learning outcomes has occurred.</p>
       </blockquote>
       <p>
         Notice that I've included the confidence interval and the effect size in the stat block. People don't always do this. At a bare minimum, you'd expect to see the <m>t</m>-statistic, the degrees of freedom and the <m>p</m> value. So you should include something like this at a minimum: <m>t(31) = 2.1</m>, <m>p&lt;.05</m>. If statisticians had their way, everyone would also report the confidence interval and probably the effect size measure too, because they are useful things to know. But real life doesn't always work the way statisticians want it to: you should make a judgment based on whether you think it will help your readers, and (if you're writing a scientific paper) the editorial standard for the journal in question. Some journals expect you to report effect sizes, others don't. Within some scientific communities it is standard practice to report confidence intervals, in other it is not. You'll need to figure out what your audience expects. But, just for the sake of clarity, if you're taking my class: my default position is that it's usually worth includng the effect size, but don't worry about the confidence interval unless the assignment asks you to or implies that you should.
@@ -788,7 +759,7 @@
         <title>R Code</title>
       <program language="r">
         <input>
-          load( file.path(projecthome, "data/chico.Rdata" ))
+          load( "chico.Rdata" ))
           str(chico)
         </input>
       </program>
@@ -824,7 +795,7 @@
     </console>
       </remark>
       <p>
-        At a glance, it does seem like the class is a hard one (most grades are between 50\% and 60\%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
+        At a glance, it does seem like the class is a hard one (most grades are between 50% and 60%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
       </p>
       <remark>
         <title>R Code</title>
@@ -848,7 +819,7 @@
     </console>
       </remark>
       <p>
-        we see that this impression seems to be supported. Across all 20 students<fn>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I've</em> never taught an intro stats class with less than 350 students.</fn> the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <xref ref="fig-pairedta" />. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the <c>describe()</c> function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
+        we see that this impression seems to be supported. Across all 20 students<fn>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I've</em> never taught an intro stats class with less than 350 students.</fn> the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <xref ref="fig-pairedta" />. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the <c>describe()</c> function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
       </p>
       <figure xml:id="fig-pairedta">
         <caption>Mean grade for test 1 and test 2, with associated 95% confidence intervals</caption>
@@ -919,7 +890,7 @@
     </console>
       </remark>
       <p>
-        we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so).
+        we see that it is 95% certain that the true (population-wide) average improvement would lie between 0.95% and 1.86%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20% or so).
       </p>
     </subsection>
     <subsection>
@@ -971,7 +942,7 @@
     </console>
       </remark>
       <p>
-        The output here is (obviously) formatted exactly the same was as it was the last time we used the <c>oneSampleTTest()</c> function (<xref ref="onesamplettest" />), and it confirms our intuition. There's an average improvement of 1.4\% from test 1 to test 2, and this is significantly different from 0 (<m>t(19)=6.48, p&lt;.001</m>).
+        The output here is (obviously) formatted exactly the same was as it was the last time we used the <c>oneSampleTTest()</c> function (<xref ref="onesamplettest" />), and it confirms our intuition. There's an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 (<m>t(19)=6.48, p&lt;.001</m>).
       </p>
       <p>
         However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. If so, you can use the <c>pairedSamplesTTest()</c> function, also in the <c>lsr</c> package. Let's assume that your data organised like they are in the <c>chico</c> data frame, where there are two separate variables, one for each measurement. The way to run the test is to input a <em>one-sided</em> formula, just like you did when running a test of association using the <c>associationTest()</c> function in <xref ref="chisquare"/>. For the <c>chico</c> data frame, the formula that you need would be <c>~ grade_time2 + grade_time1</c>. As usual, you'll also need to input the name of the data frame too. So the command just looks like this:
@@ -1014,7 +985,7 @@
     </console>
       </remark>
       <p>
-        The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples <m>t</m>-test is just a one sample test under the hood. However, the output is a bit more detailed:
+        The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples <m>t</m>-test is just a one sample test under the hood. However, the output is a bit more detailed.
       </p>
       <p>
         This time around the descriptive statistics block shows you the means and standard deviations for the original variables, as well as for the difference variable (notice that it always defines the difference as the first listed variable mines the second listed one). The null hypothesis and the alternative hypothesis are now framed in terms of the original variables rather than the difference score, but you should keep in mind that in a paired samples test it's still the difference score being tested. The statistical information at the bottom about the test result is of course the same as before.
@@ -1036,6 +1007,17 @@
           head( chico2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##         id  time grade
+## 1 student1 test1  44.6
+## 2 student2 test1  51.8
+## 3 student3 test1  71.7
+## 4 student4 test1  51.6
+## 5 student5 test1  63.5
+## 6 student6 test1  58.0
+]]></output>
+    </console>
       </remark>
       <p>
         As you can see, this has created a new data frame containing three variables: an <c>id</c> variable indicating which person provided the data, a <c>time</c> variable indicating which test the data refers to (i.e., test 1 or test 2), and a <c>grade</c> variable that records what score the person got on that test. Notice that this data frame is in long form: every row corresponds to a unique *measurement*. Because every person provides two observations (test 1 and test 2), there are two rows for every person. To see this a little more clearly, I'll use the <c>sortFrame()</c> function to sort the rows of <c>chico2</c> by <c>id</c> variable (see <xref ref="sortframe" />).
@@ -1048,6 +1030,17 @@
           head( chico2 )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##          id   time grade
+## 1  student1  test1  42.9
+## 21 student1  test2  44.6
+## 10 student10 test1  61.9
+## 30 student10 test2  63.2
+## 11 student11 test1  50.4
+## 31 student11 test2  51.8
+]]></output>
+    </console>
       </remark>
       <p>
         As you can see, there are two rows for "student1": one showing their grade on the first test, the other showing their grade on the second test.<fn>The <c>sortFrame()</c> function sorts factor variables like <c>id</c> in alphabetical order, which is why it jumps from "student1" to "student10"</fn>
@@ -1145,7 +1138,7 @@
   <section>
     <title>One sided tests</title>
     <p>
-      When introducing the theory of null hypothesis tests, I mentioned that there are some situations when it's appropriate to specify a <em>one-sided</em> test (see <xref ref="onesidedtests" />). So far, all of the <m>t</m>-tests have been two-sided tests. For instance, when we specified a one sample <m>t</m>-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The <c>oneSampleTTest()</c> function lets you do this, by specifying the <c>one.sided</c> argument. If you set <c>one.sided="greater"</c>, it means that you're testing to see if the true mean is larger than <c>mu</c>. If you set <c>one.sided="less"</c>, then you're testing to see if the true mean is smaller than <c>mu</c>. Here's how it would work for Dr Zeppo's class:
+      When introducing the theory of null hypothesis tests, I mentioned that there are some situations when it's appropriate to specify a <em>one-sided</em> test (see <xref ref="onesidedtests" />). So far, all of the <m>t</m>-tests have been two-sided tests. For instance, when we specified a one sample <m>t</m>-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5%. Suppose we were only interested in finding out if the true mean is greater than 67.5%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5%. If so, our null hypothesis would be that the true mean is 67.5% or less, and the alternative hypothesis would be that the true mean is greater than 67.5%. The <c>oneSampleTTest()</c> function lets you do this, by specifying the <c>one.sided</c> argument. If you set <c>one.sided="greater"</c>, it means that you're testing to see if the true mean is larger than <c>mu</c>. If you set <c>one.sided="less"</c>, then you're testing to see if the true mean is smaller than <c>mu</c>. Here's how it would work for Dr Zeppo's class:
     </p>
     <remark>
       <title>R Code</title>
@@ -1182,7 +1175,7 @@
     </console>
     </remark>
     <p>
-      Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the <m>t</m>-statistic and degrees of freedom have not changed, the <m>p</m>-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you've forgotten why this is and what it means, you may find it helpful to read back over <xref ref="hypothesistesting" />, and <xref ref="onesidedtests" /> in particular. The third thing to note is that the confidence interval is different too: it now reports a "one-sided" confidence interval rather than a two-sided one. In a two-sided confidence interval, we're trying to find numbers <m>a</m> and <m>b</m> such that we're 95\% confident that the true mean lies <em>between</em> <m>a</m> and <m>b</m>. In a one-sided confidence interval, we're trying to find a single number <m>a</m> such that we're 95\% confident that the true mean is <em>greater than</em> <m>a</m> (or less than <m>a</m> if you set <c>one.sided="less"</c>).
+      Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the <m>t</m>-statistic and degrees of freedom have not changed, the <m>p</m>-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you've forgotten why this is and what it means, you may find it helpful to read back over <xref ref="hypothesistesting" />, and <xref ref="onesidedtests" /> in particular. The third thing to note is that the confidence interval is different too: it now reports a "one-sided" confidence interval rather than a two-sided one. In a two-sided confidence interval, we're trying to find numbers <m>a</m> and <m>b</m> such that we're 95% confident that the true mean lies <em>between</em> <m>a</m> and <m>b</m>. In a one-sided confidence interval, we're trying to find a single number <m>a</m> such that we're 95% confident that the true mean is <em>greater than</em> <m>a</m> (or less than <m>a</m> if you set <c>one.sided="less"</c>).
     </p>
     <p>
       So that's how to do a one-sided one sample <m>t</m>-test. However, all versions of the <m>t</m>-test can be one-sided. For an independent samples <m>t</m> test, you could have a one-sided test if you're only interestd in testing to see if group A has <em>higher</em> scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The <c>independentSamplesTTest()</c> function lets you do this, again by specifying the <c>one.sided</c> argument. However, this time around you need to specify the name of the group that you're expecting to have the higher score. In our case, we'd write <c>one.sided = "Anastasia"</c>. So the command would be:
@@ -1472,7 +1465,7 @@
     </console>
       </remark>
       <p>
-        Yep, same number. Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3\%) that are about .5 standard deviations higher than the level that you'd expect (67.5\%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
+        Yep, same number. Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3%) that are about .5 standard deviations higher than the level that you'd expect (67.5%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
       </p>
     </subsection>
     <subsection>
@@ -1553,7 +1546,7 @@
     </console>
       </remark>
       <p>
-        This is the version of Cohen's <m>d</m> that gets reported by the <c>pairedSamplesTTest()</c> function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1\% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's <m>d</m> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class,
+        This is the version of Cohen's <m>d</m> that gets reported by the <c>pairedSamplesTTest()</c> function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's <m>d</m> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class,
       </p>
       <remark>
         <title>R Code</title>
@@ -1583,8 +1576,23 @@
     </p>
     <subsection>
       <title>QQ plots</title>
+      <p>
+        One way to check whether a sample violates the normality assumption is to draw a <term>"quantile-quantile" plot</term> (QQ plot). This allows you to visually check whether you're seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function <c>qqnorm()</c>. The <c>qqnorm()</c> function has a few arguments, but the only one we really need to care about here is <c>y</c>, a vector specifying the data whose normality we're interested in checking. Here's the R commands:
+      </p>
+      <remark>
+        <title>R Code</title>
+      <program language="r">
+        <input>
+          normal.data &lt;- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
+          hist( x = normal.data )          # draw a histogram of these numbers
+          qqnorm( y = normal.data )        # draw the QQ plot
+        </input>
+      </program>
+      </remark>
       <figure xml:id="fig-qq1a">
-        <caption>Histogram of <c>normal.data</c>, a normally distributed sample with 100 observations.</caption>
+        <caption>Histogram of <c>normal.data</c>, a normally distributed sample with 100 observations.
+The Shapiro-Wilk statistic associated with these data is W = 0.99, indicating
+that no signicant departures from normality were detected (p = 0.73).</caption>
         <image source="generated/qqNormalHist.png"/>
       </figure>
       <figure xml:id="fig-qq1b">
@@ -1602,9 +1610,7 @@
         <caption>A normal QQ plot of the 100 observations in a <c>skewed.data</c> set</caption>
         <image source="generated/qqSkewedPlot.png"/>
       </figure>
-      <p>
-        The skewness of the data in Figures <xref ref="fig-qq2a" /> and <xref ref="fig-qq2b" /> is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <m>W=.80</m>, reflecting a significant departure from normality (<m>p&lt;.001</m>).
-      </p>
+
       <figure xml:id="fig-qq2c">
         <caption>A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. </caption>
         <image source="generated/qqHeavyTailedHist.png"/>
@@ -1613,22 +1619,13 @@
         <caption>A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. </caption>
         <image source="generated/qqHeavyTailedPlot.png"/>
       </figure>
+
+      <p>
+        The skewness of the data in Figures <xref ref="fig-qq2a" /> and <xref ref="fig-qq2b" /> is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <m>W=.80</m>, reflecting a significant departure from normality (<m>p&lt;.001</m>).
+      </p>
       <p>
         Figures <xref ref="fig-qq2c" /> and <xref ref="fig-qq2d" /> shows the same plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <m>W = .93</m>, again reflecting significant non-normality (<m>p &lt; .001</m>).
       </p>
-      <p>
-        One way to check whether a sample violates the normality assumption is to draw a <term>"quantile-quantile" plot</term> (QQ plot). This allows you to visually check whether you're seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function <c>qqnorm()</c>. The <c>qqnorm()</c> function has a few arguments, but the only one we really need to care about here is <c>y</c>, a vector specifying the data whose normality we're interested in checking. Here's the R commands:
-      </p>
-      <remark>
-        <title>R Code</title>
-      <program language="r">
-        <input>
-          normal.data &lt;- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
-          hist( x = normal.data )          # draw a histogram of these numbers
-          qqnorm( y = normal.data )        # draw the QQ plot
-        </input>
-      </program>
-      </remark>
     </subsection>
     <subsection>
       <title>Shapiro-Wilk tests</title>
@@ -1658,7 +1655,7 @@
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  normal.data
-## W = 0.98654, p-value = 0.4076
+## W = 0.9903, p-value = 0.6862
 ]]></output>
     </console>
       </remark>
@@ -1707,7 +1704,72 @@
       <p>
         As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <m>A</m> against every observation in group <m>B</m>. Whenever the group <m>A</m> datum is larger, we place a check mark in the table:
       </p>
-      
+<table xml:id="table-groupA-groupB">
+  <title>Comparison of Group A and Group B Values</title>
+  <tabular halign="center">
+
+    <!-- Header row -->
+    <row header="yes" bottom="minor">
+      <cell></cell>
+      <cell>14.5</cell>
+      <cell>10.4</cell>
+      <cell>12.4</cell>
+      <cell>11.7</cell>
+      <cell>13.0</cell>
+    </row>
+
+    <!-- Row 1 -->
+    <row>
+      <cell halign="left">6.4</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+    </row>
+
+    <!-- Row 2 -->
+    <row>
+      <cell halign="left">10.7</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+    </row>
+
+    <!-- Row 3 -->
+    <row>
+      <cell halign="left"><phrase>group A</phrase> 11.9</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#xb7;</cell>
+    </row>
+
+    <!-- Row 4 -->
+    <row>
+      <cell halign="left">7.3</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+    </row>
+
+    <!-- Row 5 -->
+    <row>
+      <cell halign="left">10.0</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+    </row>
+
+  </tabular>
+</table>      
       <p>
         We then count up the number of checkmarks. This is our test statistic, <m>W</m>.<fn>Actually, there are two different versions of the test statistic; they differ from each other by a constant value. The version that I've described is the one that R calculates.</fn> The actual sampling distribution for <m>W</m> is somewhat complicated, and I'll skip the details. For our purposes, it's sufficient to note that the interpretation of <m>W</m> is qualitatively the same as the interpretation of <m>t</m> or <m>z</m>. That is, if we want a two-sided test, then we reject the null hypothesis when <m>W</m> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.
       </p>
@@ -1739,7 +1801,7 @@
         <title>R Code</title>
       <program language="r">
         <input>
-          load( file.path(projecthome, "data/awesome2.Rdata" ))
+          load( "awesome2.Rdata" ))
           score.A
           score.B
         </input>
@@ -1747,6 +1809,7 @@
     <console>
       <output><![CDATA[
 ## [1]  6.4 10.7 11.9  7.3 10.0
+## [1] 14.5 10.4 12.9 11.7 13.0
 ]]></output>
     </console>
       </remark>
@@ -1760,11 +1823,6 @@
           wilcox.test( x = score.A, y = score.B )
         </input>
       </program>
-    <console>
-      <output><![CDATA[
-## [1] 14.5 10.4 12.9 11.7 13.0
-]]></output>
-    </console>
       </remark>
       <p>
         The output that R produces is pretty much the same as last time.
@@ -1779,7 +1837,7 @@
         <title>R Code</title>
       <program language="r">
         <input>
-          load( file.path(projecthome, "data/happy.Rdata" ))
+          load( "happy.Rdata" ))
           print( happiness )
         </input>
       </program>
@@ -1802,7 +1860,72 @@
       <p>
         What I've measured here is the happiness of each student <c>before</c> taking the class and <c>after</c> taking the class; the <c>change</c> score is the difference between the two. Just like we saw with the <m>t</m>-test, there's no fundamental difference between doing a paired-samples test using <c>before</c> and <c>after</c>, versus doing a one-sample test using the <c>change</c> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:
       </p>
-      
+<table xml:id="table-positive-differences">
+  <title>Positive Differences Within All Differences</title>
+  <tabular halign="center">
+
+    <!-- Header row -->
+    <row header="yes" bottom="minor">
+      <cell></cell>
+      <cell>-24</cell>
+      <cell>-14</cell>
+      <cell>-10</cell>
+      <cell>7</cell>
+      <cell>-6</cell>
+      <cell>-38</cell>
+      <cell>2</cell>
+      <cell>-35</cell>
+      <cell>-30</cell>
+      <cell>5</cell>
+    </row>
+
+    <!-- Row for 7 -->
+    <row>
+      <cell halign="left">7</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+    </row>
+
+    <!-- Row for positive differences -->
+    <row>
+      <cell halign="left">positive differences 2</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+    </row>
+
+    <!-- Row for 5 -->
+    <row>
+      <cell halign="left">5</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#xb7;</cell>
+      <cell>&#x2713;</cell>
+      <cell>&#x2713;</cell>
+    </row>
+
+  </tabular>
+</table>      
       <p>
         Counting up the tick marks this time, we get a test statistic of <m>V = 7</m>. As before, if our test is two sided, then we reject the null hypothesis when <m>V</m> is very large or very small. As far of running it in R goes, it's pretty much what you'd expect. For the one-sample version, the command you would use is
       </p>
@@ -1839,16 +1962,6 @@
           )
         </input>
       </program>
-    <console>
-      <output><![CDATA[
-## 
-##  Wilcoxon signed rank test
-## 
-## data:  happiness$after and happiness$before
-## V = 7, p-value = 0.03711
-## alternative hypothesis: true location shift is not equal to 0
-]]></output>
-    </console>
       </remark>
     </subsection>
   </section>
@@ -1875,13 +1988,4 @@
       </li>
     </ul>
   </section>
-<table xml:id="table-cohensdinterpretation">
-  <title>A (very) rough guide to interpreting Cohen's d. Note: these are just rough guidelines; what counts as a large or small effect depends on context.</title>
-  <tabular halign="left">
-    <row header="yes"><cell>d value</cell><cell>Rough interpretation</cell></row>
-    <row><cell>about 0.2</cell><cell>Small effect</cell></row>
-    <row><cell>about 0.5</cell><cell>Medium effect</cell></row>
-    <row><cell>about 0.8</cell><cell>Large effect</cell></row>
-  </tabular>
-</table>
 </chapter>
