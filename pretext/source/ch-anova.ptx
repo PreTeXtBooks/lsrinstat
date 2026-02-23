@@ -272,6 +272,10 @@ H_1 &:& \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 	title(main = "Between-group variation\n(i.e., differences among group means)",
 	      font.main = 1)]]></input>
 </program>
+    <figure xml:id="fig-anovavara">
+      <caption>Graphical illustration of "between groups" variation. The arrows indicate the differences between group means.</caption>
+      <image source="generated/anova1.png"/>
+    </figure>
     <program language="r">
   <input><![CDATA[
 width <- 7
@@ -315,6 +319,10 @@ width <- 7
 	    lwd = 2,   # thick line
 	  )  }]]></input>
 </program>
+    <figure xml:id="fig-anovavarb">
+      <caption>Graphical illustration of "within groups" variation. The arrows indicate the spread of observations within each group.</caption>
+      <image source="generated/anova2.png"/>
+    </figure>
     <p>Okay, so what have we found out? We've discovered that the total variability associated with the outcome variable (<m><![CDATA[\mbox{SS}_{tot}]]></m>) can be mathematically carved up into the sum of "the variation due to the differences in the sample means for the different groups" (<m><![CDATA[\mbox{SS}_{b}]]></m>) plus "all the rest of the variation" (<m><![CDATA[\mbox{SS}_{w}]]></m>). How does that help me find out whether the groups have different population means? Um. Wait. Hold on a second... now that I think about it, this is <em>exactly</em> what we were looking for. If the null hypothesis is true, then you'd expect all the sample means to be pretty similar to each other, right? And that would imply that you'd expect <m><![CDATA[\mbox{SS}_{b}]]></m> to be really small, or at least you'd expect it to be a lot smaller than the "the variation associated with everything else", <m><![CDATA[\mbox{SS}_{w}]]></m>. Hm. I detect a hypothesis test coming on...</p>
     </subsection>
   <subsection>
