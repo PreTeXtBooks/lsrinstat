@@ -1369,7 +1369,7 @@
     </console>
       </remark>
       <p>
-        What I've done here is use the <term>equality operator</term>, <c>==</c>, to force R to make a "true or false" judgement.<fn>Note that this is a very different operator to the assignment operator <c>=</c> that I talked about in Section \@ref(assign). A common typo that people make when trying to write logical commands in R (or other languages, since the "<c>=</c> versus <c>==</c>" distinction is important in most programming languages) is to accidentally type <c>=</c> when you really mean <c>==</c>. Be especially cautious with this <mdash /> I've been programming in various languages since I was a teenager, and I <em>still</em> screw this up a lot. Hm. I think I see why I wasn't cool as a teenager. And why I'm still not cool.</fn> Okay, let's see what R thinks of the Party slogan:
+        What I've done here is use the <term>equality operator</term>, <c>==</c>, to force R to make a "true or false" judgement.<fn>Note that this is a very different operator to the assignment operator <c>=</c> that I talked about in <xref ref="assign"/>. A common typo that people make when trying to write logical commands in R (or other languages, since the "<c>=</c> versus <c>==</c>" distinction is important in most programming languages) is to accidentally type <c>=</c> when you really mean <c>==</c>. Be especially cautious with this <mdash /> I've been programming in various languages since I was a teenager, and I <em>still</em> screw this up a lot. Hm. I think I see why I wasn't cool as a teenager. And why I'm still not cool.</fn> Okay, let's see what R thinks of the Party slogan:
       </p>
       <remark>
         <title>R Code</title>

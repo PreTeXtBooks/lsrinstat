@@ -4050,7 +4050,7 @@ In x + y : longer object length is not a multiple of shorter object length
       </li>
     </ul>
     <p>
-      There are a number of books out there that extend this discussion. A couple of my favourites are @Spector2008 "Data Manipulation with R" and @Teetor2011 "R Cookbook".
+      There are a number of books out there that extend this discussion. A couple of my favourites are <xref ref="biblio-Spector2008"/> "Data Manipulation with R" and <xref ref="biblio-Teetor2011"/> "R Cookbook".
     </p>
   </section>
 
