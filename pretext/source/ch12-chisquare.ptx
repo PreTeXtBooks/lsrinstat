@@ -122,13 +122,6 @@
           </row>
         </tabular>
       </table>
-    <console>
-      <output><![CDATA[
-## 
-##    clubs diamonds   hearts   spades 
-##       35       51       64       50
-]]></output>
-    </console>
       <p>
         Hopefully that's pretty clear. It's also worth nothing that mathematicians prefer to talk about things in general rather than specific things, so you'll also see the notation <m>O_i</m>, which refers to the number of observations that fall within the <m>i</m>-th category (where <m>i</m> could be 1, 2, 3 or 4). Finally, if we want to refer to the set of all observed frequencies, statisticians group all of observed values into a vector, which I'll refer to as <m>O</m>. <me> O = (O_1, O_2, O_3, O_4) </me> Again, there's nothing new or interesting here: it's just notation. If I say that <m>O~=~(35, 51, 64, 50)</m> all I'm doing is describing the table of observed frequencies (i.e., <c>observed</c>), but I'm referring to it using mathematical notation, rather than by referring to an R variable.
       </p>
@@ -138,18 +131,9 @@
       <p>
         As the last section indicated, our research hypothesis is that "people don't choose cards randomly". What we're going to want to do now is translate this into some statistical hypotheses, and construct a statistical test of those hypotheses. The test that I'm going to describe to you is <em>_Pearson's <m>\chi^2</m> goodness of fit test_</em>, and as is so often the case, we have to begin by carefully constructing our null hypothesis. In this case, it's pretty easy. First, let's state the null hypothesis in words:
       </p>
-            <table xml:id="table-ch12chisquare-19">
-        <tabular halign="center">
-          <row header="yes" bottom="minor">
-            <cell halign="left"><m>H_0</m></cell>
-          </row>
-          <row>
-            <cell halign="left">All four suits are chosen with equal probability</cell>
-          </row>
-        </tabular>
-      </table>
+ <p><m>H_0</m>: All four suits are chosen with equal probability</p>
       <p>
-        Now, because this is statistics, we have to be able to say the same thing in a mathematical way. To do this, let's use the notation <m>P_j</m> to refer to the true probability that the <m>j</m>-th suit is chosen. If the null hypothesis is true, then each of the four suits has a 25\% chance of being selected: in other words, our null hypothesis claims that <m>P_1 = .25</m>, <m>P_2 = .25</m>, <m>P_3 = .25</m> and finally that <m>P_4 = .25</m>. However, in the same way that we can group our observed frequencies into a vector <m>O</m> that summarises the entire data set, we can use <m>P</m> to refer to the probabilities that correspond to our null hypothesis. So if I let the vector <m>P = (P_1, P_2, P_3, P_4)</m> refer to the collection of probabilities that describe our null hypothesis, then we have
+        Now, because this is statistics, we have to be able to say the same thing in a mathematical way. To do this, let's use the notation <m>P_j</m> to refer to the true probability that the <m>j</m>-th suit is chosen. If the null hypothesis is true, then each of the four suits has a 25% chance of being selected: in other words, our null hypothesis claims that <m>P_1 = .25</m>, <m>P_2 = .25</m>, <m>P_3 = .25</m> and finally that <m>P_4 = .25</m>. However, in the same way that we can group our observed frequencies into a vector <m>O</m> that summarises the entire data set, we can use <m>P</m> to refer to the probabilities that correspond to our null hypothesis. So if I let the vector <m>P = (P_1, P_2, P_3, P_4)</m> refer to the collection of probabilities that describe our null hypothesis, then we have
       </p>
       <p>
         <me> H_0: {P} = (.25, .25, .25, .25) </me>
@@ -160,34 +144,18 @@
       <p>
         What about our alternative hypothesis, <m>H_1</m>? All we're really interested in is demonstrating that the probabilities involved aren't all identical (that is, people's choices weren't completely random). As a consequence, the "human friendly" versions of our hypotheses look like this:
       </p>
-            <table xml:id="table-ch12chisquare-18">
-        <tabular halign="center">
-          <row header="yes" bottom="minor">
-            <cell halign="left"><m>H_0</m></cell>
-            <cell><m>H_1</m></cell>
-          </row>
-          <row>
-            <cell halign="left">All four suits are chosen with equal probability</cell>
-            <cell>At least one of the suit-choice probabilities <em>isn't</em> .25</cell>
-          </row>
-        </tabular>
-      </table>
+<p>
+        <me> H_0: All four suits are chosen with equal probability </me>
+        <me> H_1: At least one of the suit-choice probabilities isn't 0.25 </me>
+</p>
       <p>
         and the "mathematician friendly" version is
       </p>
-            <table xml:id="table-ch12chisquare-17">
-        <tabular halign="center">
-          <row header="yes" bottom="minor">
-            <cell halign="left"><m>H_0</m></cell>
-            <cell><m>H_1</m></cell>
-          </row>
-          <row>
-            <cell halign="left"><m>P = (.25, .25, .25, .25)</m></cell>
-            <cell><m>P \neq (.25,.25,.25,.25)</m></cell>
-          </row>
-        </tabular>
-      </table>
-      <p>
+<p>
+        <me> H_0: {P} = (.25, .25, .25, .25) </me>
+        <me> H_1: {P} \neq (.25, .25, .25, .25) </me>
+</p>
+<p>
         Conveniently, the mathematical version of the hypotheses looks quite similar to an R command defining a vector. So maybe what I should do is store the <m>P</m> vector in R as well,  since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this R vector <c>probabilities</c>,
       </p>
       <remark>
@@ -199,6 +167,13 @@
         </input>
       </program>
       </remark>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##     0.25     0.25     0.25     0.25
+]]></output>
+    </console>
     </subsection>
     <subsection>
       <title>The "goodness of fit" test statistic</title>
@@ -215,6 +190,13 @@
         </input>
       </program>
       </remark>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##       50       50       50       50
+]]></output>
+    </console>
       <p>
         None of which is very surprising: if there are 200 observation that can fall into four categories, and we think that all four categories are equally likely, then on average we'd expect to see 50 observations in each category, right?
       </p>
@@ -257,13 +239,6 @@
           </row>
         </tabular>
       </table>
-    <console>
-      <output><![CDATA[
-## 
-##    clubs diamonds   hearts   spades 
-##       35       51       64       50
-]]></output>
-    </console>
       <p>
         The same calculations can be done in R, using our <c>expected</c> and <c>observed</c> variables:
       </p>
@@ -296,7 +271,7 @@
       <output><![CDATA[
 ## 
 ##    clubs diamonds   hearts   spades 
-##      -15        1       14        0
+##      225        1      196        0
 ]]></output>
     </console>
       </remark>
@@ -314,7 +289,7 @@
       <output><![CDATA[
 ## 
 ##    clubs diamonds   hearts   spades 
-##      -15        1       14        0
+##     4.50     0.02     3.92     0.00
 ]]></output>
     </console>
       </remark>
@@ -330,9 +305,7 @@
       </program>
     <console>
       <output><![CDATA[
-## 
-##    clubs diamonds   hearts   spades 
-##      -15        1       14        0
+## [1] 8.44
 ]]></output>
     </console>
       </remark>
@@ -341,7 +314,7 @@
       </p>
     </subsection>
     <subsection>
-      <title>The sampling distribution of the GOF statistic (advanced)</title>
+      <title>The sampling distribution of the GOF statistic</title>
       <p>
         To determine whether or not a particular value of <m>X^2</m> is large enough to justify rejecting the null hypothesis, we're going to need to figure out what the sampling distribution for <m>X^2</m> would be if the null hypothesis were true. So that's what I'm going to do in this section. I'll show you in a fair amount of detail how this sampling distribution is constructed, and then <mdash /> in the next section <mdash /> use it to build up a hypothesis test. If you want to cut to the chase and are willing to take it on faith that the sampling distribution is a <em>_chi-squared (<m>\chi^2</m>) distribution_</em> with <m>k-1</m> degrees of freedom, you can skip the rest of this section. However, if you want to understand <em>why</em> the goodness of fit test works the way it does, read on...
       </p>
@@ -354,26 +327,26 @@
     </subsection>
     <subsection>
       <title>Degrees of freedom</title>
+      <p>
+        When I introduced the chi-square distribution in <xref ref="otherdists" />, I was a bit vague about what "<term>degrees of freedom</term>" actually *means*. Obviously, it matters: looking <xref ref="fig-manychi" /> you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
+      </p>
       <figure xml:id="fig-manychi">
         <caption>Chi-square distributions with different values for the "degrees of freedom".</caption>
         <image source="generated/manychi.png"/>
       </figure>
-      <p>
-        When I introduced the chi-square distribution in <xref ref="otherdists" />, I was a bit vague about what "<term>degrees of freedom</term>" actually *means*. Obviously, it matters: looking <xref ref="fig-manychi" /> you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
-      </p>
       <p>
         The basic idea behind degrees of freedom is quite simple: you calculate it by counting up the number of distinct "quantities" that are used to describe your data; and then subtracting off all of the "constraints" that those data must satisfy.<fn>I feel obliged to point out that this is an over-simplification. It works nicely for quite a few situations; but every now and then we'll come across degrees of freedom values that aren't whole numbers. Don't let this worry you too much <mdash /> when you come across this, just remind yourself that "degrees of freedom" is actually a bit of a messy concept, and that the nice simple story that I'm telling you here isn't the whole story. For an introductory class, it's usually best to stick to the simple story: but I figure it's best to warn you to expect this simple story to fall apart. If I didn't give you this warning, you might start getting confused when you see <m>df = 3.4</m> or something; and (incorrectly) thinking that you had misunderstood something that I've taught you, rather than (correctly) realising that there's something that I haven't told you.</fn> This is a bit vague, so let's use our cards data as a concrete example. We describe out data using four numbers, <m>O_1</m>, <m>O_2</m>, <m>O_3</m> and <m>O_4</m> corresponding to the observed frequencies of the four different categories (hearts, clubs, diamonds, spades). These four numbers are the <em>random outcomes</em> of our experiment. But, my experiment actually has a fixed constraint built into it: the sample size <m>N</m>.<fn>In practice, the sample size isn't always fixed... e.g., we might run the experiment over a fixed period of time, and the number of people participating depends on how many people show up. That doesn't matter for the current purposes.</fn> That is, if we know how many people chose hearts, how many chose diamonds and how many chose clubs; then we'd be able to figure out exactly how many chose spades. In other words, although our data are described using four numbers, they only actually correspond to <m>4-1 = 3</m> degrees of freedom. A slightly different way of thinking about it is to notice that there are four <em>probabilities</em> that we're interested in (again, corresponding to the four different categories), but these probabilities must sum to one, which imposes a constraint. Therefore, the degrees of freedom is <m>4-1 = 3</m>. Regardless of whether you want to think about it in terms of the observed frequencies or in terms of the probabilities, the answer is the same. In general, when running the chi-square goodness of fit test for an experiment involving <m>k</m> groups, then the degrees of freedom will be <m>k-1</m>.
       </p>
     </subsection>
     <subsection>
       <title>Testing the null hypothesis</title>
+      <p>
+        The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of <m>X^2</m> would lead is to reject the null hypothesis. As we saw earlier, large values of <m>X^2</m> imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of <m>X^2</m> imply that it's actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if <m>X^2</m> is bigger than the critical value we reject the null; but if <m>X^2</m> is smaller than this value we retain the null. In other words, to use the language we introduced in <xref ref="hypothesistesting" />, then we have to choose our critical value so that there is only a 5% chance that <m>X^2</m> could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in <xref ref="fig-goftest" />.
+      </p>
       <figure xml:id="fig-goftest">
         <caption>Illustration of how the hypothesis testing works for the chi-square goodness of fit test.</caption>
         <image source="generated/chisquaretestdist.png"/>
       </figure>
-      <p>
-        The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of <m>X^2</m> would lead is to reject the null hypothesis. As we saw earlier, large values of <m>X^2</m> imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of <m>X^2</m> imply that it's actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if <m>X^2</m> is bigger than the critical value we reject the null; but if <m>X^2</m> is smaller than this value we retain the null. In other words, to use the language we introduced in <xref ref="hypothesistesting" />, then we have to choose our critical value so that there is only a 5\% chance that <m>X^2</m> could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in <xref ref="fig-goftest" />.
-      </p>
       <p>
         Ah, but <mdash /> I hear you ask <mdash /> how do I calculate the 95th percentile of a chi-squared distribution with <m>k-1</m> degrees of freedom? If only R had some function, called... oh, I don't know, <c>qchisq()</c> ... that would let you calculate this percentile (see <xref ref="probability" /> if you've forgotten). Like this...
       </p>
@@ -507,13 +480,6 @@
           spades               50             50            0.25
         </input>
       </program>
-    <console>
-      <output><![CDATA[
-## 
-##    clubs diamonds   hearts   spades 
-##       35       51       64       50
-]]></output>
-    </console>
       </remark>
       <p>
         The first column shows what the observed frequencies were, the second column shows the expected frequencies according to the null hypothesis, and the third column shows you what the probabilities actually were according to the null. For novice users, I think this is helpful: you can look at this part of the output and check that it makes sense: if it doesn't you might have typed something incorrecrtly.
@@ -539,7 +505,7 @@
     <subsection>
       <title>Specifying a different null hypothesis</title>
       <p>
-        At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is <em>not</em> that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60\% of the time, and black cards 40\% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30\% of the choices to be hearts, 30\% to be diamonds, 20\% to be spades and 20\% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
+        At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is <em>not</em> that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60% of the time, and black cards 40% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30% of the choices to be hearts, 30% to be diamonds, 20% to be spades and 20% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
       </p>
       <remark>
         <title>R Code</title>
@@ -549,6 +515,13 @@
           nullProbs
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+## 
+##    clubs diamonds   hearts   spades 
+##      0.2      0.3      0.3      0.2
+]]></output>
+    </console>
       </remark>
       <p>
         Now that we have an explicitly specified null hypothesis, we include it in our command. This time round I'll use the argument names properly. The data variable corresponds to the argument <c>x</c>, and the probabilities according to the null hypothesis correspond to the argument <c>p</c>. So our command is:
@@ -1070,7 +1043,7 @@
       There are several different measures that you can choose to report, and several different tools that you can use to calculate them. I won't discuss all of them,<fn>Though I do feel that it's worth mentioning the <c>assocstats()</c> function in the <c>vcd</c> package. If you install and load the <c>vcd</c> package, then a command like <c>assocstats( chapekFrequencies )</c> will run the <m>\chi^2</m> test as well as the likelihood ratio test (not discussed here); and then report three different measures of effect size: <m>\phi^2</m>, Cram\'er's <m>V</m>, and the contingency coefficient (not discussed here)</fn> but will instead focus on the most commonly reported measures of effect size.
     </p>
     <p>
-      By default, the two measures that people tend to report most frequently are the <m>\phi</m> statistic and the somewhat superior version, known as  Cram\'er's <m>V</m>. Mathematically, they're very simple. To calculate the <m>\phi</m> statistic, you just divide your <m>X^2</m> value by the sample size, and take the square root: <me> \phi = \sqrt{\frac{X^2}{N}} </me> The idea here is that the <m>\phi</m> statistic is supposed to range between 0 (no at all association) and 1 (perfect association), but it doesn't always do this when your contingency table is bigger than <m>2 \times 2</m>, which is a total pain. For bigger tables it's actually possible to obtain <m>\phi>1</m>, which is pretty unsatisfactory. So, to correct for this, people usually prefer to report the <m>V</m> statistic proposed by <xref ref="biblio-Cramer1946">Cramér (1946)</xref>. It's a pretty simple adjustment to <m>\phi</m>. If you've got a contingency table with <m>r</m> rows and <m>c</m> columns, then define <m>k = \min(r,c)</m> to be the smaller of the two values. If so, then <em>_Cram\'er's  <m>V</m>_</em> statistic is <me> V = \sqrt{\frac{X^2}{N(k-1)}} </me> And you're done. This seems to be a fairly popular measure, presumably because it's easy to calculate, and it gives answers that aren't completely silly: you know that <m>V</m> really does range from 0 (no at all association) to 1 (perfect association).
+      By default, the two measures that people tend to report most frequently are the <m>\phi</m> statistic and the somewhat superior version, known as  Cram\'er's <m>V</m>. Mathematically, they're very simple. To calculate the <m>\phi</m> statistic, you just divide your <m>X^2</m> value by the sample size, and take the square root: <me> \phi = \sqrt{\frac{X^2}{N}} </me> The idea here is that the <m>\phi</m> statistic is supposed to range between 0 (no at all association) and 1 (perfect association), but it doesn't always do this when your contingency table is bigger than <m>2 \times 2</m>, which is a total pain. For bigger tables it's actually possible to obtain <m>\phi>1</m>, which is pretty unsatisfactory. So, to correct for this, people usually prefer to report the <m>V</m> statistic proposed by <xref ref="biblio-Cramer1946">Cramér (1946)</xref>. It's a pretty simple adjustment to <m>\phi</m>. If you've got a contingency table with <m>r</m> rows and <m>c</m> columns, then define <m>k = \min(r,c)</m> to be the smaller of the two values. If so, then <em>Cramer's  <m>V</m></em> statistic is <me> V = \sqrt{\frac{X^2}{N(k-1)}} </me> And you're done. This seems to be a fairly popular measure, presumably because it's easy to calculate, and it gives answers that aren't completely silly: you know that <m>V</m> really does range from 0 (no at all association) to 1 (perfect association).
     </p>
     <p>
       Calculating <m>V</m> or <m>\phi</m> is obviously pretty straightforward. So much so that the core packages in R don't seem to have functions to do it, though other packages do. To save you the time and effort of finding one, I've included one in the <c>lsr</c> package, called <c>cramersV()</c>. It takes a contingency table as input, and prints out the measure of effect size:
@@ -1099,7 +1072,7 @@
     </p>
     <ul>
       <li>
-        <p>*Expected frequencies are sufficiently large*. Remember how in the previous section we saw that the <m>\chi^2</m> sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we discussed in <xref ref="probability" /> this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80\% of the the expected frequencies are above 5 and none of them are below 1. However, from what I've been able to discover \cite&lt;e.g.,&gt;{Cochran1954}, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative [Larntz1978].</p>
+        <p>*Expected frequencies are sufficiently large*. Remember how in the previous section we saw that the <m>\chi^2</m> sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we discussed in <xref ref="probability" /> this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80% of the the expected frequencies are above 5 and none of them are below 1. However, from what I've been able to discover \cite&lt;e.g.,&gt;{Cochran1954}, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative [Larntz1978].</p>
       </li>
       <li>
         <p>*Data are independent of one another*. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here's what I mean. Suppose I'm interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I'd actually walked into the same ward 10 times, and in fact I'd only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 <em>observations</em> were massively non-independent... and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence "stuffs things up". Sometimes it causes you to falsely reject the null, as the silly hospital example illustrats, but it can go the other way too. To give a slightly less stupid example, let's consider what would happen if I'd done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that <em>everyone</em> selects one heart, one club, one diamond and one spade (in keeping with the "representativeness heuristic"; Tversky \&amp; Kahneman 1974). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 four all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect... falsely retaining the null.</p>
@@ -1144,9 +1117,9 @@
     </program>
     <console>
       <output><![CDATA[
-## 
-##    clubs diamonds   hearts   spades 
-##       35       51       64       50
+             Chi-squared test for given probabilities
+  data: observed
+  X-squared = 8.44, df = 3, p-value = 0.03774
 ]]></output>
     </console>
     </remark>
@@ -1162,9 +1135,9 @@
     </program>
     <console>
       <output><![CDATA[
-## 
-##    clubs diamonds   hearts   spades 
-##       35       51       64       50
+             Chi-squared test for given probabilities
+  data: observed
+  X-squared = 4.7417, df = 3, p-value = 0.1917
 ]]></output>
     </console>
     </remark>
@@ -1203,11 +1176,9 @@
     </program>
     <console>
       <output><![CDATA[
-##         species
-## choice   robot human
-##   puppy     13    15
-##   flower    30    13
-##   data      44    65
+             Pearson's Chi-squared test
+  data: chapekFrequencies
+  X-squared = 10.7216, df = 2, p-value = 0.004697
 ]]></output>
     </console>
     </remark>
@@ -1224,12 +1195,20 @@
       <title>R Code</title>
     <program language="r">
       <input>
-        load( file.path(projecthome, "data/salem.Rdata"))
+        load("salem.Rdata")
         
         salem.tabs &lt;- table( trial )
         print( salem.tabs )
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+             on.fire
+    happy  FALSE TRUE
+     FALSE     3    3
+     TRUE     10    0
+]]></output>
+    </console>
     </remark>
     <p>
       Looking at this data, you'd be hard pressed not to suspect that people not on fire are more likely to be happy than people on fire. However, the chi-square test makes this very hard to test because of the small sample size. If I try to do so, R gives me a warning message:
@@ -1243,8 +1222,12 @@
     </program>
     <console>
       <output><![CDATA[
-## Warning in chisq.test(salem.tabs): Chi-squared approximation may be
-## incorrect
+            Pearson's Chi-squared test with Yates' continuity correction
+ data: salem.tabs
+ X-squared = 3.3094, df = 1, p-value = 0.06888
+
+Warning message:
+In chisq.test(salem.tabs) : Chi-squared approximation may be incorrect
 ]]></output>
     </console>
     </remark>
@@ -1494,6 +1477,14 @@
           print( right.table )
         </input>
       </program>
+    <console>
+      <output><![CDATA[
+##                response_after
+## response_before no  yes
+##             no  65    5
+##             yes 25    5
+]]></output>
+    </console>
       </remark>
       <p>
         and from there, we can run the McNemar test by using the <c>mcnemar.test()</c> function:
@@ -1533,6 +1524,17 @@
         cardChoices
       </input>
     </program>
+    <console>
+      <output><![CDATA[
+## 
+##             choice_2
+## choice_1     clubs diamonds hearts spades
+## clubs           10        9     10      6
+## diamonds        20        4     13     14
+## hearts          20       18      3     23
+## spades          18       13     15      4
+]]></output>
+    </console>
     </remark>
     <p>
       Suppose I wanted to know whether the choice you make the second time is dependent on the choice you made the first time. This is where a test of independence is useful, and what we're trying to do is see if there's some relationship between the rows and columns of this table. Here's the result:
