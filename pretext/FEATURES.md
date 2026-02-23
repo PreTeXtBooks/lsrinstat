@@ -47,6 +47,27 @@ full interactivity would require integration with services like JupyterLite or R
 
 PreTeXt provides "knowls" - collapsible content blocks that allow readers to show/hide content.
 
+### Toggling R Code Listings
+
+R code blocks wrapped in a `<listing>` element are collapsible by default in this book (configured via `listing="yes"` in `publication/publication.ptx`). This lets readers show or hide standalone R code examples with a single click.
+
+```xml
+<listing xml:id="listing-unique-id">
+  <caption>Description of the R code</caption>
+  <program language="r">
+    <input>
+# Your R code here
+# Note: in PreTeXt XML, the R assignment operator <- must be escaped as &lt;-
+x &lt;- 10
+y &lt;- 20
+x + y
+    </input>
+  </program>
+</listing>
+```
+
+The caption serves as the clickable toggle label. When the reader clicks it, the code block expands to show (or collapses to hide) the R code.
+
 ### Examples with Solutions
 
 ```xml

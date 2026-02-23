@@ -62,13 +62,16 @@
       <p>
         Okay then. Since scripts are so terribly awesome, let's write one. To do this, open up a simple text editing program, like TextEdit (on a Mac) or Notebook (on Windows). Don't use a fancy word processing program like Microsoft Word or OpenOffice: use the simplest program you can find. Open a new text document, and type some R commands, hitting enter after each command. Let's try using <c>x &lt;- "hello world"</c> and <c>print(x)</c> as our commands. Then save the document as <c>hello.R</c>, and remember to save it as a plain text file: don't save it as a word document or a rich text file. Just a boring old plain text file. Also, when it asks you <em>where</em> to save the file, save it to whatever folder you're using as your working directory in R. At this point, you should be looking at something like <xref ref="fig-script" />. And if so, you have now successfully written your first R program. Because I don't want to take screenshots for every single script, I'm going to present scripts using extracts formatted as follows:
       </p>
-      <program language="r">
-        <input>
-          ## --- hello.R
-          x &lt;- "hello world"
-          print(x)
-        </input>
-      </program>
+      <listing xml:id="listing-hello-r">
+        <caption>A simple R script (<c>hello.R</c>)</caption>
+        <program language="r">
+          <input>
+## --- hello.R
+x &lt;- "hello world"
+print(x)
+          </input>
+        </program>
+      </listing>
       <p>
         The line at the top is the filename, and not part of the script itself. Below that, you can see the two R commands that make up the script itself. Next to each command I've included the line numbers. You don't actually type these into your script, but a lot of text editors (including the one built into Rstudio that I'll show you in a moment) will show line numbers, since it's a very useful convention that allows you to say things like "line 1 of the script creates a new variable, and line 2 prints it out".
       </p>
@@ -115,24 +118,27 @@
       <p>
         When writing up your data analysis as a script, one thing that is generally a good idea is to include a lot of comments in the code. That way, if someone else tries to read it (or if you come back to it several days, weeks, months or years later) they can figure out what's going on. As a beginner, I think it's especially useful to comment thoroughly, partly because it gets you into the habit of commenting the code, and partly because the simple act of typing in an explanation of what the code does will help you keep it clear in your own mind what you're trying to achieve. To illustrate this idea, consider the following script:
       </p>
-      <program language="r">
-        <input>
-          ## --- itngscript.R
-          # A script to analyse nightgarden.Rdata_
-          #  author: Dan Navarro_
-          #  date: 22/11/2011_
-          
-          # Load the data, and tell the user that this is what we're
-          # doing.
-          cat( "loading data from nightgarden.Rdata...\n" )
-          load(file.path(projecthome,"data","nightgarden.Rdata"))
-          
-          # Create a cross tabulation and print it out:
-          cat( "tabulating data...\n" )
-          itng.table &lt;- table( speaker, utterance )
-          print( itng.table )
-        </input>
-      </program>
+      <listing xml:id="listing-itng-script">
+        <caption>An R script with comments (<c>itngscript.R</c>)</caption>
+        <program language="r">
+          <input>
+## --- itngscript.R
+# A script to analyse nightgarden.Rdata_
+#  author: Dan Navarro_
+#  date: 22/11/2011_
+
+# Load the data, and tell the user that this is what we're
+# doing.
+cat( "loading data from nightgarden.Rdata...\n" )
+load(file.path(projecthome,"data","nightgarden.Rdata"))
+
+# Create a cross tabulation and print it out:
+cat( "tabulating data...\n" )
+itng.table &lt;- table( speaker, utterance )
+print( itng.table )
+          </input>
+        </program>
+      </listing>
     <console>
       <output><![CDATA[
 ## tabulating data...
