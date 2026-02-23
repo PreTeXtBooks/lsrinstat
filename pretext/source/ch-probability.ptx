@@ -265,7 +265,7 @@ probabilities <- c( .5, .3, .1, 0, .1)
 	)]]></output>
 </console>
 <p>The only other thing that I need to point out is that probability theory allows you to talk about <em>non elementary events</em> as well as elementary ones. The easiest way to illustrate the concept is with an example. In the pants example, it's perfectly legitimate to refer to the probability that I wear jeans. In this scenario, the "Dan wears jeans" event said to have happened as long as the elementary event that actually did occur is one of the appropriate ones; in this case "blue jeans", "black jeans" or "grey jeans". In mathematical terms, we defined the "jeans" event <m>E</m> to correspond to the set of elementary events <m>(X_1, X_2, X_3)</m>. If any of these elementary events occurs, then <m>E</m> is also said to have occurred. Having decided to write down the definition of the <m>E</m> this way, it's pretty straightforward to state what the probability <m>P(E)</m> is: we just add everything up. In this particular case <me>P(E) = P(X_1) + P(X_2) + P(X_3)</me> and, since the probabilities of blue, grey and black jeans respectively are .5, .3 and .1, the probability that I wear jeans is equal to .9.</p>
-<p>At this point you might be thinking that this is all terribly obvious and simple and you'd be right. All we've really done is wrap some basic mathematics around a few common sense intuitions. However, from these simple beginnings it's possible to construct some extremely powerful mathematical tools. I'm definitely not going to go into the details in this book, but what I will do is list -- in  Table <xref ref="tab-probrules"/> -- some of the other rules that probabilities satisfy. These rules can be derived from the simple assumptions that I've outlined above, but since we don't actually use these rules for anything in this book, I won't do so here.</p>
+<p>At this point you might be thinking that this is all terribly obvious and simple and you'd be right. All we've really done is wrap some basic mathematics around a few common sense intuitions. However, from these simple beginnings it's possible to construct some extremely powerful mathematical tools. I'm definitely not going to go into the details in this book, but what I will do is list -- in  Table <xref ref="table-basic-prob-rules"/> -- some of the other rules that probabilities satisfy. These rules can be derived from the simple assumptions that I've outlined above, but since we don't actually use these rules for anything in this book, I won't do so here.</p>
 <table xml:id="table-basic-prob-rules">
   <title>Basic Probability Rules</title>
   <tabular halign="center">
@@ -660,7 +660,8 @@ par(mfrow=c(1,1))]]></output>
   <caption>A <m>t</m> distribution with 3 degrees of freedom (solid line). It looks similar to a normal distribution,
 but it's not quite the same. For comparison purposes, I've plotted a standard normal distribution
 as the dashed line. Note that the "tails" of the <m>t</m> distribution are "heavier" (i.e., extend further outwards)
-than the tails of the normal distribution? That's the important dierence between the two.</caption>
+than the tails of the normal distribution? That's the important di
+erence between the two.</caption>
   <image source="images/tdist.png"/>
 </figure>
 <ul>
