@@ -465,7 +465,7 @@ deviation.
   <caption>
 An illustration of the fact that the sample mean is an unbiased estimator of the population
 mean (panel a), but the sample standard deviation is a biased estimator of the population standard
-deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation
+deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation
 each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted
 of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and
 standard deviation 15. On average, the sample means turn out to be 100, regardless of sample size (panel
@@ -586,9 +586,9 @@ qt( p = .975, df = N-1)   # calculate the 97.5th quantile of the t-dist]]></inpu
 <p>Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the frequencies of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those <em>intervals</em> would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in <xref ref="fig-cirep"/>, which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment (top panel) and another 50 confidence intervals for a "measure 25 IQ scores" experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.</p>
 <figure xml:id="fig-cirep">
   <caption>
-95% condence intervals. The top (panel a) shows 50 simulated replications of an experiment
+95% confidence intervals. The top (panel a) shows 50 simulated replications of an experiment
 in which we measure the IQs of 10 people. The dot marks the location of the sample mean, and
-the line shows the 95% condence interval. In total 47 of the 50 condence intervals do contain the true
+the line shows the 95% confidence interval. In total 47 of the 50 confidence intervals do contain the true
 mean (i.e., 100), but the three intervals marked with asterisks do not. The lower graph (panel b) shows
 a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25
 people.
@@ -641,7 +641,7 @@ bargraph.CI( x.factor = year,            # grouping variable
 </remark>
 <figure xml:id="fig-cibargraph">
   <caption>
-Means and 95% condence intervals for AFL attendance, plotted separately for each year
+Means and 95% confidence intervals for AFL attendance, plotted separately for each year
 from 1987 to 2010. This graph was drawn using the <c>bargraph.CI()</c> function.
 </caption>
   <image source="images/cibargraph.png"/>
@@ -662,7 +662,7 @@ from 1987 to 2010. This graph was drawn using the <c>bargraph.CI()</c> function.
 </remark>
 <figure xml:id="fig-cilinegraph">
   <caption>
-Means and 95% condence intervals for AFL <c>attendance</c>, plotted separately for each year
+Means and 95% confidence intervals for AFL <c>attendance</c>, plotted separately for each year
 from 1987 to 2010. This graph was drawn using the <c>lineplot.CI()</c> function.
 </caption>
   <image source="images/cilineplot.png"/>
@@ -680,7 +680,7 @@ from 1987 to 2010. This graph was drawn using the <c>lineplot.CI()</c> function.
 </program>
 <figure xml:id="fig-ciplotmeans">
   <caption>
-Means and 95% condence intervals for AFL <c>attendance</c>, plotted separately for each year
+Means and 95% confidence intervals for AFL <c>attendance</c>, plotted separately for each year
 from 1987 to 2010. This graph was drawn using the <c>plotmeans()</c> function.
 </caption>
   <image source="images/ciplotmeans.png"/>
