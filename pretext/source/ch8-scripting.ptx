@@ -64,8 +64,6 @@
       </p>
       <listing xml:id="listing-hello-r">
         <caption>A simple R script (<c>hello.R</c>)</caption>
-        <remark>
-          <title>R Code</title>
         <program language="r">
           <input>
 ## --- hello.R
@@ -73,7 +71,6 @@ x &lt;- "hello world"
 print(x)
           </input>
         </program>
-        </remark>
       </listing>
       <p>
         The line at the top is the filename, and not part of the script itself. Below that, you can see the two R commands that make up the script itself. Next to each command I've included the line numbers. You don't actually type these into your script, but a lot of text editors (including the one built into Rstudio that I'll show you in a moment) will show line numbers, since it's a very useful convention that allows you to say things like "line 1 of the script creates a new variable, and line 2 prints it out".
@@ -129,8 +126,6 @@ print(x)
       </p>
       <listing xml:id="listing-itng-script">
         <caption>An R script with comments (<c>itngscript.R</c>)</caption>
-        <remark>
-          <title>R Code</title>
         <program language="r">
           <input>
 ## --- itngscript.R
@@ -149,7 +144,6 @@ itng.table &lt;- table( speaker, utterance )
 print( itng.table )
           </input>
         </program>
-        </remark>
       </listing>
     <console>
       <output><![CDATA[
