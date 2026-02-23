@@ -28,6 +28,10 @@
       Anscombe, F. J. (1973). Graphs in statistical analysis. <em>The American Statistician</em>, 27(1), 17-21.
     </biblio>
 
+    <biblio type="raw" xml:id="biblio-Fisher1922b">
+      Fisher, R. A. (1922). On the mathematical foundation of theoretical statistics. <em>Philosophical Transactions of the Royal Society A</em>, 222, 309-368.
+    </biblio>
+
     <biblio type="raw" xml:id="biblio-Adair1984">
       Adair, G. (1984). The Hawthorne effect: A reconsideration of the methodological artifact. <em>Journal of Applied Psychology</em>, 69, 334-345.
     </biblio>
@@ -56,6 +60,10 @@
       Kahneman, D., &amp; Tversky, A. (1973). On the psychology of prediction. <em>Psychological Review</em>, 80, 237-251.
     </biblio>
 
+    <biblio type="raw" xml:id="biblio-Meehl1967">
+      Meehl, P. H. (1967). Theory testing in psychology and physics: A methodological paradox. <em>Philosophy of Science</em>, 34, 103-115.
+    </biblio>
+
     <biblio type="raw" xml:id="biblio-Kuhberger2014">
       Kühberger, A., Fritz, A., &amp; Scherndl, T. (2014). Publication bias in psychology: A diagnosis based on the correlation between effect size and sample size. <em>Public Library of Science One</em>, 9, 1-8.
     </biblio>
@@ -74,6 +82,178 @@
 
     <biblio type="raw" xml:id="biblio-Stevens1946">
       Stevens, S. S. (1946). On the theory of scales of measurement. <em>Science</em>, 103, 677-680.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Pearson1900">
+      Pearson, K. (1900). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. <em>Philosophical Magazine</em>, 50, 157-175.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Fisher1922">
+      Fisher, R. A. (1922). On the interpretation of χ² from contingency tables, and the calculation of P. <em>Journal of the Royal Statistical Society</em>, 84, 87-94.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Hogg2005">
+      Hogg, R. V., McKean, J. V., &amp; Craig, A. T. (2005). <em>Introduction to Mathematical Statistics</em> (6th ed.). Pearson.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Yates1934">
+      Yates, F. (1934). Contingency tables involving small numbers and the χ² test. <em>Supplement to the Journal of the Royal Statistical Society</em>, 1, 217-235.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Cramer1946">
+      Cramér, H. (1946). <em>Mathematical Methods of Statistics</em>. Princeton University Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-McNemar1947">
+      McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. <em>Psychometrika</em>, 12, 153-157.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Agresti1996">
+      Agresti, A. (1996). <em>An Introduction to Categorical Data Analysis</em>. Wiley.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Agresti2002">
+      Agresti, A. (2002). <em>Categorical Data Analysis</em> (2nd ed.). Wiley.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Student1908">
+      Student, A. (1908). The probable error of a mean. <em>Biometrika</em>, 6, 1-2.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Box1987">
+      Box, J. F. (1987). Guinness, Gosset, Fisher, and Small Samples. <em>Statistical Science</em>, 2, 45-52.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Welch1947">
+      Welch, B. L. (1947). The generalization of "Student's" problem when several different population variances are involved. <em>Biometrika</em>, 34, 28-35.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Cohen1988">
+      Cohen, J. (1988). <em>Statistical Power Analysis for the Behavioral Sciences</em> (2nd ed.). Lawrence Erlbaum.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-McGrath2006">
+      McGrath, R. E., &amp; Meyer, G. J. (2006). When effect sizes disagree: The case of r and d. <em>Psychological Methods</em>, 11, 386-401.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Hedges1981">
+      Hedges, L. V. (1981). Distribution theory for Glass's estimator of effect size and related estimators. <em>Journal of Educational Statistics</em>, 6, 107-128.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Hedges1985">
+      Hedges, L. V., &amp; Olkin, I. (1985). <em>Statistical Methods for Meta-Analysis</em>. Academic Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Shapiro1965">
+      Shapiro, S. S., &amp; Wilk, M. B. (1965). An analysis of variance test for normality (complete samples). <em>Biometrika</em>, 52, 591-611.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Hays1994">
+      Hays, W. L. (1994). <em>Statistics</em> (5th ed.). Harcourt Brace.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Dunn1961">
+      Dunn, O. J. (1961). Multiple comparisons among means. <em>Journal of the American Statistical Association</em>, 56, 52-64.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Holm1979">
+      Holm, S. (1979). A simple sequentially rejective multiple test procedure. <em>Scandinavian Journal of Statistics</em>, 6, 65-70.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Shaffer1995">
+      Shaffer, J. P. (1995). Multiple hypothesis testing. <em>Annual Review of Psychology</em>, 46, 561-584.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Hsu1996">
+      Hsu, J. C. (1996). <em>Multiple Comparisons: Theory and Methods</em>. Chapman and Hall.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Levene1960">
+      Levene, H. (1960). Robust tests for equality of variances. In I. Olkin et al. (Eds.), <em>Contributions to Probability and Statistics</em>. Stanford University Press, 278-292.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-BrownForsythe1974">
+      Brown, M. B., &amp; Forsythe, A. B. (1974). Robust tests for equality of variances. <em>Journal of the American Statistical Association</em>, 69, 364-367.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Welch1951">
+      Welch, B. L. (1951). On the comparison of several mean values: An alternative approach. <em>Biometrika</em>, 38, 330-336.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-KruskalWallis1952">
+      Kruskal, W. H., &amp; Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. <em>Journal of the American Statistical Association</em>, 47, 583-621.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Sahai2000">
+      Sahai, H., &amp; Ageel, M. I. (2000). <em>The Analysis of Variance: Fixed, Random and Mixed Models</em>. Birkhäuser.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Fox2011">
+      Fox, J., &amp; Weisberg, S. (2011). <em>An R Companion to Applied Regression</em> (2nd ed.). Sage.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Cook1983">
+      Cook, R. D., &amp; Weisberg, S. (1983). Diagnostics for heteroscedasticity in regression. <em>Biometrika</em>, 70, 1-10.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-White1980">
+      White, H. (1980). A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. <em>Econometrika</em>, 48, 817-838.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Long2000">
+      Long, J. S., &amp; Ervin, L. H. (2000). Using heteroscedasticity consistent standard errors in the linear regression model. <em>The American Statistician</em>, 54, 217-224.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Akaike1974">
+      Akaike, H. (1974). A new look at the statistical model identification. <em>IEEE Transactions on Automatic Control</em>, 19, 716-723.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Ellis2010">
+      Ellis, P. D. (2010). <em>The Essential Guide to Effect Sizes</em>. Cambridge University Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Lehmann2011">
+      Lehmann, E. L. (2011). <em>Fisher, Neyman, and the Creation of Classical Statistics</em>. Springer.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Gelman2006">
+      Gelman, A., &amp; Stern, H. (2006). The difference between "significant" and "not significant" is not itself statistically significant. <em>The American Statistician</em>, 60, 328-331.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Jeffreys1961">
+      Jeffreys, H. (1961). <em>The Theory of Probability</em> (3rd ed.). Oxford University Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Kass1995">
+      Kass, R. E., &amp; Raftery, A. E. (1995). Bayes factors. <em>Journal of the American Statistical Association</em>, 90, 773-795.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Fisher1925">
+      Fisher, R. A. (1925). <em>Statistical Methods for Research Workers</em>. Oliver and Boyd.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Johnson2013">
+      Johnson, V. E. (2013). Revised standards for statistical evidence. <em>Proceedings of the National Academy of Sciences</em>, 110(48), 19313-19317.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Morey2015">
+      Morey, R. D., &amp; Rouder, J. N. (2015). BayesFactor: Computation of Bayes Factors for Common Designs. R package version 0.9.10-1.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Gunel1974">
+      Gunel, E., &amp; Dickey, J. (1974). Bayes factors for independence in contingency tables. <em>Biometrika</em>, 545-557.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Rouder2009">
+      Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., &amp; Iverson, G. (2009). Bayesian t-tests for accepting and rejecting the null hypothesis. <em>Psychonomic Bulletin &amp; Review</em>, 16, 225-237.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Kruschke2011">
+      Kruschke, J. K. (2011). <em>Doing Bayesian Data Analysis: A Tutorial with R and BUGS</em>. Academic Press.
+    </biblio>
+
+    <biblio type="raw" xml:id="biblio-Lee2014">
+      Lee, M. D., &amp; Wagenmakers, E.-J. (2014). <em>Bayesian Cognitive Modeling: A Practical Course</em>. Cambridge University Press.
     </biblio>
 
   </references>

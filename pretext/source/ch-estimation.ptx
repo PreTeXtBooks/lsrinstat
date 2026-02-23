@@ -2,11 +2,11 @@
 
 <chapter xml:id="estimation">
 <title>Estimating unknown quantities from a sample</title>
-<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in <xref ref="ch5-descriptive-statistics"/>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to "learn what we do not know from what we do". Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two "big ideas": estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I'm going to witter on about sampling theory first because estimation theory doesn't make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts <xref ref="srs"/> through <xref ref="samplesandclt"/> are focused on sampling theory, and <xref ref="pointestimates"/> and <xref ref="ci"/> make use of sampling theory to discuss how statisticians think about estimation.</p>
+<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in <xref ref="descriptives"/>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to "learn what we do not know from what we do". Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two "big ideas": estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I'm going to witter on about sampling theory first because estimation theory doesn't make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts <xref ref="srs"/> through <xref ref="samplesandclt"/> are focused on sampling theory, and <xref ref="pointestimates"/> and <xref ref="ci"/> make use of sampling theory to discuss how statisticians think about estimation.</p>
 <section xml:id="srs">
 <title>Samples, populations and sampling</title>
 <p>In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <em>sampling theory</em> comes in. If probability theory is the foundations upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about "making inferences" the way statisticians think about it, we need to be a bit more explicit about what it is that we're drawing inferences <em>from</em> (the sample) and what it is that we're drawing inferences <em>about</em> (the population).</p>
-<p>In almost every situation of interest, what we have available to us as researchers is a <em>sample</em> of data. We might have run experiment with some number of participants; a polling company might have phoned some number of people to ask questions about voting intentions; etc. Regardless: the data set available to us is finite, and incomplete. We can't possibly get every person in the  world to do our experiment; a polling company doesn't have the time or the money to ring up every voter in the country etc. In our earlier discussion of descriptive statistics (<xref ref="ch5-descriptive-statistics"/>, this sample was the only thing we were interested in. Our only goal was to find ways of describing, summarising and graphing that sample. This is about to change.</p>
+<p>In almost every situation of interest, what we have available to us as researchers is a <em>sample</em> of data. We might have run experiment with some number of participants; a polling company might have phoned some number of people to ask questions about voting intentions; etc. Regardless: the data set available to us is finite, and incomplete. We can't possibly get every person in the  world to do our experiment; a polling company doesn't have the time or the money to ring up every voter in the country etc. In our earlier discussion of descriptive statistics (<xref ref="descriptives"/>, this sample was the only thing we were interested in. Our only goal was to find ways of describing, summarising and graphing that sample. This is about to change.</p>
 <subsection xml:id="pop">
 <title>Defining a population</title>
 <p>A sample is a concrete thing. You can open up a data file, and there's the data from your sample. A <em>population</em>, on the other hand, is a more abstract idea. It refers to the set of all possible people, or all possible observations, that you want to draw conclusions about, and is generally <em>much</em> bigger than the sample. In an ideal world, the researcher would begin the study with a clear idea of what the population of interest is, since the process of designing a study and testing hypotheses about the data that it produces does depend on the population about which you want to make statements. However, that doesn't always happen in practice: usually the researcher has a fairly vague idea of what the population is and designs the study as best he/she can on that basis.</p>
@@ -113,15 +113,19 @@ colour <- TRUE
   <caption>The population distribution of IQ scores: a normal distribution with mean 100 and standard deviation 15.</caption>
   <image source="images/IQdista.png"/>
 </figure>
-<figure xml:id="fig-IQdist">
-  <caption>Sample histograms of IQ scores showing how larger samples better approximate the population distribution.</caption>
-  <image source="images/IQdist.png"/>
+<figure xml:id="fig-IQsample100">
+  <caption>Sample histogram of IQ scores for a sample of size <m>N=100</m>.</caption>
+  <image source="generated/IQsample100.png"/>
+</figure>
+<figure xml:id="fig-IQsample10000">
+  <caption>Sample histogram of IQ scores for a sample of size <m>N=10000</m>, showing how larger samples better approximate the population distribution.</caption>
+  <image source="generated/IQsample10000.png"/>
 </figure>
 <p>Now suppose I run an experiment. I select 100 people at random and administer an IQ test, giving me a simple random sample from the population. My sample would consist of a collection of numbers like this:</p>
 <console>
 <output><![CDATA[                          106 101 98 80 74 ... 107 72 100]]></output>
 </console>
-<p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in <xref ref="fig-IQdist"/>b. As you can see, the histogram is <em>roughly</em> the right shape, but it's a very crude approximation to the true population distribution shown in <xref ref="fig-IQdist"/>a. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <em>sample statistics</em> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I'll talk about how you can estimate population parameters using your sample statistics (<xref ref="pointestimates"/> and how to work out how confident you are in your estimates (<xref ref="ci"/> but before we get to that there's a few more ideas in sampling theory that you need to know about.</p>
+<p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in <xref ref="fig-IQsample100"/>. As you can see, the histogram is <em>roughly</em> the right shape, but it's a very crude approximation to the true population distribution shown in <xref ref="fig-IQdista"/>. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <em>sample statistics</em> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I'll talk about how you can estimate population parameters using your sample statistics (<xref ref="pointestimates"/> and how to work out how confident you are in your estimates (<xref ref="ci"/> but before we get to that there's a few more ideas in sampling theory that you need to know about.</p>
 </subsection>
 </section>
 <section xml:id="lawlargenumbers">
@@ -138,7 +142,7 @@ print(head(IQ))]]></input>
 ## [1] 113 104  64  89 101 100
 ]]></output>
     </console>
-<p>I can compute the mean IQ using the command <c>mean(IQ)</c> and the standard deviation using the command <c>sd(IQ)</c>, and I can draw a histgram using <c>hist()</c>. The histogram of this much larger sample is shown in <xref ref="fig-IQdist"/>c. Even a moment's inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
+<p>I can compute the mean IQ using the command <c>mean(IQ)</c> and the standard deviation using the command <c>sd(IQ)</c>, and I can draw a histgram using <c>hist()</c>. The histogram of this much larger sample is shown in <xref ref="fig-IQsample10000"/>. Even a moment's inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
 <p>I feel a bit silly saying this, but the thing I want you to take away from this is that large samples generally give you better information. I feel silly saying it because it's so bloody obvious that it shouldn't need to be said. In fact, it's such an obvious point that when Jacob Bernoulli -- one of the founders of probability theory -- formalised this idea back in 1713, he was kind of a jerk about it. Here's how he described the fact that we all share this intuition:</p>
 <blockquote>
 <p><em>For even the most stupid of men, by some instinct of nature, by himself and without any instruction (which is a remarkable thing), is convinced that the more observations have been made, the less danger there is of wandering from one's goal</em> @Stigler1986</p>
@@ -168,29 +172,31 @@ print(head(IQ))]]></input>
 [1]  78  88 111 111 117]]></output>
 </console>
 <p>This time around, the mean IQ in my sample is 101. If I repeat the experiment 10 times I obtain the results shown in Table <xref ref="tab-replications"/>, and as you can see the sample mean varies from one replication to the next.</p>
-<console>
-<output><![CDATA[knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c("Replication 1", "Replication 2", "Replication 3", "Replication 4",
-         "Replication 5", "Replication 6", "Replication 7", "Replication 8",
-         "Replication 9", "Replication 10"),
-Person.1 = c(90, 78, 111, 98, 105, 81, 100, 107, 86, 95),
-Person.2 = c(82, 88, 122, 96, 113, 89, 93, 100, 119, 126),
-Person.3 = c(94, 111, 91, 119, 103, 93, 108, 105, 108, 112),
-Person.4 = c(99, 111, 98, 99, 103, 85, 98, 117, 73, 120),
-Person.5 = c(110, 117, 86, 107, 98, 114, 133, 85, 116, 76),
-Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
-                  105.8), caption = "Ten replications of the IQ experiment, each with a sample size of $N=5$.")
-)]]></output>
-</console>
+<table xml:id="tab-replications">
+  <title>Ten replications of the IQ experiment, each with a sample size of <m>N=5</m>.</title>
+  <tabular>
+    <row header="yes"><cell></cell><cell>Person 1</cell><cell>Person 2</cell><cell>Person 3</cell><cell>Person 4</cell><cell>Person 5</cell><cell>Sample Mean</cell></row>
+    <row><cell>Replication 1</cell><cell>90</cell><cell>82</cell><cell>94</cell><cell>99</cell><cell>110</cell><cell>95.0</cell></row>
+    <row><cell>Replication 2</cell><cell>78</cell><cell>88</cell><cell>111</cell><cell>111</cell><cell>117</cell><cell>101.0</cell></row>
+    <row><cell>Replication 3</cell><cell>111</cell><cell>122</cell><cell>91</cell><cell>98</cell><cell>86</cell><cell>101.6</cell></row>
+    <row><cell>Replication 4</cell><cell>98</cell><cell>96</cell><cell>119</cell><cell>99</cell><cell>107</cell><cell>103.8</cell></row>
+    <row><cell>Replication 5</cell><cell>105</cell><cell>113</cell><cell>103</cell><cell>103</cell><cell>98</cell><cell>104.4</cell></row>
+    <row><cell>Replication 6</cell><cell>81</cell><cell>89</cell><cell>93</cell><cell>85</cell><cell>114</cell><cell>92.4</cell></row>
+    <row><cell>Replication 7</cell><cell>100</cell><cell>93</cell><cell>108</cell><cell>98</cell><cell>133</cell><cell>106.4</cell></row>
+    <row><cell>Replication 8</cell><cell>107</cell><cell>100</cell><cell>105</cell><cell>117</cell><cell>85</cell><cell>102.8</cell></row>
+    <row><cell>Replication 9</cell><cell>86</cell><cell>119</cell><cell>108</cell><cell>73</cell><cell>116</cell><cell>100.4</cell></row>
+    <row><cell>Replication 10</cell><cell>95</cell><cell>126</cell><cell>112</cell><cell>120</cell><cell>76</cell><cell>105.8</cell></row>
+  </tabular>
+</table>
 <p>Now suppose that I decided to keep going in this fashion, replicating this "five IQ scores" experiment over and over again. Every time I replicate the experiment I write down the sample mean. Over time, I'd be amassing a new data set, in which every experiment generates a single data point. The first 10 observations from my data set are the sample means listed in Table <xref ref="tab-replications"/>, so my data set starts out like this:</p>
 <console>
 <output><![CDATA[                      95.0 101.0 101.6 103.8 104.4 ...]]></output>
 </console>
 <p>What if I continued like this for 10,000 replications, and then drew a histogram? Using the magical powers of R that's exactly what I did, and you can see the results in <xref ref="fig-sampdistmean"/>. As this picture illustrates, the average of 5 IQ scores is usually between 90 and 110. But more importantly, what it highlights is that if we replicate an experiment over and over again, what we end up with is a <em>distribution</em> of sample means! This distribution has a special name in statistics: it's called the <em>sampling distribution of the mean</em>.</p>
 <p>Sampling distributions are another important theoretical idea in statistics, and they're crucial for understanding the behaviour of small samples. For instance, when I ran the very first "five IQ scores" experiment, the sample mean turned out to be 95. What the sampling distribution in <xref ref="fig-sampdistmean"/> tells us, though, is that the "five IQ scores" experiment is not very accurate. If I repeat the experiment, the sampling distribution tells me that I can expect to see a sample mean anywhere between 80 and 120.</p>
-<figure xml:id="fig-sampleDist4.png">
-  <caption>The sampling distribution of the maximum IQ score in samples of N=5.</caption>
-  <image source="images/sampleDist4.png"/>
+<figure xml:id="fig-sampdistmean">
+  <caption>The sampling distribution of the sample mean for samples of N=5.</caption>
+  <image source="images/sampdistmean.png"/>
 </figure>
 
 <figure xml:id="fig-sampdistmax">
@@ -235,6 +241,10 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 	lines(x,y,lwd=2,col="black",type="l")
 ]]></output>
 </console>
+<figure xml:id="fig-IQsampa">
+  <caption>Sampling distribution of the mean for N=1: very wide distribution.</caption>
+  <image source="images/IQsampa.png"/>
+</figure>
 <console>
 <output><![CDATA[width <- 4.5
 	height <- 4.5
@@ -244,6 +254,10 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 	lines(x,y,lwd=2,col="black",type="l")
 ]]></output>
 </console>
+<figure xml:id="fig-IQsampb">
+  <caption>Sampling distribution of the mean for N=10: narrower distribution.</caption>
+  <image source="images/IQsampb.png"/>
+</figure>
 <console>
 <output><![CDATA[width <- 4.5
 	height <- 4.5
@@ -253,6 +267,10 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 	lines(x,y,lwd=2,col="black",type="l")
 ]]></output>
 </console>
+<figure xml:id="fig-IQsampc">
+  <caption>Sampling distribution of the mean for N=100: very narrow distribution.</caption>
+  <image source="images/IQsampc.png"/>
+</figure>
 <p>At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you'll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you'll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in <xref ref="fig-IQsampa"/>, <xref ref="fig-IQsampb"/> and <xref ref="fig-IQsampc"/>: the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the <em>standard error</em>. The standard error of a statistic is often denoted SE, and since we're usually interested in the standard error of the sample <em>mean</em>, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size <m>N</m> increases, the SEM decreases.</p>
 <p>Okay, so that's one part of the story. However, there's something I've been glossing over so far. All my examples up to this point have been based on the "IQ scores" experiments, and because IQ scores are roughly normally distributed, I've assumed that the population distribution is normal. What if it isn't normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as <m>N</m> increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using R. To do this, I started with the "ramped" distribution shown in the histogram in <xref ref="fig-cltdemo"/>. As you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn't look very much like a normal distribution at all. Next, I used R to simulate the results of a large number of experiments. In each experiment I took <m>N=2</m> samples from this distribution, and then calculated the sample mean. <xref ref="fig-cltdemob"/> plots the histogram of these sample means (i.e., the sampling distribution of the mean for <m>N=2</m>). This time, the histogram produces a <m>\cap</m>-shaped distribution: it's still not normal, but it's a lot closer to the black line than the population distribution in <xref ref="fig-cltdemoa"/>. When I increase the sample size to <m>N=4</m>, the sampling distribution of the mean is very close to normal (<xref ref="fig-cltdemoc"/>, and by the time we reach a sample size of <m>N=8</m> it's almost perfectly normal. In other words, as long as your sample size isn't tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!</p>
 <program language="r">
@@ -295,28 +313,6 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 	for( i in c(1,2,4,8)) {
 		plotOne(i)}]]></input>
 </program>
-<p>On the basis of these figures, it seems like we have evidence for all of the following claims about the sampling distribution of the mean:</p>
-<ul>
-<li><p>The mean of the sampling distribution is the same as the mean of the population</p></li>
-<li><p>The standard deviation of the sampling distribution (i.e., the standard error) gets smaller as the sample size increases</p></li>
-<li><p>The shape of the sampling distribution becomes normal as the sample size increases</p></li>
-</ul>
-<p>As it happens, not only are all of these statements true, there is a very famous theorem in statistics that proves all three of them, known as the <em>central limit theorem</em>. Among other things, the central limit theorem tells us that if the population distribution has mean <m>\mu</m> and standard deviation <m>\sigma</m>, then the sampling distribution of the mean also has mean <m>\mu</m>, and the standard error of the mean is <me>\mbox{SEM} = \frac{\sigma}{ \sqrt{N} }</me> Because we divide the population standard devation <m>\sigma</m> by the square root of the sample size <m>N</m>, the SEM gets smaller as the sample size increases. It also tells us that the shape of the sampling distribution becomes normal.<fn>As usual, I'm being a bit sloppy here. The central limit theorem is a bit more general than this section implies. Like most introductory stats texts, I've discussed one situation where the central limit theorem holds: when you're taking an average across lots of independent events drawn from the same distribution. However, the central limit theorem is much broader than this. There's a whole class of things called "<m>U</m>-statistics" for instance, all of which satisfy the central limit theorem and therefore become normally distributed for large sample sizes. The mean is one such statistic, but it's not the only one.</fn></p>
-<p>This result is useful for all sorts of things. It tells us why large experiments are more reliable than small ones, and because it gives us an explicit formula for the standard error it tells us <em>how much</em> more reliable a large experiment is. It tells us why the normal distribution is, well, <em>normal</em>. In real experiments, many of the things that we want to measure are actually averages of lots of different quantities (e.g., arguably, "general" intelligence as measured by IQ is an average of a large number of "specific" skills and abilities), and when that happens, the averaged quantity should follow a normal distribution. Because of this mathematical law, the normal distribution pops up over and over again in real data.</p>
-</subsection>
-
-<figure xml:id="fig-IQsampa">
-  <caption>Sampling distribution of the mean for N=1: very wide distribution.</caption>
-  <image source="images/IQsampa.png"/>
-</figure>
-<figure xml:id="fig-IQsampb">
-  <caption>Sampling distribution of the mean for N=10: narrower distribution.</caption>
-  <image source="images/IQsampb.png"/>
-</figure>
-<figure xml:id="fig-IQsampc">
-  <caption>Sampling distribution of the mean for N=100: very narrow distribution.</caption>
-  <image source="images/IQsampc.png"/>
-</figure>
 <figure xml:id="fig-cltdemo">
   <caption>The central limit theorem in action: population distribution (not normal).</caption>
   <image source="images/cltdemo.png"/>
@@ -333,14 +329,16 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
   <caption>Sampling distribution of the mean for N=8 samples from the non-normal population - approximately normal.</caption>
   <image source="images/cltdemoc.png"/>
 </figure>
-<figure xml:id="fig-sampdistsd">
-  <caption>Sampling distribution of the standard deviation showing bias for small N.</caption>
-  <image source="images/sampdistsd.png"/>
-</figure>
-<figure xml:id="fig-estimatorbias">
-  <caption>Average sample mean (unbiased) and average sample standard deviation (biased) as a function of sample size.</caption>
-  <image source="images/estimatorbias.png"/>
-</figure>
+<p>On the basis of these figures, it seems like we have evidence for all of the following claims about the sampling distribution of the mean:</p>
+<ul>
+<li><p>The mean of the sampling distribution is the same as the mean of the population</p></li>
+<li><p>The standard deviation of the sampling distribution (i.e., the standard error) gets smaller as the sample size increases</p></li>
+<li><p>The shape of the sampling distribution becomes normal as the sample size increases</p></li>
+</ul>
+<p>As it happens, not only are all of these statements true, there is a very famous theorem in statistics that proves all three of them, known as the <em>central limit theorem</em>. Among other things, the central limit theorem tells us that if the population distribution has mean <m>\mu</m> and standard deviation <m>\sigma</m>, then the sampling distribution of the mean also has mean <m>\mu</m>, and the standard error of the mean is <me>\mbox{SEM} = \frac{\sigma}{ \sqrt{N} }</me> Because we divide the population standard devation <m>\sigma</m> by the square root of the sample size <m>N</m>, the SEM gets smaller as the sample size increases. It also tells us that the shape of the sampling distribution becomes normal.<fn>As usual, I'm being a bit sloppy here. The central limit theorem is a bit more general than this section implies. Like most introductory stats texts, I've discussed one situation where the central limit theorem holds: when you're taking an average across lots of independent events drawn from the same distribution. However, the central limit theorem is much broader than this. There's a whole class of things called "<m>U</m>-statistics" for instance, all of which satisfy the central limit theorem and therefore become normally distributed for large sample sizes. The mean is one such statistic, but it's not the only one.</fn></p>
+<p>This result is useful for all sorts of things. It tells us why large experiments are more reliable than small ones, and because it gives us an explicit formula for the standard error it tells us <em>how much</em> more reliable a large experiment is. It tells us why the normal distribution is, well, <em>normal</em>. In real experiments, many of the things that we want to measure are actually averages of lots of different quantities (e.g., arguably, "general" intelligence as measured by IQ is an average of a large number of "specific" skills and abilities), and when that happens, the averaged quantity should follow a normal distribution. Because of this mathematical law, the normal distribution pops up over and over again in real data.</p>
+</subsection>
+
 </section>
 <section xml:id="pointestimates">
 <title>Estimating population parameters</title>
@@ -390,16 +388,16 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 <output><![CDATA[20, 22]]></output>
 </console>
 <p>This time around, our sample is <em>just</em> large enough for us to be able to observe some variability: two observations is the bare minimum number needed for any variability to be observed! For our new data set, the sample mean is <m>\bar{X}=21</m>, and the sample standard deviation is <m>s=1</m>. What intuitions do we have about the population? Again, as far as the population mean goes, the best guess we can possibly make is the sample mean: if forced to guess, we'd probably guess that the population mean cromulence is 21. What about the standard deviation? This is a little more complicated. The sample standard deviation is only based on two observations, and if you're at all like me you probably have the intuition that, with only two observations, we haven't given the population "enough of a chance" to reveal its true variability to us. It's not just that we suspect that the estimate is <em>wrong</em>: after all, with only two observations we expect it to be wrong to some degree. The worry is that the error is <em>systematic</em>. Specifically, we suspect that the sample standard deviation is likely to be smaller than the population standard deviation.</p>
-<console>
-<output><![CDATA[knitr::include_graphics(file.path(projecthome, "img/estimation/samplingDistSampleSD.png"))
-]]></output>
-</console>
+<figure xml:id="fig-sampdistsd">
+  <caption>Sampling distribution of the standard deviation showing bias for small N.</caption>
+  <image source="images/sampdistsd.png"/>
+</figure>
 <p>This intuition feels right, but it would be nice to demonstrate this somehow. There are in fact mathematical proofs that confirm this intuition, but unless you have the right mathematical background they don't help very much. Instead, what I'll do is use R to simulate the results of some experiments. With that in mind, let's return to our IQ studies. Suppose the true population mean IQ is 100 and the standard deviation is 15. I can use the <c>rnorm()</c> function to generate the the results of an experiment in which I measure <m>N=2</m> IQ scores, and calculate the sample standard deviation. If I do this over and over again, and plot a histogram of these sample standard deviations, what I have is the <em>sampling distribution of the standard deviation</em>. I've plotted this distribution in <xref ref="fig-sampdistsd"/>. Even though the true population standard deviation is 15, the average of the <em>sample</em> standard deviations is only 8.5. Notice that this is a very different result to what we found in <xref ref="fig-IQsampb"/> when we plotted the sampling distribution of the mean. If you look at that sampling distribution, what you see is that the population mean is 100, and the average of the sample means is also 100.</p>
 <p>Now let's extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of <m>N=2</m>, let's repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in <xref ref="fig-estimatorbias"/>. On the left hand side (panel a), I've plotted the average sample mean and on the right hand side (panel b), I've plotted the average standard deviation. The two plots are quite different: <em>on average</em>, the average sample mean is equal to the population mean. It is an <em>unbiased estimator</em>, which is essentially the reason why your best estimate for the population mean is the sample mean.<fn>I should note that I'm hiding something here. Unbiasedness is a desirable characteristic for an estimator, but there are other things that matter besides bias. However, it's beyond the scope of this book to discuss this in any detail. I just want to draw your attention to the fact that there's some hidden complexity here.</fn> The plot on the right is quite different: on average, the sample standard deviation <m>s</m> is <em>smaller</em> than the population standard deviation <m>\sigma</m>. It is a <em>biased estimator</em>. In other words, if we want to make a "best guess" <m>\hat\sigma</m> about the value of the population standard deviation <m>\sigma</m>, we should make sure our guess is a little bit larger than the sample standard deviation <m>s</m>.</p>
-<console>
-<output><![CDATA[knitr::include_graphics(file.path(projecthome, "img/estimation/biasMeanSD.png"))
-]]></output>
-</console>
+<figure xml:id="fig-estimatorbias">
+  <caption>Average sample mean (unbiased) and average sample standard deviation (biased) as a function of sample size.</caption>
+  <image source="images/estimatorbias.png"/>
+</figure>
 <p>The fix to this systematic bias turns out to be very simple. Here's how it works. Before tackling the standard deviation, let's look at the variance. If you recall from <xref ref="var"/>, the sample variance is defined to be the average of the squared deviations from the sample mean. That is: <me>s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2</me> The sample variance <m>s^2</m> is a biased estimator of the population variance <m>\sigma^2</m>. But as it turns out, we only need to make a tiny tweak to transform this into an unbiased estimator. All we have to do is divide by <m>N-1</m> rather than by <m>N</m>. If we do that, we obtain the following formula: <me>\hat\sigma^2 = \frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2</me> This is an unbiased estimator of the population variance <m>\sigma</m>. Moreover, this finally answers the question we raised in <xref ref="var"/>. Why did R give us slightly different answers when we used the <c>var()</c> function? Because the <c>var()</c> function calculates <m>\hat\sigma^2</m> not <m>s^2</m>, that's why. A similar story applies for the standard deviation. If we divide by <m>N-1</m> rather than <m>N</m>, our estimate of the population standard deviation becomes: <me>\hat\sigma = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2}</me> and when we use R's built in standard deviation function <c>sd()</c>, what it's doing is calculating <m>\hat\sigma</m>, not <m>s</m>.<fn>Okay, I'm hiding something else here. In a bizarre and counterintuitive twist, since <m>\hat\sigma^2</m> is an unbiased estimator of <m>\sigma^2</m>, you'd assume that taking the square root would be fine, and <m>\hat\sigma</m> would be an unbiased estimator of <m>\sigma</m>. Right? Weirdly, it's not. There's actually a subtle, tiny bias in <m>\hat\sigma</m>. This is just bizarre: <m>\hat\sigma^2</m> is and unbiased estimate of the population variance <m>\sigma^2</m>, but when you take the square root, it turns out that <m>\hat\sigma</m> is a biased estimator of the population standard deviation <m>\sigma</m>. Weird, weird, weird, right? So, why is <m>\hat\sigma</m> biased? The technical answer is "because non-linear transformations (e.g., the square root) don't commute with expectation", but that just sounds like gibberish to everyone who hasn't taken a course in mathematical statistics. Fortunately, it doesn't matter for practical purposes. The bias is small, and in real life everyone uses <m>\hat\sigma</m> and it works just fine. Sometimes mathematics is just annoying.</fn></p>
 <p>One final point: in practice, a lot of people tend to refer to <m>\hat{\sigma}</m> (i.e., the formula where we divide by <m>N-1</m>) as the <em>sample</em> standard deviation. Technically, this is incorrect: the <em>sample</em> standard deviation should be equal to <m>s</m> (i.e., the formula where we divide by <m>N</m>). These aren't the same thing, either conceptually or numerically. One is a property of the sample, the other is an estimated characteristic of the population. However, in almost every real life application, what we actually care about is the estimate of the population parameter, and so people always report <m>\hat\sigma</m> rather than <m>s</m>. This is the right number to report, of course, it's that people tend to get a little bit imprecise about terminology when they write it up, because "sample standard deviation" is shorter than "estimated population standard deviation". It's no big deal, and in practice I do the same thing everyone else does. Nevertheless, I think it's important to keep the two <em>concepts</em> separate: it's never a good idea to confuse "known properties of your sample" with "guesses about the population from which it came". The moment you start thinking that <m>s</m> and <m>\hat\sigma</m> are the same thing, you start doing exactly that.</p>
 <p>To finish this section off, here's another couple of tables to help keep things clear:</p>
@@ -445,22 +443,6 @@ Sample.Mean = c(95, 101, 101.6, 103.8, 104.4, 92.4, 106.4, 102.8, 100.4,
 </table>
 </subsection>
 
-<table xml:id="tab-replications">
-  <title>Results of repeated replications of a five IQ scores experiment</title>
-  <tabular>
-    <row header="yes"><cell>Replication</cell><cell>Sample mean</cell></row>
-    <row><cell>1</cell><cell>95.1</cell></row>
-    <row><cell>2</cell><cell>101.3</cell></row>
-    <row><cell>3</cell><cell>103.4</cell></row>
-    <row><cell>4</cell><cell>97.8</cell></row>
-    <row><cell>5</cell><cell>105.7</cell></row>
-    <row><cell>6</cell><cell>99.2</cell></row>
-    <row><cell>7</cell><cell>92.4</cell></row>
-    <row><cell>8</cell><cell>107.8</cell></row>
-    <row><cell>9</cell><cell>98.1</cell></row>
-    <row><cell>10</cell><cell>104.0</cell></row>
-  </tabular>
-</table>
 </section>
 <section xml:id="ci">
 <title>Estimating a confidence interval</title>
@@ -515,10 +497,10 @@ qt( p = .975, df = N-1)   # calculate the 97.5th quantile of the t-dist]]></inpu
 <title>Interpreting a confidence interval</title>
 <p>The hardest thing about confidence intervals is understanding what they <em>mean</em>. Whenever people first encounter confidence intervals, the first instinct is almost always to say that "there is a 95\% probabaility that the true mean lies inside the confidence interval". It's simple, and it seems to capture the common sense idea of what it means to say that I am "95\% confident". Unfortunately, it's not quite right. The intuitive definition relies very heavily on your own personal <em>beliefs</em> about the value of the population mean. I say that I am 95\% confident because those are my beliefs. In everyday life that's perfectly okay, but if you remember back to <xref ref="probmeaning"/>, you'll notice that talking about personal belief and confidence is a Bayesian idea. Personally (speaking as a Bayesian) I have no problem with the idea that the phrase "95\% probability" is allowed to refer to a personal belief. However, confidence intervals are <em>not</em> Bayesian tools. Like everything else in this chapter, confidence intervals are <em>frequentist</em> tools, and if you are going to use frequentist methods then it's not appropriate to attach a Bayesian interpretation to them. If you use frequentist methods, you must adopt frequentist interpretations!</p>
 <p>Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the frequencies of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those <em>intervals</em> would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in <xref ref="fig-cirep"/>, which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment (top panel) and another 50 confidence intervals for a "measure 25 IQ scores" experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.</p>
-<console>
-<output><![CDATA[knitr::include_graphics(file.path(projecthome, "img/estimation/confIntReplicated.png"))
-]]></output>
-</console>
+<figure xml:id="fig-cirep">
+  <caption>Illustration of confidence intervals as a repeated-samples concept. 95% of all confidence intervals constructed using this procedure contain the true population mean.</caption>
+  <image source="images/cirep.png"/>
+</figure>
 <p>The critical difference here is that the Bayesian claim makes a probability statement about the population mean (i.e., it refers to our uncertainty about the population mean), which is not allowed under the frequentist interpretation of probability because you can't "replicate" a population! In the frequentist claim, the population mean is fixed and no probabilistic claims can be made about it. Confidence intervals, however, are repeatable so we can replicate experiments. Therefore a frequentist is allowed to talk about the probability that the <em>confidence interval</em> (a random variable) contains the true mean; but is not allowed to talk about the probability that the <em>true population mean</em> (not a repeatable event) falls within the confidence interval.</p>
 <p>I know that this seems a little pedantic, but it does matter. It matters because the difference in interpretation leads to a difference in the mathematics. There is a Bayesian alternative to confidence intervals, known as <em>credible intervals</em>. In most situations credible intervals are quite similar to confidence intervals, but in other cases they are drastically different. As promised, though, I'll talk more about the Bayesian perspective in <xref ref="bayes"/>.</p>
 </subsection>
@@ -568,10 +550,6 @@ bargraph.CI( x.factor = year,            # grouping variable
 </program>
 </subsection>
 
-<figure xml:id="fig-cirep">
-  <caption>Illustration of confidence intervals as a repeated-samples concept. 95% of all confidence intervals constructed using this procedure contain the true population mean.</caption>
-  <image source="images/cirep.png"/>
-</figure>
 </section>
 <section>
 <title>Summary</title>
