@@ -832,11 +832,19 @@ plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
     </program>
     </remark>
     <p>The output is shown in <xref ref="fig-regressionplot2"/>, showing the standardised residuals plotted as a function of their theoretical quantiles according to the regression model. The fact that the output appends the model specification to the picture is nice.</p>
-    </subsection>
+<figure xml:id="fig-regressionplot2">
+    <caption>Plot of the theoretical quantiles according to the model, against the quantiles of the
+standardised residuals. This is one of the standard regression plots produced by the <c>plot()</c> function
+when the input is a linear regression object. It is obtained by setting <c>which=2</c>.</caption>
+    <image source="images/regressionplot2.png"/>
+  </figure>
+
+</subsection>
     <subsection xml:id="regressionlinearity">
       <title>Checking the linearity of the relationship</title>
-
-    <remark>
+    <p>One of the reasons I like to draw these plots is that they give you a kind of "big picture view". If this plot looks approximately linear, then we're probably not doing too badly (though that's not to say that there aren't problems). However, if you can see big departures from linearity here, then it strongly suggests that you need to make some changes.</p>
+    <p>In any case, in order to get a more detailed picture it's often more informative to look at the relationship between the fitted values and the residuals themselves. Again, we could draw this plot using low level commands, but there's an easier way. Just <c>plot()</c> the regression model, and select <c>which = 1</c>:</p>
+        <remark>
       <title>R Code</title>
     <program language="r">
       <input><![CDATA[
@@ -864,9 +872,8 @@ plot( x = regression.2, which = 2 )   # Figure @ref{fig:regressionplot2}
 ]]></input>
     </program>
     </remark>
-    <p>One of the reasons I like to draw these plots is that they give you a kind of "big picture view". If this plot looks approximately linear, then we're probably not doing too badly (though that's not to say that there aren't problems). However, if you can see big departures from linearity here, then it strongly suggests that you need to make some changes.</p>
-    <p>In any case, in order to get a more detailed picture it's often more informative to look at the relationship between the fitted values and the residuals themselves. Again, we could draw this plot using low level commands, but there's an easier way. Just <c>plot()</c> the regression model, and select <c>which = 1</c>:</p>
-    <remark>
+
+<remark>
       <title>R Code</title>
     <program language="r">
       <input><![CDATA[
@@ -878,32 +885,46 @@ plot(x = regression.2, which = 1)
       <title>R Code</title>
     <program language="r">
       <input><![CDATA[
-plot(x = regression.2, which = 1)   # Figure @ref{fig:regressionplot1}
+plot(x = regression.2, which = 1)   # See <xref ref = "fig-regressionplot1" />
 ]]></input>
     </program>
     </remark>
     <p>The output is shown in <xref ref="fig-regressionplot1"/>. As you can see, not only does it draw the scatterplot showing the fitted value against the residuals, it also plots a line through the data that shows the relationship between the two. Ideally, this should be a straight, perfectly horizontal line. There's some hint of curvature here, but it's not clear whether or not we be concerned.</p>
-    <p>A somewhat more advanced version of the same plot is produced by the <c>residualPlots()</c> function in the <c>car</c> package. This function not only draws plots comparing the fitted values to the residuals, it does so for each individual predictor. The command is and the resulting plots are shown in <xref ref="fig-residualPlots"/>.</p>
-    <remark>
-      <title>R Code</title>
-    <program language="r">
-      <input><![CDATA[
-residualPlots( model = regression.2 ) 
-]]></input>
-    </program>
-    </remark>
+      <figure xml:id="fig-regressionplot1">
+    <caption>Plot of the fitted values against the residuals for <c>regression.2</c>, with a line showing the
+relationship between the two. If this is horizontal and straight, then we can feel reasonably condent
+that the "average residual" for all "fitted values" is more or less the same. This is one of the standard
+regression plots produced by the <c>plot()</c> function when the input is a linear regression object. It is
+obtained by setting <c>which=1</c>.</caption>
+    <image source="images/regressionplot1.png"/>
+  </figure>
+
+<p>A somewhat more advanced version of the same plot is produced by the <c>residualPlots()</c> function in the <c>car</c> package. This function not only draws plots comparing the fitted values to the residuals, it does so for each individual predictor. The command is and the resulting plots are shown in <xref ref="fig-residualPlots"/>.</p>
     <remark>
       <title>R Code</title>
     <program language="r">
       <input><![CDATA[
 library(car)
-residualPlots( model = regression.2 )   # Figure @ref{fig:residualPlots}
+residualPlots( model = regression.2 )
 ]]></input>
     </program>
     </remark>
+  <figure xml:id="fig-residualPlots">
+    <caption>Plot of the fitted values against the residuals for <c>regression.2</c>, along with similar plots
+for the two predictors individually. This plot is produced by the <c>residualPlots()</c> function in the <c>car</c>
+package. Note that it refers to the residuals as "Pearson residuals", but in this context these are the
+same as ordinary residuals.</caption>
+    <image source="images/residualPlots.png"/>
+  </figure>
     <p>Note that this function also reports the results of a bunch of <em>curvature tests</em>. For a predictor variable <m>X</m> in some regression model, this test is equivalent to adding a new predictor to the model corresponding to <m>X^2</m>, and running the <m>t</m>-test on the <m>b</m> coefficient associated with this new predictor. If it comes up significant, it implies that there is some nonlinear relationship between the variable and the residuals.</p>
     <p>The third line here is the <em>Tukey test</em>, which is basically the same test, except that instead of squaring one of the predictors and adding it to the model, you square the fitted-value. In any case, the fact that the curvature tests have come up significant is hinting that the curvature that we can see in <xref ref="fig-regressionplot1"/> and <xref ref="fig-residualPlots"/> is genuine;<fn>And, if you take the time to check the <c>residualPlots()</c> for <c>regression.1</c>, it's pretty clear that this isn't some wacky distortion being caused by the fact that <c>baby.sleep</c> is a useless predictor variable. It's an actual nonlinearity in the relationship between <c>dan.sleep</c> and <c>dan.grump</c>.</fn> although it still bears remembering that the pattern in <xref ref="fig-regressionlinearity"/> is pretty damn straight: in other words the deviations from linearity are pretty small, and probably not worth worrying about.</p>
-    <p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We discussed the basics of variable transformation in <xref ref="transform"/> and \ref(mathfunc), but I do want to make special note of one additional possibility that I didn't mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it's very widely used <me>f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}</me> for all values of <m>\lambda</m> except <m>\lambda = 0</m>. When <m>\lambda = 0</m> we just take the natural logarithm (i.e., <m>\ln(x)</m>). You can calculate it using the <c>boxCox()</c> function in the <c>car</c> package. Better yet, if what you're trying to do is convert a data to normal, or as normal as possible, there's the <c>powerTransform()</c> function in the <c>car</c> package that can estimate the best value of <m>\lambda</m>. Variable transformation is another topic that deserves a fairly detailed treatment, but (again) due to deadline constraints, it will have to wait until a future version of this book.</p>
+      <figure xml:id="fig-regressionlinearity">
+    <caption>Plot of the tted values against the observed values of the outcome variable. A straight
+line is what we're hoping to see here. This looks pretty good, suggesting that there's nothing grossly
+wrong, but there could be hidden subtle issues.</caption>
+    <image source="images/regressionlinearity.png"/>
+  </figure>
+<p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We discussed the basics of variable transformation in <xref ref="transform"/> and \ref(mathfunc), but I do want to make special note of one additional possibility that I didn't mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it's very widely used <me>f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}</me> for all values of <m>\lambda</m> except <m>\lambda = 0</m>. When <m>\lambda = 0</m> we just take the natural logarithm (i.e., <m>\ln(x)</m>). You can calculate it using the <c>boxCox()</c> function in the <c>car</c> package. Better yet, if what you're trying to do is convert a data to normal, or as normal as possible, there's the <c>powerTransform()</c> function in the <c>car</c> package that can estimate the best value of <m>\lambda</m>. Variable transformation is another topic that deserves a fairly detailed treatment, but (again) due to deadline constraints, it will have to wait until a future version of this book.</p>
     </subsection>
     <subsection xml:id="regressionhomogeneity">
       <title>Checking the homogeneity of variance</title>
@@ -926,6 +947,17 @@ plot(x = regression.2, which = 3)
 ]]></input>
     </program>
     </remark>
+  <figure xml:id="fig-regressionplot3">
+    <caption>
+Plot of the fitted values (model predictions) against the square root of the abs standardised
+residuals. This plot is used to diagnose violations of homogeneity of variance. If the variance is really
+constant, then the line through the middle should be horizontal and flat. This is one of the standard
+regression plots produced by the <c>plot()</c> function when the input is a linear regression object. It is
+obtained by setting <c>which=3</c>.
+</caption>
+    <image source="images/regressionplot3.png"/>
+  </figure>
+
     <p>A slightly more formal approach is to run hypothesis tests. The <c>car</c> package provides a function called <c>ncvTest()</c> (<em>non-constant variance test</em>) that can be used for this purpose (<xref ref="biblio-Cook1983">Cook &amp; Weisberg, 1983</xref>). I won't explain the details of how it works, other than to say that the idea is that what you do is run a regression to see if there is a relationship between the squared residuals <m>\epsilon_i</m> and the fitted values <m>\hat{Y}_i</m>, or possibly to run a regression using all of the original predictors instead of just <m>\hat{Y}_i</m>.<fn>Note that the underlying mechanics of the test aren't the same as the ones I've described for regressions; the goodness of fit is assessed using what's known as a score-test not an <m>F</m>-test, and the test statistic is (approximately) <m>\chi^2</m> distributed if there's no relationship</fn> Using the default settings, the <c>ncvTest()</c> looks for a relationship between <m>\hat{Y}_i</m> and the variance of the residuals, making it a straightforward analogue of <xref ref="fig-regressionplot3"/>. So if we run it for our model,</p>
     <remark>
       <title>R Code</title>
@@ -1032,34 +1064,7 @@ vif( regression.3 )
     </remark>
     <p>Yep, that's some mighty fine collinearity you've got there.</p>
     </subsection>
-  <figure xml:id="fig-regressionplot1">
-    <caption>Fitted values vs residuals plot for checking linearity assumptions.</caption>
-    <image source="images/regressionplot1.png"/>
-  </figure>
-  <figure xml:id="fig-regressionplot2">
-    <caption>Normal Q-Q plot of standardised residuals from the regression model.</caption>
-    <image source="images/regressionplot2.png"/>
-  </figure>
-  <figure xml:id="fig-regressionplot3">
-    <caption>Scale-location plot for checking homogeneity of variance.</caption>
-    <image source="images/regressionplot3.png"/>
-  </figure>
-  <figure xml:id="fig-regressionplot4">
-    <caption>Cook's distance plot for identifying influential observations.</caption>
-    <image source="images/regressionplot4.png"/>
-  </figure>
-  <figure xml:id="fig-regressionplot5">
-    <caption>Residuals vs leverage plot for the regression model.</caption>
-    <image source="images/regressionplot5.png"/>
-  </figure>
-  <figure xml:id="fig-residualPlots">
-    <caption>Residual plots from the car package's residualPlots() function.</caption>
-    <image source="images/residualPlots.png"/>
-  </figure>
-  <figure xml:id="fig-regressionlinearity">
-    <caption>Plot of fitted values vs observed values for checking linearity.</caption>
-    <image source="images/regressionlinearity.png"/>
-  </figure>
+
 </section>
   <section xml:id="modelselreg">
     <title>Model selection</title>
