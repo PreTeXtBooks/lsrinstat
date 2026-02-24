@@ -740,7 +740,7 @@ by the <c>plot()</c> function when the input is a linear regression object. It i
 </caption>
       <image source="images/influence.png"/>
     </figure>
-    <figure xml:id="fig-influence">
+    <figure xml:id="fig-residlev">
       <caption>
 Residuals versus leverage. This is one of the standard regression plots produced by the
 <c>plot()</c> function when the input is a linear regression object. It is obtained by setting <c>which=5</c>.
@@ -892,8 +892,8 @@ plot(x = regression.2, which = 1)   # See <xref ref = "fig-regressionplot1" />
     <p>The output is shown in <xref ref="fig-regressionplot1"/>. As you can see, not only does it draw the scatterplot showing the fitted value against the residuals, it also plots a line through the data that shows the relationship between the two. Ideally, this should be a straight, perfectly horizontal line. There's some hint of curvature here, but it's not clear whether or not we be concerned.</p>
       <figure xml:id="fig-regressionplot1">
     <caption>Plot of the fitted values against the residuals for <c>regression.2</c>, with a line showing the
-relationship between the two. If this is horizontal and straight, then we can feel reasonably condent
-that the "average residual" for all "fitted values" is more or less the same. This is one of the standard
+relationship between the two. If this is horizontal and straight, then we can feel reasonably confident
+that the "average residual" for all "fitted values" is more or less the same. This is one of the standard
 regression plots produced by the <c>plot()</c> function when the input is a linear regression object. It is
 obtained by setting <c>which=1</c>.</caption>
     <image source="images/regressionplot1.png"/>
@@ -919,7 +919,7 @@ same as ordinary residuals.</caption>
     <p>Note that this function also reports the results of a bunch of <em>curvature tests</em>. For a predictor variable <m>X</m> in some regression model, this test is equivalent to adding a new predictor to the model corresponding to <m>X^2</m>, and running the <m>t</m>-test on the <m>b</m> coefficient associated with this new predictor. If it comes up significant, it implies that there is some nonlinear relationship between the variable and the residuals.</p>
     <p>The third line here is the <em>Tukey test</em>, which is basically the same test, except that instead of squaring one of the predictors and adding it to the model, you square the fitted-value. In any case, the fact that the curvature tests have come up significant is hinting that the curvature that we can see in <xref ref="fig-regressionplot1"/> and <xref ref="fig-residualPlots"/> is genuine;<fn>And, if you take the time to check the <c>residualPlots()</c> for <c>regression.1</c>, it's pretty clear that this isn't some wacky distortion being caused by the fact that <c>baby.sleep</c> is a useless predictor variable. It's an actual nonlinearity in the relationship between <c>dan.sleep</c> and <c>dan.grump</c>.</fn> although it still bears remembering that the pattern in <xref ref="fig-regressionlinearity"/> is pretty damn straight: in other words the deviations from linearity are pretty small, and probably not worth worrying about.</p>
       <figure xml:id="fig-regressionlinearity">
-    <caption>Plot of the tted values against the observed values of the outcome variable. A straight
+    <caption>Plot of the fitted values against the observed values of the outcome variable. A straight
 line is what we're hoping to see here. This looks pretty good, suggesting that there's nothing grossly
 wrong, but there could be hidden subtle issues.</caption>
     <image source="images/regressionlinearity.png"/>
