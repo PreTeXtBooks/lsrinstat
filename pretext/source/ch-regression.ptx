@@ -113,7 +113,7 @@ very poor choice of regression line drawn over the top.</caption>
     </program>
   <figure xml:id="fig-regression3a">
     <caption>A depiction of the residuals associated with the best fitting regression line.
-The residuals are much smaller for the good regression line compared to <xref ref = "fig-regression-3b" \>
+The residuals are much smaller for the good regression line compared to <xref ref="fig-regression-3b"/>
 which shows residuals associated with a poorly fit regression line.
 Again, this is no surprise given that the good line is the one that goes right through the
 middle of the data.</caption>
@@ -138,7 +138,7 @@ middle of the data.</caption>
   <figure xml:id="fig-regression3b">
     <caption>A depiction of the residuals associated with a poorly fit regression line.
 The residuals are much larger for the this poorly fit regression line compared to
-<xref ref = "fig-regression-3a" \> which shows residuals associated with the best fit regression line.
+<xref ref="fig-regression-3a"/> which shows residuals associated with the best fit regression line.
 </caption>
 <image source="images/regression3b.png"/>
   </figure>
