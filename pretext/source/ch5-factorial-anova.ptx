@@ -695,7 +695,9 @@ df_{A:B} &=& (R\times C - 1) - (R - 1) - (C -1 ) \\
         </program>
     <console>
       <output><![CDATA[
-## NOTE: drug:therapy does not appear in the model
+Warning message:
+In analyze.model(term, mod, xlevels, default.levels) :
+  drug:therapy does not appear in the model
 ]]></output>
     </console>
         </remark>
@@ -712,10 +714,10 @@ df_{A:B} &=& (R\times C - 1) - (R - 1) - (C -1 ) \\
 ## 
 ##  drug*therapy effect
 ##           therapy
-## drug       no.therapy      CBT
-##   placebo    0.300000 0.600000
-##   anxifree   0.400000 1.033333
-##   joyzepam   1.466667 1.500000
+## drug       no.therapy       CBT
+##   placebo   0.2888889 0.6111111
+##   anxifree  0.5555556 0.8777778
+##   joyzepam  1.3222222 1.6444444
 ]]></output>
     </console>
         </remark>
@@ -727,17 +729,6 @@ df_{A:B} &=& (R\times C - 1) - (R - 1) - (C -1 ) \\
  summary( eff )
           ]]></input>
         </program>
-    <console>
-      <output><![CDATA[
-## 
-##  drug*therapy effect
-##           therapy
-## drug       no.therapy       CBT
-##   placebo   0.2888889 0.6111111
-##   anxifree  0.5555556 0.8777778
-##   joyzepam  1.3222222 1.6444444
-]]></output>
-    </console>
         </remark>
         <p>but the output looks pretty much the same as last time, and this book is already way too long, so I won't include it here.</p>
     </subsection>
@@ -1089,15 +1080,10 @@ rtfm.1
         </program>
     <console>
       <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
+##      reading
+## attend no yes
+##    no   2   2
+##   yes   2   2
 ]]></output>
     </console>
         </remark>
@@ -1111,15 +1097,11 @@ rtfm.1
         </program>
     <console>
       <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
+##   attend reading grade
+## 1     no      no  42.5
+## 2    yes      no  62.5
+## 3     no     yes  72.5
+## 4    yes     yes  88.5
 ]]></output>
     </console>
         </remark>
@@ -1143,15 +1125,10 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
+          Df Sum Sq Mean Sq F value   Pr(>F)
+attend     1    648     648   21.60  0.00559 **
+reading    1   1568    1568   52.27  0.00079 ***
+Residuals  5    150      30
 ]]></output>
     </console>
         </remark>
@@ -1167,12 +1144,11 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
     <console>
       <output><![CDATA[
 ## 
-##  drug*therapy effect
-##           therapy
-## drug       no.therapy       CBT
-##   placebo   0.2888889 0.6111111
-##   anxifree  0.5555556 0.8777778
-##   joyzepam  1.3222222 1.6444444
+##  attend*reading effect
+##       reading
+## attend   no  yes
+##   no   43.5 71.5
+##   yes  61.5 89.5
 ]]></output>
     </console>
         </remark>
@@ -1295,15 +1271,14 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
+BLAH BLAH BLAH
+Coefficients:
+
+              Estimate Std. Error t value  Pr(&gt;|t|)
+(Intercept)     43.500      3.354  12.969  4.86e-05 ***
+attendyes       18.000      3.873  4.648    0.00559 **
+readingyes      28.000      3.873  7.230    0.00079 ***
+
 ]]></output>
     </console>
         </remark>
@@ -1317,15 +1292,8 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
+[1] yes yes yes no no no no yes
+Levels: no yes
 ]]></output>
     </console>
         </remark>
@@ -1339,15 +1307,8 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
+[1] yes yes yes no no no no yes
+Levels: no yes
 ]]></output>
     </console>
         </remark>
@@ -1361,19 +1322,6 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
  rtfm.3$attend <- relevel( rtfm.2$attend, ref="yes" )    # re-level the attend factor
           ]]></input>
         </program>
-    <console>
-      <output><![CDATA[
-##   grade attend reading
-## 1    90    yes     yes
-## 2    87    yes     yes
-## 3    75     no     yes
-## 4    60    yes      no
-## 5    35     no      no
-## 6    50     no      no
-## 7    65    yes      no
-## 8    70     no     yes
-]]></output>
-    </console>
         </remark>
         <p>Finally, let's re-run our regression, this time using the re-coded data:</p>
         <remark>
@@ -1541,25 +1489,12 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##    druganxifree drugjoyzepam therapyCBT mood.gain druganxifree
-## 1             0            0          0       0.5            0
-## 2             0            0          0       0.3            0
-## 3             0            0          0       0.1            0
-## 4             1            0          0       0.6            1
-## 5             1            0          0       0.4            1
-## 6             1            0          0       0.2            1
-## 7             0            1          0       1.4            0
-## 8             0            1          0       1.7            0
-## 9             0            1          0       1.3            0
-## 10            0            0          1       0.6            0
-## 11            0            0          1       0.9            0
-## 12            0            0          1       0.3            0
-## 13            1            0          1       1.1            1
-## 14            1            0          1       0.8            1
-## 15            1            0          1       1.2            1
-## 16            0            1          1       1.8            0
-## 17            0            1          1       1.3            0
-## 18            0            1          1       1.4            0
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   0.289       0.121    2.38    0.032 *
+## druganxifree  0.267       0.148    1.80    0.094 .
+## drugjoyzepam  1.033       0.148    6.97  6.6e-06 ***
+## therapyCBT    0.322       0.121    2.66    0.019 *
 ]]></output>
     </console>
         </remark>
@@ -1574,25 +1509,12 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##    druganxifree drugjoyzepam therapyCBT mood.gain druganxifree
-## 1             0            0          0       0.5            0
-## 2             0            0          0       0.3            0
-## 3             0            0          0       0.1            0
-## 4             1            0          0       0.6            1
-## 5             1            0          0       0.4            1
-## 6             1            0          0       0.2            1
-## 7             0            1          0       1.4            0
-## 8             0            1          0       1.7            0
-## 9             0            1          0       1.3            0
-## 10            0            0          1       0.6            0
-## 11            0            0          1       0.9            0
-## 12            0            0          1       0.3            0
-## 13            1            0          1       1.1            1
-## 14            1            0          1       0.8            1
-## 15            1            0          1       1.2            1
-## 16            0            1          1       1.8            0
-## 17            0            1          1       1.3            0
-## 18            0            1          1       1.4            0
+Analysis of Variance Table
+Model 1: mood.gain ~ therapyCBT
+Model 2: mood.gain ~ druganxifree + drugjoyzepam + therapyCBT
+ Res.Df RSS Df Sum of Sq    F  Pr(>F)
+1   16 4.38
+2   14 0.92  2      3.45 26.1 1.9e-05 ***
 ]]></output>
     </console>
         </remark>
@@ -1626,30 +1548,6 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
  summary( drug.lm )
           ]]></input>
         </program>
-    <console>
-      <output><![CDATA[
-## 
-## Call:
-## lm(formula = mood.gain ~ drug + therapy, data = clin.trial)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -0.3556 -0.1806  0.0000  0.1972  0.3778 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    0.2889     0.1211   2.385   0.0318 *  
-## druganxifree   0.2667     0.1484   1.797   0.0939 .  
-## drugjoyzepam   1.0333     0.1484   6.965  6.6e-06 ***
-## therapyCBT     0.3222     0.1211   2.660   0.0187 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.257 on 14 degrees of freedom
-## Multiple R-squared:  0.8092, Adjusted R-squared:  0.7683 
-## F-statistic: 19.79 on 3 and 14 DF,  p-value: 2.64e-05
-]]></output>
-    </console>
         </remark>
         <p>However, because the <c>drug</c> and <c>therapy</c> variables were both factors, the <c>anova()</c> function actually knows which contrasts to group together for the purposes of running the <m>F</m>-tests, so you can extract the classic ANOVA table. Again, I won't reproduce the output here since it's identical to the ANOVA table I showed at the start of the section, but it's worth trying the following command</p>
         <remark>
@@ -1659,19 +1557,6 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
  anova( drug.lm )
           ]]></input>
         </program>
-    <console>
-      <output><![CDATA[
-## Analysis of Variance Table
-## 
-## Response: mood.gain
-##           Df Sum Sq Mean Sq F value    Pr(>F)    
-## drug       2 3.4533 1.72667 26.1490 1.872e-05 ***
-## therapy    1 0.4672 0.46722  7.0757   0.01866 *  
-## Residuals 14 0.9244 0.06603                      
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-]]></output>
-    </console>
         </remark>
         <p>just to see for yourself. However, this behaviour of the <c>anova()</c> function only occurs when the predictor variables are factors. If we try a command like <c>anova( drug.regression )</c>, the output will continue to treate <c>druganxifree</c> and <c>drugjoyzepam</c> as if they were two distinct binary factors. This is because in the <c>drug.regression</c> model we included all the contrasts as "raw" variables, so R had no idea which ones belonged together. However, when we ran the <c>drug.lm</c> model, we gave R the original factor variables, so it does know which contrasts go together. The behaviour of the <c>anova()</c> function reflects that.</p>
     </subsection>
@@ -1824,10 +1709,10 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
         </program>
     <console>
       <output><![CDATA[
-##          anxifree joyzepam
-## placebo         0        0
-## anxifree        1        0
-## joyzepam        0        1
+         [,1] [,2]
+placebo    -1   -1
+anxifree    1   -1
+joyzepam    0    2
 ]]></output>
     </console>
         </remark>
@@ -1908,14 +1793,6 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
  contrasts( clin.trial$drug ) <- contr.sum(3)
           ]]></input>
         </program>
-    <console>
-      <output><![CDATA[
-##          anxifree joyzepam
-## placebo         0        0
-## anxifree        1        0
-## joyzepam        0        1
-]]></output>
-    </console>
         </remark>
         <p>And if I now inspect the contrasts, I get the following</p>
         <remark>
@@ -1942,14 +1819,6 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
  contrasts( clin.trial$drug ) <- NULL
           ]]></input>
         </program>
-    <console>
-      <output><![CDATA[
-##          anxifree joyzepam
-## placebo         0        0
-## anxifree        1        0
-## joyzepam        0        1
-]]></output>
-    </console>
         </remark>
     </subsection>
     <subsection>
