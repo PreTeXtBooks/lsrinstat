@@ -842,37 +842,23 @@ when the input is a linear regression object. It is obtained by setting <c>which
 </subsection>
     <subsection xml:id="regressionlinearity">
       <title>Checking the linearity of the relationship</title>
+    <p>The third thing we might want to test is the linearity of the relationships between the predictors and the outcomes. There's a few different things that you might want to do in order to check this. Firstly, it never hurts to just plot the relationship between the fitted values <m>\hat{Y}_i</m> and the observed values <m>Y_i</m> for the outcome variable, as illustrated in <xref ref="fig-regressionlinearity"/>. To draw this we could use the <c>fitted.values()</c> function to extract the <m>\hat{Y_i}</m> values in much the same way that we used the <c>residuals()</c> function to extract the <m>\epsilon_i</m> values. So the commands to draw this figure might look like this:</p>
+<remark>
+      <title>R Code</title>
+    <program language="r">
+      <input><![CDATA[
+ yhat.2 <- fitted.values( object = regression.2 )
+ plot( x = yhat.2, 
+       y = parenthood$dan.grump,
+       xlab = "Fitted Values",
+       ylab = "Observed Values" 
+ )
+
+]]></input>
+    </program>
+    </remark>
     <p>One of the reasons I like to draw these plots is that they give you a kind of "big picture view". If this plot looks approximately linear, then we're probably not doing too badly (though that's not to say that there aren't problems). However, if you can see big departures from linearity here, then it strongly suggests that you need to make some changes.</p>
     <p>In any case, in order to get a more detailed picture it's often more informative to look at the relationship between the fitted values and the residuals themselves. Again, we could draw this plot using low level commands, but there's an easier way. Just <c>plot()</c> the regression model, and select <c>which = 1</c>:</p>
-        <remark>
-      <title>R Code</title>
-    <program language="r">
-      <input><![CDATA[
- yhat.2 <- fitted.values( object = regression.2 )
- plot( x = yhat.2, 
-       y = parenthood$dan.grump,
-       xlab = "Fitted Values",
-       ylab = "Observed Values" 
- )
-
-]]></input>
-    </program>
-    </remark>
-    <p>The third thing we might want to test is the linearity of the relationships between the predictors and the outcomes. There's a few different things that you might want to do in order to check this. Firstly, it never hurts to just plot the relationship between the fitted values <m>\hat{Y}_i</m> and the observed values <m>Y_i</m> for the outcome variable, as illustrated in <xref ref="fig-regressionlinearity"/>. To draw this we could use the <c>fitted.values()</c> function to extract the <m>\hat{Y_i}</m> values in much the same way that we used the <c>residuals()</c> function to extract the <m>\epsilon_i</m> values. So the commands to draw this figure might look like this:</p>
-    <remark>
-      <title>R Code</title>
-    <program language="r">
-      <input><![CDATA[
- yhat.2 <- fitted.values( object = regression.2 )
- plot( x = yhat.2, 
-       y = parenthood$dan.grump,
-       xlab = "Fitted Values",
-       ylab = "Observed Values" 
- )
-]]></input>
-    </program>
-    </remark>
-
 <remark>
       <title>R Code</title>
     <program language="r">
@@ -916,7 +902,19 @@ package. Note that it refers to the residuals as "Pearson residuals", but in thi
 same as ordinary residuals.</caption>
     <image source="images/residualPlots.png"/>
   </figure>
-    <p>Note that this function also reports the results of a bunch of <em>curvature tests</em>. For a predictor variable <m>X</m> in some regression model, this test is equivalent to adding a new predictor to the model corresponding to <m>X^2</m>, and running the <m>t</m>-test on the <m>b</m> coefficient associated with this new predictor. If it comes up significant, it implies that there is some nonlinear relationship between the variable and the residuals.</p>
+    <p>Note that this function also reports the results of a bunch of <em>curvature tests</em>. For a predictor variable <m>X</m> in some regression model, this test is equivalent to adding a new predictor to the model corresponding to <m>X^2</m>, and running the <m>t</m>-test on the <m>b</m> coefficient associated with this new predictor. If it comes up significant, it implies that there is some nonlinear relationship between the variable and the residuals.
+For what it's worth, here's what you get for the <c>regression.2</c> model:</p>
+
+    <console>
+      <output><![CDATA[
+## 
+##            Test stat Pr(&gt;|t|)
+## dan.sleep      2.160     0.033
+## baby.sleep    -0.545     0.587
+## Tukey test     2.162     0.031
+]]></output>
+    </console>
+
     <p>The third line here is the <em>Tukey test</em>, which is basically the same test, except that instead of squaring one of the predictors and adding it to the model, you square the fitted-value. In any case, the fact that the curvature tests have come up significant is hinting that the curvature that we can see in <xref ref="fig-regressionplot1"/> and <xref ref="fig-residualPlots"/> is genuine;<fn>And, if you take the time to check the <c>residualPlots()</c> for <c>regression.1</c>, it's pretty clear that this isn't some wacky distortion being caused by the fact that <c>baby.sleep</c> is a useless predictor variable. It's an actual nonlinearity in the relationship between <c>dan.sleep</c> and <c>dan.grump</c>.</fn> although it still bears remembering that the pattern in <xref ref="fig-regressionlinearity"/> is pretty damn straight: in other words the deviations from linearity are pretty small, and probably not worth worrying about.</p>
       <figure xml:id="fig-regressionlinearity">
     <caption>Plot of the fitted values against the observed values of the outcome variable. A straight
@@ -939,14 +937,6 @@ plot(x = regression.2, which = 3)
     </program>
     </remark>
     <p>and the resulting plot is shown in <xref ref="fig-regressionplot3"/>. Note that this plot actually uses the standardised residuals (i.e., converted to <m>z</m> scores) rather than the raw ones, but it's immaterial from our point of view. What we're looking to see here is a straight, horizontal line running through the middle of the plot.</p>
-    <remark>
-      <title>R Code</title>
-    <program language="r">
-      <input><![CDATA[
-plot(x = regression.2, which = 3)
-]]></input>
-    </program>
-    </remark>
   <figure xml:id="fig-regressionplot3">
     <caption>
 Plot of the fitted values (model predictions) against the square root of the abs standardised
@@ -1100,33 +1090,6 @@ full.model <- lm( formula = dan.grump ~ dan.sleep + baby.sleep + day,
  )
 ]]></input>
     </program>
-    <console>
-      <output><![CDATA[
-## Start:  AIC=299.08
-## dan.grump ~ dan.sleep + baby.sleep + day
-## 
-##              Df Sum of Sq    RSS    AIC
-## - baby.sleep  1       0.1 1837.2 297.08
-## - day         1       1.6 1838.7 297.16
-## <none>                    1837.1 299.08
-## - dan.sleep   1    4909.0 6746.1 427.15
-## 
-## Step:  AIC=297.08
-## dan.grump ~ dan.sleep + day
-## 
-##             Df Sum of Sq    RSS    AIC
-## - day        1       1.6 1838.7 295.17
-## <none>                   1837.2 297.08
-## - dan.sleep  1    8103.0 9940.1 463.92
-## 
-## Step:  AIC=295.17
-## dan.grump ~ dan.sleep
-## 
-##             Df Sum of Sq    RSS    AIC
-## <none>                   1838.7 295.17
-## - dan.sleep  1    8159.9 9998.6 462.50
-]]></output>
-    </console>
     </remark>
     <p>although in practice I didn't need to specify <c>direction</c> because <c>"backward"</c> is the default. The output is somewhat lengthy, so I'll go through it slowly. Firstly, the output reports the AIC value for the current best model:</p>
     <pre><![CDATA[
