@@ -338,7 +338,8 @@
         The frequentist definition of probability has some desirable characteristics. Firstly, 
         it is objective: the probability of an event is <em>necessarily</em> grounded in the world. 
         The only way that probability statements can make sense is if they refer to (a sequence of) events that occur in 
-        the physical universe.<fn>This doesn't mean that frequentists can't make hypothetical statements, of course; it's just that if you want to make a statement about probability, then it must be possible to redescribe that statement in terms of a sequence of potentially observable events, 
+        the physical universe.<fn>This doesn't mean that frequentists can't make hypothetical statements, of course; it's just that if you want to make a statement about probability, 
+        then it must be possible to redescribe that statement in terms of a sequence of potentially observable events, 
         and the relative frequencies of different outcomes that appear within that sequence.</fn> Secondly, it is unambiguous: any two people watching the same sequence of events unfold, 
         trying to calculate the probability of an event, must inevitably come up with the same answer. However, it also has undesirable characteristics. 
         Firstly, infinite sequences don't exist in the physical world. Suppose you picked up a coin from your pocket and started to flip it. 
