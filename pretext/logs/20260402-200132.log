@@ -1,0 +1,4 @@
+WARNING : Using CLI version 2.37.1 but project's `requirements.txt`
+WARNING : is configured to use 0.8.3. Consider either installing
+WARNING : CLI version 0.8.3 or running `pretext update`
+WARNING : to update `requirements.txt` and other managed files to match 2.37.1.
