@@ -7,7 +7,17 @@
       <p>
         Although some people find it handy to know the formulas in Table <xref ref="table-distribution-formulas"/>, 
         most people just want to know how to use the distributions without worrying too much about the maths. To that end, 
-        R has a function called <c>dbinom()</c> that calculates binomial probabilities for us. The main arguments to the function are
+        R-Instat has a function called <c>Binomial</c> that calculates binomial probabilities for us. 
+        The function can be accessed through <c>Models Menu - Compare Models - One Variable... dialog</c>, as shown in the figure below.
+      </p>
+      <figure xml:id="fig-distribution-functions-dialog">
+        <caption>The distribution Models Dialog in R-Instat</caption>
+        <image source="./images/probability/distribution_models.png" >
+            <shortdescription>Distribution Models Dialog</shortdescription>
+        </image>
+      </figure>
+      <p>
+        The main arguments to the function are
         <ul>
           <li>
             <p>
@@ -16,7 +26,7 @@
           </li>
           <li>
             <p>
-              <c>size</c>. This is a number telling R the size of the experiment.
+              <c>size</c>. This is a number telling R-Instat the size of the experiment.
             </p>
           </li>
           <li>
