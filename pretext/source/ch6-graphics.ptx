@@ -693,7 +693,7 @@
           <p><c>show.names</c>. Set this to <c>TRUE</c> to get R to attach labels to the boxplots.</p>
         </li>
         <li>
-          <p><c>notch</c>. If you set <c>notch = TRUE</c>, R will draw little notches in the sides of each box. If the notches of two boxplots don't overlap, then there is a "statistically significant" difference between the corresponding medians. If you haven't read <xref ref="hypothesistesting" />, ignore this argument <mdash /> we haven't discussed statistical significance, so this doesn't mean much to you. I'm mentioning it only because you might want to come back to the topic later on. (see also the <c>notch.frac</c> option when you type <c>?bxp</c>).</p>
+          <p><c>notch</c>. If you set <c>notch = TRUE</c>, R will draw little notches in the sides of each box. If the notches of two boxplots don't overlap, then there is a "statistically significant" difference between the corresponding medians. If you haven't read <xref ref="ch-hypothesistesting" />, ignore this argument <mdash /> we haven't discussed statistical significance, so this doesn't mean much to you. I'm mentioning it only because you might want to come back to the topic later on. (see also the <c>notch.frac</c> option when you type <c>?bxp</c>).</p>
         </li>
       </ul>
     </subsection>
